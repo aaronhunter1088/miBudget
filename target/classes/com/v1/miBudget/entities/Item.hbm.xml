@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 5, 2018 2:05:18 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.v1.miBudget.entities.Item" table="items">
+    	<id name="id" type="int">
+            <column name="item_table_id" />
+        </id>
+        <property name="item_id" type="java.lang.String">
+            <column name="item_id" />
+        </property>
+        <property name="access_token" type="java.lang.String">
+            <column name="access_token" />
+        </property>
+    </class>
+</hibernate-mapping>

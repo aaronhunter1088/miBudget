@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 11, 2018 10:40:47 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.v1.miBudget.entities.UserAccountObject" table="USERACCOUNTOBJECT">
+        <id name="id" type="int" access="field">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="user_id" type="int">
+            <column name="USER_ID" />
+        </property>
+        <property name="account_id" type="java.lang.String">
+            <column name="ACCOUNT_ID" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Profile HTML</title>
+</head>
+<body>
+<h1>Profile</h1>
+
+<button id="link-button">Link Your Account</button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+<script type="text/javascript">
+(function($) {
+  var handler = Plaid.create({
+    clientName: 'Plaid Walkthrough Demo',
+    env: 'sandbox',
+    // Replace with your public_key from the Dashboard
+    key: 'f0503c4bc8e63cc6c37f07dbe0ae2b',
+    product: ['transactions'],
+    // Optional, use webhooks to get transaction and error updates
+    webhook: 'https://requestb.in',
+    onLoad: function() {
+      // Optional, called when Link loads
+      console.log("before we get t the onSuccess")
+    },
+    onSuccess: function(public_token, metadata) {
+      console.log("public_token: " + public_token);
+      // Send the public_token to your app server.
+      // The metadata object contains info about the institution the
+      // user selected and the account ID or IDs, if the Select Account
+      // view is enabled.
+      var accounts = [], account = [];
+      var _id, _name, _mask, _type, _subtype;
+      for(var i = 0; i < metadata.accounts.length; i++) {
+        console.log("account id: " + metadata.accounts[i].id);
+        console.log("name: " + metadata.accounts[i].name);
+        console.log("mask: " + metadata.accounts[i].mask);
+        console.log("type: " + metadata.accounts[i].type);
+        console.log("subtype: " + metadata.accounts[i].subtype);
+
+        _id = metadata.accounts[i].id;
+        _name = metadata.accounts[i].name;
+        _mask = metadata.accounts[i].mask;
+        _type = metadata.accounts[i].type;
+        _subtype = metadata.accounts[i].subtype;
+
+        account = {id: _id, name: _name, mask: _mask, type: _type, subtype: _subtype};
+        
+        accounts[i] = account;
+      }
+
+      var jsonAccount = JSON.stringify(accounts);
+
+      $.post("authenticate", 
+      {
+          public_token: public_token,
+          link_session_id: metadata.link_session_id,
+          accounts: jsonAccount,
+          institution_name: metadata.institution.name,
+          institution_id: metadata.institution.institution_id
+        } 
+      );
+
+      document.getElementById("change").innerHTML = "You have successfully loaded " + metadata.accounts.length + " accounts.";
+    },
+    onExit: function(err, metadata) {
+      // The user exited the Link flow.
+      if (err != null) {
+        // The user encountered a Plaid API error prior to exiting.
+      }
+      // metadata contains information about the institution
+      // that the user selected and the most recent API request IDs.
+      // Storing this information can be helpful for support.
+    },
+    onEvent: function(eventName, metadata) {
+      // Optionally capture Link flow events, streamed through
+      // this callback as your users connect an Item to Plaid.
+      // For example:
+      // eventName = "TRANSITION_VIEW"
+      // metadata  = {
+      //   link_session_id: "123-abc",
+      //   mfa_type:        "questions",
+      //   timestamp:       "2017-09-14T14:42:19.350Z",
+      //   view_name:       "MFA",
+      // }
+    }
+  });
+
+  $('#link-button').on('click', function(e) {
+    handler.open();
+  });
+})(jQuery);
+</script>
+
+<form action="Welcome" method="get">
+<p> <!-- Add a space between the buttons -->
+<button type="submit">Welcome Page</button>
+<hr />
+<h4 id="change">This text will change after user adds accounts. </h4>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Login</title>
+</head>
+<body bgcolor="#32CD32">
+<h1>Login</h1>	
+<form action="Login" method="get">
+  <div class="container">
+    <input type="text" placeholder="Enter cellphone" name="Cellphone" required>
+	<br/>
+	<hr/>
+    <input type="password" placeholder="Enter Password" name="Password" required>
+	<br/>
+	<hr/>
+	<label>
+      <input type="checkbox" checked="checked" name="remember"> Remember me
+    </label>
+    <br/>
+    <br/>
+    <button type="submit">Login</button> <!-- Calls doGet -->
+    <button type="submit" formmethod="post">Login Post</button> <!-- Calls doPost -->
+    <!-- Physical space for readability -->
+    <input class="button" type="button" onclick="window.location.replace('index.html')" value="Cancel" />
+   	<br/>
+   	<hr/>
+   	<input class="button" type="button" onclick="window.location.replace('ForgotPassword.jsp')" value="Forgot Password" />
+    <!-- <span class="forgotpassword"><a href="ForgotPassword.html">Forgot password?</a></span> -->
+  </div>
+</form>
+</body>
+</html>

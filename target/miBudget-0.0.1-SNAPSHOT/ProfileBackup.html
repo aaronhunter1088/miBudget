@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Profile.html</title>
+</head>
+<body>
+
+<!-- <button id="link-button">Link Account</button> -->
+<!-- A hidden input named public_token will be appended to this form
+once the user has completed the Link flow. Link will then submit the
+form, sending the public_token to your server. -->
+<form id="create-item" method="POST" action="authenticate"></form>
+
+<!-- See the Parameter Reference for additional documentation. -->
+<script
+  src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"
+  data-client-name="Client Name"
+  data-form-id="create-item"
+  data-key="f0503c4bc8e63cc6c37f07dbe0ae2b" 
+  data-product="transactions"
+  data-env="sandbox">
+</script>
+
+<form action="Welcome" method="get">
+<button type="submit">Welcome Page</button>
+<hr>
+<p>Items for '${Firstname}' '${Lastname}' </p>
+</body>
+</html>
