@@ -22,7 +22,8 @@
     webhook: 'https://requestb.in',
     onLoad: function() {
       // Optional, called when Link loads
-      console.log("before we get t the onSuccess")
+      
+      console.log("before we get to the onSuccess")
     },
     onSuccess: function(public_token, metadata) {
       console.log("public_token: " + public_token);
@@ -51,9 +52,23 @@
       }
 
       var jsonAccount = JSON.stringify(accounts);
-
+      
+	  // create an iterator to iterate over the list of institution_ids (Strings)
+	  // while there is an option to iterator over
+	  // 		next_id = iterator.next()
+	  // 		if (institution_id != next_id AND iterator.hasNext() != true)
+	  //			// just because we see that one id is not equal to another we
+	  // 			// need to go thru entire list to make sure there is not a match
+	  //			// now we've gone thru the entire list and found no matches 
+	  //		else if (institution_id == next_id)
+	  //			break out of loop
+	  //			dont do authenticate and update user
+	  //			handler.exit({force:true})
+	  //        else
+      //			continue with loop
+      
       $.post("authenticate", 
-      {
+        {
           public_token: public_token,
           link_session_id: metadata.link_session_id,
           accounts: jsonAccount,
@@ -61,8 +76,10 @@
           institution_id: metadata.institution.institution_id
         } 
       );
+      
 
       document.getElementById("change").innerHTML = "You have successfully loaded " + metadata.accounts.length + " accounts.";
+    
     },
     onExit: function(err, metadata) {
       // The user exited the Link flow.

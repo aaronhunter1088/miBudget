@@ -7,16 +7,13 @@
 <title>Login</title>
 </head>
 <body bgcolor="#32CD32">
-<%
-	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-%>
 <h1>Login</h1>	
 <form action="Login" method="post" action="Welcome.jsp">
   <div class="container">
     <input type="text" placeholder="Enter cellphone" name="Cellphone" value="${Cellphone}" required>
 	<br/>
 	<hr/>
-    <input type="password" placeholder="Enter Password" name="Password" required>
+    <input type="password" placeholder="Enter Password" name="Password" value="${Password}" required>
 	<br/>
 	<hr/>
 	<label>

@@ -5,7 +5,7 @@
 <hibernate-mapping>
     <class name="com.v1.miBudget.entities.Item" table="items">
     	<id name="id" type="int">
-            <column name="id" />
+            <column name="item_table_id" />
         </id>
         <property name="item_id" type="java.lang.String">
             <column name="item_id" />

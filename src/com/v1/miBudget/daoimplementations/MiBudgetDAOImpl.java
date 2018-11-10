@@ -155,7 +155,7 @@ public class MiBudgetDAOImpl {
 			t.commit();
 			int size = idsFromDB.size();
 			for (int i = 0; i < size; i++) {
-				List<String> accountIds = AccountDAOImpl.getAccountIdsFromUser((int)idsFromDB.get(i));
+				List<String> accountIds = AccountDAOImpl.getAccountIdsFromUser((Integer)idsFromDB.get(i));
 				User user = new User((Integer)idsFromDB.get(i),
 									 firstnamesFromDB.get(i).toString(),
 									 lastnamesFromDB.get(i).toString(),
