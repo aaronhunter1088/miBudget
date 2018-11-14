@@ -40,11 +40,11 @@
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 		<nature>org.hibernate.eclipse.console.hibernateNature</nature>
 	</natures>
-	<linkedResources>
+	<!-- <linkedResources>
 		<link>
 			<name>WebContent/WEB-INF/lib/mysql-connector.jar</name>
 			<type>1</type>
-			<location>C:/Users/Michael Ball/Documents/Jars/mysql-connector.jar</location>
+			<location>/Users/michaelball/OneDrive/Jars/mysql-connector.jar</location>
 		</link>
-	</linkedResources>
+	</linkedResources> -->
 </projectDescription>
