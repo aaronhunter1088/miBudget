@@ -26,7 +26,7 @@ public class HibernateUtilities {
 	            		.addAnnotatedClass(com.v1.miBudget.entities.Account.class)
 	            		.addAnnotatedClass(com.v1.miBudget.entities.UserAccountObject.class);
 	            ServiceRegistry serviceRegistry
-	                = new StandardServiceRegistryBuilder()
+	            	= new StandardServiceRegistryBuilder()
 	                    .applySettings(configuration.getProperties()).build();
 	             
 	            // builds a session factory from the service registry
@@ -40,14 +40,22 @@ public class HibernateUtilities {
 			for (int i = 0; i < ste.length; i++) {
 				System.out.println(ste[i]);
 			}
-			newSessionFactory = false;
+			//newSessionFactory = false;
+		} catch (Exception e) {
+			System.out.println("Error trying to create sessionFactory");
+			System.out.println(e.getMessage());
+			StackTraceElement[] ste = e.getStackTrace();
+			for (int i = 0; i < ste.length; i++) {
+				System.out.println(ste[i]);
+			}
+			//newSessionFactory = false;
 		} finally {
 			if (registry != null) {
 				StandardServiceRegistryBuilder.destroy(registry);
 			}
 			if (newSessionFactory) 
 				System.out.println("Returning new sessionFactory...");
-			else if (!newSessionFactory) {
+			else if (!newSessionFactory && sessionFactory != null) {
 				System.out.println("sessionFactory was not created due to an error.");
 				return null;
 			} else

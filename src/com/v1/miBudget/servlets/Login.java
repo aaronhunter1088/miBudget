@@ -3,7 +3,6 @@ package com.v1.miBudget.servlets;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,13 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-
 import com.v1.miBudget.daoimplementations.AccountDAOImpl;
 import com.v1.miBudget.daoimplementations.MiBudgetDAOImpl;
 import com.v1.miBudget.entities.User;
-import com.v1.miBudget.utilities.HibernateUtilities;
 
 /**
  * Servlet implementation class Login
@@ -26,9 +21,8 @@ import com.v1.miBudget.utilities.HibernateUtilities;
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private final SessionFactory factory = HibernateUtilities.getSessionFactory();
 	
-	private MiBudgetDAOImpl miBudgetDAOImpl;
+	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//doPost(request, response);
@@ -63,7 +57,7 @@ public class Login extends HttpServlet {
 //			System.out.println("Session opened...");
 //			if (mysqlSession.isOpen())
 //    			System.out.println("open after creation");
-			allUsersList = new MiBudgetDAOImpl().getAllUsers();
+			allUsersList = miBudgetDAOImpl.getAllUsers();
 			if (allUsersList == null) { 
 				response.setContentType("application/html");
 				getServletContext().getRequestDispatcher("/Login.html").forward(request, response);
@@ -93,7 +87,6 @@ public class Login extends HttpServlet {
 		System.out.println("cellphone: " + cellphone);
 		System.out.println("password: " + password);
 		// for every user in the list
-		forAll:
 		for (User user : allUsersList) {
 			System.out.println("user from allUsersList: " + user.getCellphone() + ", " + user.getPassword());
 			// if a registered user's cellphone and password are equal to the user's input
