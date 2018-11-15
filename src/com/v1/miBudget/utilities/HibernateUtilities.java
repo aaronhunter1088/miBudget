@@ -1,7 +1,5 @@
 package com.v1.miBudget.utilities;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 
 import org.hibernate.HibernateException;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -38,13 +36,21 @@ public class HibernateUtilities {
 		} catch (HibernateException e) {
 			System.out.println("Error trying to create sessionFactory");
 			System.out.println(e.getMessage());
+			StackTraceElement[] ste = e.getStackTrace();
+			for (int i = 0; i < ste.length; i++) {
+				System.out.println(ste[i]);
+			}
+			newSessionFactory = false;
 		} finally {
 			if (registry != null) {
 				StandardServiceRegistryBuilder.destroy(registry);
 			}
 			if (newSessionFactory) 
 				System.out.println("Returning new sessionFactory...");
-			else
+			else if (!newSessionFactory) {
+				System.out.println("sessionFactory was not created due to an error.");
+				return null;
+			} else
 				System.out.println("sessionFactory already created.");
 		}
 		

@@ -19,6 +19,8 @@ import com.v1.miBudget.entities.User;
 @WebServlet("/CheckInstitutionIds")
 public class CheckInstitutionIds extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -55,9 +57,9 @@ public class CheckInstitutionIds extends HttpServlet {
 		}
 	}
 	
-	public static boolean checkInstitutionIds(HttpServletRequest request, User user) {
+	public boolean checkInstitutionIds(HttpServletRequest request, User user) {
 		String institution_idIncoming = request.getParameter("institution_id");
-		ArrayList<String> institutionIdsList = (ArrayList<String>) MiBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
+		ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
 		boolean exit = false;
 		Iterator<String> iter = institutionIdsList.iterator();
 		while (iter.hasNext()) {

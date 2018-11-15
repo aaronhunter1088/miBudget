@@ -44,6 +44,8 @@ import retrofit2.Response;
 public class Authenticate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
+	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
+	
 	private final String client_id = "5ae66fb478f5440010e414ae";
 	private final String secret = "0e580ef72b47a2e4a7723e8abc7df5";
 	
@@ -86,7 +88,7 @@ public class Authenticate extends HttpServlet {
      * @return
      */
     public int addInstitutionIdToUsersInstitutionIdsTableInDatabase(String ins_id, User user) {
-    	int verify = MiBudgetDAOImpl.addInstitutionIdToDatabase(ins_id, user);
+    	int verify = miBudgetDAOImpl.addInstitutionIdToDatabase(ins_id, user);
     	return verify;
     }
     
@@ -98,7 +100,7 @@ public class Authenticate extends HttpServlet {
     		itemTableId = ItemDAOImpl.getItemTableIdForItemId(item.getItemId());
     		
     		//mysqlSession = factory.openSession();
-    		int verify = MiBudgetDAOImpl.addItemToUsersItemsTable(itemTableId, user);
+    		int verify = miBudgetDAOImpl.addItemToUsersItemsTable(itemTableId, user);
     		if (verify == 0)
     			return 0;
     		//verify = ItemDAOImpl.addItemToItemTable(item);
@@ -495,7 +497,7 @@ public class Authenticate extends HttpServlet {
 		User user = (User) session.getAttribute("user");
 		
 		String institution_idIncoming = request.getParameter("institution_id");
-		ArrayList<String> institutionIdsList = (ArrayList<String>) MiBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
+		ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
 		boolean exit = false;
 		Iterator<String> iter = institutionIdsList.iterator();
 		while (iter.hasNext()) {

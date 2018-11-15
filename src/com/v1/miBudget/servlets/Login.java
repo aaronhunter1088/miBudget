@@ -27,6 +27,8 @@ public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private final SessionFactory factory = HibernateUtilities.getSessionFactory();
+	
+	private MiBudgetDAOImpl miBudgetDAOImpl;
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//doPost(request, response);
@@ -43,12 +45,12 @@ public class Login extends HttpServlet {
 	}
 	
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	@SuppressWarnings("null")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		System.out.println("\nInside the Login servlet.");
+		System.out.println("\nInside the Login doPost() servlet.");
 		String cellphone = request.getParameter("Cellphone");
 		String password = request.getParameter("Password");
 		boolean loginCredentials = false;
@@ -61,7 +63,12 @@ public class Login extends HttpServlet {
 //			System.out.println("Session opened...");
 //			if (mysqlSession.isOpen())
 //    			System.out.println("open after creation");
-			allUsersList = MiBudgetDAOImpl.getAllUsers();
+			allUsersList = new MiBudgetDAOImpl().getAllUsers();
+			if (allUsersList == null) { 
+				response.setContentType("application/html");
+				getServletContext().getRequestDispatcher("/Login.html").forward(request, response);
+				return; 
+			}
 //			if (mysqlSession.isOpen())
 //    			System.out.println("open after getting allUsersList");
 //			else

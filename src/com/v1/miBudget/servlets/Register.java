@@ -27,6 +27,8 @@ public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private final SessionFactory factory = HibernateUtilities.getSessionFactory();
+	
+	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -114,7 +116,7 @@ public class Register extends HttpServlet {
 			// Create a list object to save new service call to retrieve all users
 			System.out.println("Before list is populated...");
 //			session.beginTransaction();
-			List<String> allCellphonesList = MiBudgetDAOImpl.getAllCellphones();
+			List<String> allCellphonesList = miBudgetDAOImpl.getAllCellphones();
 			
 			// Create a new user
 //			User user = new User(allUsersListByCellphone.size()+1, firstname, lastname, cellphone, password);
@@ -159,7 +161,7 @@ public class Register extends HttpServlet {
 			} else if (!isRegistered && validated) {
 				System.out.println("An unregistered user is attempting to Register. They have valid inputs! Redirecting to Register page.");
 				// use MiBudgetDAOImpl to save user
-				int verify = MiBudgetDAOImpl.addUserToDatabase(user);
+				int verify = miBudgetDAOImpl.addUserToDatabase(user);
 				if (verify == 1)
 					System.out.println("Failed to add user to database.");
 				else

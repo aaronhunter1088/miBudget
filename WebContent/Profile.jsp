@@ -6,7 +6,6 @@
 <%@ page import="com.v1.miBudget.daoimplementations.AccountDAOImpl" %>
 <%@ page import="com.v1.miBudget.entities.Account" %>
 <%@ page import="com.v1.miBudget.entities.User" %>
-<%@ page import="javax.swing.ImageIcon" %>
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -39,7 +38,7 @@
 			$('.button').removeAttr('disabled');
 			console.log('Document.onReady()...')
 			$("h4" > '#change').hide().show();
-			$("#innerTable").hide();
+			$("#innerTable").show();
 			
 		});
 		(function($) {
@@ -166,18 +165,19 @@
 		<div class="mainTable" id="accountsTable">
 			<table class="outerTable" id="outerTable">
 				<% 
-				int noOfAccts = user.getAccountIds().size(); 
-				List<ImageIcon> banksImagesList = {
+				//int noOfAccts = user.getAccountIds().size(); 
+				//List<ImageIcon> banksImagesList = {
 						// list img src of bank images
-						ImageIcon chaseLogo = new ImageIcon("WebContent/chaseLogo.jpg")
-				};
-		        Iterator iter = banksImagesList.iterator();
+						// TODO: Add in <img src> tags here
+				//};
+		        Iterator iter = user.getAccountIds().iterator();
 				while (iter.hasNext()) {
+				//while (true) {
 				%> 
 				<!-- [Bank Logo | Update | Delete] --> 
 				<tr id="acct"> 
 					<td>
-					 	<div id="logo"><%= iter.next() %></div> <!-- Logo --> 
+					 	<div id="logo"><%= iter.next() %></div> <!-- change to Logo --> 
 				 	</td> 
 				 	<!-- Whitespace -->
 				 	<td>
@@ -197,14 +197,14 @@
 			</table>
 			<!-- Space for readability -->
 			<table class="innerTable" id="innerTable">
-				<th> 
+				<!-- <th> 
 					<button type="button" onclick="hideInnerTable()">Back</button>
-				</th>
+				</th> -->
 				<% 
 				//int noOfAccts = user.getAccountIds().size(); 
 				List<String> acctIds = user.getAccountIds(); 
 		        Iterator innerIter = acctIds.iterator();
-				while (innerIter.hasNext()) {
+				//while (innerIter.hasNext()) {
 				%> 
 				<!-- [Name | Mask | Subtype | Delete] --> 
 				<tr id="acct"> 
@@ -212,7 +212,7 @@
 				 	<!-- Account -->
 				 		<!-- Name | Mask | Subtype -->
 					  	<td>
-					  		<%= innerIter.next() %> <!-- Name --> 
+					  		<%-- <%= innerIter.next() %> --%> <!-- Name --> 
 					  	</td> 
 				 			<!-- Whitespace - Mask --> 
 				 		<td>
@@ -225,12 +225,12 @@
 				 	<td>
 				 		<!-- Delete button -->
 				 		<!-- Goes to Delete.java and performs doPost --> 
-				      <form id="delete" method="post" action="Delete"> 
+				      <!-- <form id="delete" method="post" action="Delete"> 
 					    <button type="submit" formmethod="post">Delete Account</button>
-					  </form> 
+					  </form> --> 
 				    </td> 
 				</tr> 
-				<% } %>
+				<%-- <% } %> --%>
 			</table>
 		</div>
 		

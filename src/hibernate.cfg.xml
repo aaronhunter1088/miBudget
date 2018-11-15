@@ -1,65 +1,26 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
                                          "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
-                                         
-
 <hibernate-configuration>
-    <session-factory>
-        <property name="connection.driver_class">org.gjt.mm.mysql.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/miBudget</property>
-        <property name="hibernate.connection.username">michaelball</property>
-        <property name="hibernate.connection.password">rootpassword</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-        <property name="show_sql">true</property>
-        <property name="format_sql">true</property>
-        <property name="hbm2ddl.auto">update </property>
-        <!-- JDBC connection pool settings ... using built-in test pool -->
-  		<property name="connection.pool_size">100</property>
-        
-        <!-- Related to the mapping start 
-	  	<mapping resource ="mapping xml file name" /> -->
-	  	<!-- <mapping class="" resource=""/> -->
-	  	<mapping class="com.v1.miBudget.entities.User" resource="com/v1/miBudget/entities/User.hbm.xml"/>
-	  	<mapping class="com.v1.miBudget.entities.Item" resource="com/v1/miBudget/entities/Item.hbm.xml"/>
-	  	<mapping class="com.v1.miBudget.entities.UserItem" resource="com/v1/miBudget/entities/UserItem.hbm.xml"/>
-	  	<mapping class="com.v1.miBudget.entities.Account" resource="com/v1/miBudget/entities/Account.hbm.xml"/>
-	  	<mapping class="com.v1.miBudget.entities.UserAccountObject" resource="com/v1/miBudget/entities/UserAccountObject.hbm.xml"/>
-	  	<!-- Related to the mapping end -->
-    </session-factory>
-</hibernate-configuration>                                         
-                                         
-                                         
-<!-- <hibernate-configuration>
- <session-factory name="">
-   JDBC Database connection settings
- <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
- <property name="connection.url">jdbc:mysql://localhost:3306/miBudget</property>
- <property name="connection.username">root</property>
- <property name="connection.password">rootpassword</property>
- JDBC connection pool settings ... using built-in test pool
- <property name="connection.pool_size">100</property>
- Select our SQL dialect
- <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
- 
-       <property name="current_session_context_class">thread</property>
-       <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property> 
-       
-Echo all executed SQl to standard output
- <property name="show_sql">true</property>
- 
-  Set the current session context
- <property name="current_session_context_class">thread</property> 
- <property name="hbm2ddl.auto">update</property>
- 
- Related to the mapping start 
- <mapping resource ="mapping xml file name" />
- <mapping class="" resource=""/>
- <mapping class="com.v1.miBudget.entities.User" resource="com/v1/miBudget/entities/User.hbm.xml"/>
- <mapping class="com.v1.miBudget.entities.Item" resource="com/v1/miBudget/entities/Item.hbm.xml"/>
- 
- <mapping class="com.v1.miBudget.entities.UserItem" resource="com/v1/miBudget/entities/UserItem.hbm.xml"/>
- <mapping class="com.v1.miBudget.entities.Account" resource="com/v1/miBudget/entities/Account.hbm.xml"/>
- <mapping class="com.v1.miBudget.entities.UserAccountObject" resource="com/v1/miBudget/entities/UserAccountObject.hbm.xml"/>
- Related to the mapping end
+ <session-factory>
+  <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+  <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/mibudget?useSSL=false</property>
+  <property name="hibernate.connection.username">michaelball</property>
+  <property name="hibernate.connection.password">rootpassword</property>
+  <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+  <property name="show_sql">true</property>
+  <property name="format_sql">true</property>
+  <!-- <property name="hbm2ddl.auto">update</property> -->
+  <!-- JDBC connection pool settings ... using built-in test pool -->
+  <property name="connection.pool_size">100</property>
+  <!-- Related to the mapping start 
+	  	<mapping resource ="mapping xml file name" /> 
+ <mapping class="" resource=""/> -->
+  <mapping class="com.v1.miBudget.entities.User" resource="com/v1/miBudget/entities/User.hbm.xml"/>
+  <mapping class="com.v1.miBudget.entities.Item" resource="com/v1/miBudget/entities/Item.hbm.xml"/>
+  <mapping class="com.v1.miBudget.entities.UserItem" resource="com/v1/miBudget/entities/UserItem.hbm.xml"/>
+  <mapping class="com.v1.miBudget.entities.Account" resource="com/v1/miBudget/entities/Account.hbm.xml"/>
+  <mapping class="com.v1.miBudget.entities.UserAccountObject" resource="com/v1/miBudget/entities/UserAccountObject.hbm.xml"/>
+  <!-- Related to the mapping end -->
  </session-factory>
-</hibernate-configuration> -->
+</hibernate-configuration>
