@@ -45,7 +45,7 @@ public class Login extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	@SuppressWarnings("null")
+	//@SuppressWarnings("null")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		System.out.println("\nInside the Login servlet.");
@@ -86,7 +86,7 @@ public class Login extends HttpServlet {
 		System.out.println("cellphone: " + cellphone);
 		System.out.println("password: " + password);
 		// for every user in the list
-		forAll:
+		//forAll:
 		for (User user : allUsersList) {
 			System.out.println("user from allUsersList: " + user.getCellphone() + ", " + user.getPassword());
 			// if a registered user's cellphone and password are equal to the user's input
