@@ -59,15 +59,33 @@
 			function updateAccountsTable() {
 				console.log('Inside updateInnerTable()...');
 
-				$('.outerTable').find('tr td:first').each(function() {
-
+				//$('.outerTable').find('tr td:first').each(function() {
+				$('tr > td:first-child').each(function() {
 					//var institutionId = $(this).text().replace(/\s/g,'');
 					var institutionId = $(this).text().replace(/\s/g,'');
 					console.log("cell value: " + institutionId);
-					//var institutionId = $(this).text.replace(/\s/g,'');
-					if (institutionId == "ins_3") {
-						$(this).html('<img src="chaseLogo.jpg" alt="chaseLogo"/>');
-					}
+
+					if (institutionId == "") { $(this).html(''); }
+
+					
+					if (institutionId == "ins_1") { $(this).html('<img src="bankofamerica.jpg" alt="bankofamericaLogo"/>'); }
+					if (institutionId == "ins_2") { $(this).html('<img src="bb&t.jpg" alt="bb&tLogo"/>'); }
+					if (institutionId == "ins_3") { $(this).html('<img src="chaseLogo.jpg" alt="chaseLogo"/>'); }
+					if (institutionId == "ins_4") { $(this).html('<img src="wellsfargo.jpg" alt="wellsfargoLogo"/>'); }
+					if (institutionId == "ins_5") { $(this).html('<img src="citi.jpg" alt="citiLogo"/>'); }
+					if (institutionId == "ins_6") { $(this).html('<img src="usbank.jpg" alt="usbankLogo"/>'); }
+					if (institutionId == "ins_7") { $(this).html('<img src="usaa.jpg" alt="usaaLogo"/>'); }
+					if (institutionId == "ins_9") { $(this).html('<img src="capitalone.jpg" alt="capitaloneLogo"/>'); }
+					if (institutionId == "ins_10") { $(this).html('<img src="amex.jpg" alt="amexLogo"/>'); }
+					if (institutionId == "ins_11") { $(this).html('<img src="charlesschwab.jpg" alt="charlesschwabLogo"/>'); }
+					if (institutionId == "ins_11") { $(this).html('<img src="fidelity.jpg" alt="fidelityLogo"/>'); }
+					if (institutionId == "ins_13") { $(this).html('<img src="pnc.jpg" alt="pncLogo"/>'); }
+					if (institutionId == "ins_14") { $(this).html('<img src="tdbank.jpg" alt="tdbankLogo"/>'); }
+					if (institutionId == "ins_15") { $(this).html('<img src="navyfederal.jpg" alt="navyfederalLogo"/>'); }
+					if (institutionId == "ins_16") { $(this).html('<img src="suntrust.jpg" alt="suntrustLogo"/>'); }
+					if (institutionId == "ins_19") { $(this).html('<img src="regions.jpg" alt="regionsLogo"/>'); }
+					if (institutionId == "ins_20") { $(this).html('<img src="citizensbank.jpg" alt="citizensbankLogo"/>'); }
+					if (institutionId == "ins_21") { $(this).html('<img src="huntington.jpg" alt="huntingtonLogo"/>'); }
 					
 				});
 				//console.log(outerTable);
@@ -81,7 +99,7 @@
 				//$('.accountsSize').text('Accounts - ' + usersAccounts);
 				//$('.changingText').val('This text will change after using the Plaid Link Initializer.');
 				//$('p').toggle();
-				//updateAccountsTable();
+				updateAccountsTable();
 				console.log("jsp page has finished loading.")
 			});
 			(function($) {
@@ -142,6 +160,7 @@
 			          //$('#accounts').html('Accounts : ' + usersAccounts);
 				      //$('#changingText').html('You have successfully loaded ' + metadata.accounts.length + strAccounts);
 			          //location.reload(true);
+			          updateAccountsTable();
 			          console.log("end of success");
 				  }).error(function (response) {
 			    	  document.getElementById("changingText").innerHTML = "We didn't load the accounts because the bank already exists in your profile.";
@@ -196,6 +215,7 @@
 		<br/>
 		<p>Items for '${Firstname}' '${Lastname}' </p>
 		<br/>
+		<p id="institutions">Banks : ${institutionIdsListSize}
 		<p id="accounts">Accounts : ${accountsSize}</p>
 		<!-- Create a table that lists all accounts -->
 		<!-- Each account should have an update button and a delete button -->
@@ -204,27 +224,7 @@
 		
 		<!-- List of images -->
 		
-		<!-- TODO: Add on <img> id="logo" -->
-		<div class="images">
-			<img src="chaseLogo.jpg" alt="chaseLogo"/>
-			<img src="bankofamerica.jpg" alt="bankofamericaLogo"/>
-			<img src="wellsfargo.jpg" alt="wellsfargoLogo"/>
-			<img src="citi.jpg" alt="citiLogo"/>
-			<img src="usbank.jpg" alt="usbankLogo"/>
-			<img src="capitalone.jpg" alt="capitaloneLogo"/>
-			<img src="pnc.jpg" alt="pncLogo"/>
-			<img src="usaa.jpg" alt="usaaLogo"/>
-			<img src="amex.jpg" alt="amexLogo"/>
-			<img src="tdbank.jpg" alt="tdbankLogo"/>
-			<img src="suntrust.jpg" alt="suntrustLogo"/>
-			<img src="regions.jpg" alt="regionsLogo"/>
-			<img src="navyfederal.jpg" alt="navyfederalLogo"/>
-			<img src="bb&t.jpg" alt="bb&tLogo"/>
-			<img src="charlesschwab.jpg" alt="charlesschwabLogo"/>
-			<img src="fidelity.jpg" alt="fidelityLogo"/>
-			<img src="citizensbank.jpg" alt="citizensbankLogo"/>
-			<img src="huntington.jpg" alt="huntingtonLogo"/>
-		</div>
+		
 	
 		<div class="mainTable" id="accountsTable">
 			<table class="outerTable" id="outerTable">
@@ -249,7 +249,8 @@
 				 	  <!-- Delete button -->
 				 	  <!-- Goes to Delete.java and performs doPost --> 
 				      <form id="delete" method="post" action="Delete"> 
-					    <button type="submit" formmethod="post">Delete Account</button>
+				      	<input type="hidden" value="DeleteBank"></input>
+					    <button type="submit" formmethod="post">Delete Bank</button>
 					  </form> 
 				    </td> 
 				</tr> 

@@ -108,6 +108,7 @@ public class Login extends HttpServlet {
 //					requestSession.setAttribute("requestSession", request.getSession(true));
 					ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
 					session.setAttribute("institutionIdsList", institutionIdsList);
+					session.setAttribute("institutionIdsListSize", institutionIdsList.size());
 					session.setAttribute("sessionId", session.getId());
 					session.setAttribute("session", session); // just a check
 					session.setAttribute("isUserLoggedIn", true);
@@ -124,6 +125,7 @@ public class Login extends HttpServlet {
 //					requestSession.setMaxInactiveInterval(0); // just a check
 					ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
 					session.setAttribute("institutionIdsList", institutionIdsList);
+					session.setAttribute("institutionIdsListSize", institutionIdsList.size());
 					session.setAttribute("session", session); // just a check
 					session.setAttribute("sessionId", session.getId()); // just a check
 					session.setAttribute("isUserLoggedIn", true); // just a check

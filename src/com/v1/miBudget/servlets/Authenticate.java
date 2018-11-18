@@ -407,6 +407,7 @@ public class Authenticate extends HttpServlet {
 			  System.out.println("Institution_id added to users_institution_ids table in database");
 			  ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
 			  session.setAttribute("institutionIdsList", institutionIdsList);
+			  session.setAttribute("institutionIdsListSize", institutionIdsList.size());
 		  }
 		  // Add accounts to users profile
 		  int itemTableId = ItemDAOImpl.getItemTableIdForItemId(itemToAdd.getItemId());
