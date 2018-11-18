@@ -78,7 +78,7 @@
 					if (institutionId == "ins_9") { $(this).html('<img src="capitalone.jpg" alt="capitaloneLogo"/>'); }
 					if (institutionId == "ins_10") { $(this).html('<img src="amex.jpg" alt="amexLogo"/>'); }
 					if (institutionId == "ins_11") { $(this).html('<img src="charlesschwab.jpg" alt="charlesschwabLogo"/>'); }
-					if (institutionId == "ins_11") { $(this).html('<img src="fidelity.jpg" alt="fidelityLogo"/>'); }
+					if (institutionId == "ins_12") { $(this).html('<img src="fidelity.jpg" alt="fidelityLogo"/>'); }
 					if (institutionId == "ins_13") { $(this).html('<img src="pnc.jpg" alt="pncLogo"/>'); }
 					if (institutionId == "ins_14") { $(this).html('<img src="tdbank.jpg" alt="tdbankLogo"/>'); }
 					if (institutionId == "ins_15") { $(this).html('<img src="navyfederal.jpg" alt="navyfederalLogo"/>'); }
