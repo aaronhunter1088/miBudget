@@ -75,7 +75,7 @@ function validateFields() {
 	
 	// Check password
 	let password = $('#login_form')
-	.field('input[name=Password]')
+	.find('input[name=Password]')
 	.val();
 	if (password === "") {
 		alert("Password cannot be blank.");

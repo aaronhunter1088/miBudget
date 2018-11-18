@@ -1,6 +1,7 @@
 package com.v1.miBudget.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -27,6 +28,8 @@ public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private final SessionFactory factory = HibernateUtilities.getSessionFactory();
+	
+	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//doPost(request, response);
@@ -61,7 +64,7 @@ public class Login extends HttpServlet {
 //			System.out.println("Session opened...");
 //			if (mysqlSession.isOpen())
 //    			System.out.println("open after creation");
-			allUsersList = MiBudgetDAOImpl.getAllUsers();
+			allUsersList = miBudgetDAOImpl.getAllUsers();
 //			if (mysqlSession.isOpen())
 //    			System.out.println("open after getting allUsersList");
 //			else
@@ -103,13 +106,15 @@ public class Login extends HttpServlet {
 					System.out.println("requestSessionId: " + session.getId());
 //					requestSession.setMaxInactiveInterval(0);
 //					requestSession.setAttribute("requestSession", request.getSession(true));
+					ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
+					session.setAttribute("institutionIdsList", institutionIdsList);
 					session.setAttribute("sessionId", session.getId());
 					session.setAttribute("session", session); // just a check
 					session.setAttribute("isUserLoggedIn", true);
 					session.setAttribute("Firstname", user.getFirstName());
 					session.setAttribute("Lastname", user.getLastName());
 					session.setAttribute("user", user); // user.toJsonArray()
-					session.setAttribute("NoOfAccts", accounts);
+					session.setAttribute("accountsSize", accounts);
 					for(String account_id : User.getAccountIds(user)) {
 						System.out.println("accounts when logging in: " + account_id);
 					}
@@ -117,13 +122,15 @@ public class Login extends HttpServlet {
 					System.out.println("Session already exists... but they're just logging in so get new session");
 					session = request.getSession(true);
 //					requestSession.setMaxInactiveInterval(0); // just a check
+					ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
+					session.setAttribute("institutionIdsList", institutionIdsList);
 					session.setAttribute("session", session); // just a check
 					session.setAttribute("sessionId", session.getId()); // just a check
 					session.setAttribute("isUserLoggedIn", true); // just a check
 					session.setAttribute("Firstname", user.getFirstName());
 					session.setAttribute("Lastname", user.getLastName());
 					session.setAttribute("user", user); 
-					session.setAttribute("NoOfAccts", accounts);
+					session.setAttribute("accountsSize", accounts);
 				}
 			} 
 		} // end for all
@@ -136,8 +143,9 @@ public class Login extends HttpServlet {
 		System.out.println("loginCredentials: " + loginCredentials);
 		if (loginCredentials == true && (Boolean)session.getAttribute("isUserLoggedIn") == true) {
 			session.setAttribute("isUserLoggedIn", true);
-			getServletContext().getRequestDispatcher("/Welcome.jsp").forward(request, response);
-//			response.sendRedirect("Welcome.jsp");
+			//getServletContext().getRequestDispatcher("/Welcome.jsp").forward(request, response);
+		
+			response.sendRedirect("Welcome.jsp");
 		} else {
 			response.sendRedirect("Register.jsp");
 		}

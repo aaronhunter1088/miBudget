@@ -12,12 +12,17 @@ import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
 
+import com.v1.miBudget.daoimplementations.MiBudgetDAOImpl;
+import com.v1.miBudget.entities.User;
+
 /**
  * Servlet implementation class Profile
  */
 @WebServlet("/Profile")
 public class Profile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -25,13 +30,20 @@ public class Profile extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		System.out.println("\nInside Profile servlet doGet");
-		//System.out.println("meta_data: " + request.getParameter("meta_data"));
+		HttpSession requestSession = request.getSession(false);
+		System.out.println("request: " + request.getSession(false));
+		if (requestSession != null && (Boolean)requestSession.getAttribute("isUserLoggedIn") == true) {
+			System.out.println("Attempting to log in...");
+			User user = (User) request.getAttribute("user");
+			requestSession.setAttribute("change", "This text will change after using the Plaid Link Initializer.");
+			//requestSession.setAttribute("institutionIdsList", miBudgetDAOImpl.getAllInstitutionIdsFromUser(user));
+			response.sendRedirect("Profile.jsp");
+		} else {
+			System.out.println("requestSession: " + requestSession );
+			System.out.println("isUserLoggedIn: " + requestSession.getAttribute("isUserLoggedIn") );
+		}
 		
-		// call Authenticate
-		
-		
-		
-		doPost(request, response);
+		//doPost(request, response);
 	}
 	
 	/**

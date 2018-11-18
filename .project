@@ -26,12 +26,18 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
+			<name>org.fusesource.ide.project.RiderProjectBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
 			<name>org.eclipse.m2e.core.maven2Builder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>org.fusesource.ide.project.RiderProjectNature</nature>
 		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 		<nature>org.eclipse.jem.workbench.JavaEMFNature</nature>
 		<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
@@ -40,11 +46,4 @@
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 		<nature>org.hibernate.eclipse.console.hibernateNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>WebContent/WEB-INF/lib/mysql-connector.jar</name>
-			<type>1</type>
-			<location>C:/Users/Michael Ball/Documents/Jars/mysql-connector.jar</location>
-		</link>
-	</linkedResources>
 </projectDescription>

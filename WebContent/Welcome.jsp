@@ -6,27 +6,26 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="icon" type="image/x-icon" href="wallet.ico">
 <title>Welcome</title>
 <link rel="icon" type="image/x-icon" href="wallet.ico">
 </head>
 <body>
 
-<h1>Welcome, ${Firstname} ${Lastname} : ${NoOfAccts}</h1>
+<h1>Welcome, ${Firstname} ${Lastname} : ${accountsSize}</h1>
 <br/>
-<!-- <%= session.getAttribute("user") %> -->
 <%
 User user = (User)session.getAttribute("user");
 if (!user.getFirstName().equals(null)) {
 %>
-<h1>Welcome, <%= user.getFirstName() %> <%= user.getLastName() %> : ${NoOfAccts}</h1>
+<h1>Welcome, <%= user.getFirstName() %> <%= user.getLastName() %> : ${accountsSize}</h1>
 <% } %>
 <hr />
-<input class="button" type="button" onclick="window.location.replace('Profile.jsp')" value="Profile" />
+<!-- <input class="button" type="button" onclick="window.location.replace('Profile.jsp')" value="Profile" /> -->
 <br/>
-<!-- <form action="Profile" method="post">
-<button type="submit">Profile</button> -->
-<!-- <a href="Profile.html">Profile</a>
-</form> -->
+<form action="Profile" method="get">
+<input class="button" type="submit" value="Profile" />
+</form>
 <hr/>
 <a href="">Categories</a>
 <hr/>

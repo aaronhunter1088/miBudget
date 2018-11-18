@@ -44,6 +44,8 @@ import retrofit2.Response;
 public class Authenticate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
+	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
+	
 	private final String client_id = "5ae66fb478f5440010e414ae";
 	private final String secret = "0e580ef72b47a2e4a7723e8abc7df5";
 	
@@ -86,7 +88,7 @@ public class Authenticate extends HttpServlet {
      * @return
      */
     public int addInstitutionIdToUsersInstitutionIdsTableInDatabase(String ins_id, User user) {
-    	int verify = MiBudgetDAOImpl.addInstitutionIdToDatabase(ins_id, user);
+    	int verify = miBudgetDAOImpl.addInstitutionIdToDatabase(ins_id, user);
     	return verify;
     }
     
@@ -98,7 +100,7 @@ public class Authenticate extends HttpServlet {
     		itemTableId = ItemDAOImpl.getItemTableIdForItemId(item.getItemId());
     		
     		//mysqlSession = factory.openSession();
-    		int verify = MiBudgetDAOImpl.addItemToUsersItemsTable(itemTableId, user);
+    		int verify = miBudgetDAOImpl.addItemToUsersItemsTable(itemTableId, user);
     		if (verify == 0)
     			return 0;
     		//verify = ItemDAOImpl.addItemToItemTable(item);
@@ -177,13 +179,13 @@ public class Authenticate extends HttpServlet {
      */
 	private String authenticate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, NullPointerException {
 		// TODO Auto-generated method stub
-		System.out.println("Inside authenticate...");	
+		System.out.println("Inside authenticate()...");	
 		HttpSession session = request.getSession(false);
 		if (session.getId() != session.getAttribute("sessionId")) {
 			System.out.println("not the same session");
 			session = request.getSession();
 		} else {
-			System.out.println("the ID's match! same session");
+			System.out.println("same session");
 		}
 		String public_token = request.getParameter("public_token");
 		System.out.println("public_token: " + public_token);
@@ -199,13 +201,13 @@ public class Authenticate extends HttpServlet {
 		//System.out.println("publicTokenExchangeResponseBody: " + publicTokenExchangeResponse.body().toString());
 		
 		// access token notes: An access_token is used to access product data for an Item
-		System.out.println("publicTokenExchangeResponseAccessToken: " + publicTokenExchangeResponse.body().getAccessToken());
-		System.out.println("accessTokenLength: " + publicTokenExchangeResponse.body().getAccessToken().length());
+		//System.out.println("publicTokenExchangeResponseAccessToken: " + publicTokenExchangeResponse.body().getAccessToken());
+		//System.out.println("accessTokenLength: " + publicTokenExchangeResponse.body().getAccessToken().length());
 		// item_id notes: An item_id is used to identify an Item in a webhook.
-		System.out.println("publicTokenExchangeResponseItemId: " + publicTokenExchangeResponse.body().getItemId());
-		System.out.println("itemIdLength: " + publicTokenExchangeResponse.body().getItemId().length());
+		//System.out.println("publicTokenExchangeResponseItemId: " + publicTokenExchangeResponse.body().getItemId());
+		//System.out.println("itemIdLength: " + publicTokenExchangeResponse.body().getItemId().length());
 		// request_id notes: used to keep track of user's session and what they did (i believe)
-		System.out.println("publicTokenExchangeResponseRequestId: " + publicTokenExchangeResponse.body().getRequestId());
+		//System.out.println("publicTokenExchangeResponseRequestId: " + publicTokenExchangeResponse.body().getRequestId());
 		
 		String accessToken = publicTokenExchangeResponse.body().getAccessToken();
 		String itemID = publicTokenExchangeResponse.body().getItemId();
@@ -401,9 +403,11 @@ public class Authenticate extends HttpServlet {
 		  verify = addInstitutionIdToUsersInstitutionIdsTableInDatabase(institution_id, user);
 		  if (verify == 0)
 			  return "FAIL: did not add institution_id to table.";
-		  else
+		  else {
 			  System.out.println("Institution_id added to users_institution_ids table in database");
-		  
+			  ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
+			  session.setAttribute("institutionIdsList", institutionIdsList);
+		  }
 		  // Add accounts to users profile
 		  int itemTableId = ItemDAOImpl.getItemTableIdForItemId(itemToAdd.getItemId());
 		  accountsList.forEach(account -> {
@@ -429,7 +433,7 @@ public class Authenticate extends HttpServlet {
 		  
 		  // Accounts list is all accounts in users profile
 		  int numberOfAccounts = AccountDAOImpl.getAccountIdsFromUser(user).size();
-		  session.setAttribute("NoOfAccts", numberOfAccounts);
+		  session.setAttribute("accountsSize", numberOfAccounts);
 		  
 		  // Place user object back in request
 		  user.setAccountIds(listOfAccountIds);
@@ -438,9 +442,11 @@ public class Authenticate extends HttpServlet {
 		  session.setAttribute("user", user);
 		  session.setAttribute("listOfAccountIds", listOfAccountIds);
 		  session.setAttribute("listOfAccount", listOfAccounts);
+		  String strAccounts = (acctsGetRes.body().getAccounts().size() == 1) ? " account!" : " accounts!";
+		  session.setAttribute("change", "You have successfully loaded " + acctsGetRes.body().getAccounts().size() + strAccounts);
 		  // update user in requestSession
 		  
-		  response.setStatus(HttpServletResponse.SC_OK);
+		  
 		  //response.setContentType("application/json");
 		  return "SUCCESS";
 		}
@@ -495,7 +501,7 @@ public class Authenticate extends HttpServlet {
 		User user = (User) session.getAttribute("user");
 		
 		String institution_idIncoming = request.getParameter("institution_id");
-		ArrayList<String> institutionIdsList = (ArrayList<String>) MiBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
+		ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
 		boolean exit = false;
 		Iterator<String> iter = institutionIdsList.iterator();
 		while (iter.hasNext()) {
@@ -504,8 +510,8 @@ public class Authenticate extends HttpServlet {
 				System.out.println(institution_idIncoming + " has already been added. We cannot add it again.");
 				exit = true;
 				break;
-			}
-			System.out.println(id + " - This id did not match the one selected.");
+			} else
+				System.out.println(id + " - This id did not match the one selected.");
 		}
 		if (exit) {
 			System.out.println("Finished with doPost");
@@ -527,10 +533,13 @@ public class Authenticate extends HttpServlet {
 		if (authResponse.equals("SUCCESS")) {
 			// add session back to response obj
 			response.setContentType("application/html");
+			response.setStatus(HttpServletResponse.SC_OK);
 //			getServletContext().getRequestDispatcher("/Profile.jsp").forward(request, response);
-			response.sendRedirect("Profile.jsp");
+			//response.sendRedirect("Profile.jsp");
+			return;
 		} else {
-			response.sendRedirect("Profile.jsp");
+			//response.sendRedirect("Profile.jsp");
+			return;
 		}
 	}
 	
