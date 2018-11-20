@@ -11,12 +11,14 @@ import org.hibernate.Transaction;
 
 import com.v1.miBudget.entities.Item;
 import com.v1.miBudget.entities.User;
-import com.v1.miBudget.entities.UserItem;
+import com.v1.miBudget.entities.UsersItemsObject;
 import com.v1.miBudget.utilities.HibernateUtilities;
 
 public class MiBudgetDAOImpl {
 	
 	private SessionFactory factory = HibernateUtilities.getSessionFactory();
+	
+	private AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
 	
 	public MiBudgetDAOImpl() {
     }
@@ -152,7 +154,7 @@ public class MiBudgetDAOImpl {
 			t.commit();
 			int size = idsFromDB.size();
 			for (int i = 0; i < size; i++) {
-				List<String> accountIds = AccountDAOImpl.getAccountIdsFromUser((Integer)idsFromDB.get(i));
+				List<String> accountIds = accountDAOImpl.getAccountIdsFromUser((Integer)idsFromDB.get(i));
 				User user = new User((Integer)idsFromDB.get(i),
 									 firstnamesFromDB.get(i).toString(),
 									 lastnamesFromDB.get(i).toString(),
@@ -197,7 +199,7 @@ public class MiBudgetDAOImpl {
 			int user_id = user.getId();
 			Transaction t;
 			t = session.beginTransaction();
-			UserItem ui = new UserItem(item_table_id, user_id);
+			UsersItemsObject uiObj = new UsersItemsObject(item_table_id, user_id);
 //			session.createNativeQuery("INSERT INTO users_items ('item_id', 'user_id') " +
 //									  "VALUES (" + item_id + ", " + user_id + ")").executeUpdate();
 //			session.createNativeQuery("UPDATE users " + 
@@ -207,7 +209,7 @@ public class MiBudgetDAOImpl {
 			
 //			session.saveOrUpdate(user);
 			System.out.println("item_table_id: " + item_table_id);
-			session.save(ui);
+			session.save(uiObj);
 			t.commit();
 			session.close();
 			System.out.println("item_table_id: " + item_table_id + " added to \nuser: " + user.getFirstName() + " \nId: " + user.getId());
@@ -233,16 +235,19 @@ public class MiBudgetDAOImpl {
 			List<?> idsFromDB = session
 					   				.createNativeQuery("SELECT item_id FROM items")
 					   				.getResultList();
+			List<?> institutionIdsFromDB = session
+								    .createNativeQuery("SELECT institution_id FROM items")
+								    .getResultList();
 			List<?> accessTokensFromDB = session
 									.createNativeQuery("SELECT access_token FROM items")
 									.getResultList();
 			
-			System.out.println("2 Queries executed!");
+			System.out.println("3 Queries executed!");
 			t.commit();
 			session.close();
 			int size = idsFromDB.size();
 			for (int i = 0; i < size; i++) {
-				Item item = new Item(idsFromDB.get(i).toString(), accessTokensFromDB.get(i).toString());
+				Item item = new Item(idsFromDB.get(i).toString(), accessTokensFromDB.get(i).toString(), institutionIdsFromDB.get(i).toString());
 				System.out.println("item: " + item);
 				items.add(item);
 			}
@@ -304,4 +309,32 @@ public class MiBudgetDAOImpl {
 		}
 		return null;
 	}
+
+	public Item getItemFromDatabase(String institution_id) {
+		Item item = null;
+		try {
+			Session session = factory.openSession();
+			Transaction t;
+			t = session.beginTransaction();
+			List<?> itemTableId = session.createNativeQuery("SELECT item_table_id " +
+													   "FROM items " +
+													   "WHERE institution_id = '" + institution_id + "'").getResultList();
+			List<?> itemId = session.createNativeQuery("SELECT item_id " + 
+													   "FROM items " +
+													   "WHERE institution_id = '" + institution_id + "'").getResultList();
+			List<?> accessToken = session.createNativeQuery("SELECT access_token " + 
+															"FROM items " +
+															"WHERE institution_id = '" + institution_id + "'").getResultList();
+			item = new Item(Integer.parseInt(itemTableId.get(0).toString()), itemId.get(0).toString(), 
+					accessToken.get(0).toString(), institution_id);
+			System.out.println("retrieving item: " + item.toString());
+			session.getTransaction().commit();
+			session.close();
+			return item;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return item;
+	}
+
 }

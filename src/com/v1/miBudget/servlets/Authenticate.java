@@ -45,6 +45,8 @@ public class Authenticate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
+	private AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
+	private ItemDAOImpl itemDAOImpl = new ItemDAOImpl();
 	
 	private final String client_id = "5ae66fb478f5440010e414ae";
 	private final String secret = "0e580ef72b47a2e4a7723e8abc7df5";
@@ -66,15 +68,21 @@ public class Authenticate extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
     
+    /*
+     * TODO: Update items_account table
+     * Create an items_account object
+     */
+    
     public int addAccountsToAccountsTableDatabase(List<com.v1.miBudget.entities.Account> accounts, Item item, User user) {
 		Iterator<com.v1.miBudget.entities.Account> iter = accounts.iterator();
     	int verify = 0;
 		while (iter.hasNext()) {
     		com.v1.miBudget.entities.Account account = iter.next();
     		// update account availableBalance, currentBalance, limit, currencyCode, item, figure out how to unmask mask to reveal last 4 of account
-    		verify = AccountDAOImpl.addAccountObjectToAccountsTableDatabase(account, item, user);
-    		verify = AccountDAOImpl.addAccountObjectToUsers_AccountsTable(account, user);
-    	}
+    		verify = accountDAOImpl.addAccountObjectToAccountsTableDatabase(account);
+    		verify = accountDAOImpl.addAccountObjectToUsers_AccountsTable(account, user);
+    		verify = accountDAOImpl.addAccountIdToItems_AccountsTable(item.getItemTableId(), account.getAccountId());
+		}
     	if (verify == 0)
     		return 0;
     	return 1;
@@ -97,13 +105,13 @@ public class Authenticate extends HttpServlet {
     	try {
     		//Session mysqlSession = factory.openSession();
     		// get the item_table_ids from the database
-    		itemTableId = ItemDAOImpl.getItemTableIdForItemId(item.getItemId());
+    		itemTableId = itemDAOImpl.getItemTableIdForItemId(item.getItemId());
     		
     		//mysqlSession = factory.openSession();
     		int verify = miBudgetDAOImpl.addItemToUsersItemsTable(itemTableId, user);
     		if (verify == 0)
     			return 0;
-    		//verify = ItemDAOImpl.addItemToItemTable(item);
+    		//verify = itemDAOImpl.addItemToItemTable(item);
     		if (verify == 0)
     			return 0;
     		//System.out.println(item.getItemId() + " successfully added to " + user.getFirstname());
@@ -122,13 +130,13 @@ public class Authenticate extends HttpServlet {
     
     public List<String> getAllItemIds() {
     	List<String> allItemIdsList = new ArrayList<>();
-		allItemIdsList = ItemDAOImpl.getAllItemIds();
+		allItemIdsList = itemDAOImpl.getAllItemIds();
 		return allItemIdsList;
     }
     
     public List<Item> getAllItems() {
     	List<Item> allItemsList = new ArrayList<>();
-    	allItemsList = ItemDAOImpl.getAllItems();
+    	allItemsList = itemDAOImpl.getAllItems();
     	return allItemsList;
     }
     
@@ -144,7 +152,7 @@ public class Authenticate extends HttpServlet {
         	}
     		// if the item does not exist in the database, add it
         	System.out.println("before save...");
-        	int verify = ItemDAOImpl.addItemToDatabase(item);
+        	int verify = itemDAOImpl.addItemToDatabase(item);
         	if (verify == 0)
         		return 0;
         	return 1;
@@ -380,7 +388,7 @@ public class Authenticate extends HttpServlet {
 			  System.out.println("user's name: " + user.getFirstName() + " \naccount_id: " + account_id);
 		  }
 		  
-		  Item itemToAdd = new Item(accessToken, itemID);
+		  Item itemToAdd = new Item(institution_id, accessToken, itemID);
 		  session.setAttribute("CreatedItem", itemToAdd);
 		  System.out.println("created item: " + itemToAdd);
 		  
@@ -410,7 +418,7 @@ public class Authenticate extends HttpServlet {
 			  session.setAttribute("institutionIdsListSize", institutionIdsList.size());
 		  }
 		  // Add accounts to users profile
-		  int itemTableId = ItemDAOImpl.getItemTableIdForItemId(itemToAdd.getItemId());
+		  int itemTableId = itemDAOImpl.getItemTableIdForItemId(itemToAdd.getItemId());
 		  accountsList.forEach(account -> {
 			  account.setItemTableId(itemTableId);
 		  });
@@ -423,8 +431,8 @@ public class Authenticate extends HttpServlet {
 			  System.out.println("Accounts added to user's profile.");
 		  
 		  // Add accountsList to requestSession
-		  ArrayList<String> listOfAccountIds = (ArrayList<String>) AccountDAOImpl.getAccountIdsFromUser(user);
-		  ArrayList<com.v1.miBudget.entities.Account> listOfAccounts = (ArrayList<com.v1.miBudget.entities.Account>) AccountDAOImpl.getAllAccounts(user, listOfAccountIds);
+		  ArrayList<String> listOfAccountIds = (ArrayList<String>) accountDAOImpl.getAccountIdsFromUser(user);
+		  ArrayList<com.v1.miBudget.entities.Account> listOfAccounts = (ArrayList<com.v1.miBudget.entities.Account>) accountDAOImpl.getAllAccounts(user, listOfAccountIds);
 		  listOfAccounts.forEach(account -> {
 			  System.out.println(account);
 			  //request.getSession(false).setAttribute("Name", account.getNameOfAccount());
@@ -433,7 +441,7 @@ public class Authenticate extends HttpServlet {
 		  });
 		  
 		  // Accounts list is all accounts in users profile
-		  int numberOfAccounts = AccountDAOImpl.getAccountIdsFromUser(user).size();
+		  int numberOfAccounts = accountDAOImpl.getAccountIdsFromUser(user).size();
 		  session.setAttribute("accountsSize", numberOfAccounts);
 		  
 		  // Place user object back in request
@@ -517,7 +525,7 @@ public class Authenticate extends HttpServlet {
 		if (exit) {
 			System.out.println("Finished with doPost");
 			System.out.println("");
-			int numberOfAccounts = AccountDAOImpl.getAccountIdsFromUser(user).size();
+			int numberOfAccounts = accountDAOImpl.getAccountIdsFromUser(user).size();
 			request.getSession(false).setAttribute("NoOfAccts", numberOfAccounts);
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 			response.setContentType("application/text");

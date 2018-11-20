@@ -16,29 +16,13 @@ import javax.persistence.Column;
 @Table(name="items")
 public class Item implements Serializable {
 	
-	private static final long serialVersionUID = -8735910955797101041L;
+	public Item() {}
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="item_table_id")
-	public int id;
-	
-	@Column(name="item_id")
-	public String item_id;
-	
-	@Column(name="access_token")
-	public String access_token;
-	
-	public Item(int id, String item_id, String access_token) {
-		this.id = id;
-		this.item_id = item_id;
-		this.access_token = access_token;
-	}
-	
-	public Item(String accessToken, String itemID) {
+	public Item(String itemID, String accessToken, String institutionId) {
 		if (StringUtils.isNotEmpty(accessToken) && StringUtils.isNotEmpty(itemID)) {
-			access_token = accessToken;
-			item_id = itemID;
+			this.institution_id = institutionId;
+			this.access_token = accessToken;
+			this.item_id = itemID;
 		} else {
 			throw new NullPointerException("item_id: " + itemID + "\naccess_token: " + accessToken);
 			// Fail here
@@ -46,7 +30,28 @@ public class Item implements Serializable {
 		
 	}
 	
-	public Item() {  }
+	public Item(int id, String item_id, String access_token, String institution_id) {
+		this.id = id;
+		this.institution_id = institution_id;
+		this.item_id = item_id;
+		this.access_token = access_token;
+	}
+	
+	private static final long serialVersionUID = -8735910955797101041L;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="item_table_id")
+	public int id;
+	
+	@Column(name="institution_id")
+	public String institution_id;
+	
+	@Column(name="item_id")
+	public String item_id;
+	
+	@Column(name="access_token")
+	public String access_token;
 
 	public int getItemTableId() {
 		return id;
@@ -54,6 +59,14 @@ public class Item implements Serializable {
 
 	public void setItemTableId(int id) {
 		this.id = id;
+	}
+	
+	public String getInsitutionId() {
+		return institution_id;
+	}
+	
+	public void setInsitutionId(String id) {
+		this.institution_id = id;
 	}
 
 	public String getItemId() {
@@ -74,11 +87,11 @@ public class Item implements Serializable {
 
 	@Override
 	public String toString() {
-		return "{" +
-				"\"item_id\":" + "\"" + this.item_id + "\"," +
-				"\"access_token\":" + "\"" + this.access_token + "\"" +
-				"}";
+		return "Item [id=" + id + ", institution_id=" + institution_id + ", item_id=" + item_id + ", access_token="
+				+ access_token + "]";
 	}
+
+	
 }
 
 /**

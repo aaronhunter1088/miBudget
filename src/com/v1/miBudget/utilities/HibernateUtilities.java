@@ -1,7 +1,11 @@
 package com.v1.miBudget.utilities;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.hibernate.HibernateException;
+import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
@@ -22,16 +26,45 @@ public class HibernateUtilities {
 	            Configuration configuration = new Configuration().configure("hibernate.cfg.xml")
 	            		.addAnnotatedClass(com.v1.miBudget.entities.User.class)
 	            		.addAnnotatedClass(com.v1.miBudget.entities.Item.class)
-	            		.addAnnotatedClass(com.v1.miBudget.entities.UserItem.class)
 	            		.addAnnotatedClass(com.v1.miBudget.entities.Account.class)
-	            		.addAnnotatedClass(com.v1.miBudget.entities.UserAccountObject.class);
+	            		.addAnnotatedClass(com.v1.miBudget.entities.UserAccountObject.class)
+	            		.addAnnotatedClass(com.v1.miBudget.entities.ItemAccountObject.class)
+	            		.addAnnotatedClass(com.v1.miBudget.entities.UsersInstitutionIdsObject.class)
+	            		.addAnnotatedClass(com.v1.miBudget.entities.UsersItemsObject.class);
 	            ServiceRegistry serviceRegistry
 	            	= new StandardServiceRegistryBuilder()
 	                    .applySettings(configuration.getProperties()).build();
 	             
-	            // builds a session factory from the service registry
+	             //builds a session factory from the service registry
 	            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 	            newSessionFactory = true;
+	            
+	            
+	            
+//	            StandardServiceRegistryBuilder serviceRegistry = new StandardServiceRegistryBuilder();
+//				Map<String, String> settings = new HashMap<>();
+//	            settings.put("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
+//	            settings.put("hibernate.connection.url", "jdbc:mysql://localhost:3306/mibudget?useSSL=false");
+//	            settings.put("hibernate.connection.username", "michaelball");
+//	            settings.put("hibernate.connection.password", "rootpassword");
+//	            settings.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+//	            settings.put("hibernate.show_sql", "true");
+//	            settings.put("hibernate.format_sql", "true");
+//	            settings.put("hibernate.hbm2ddl.auto", "update");
+//	            settings.put("hibernate.pool_size", "100");
+//	            registryBuilder.applySettings(settings);
+//	            registry = serviceRegistry.configure().build();
+//	            MetadataSources sources = new MetadataSources(registry)
+//	            		.addAnnotatedClass(com.v1.miBudget.entities.User.class)
+//	            		.addAnnotatedClass(com.v1.miBudget.entities.Item.class)
+//	            		.addAnnotatedClass(com.v1.miBudget.entities.UserItem.class)
+//	            		.addAnnotatedClass(com.v1.miBudget.entities.Account.class)
+//	            		.addAnnotatedClass(com.v1.miBudget.entities.UserAccountObject.class)
+//	            		.addAnnotatedClass(com.v1.miBudget.entities.ItemAccountObject.class)
+//	            		.addAnnotatedClass(com.v1.miBudget.entities.UsersInstitutionIdsObject.class)
+//	            		.addAnnotatedClass(com.v1.miBudget.entities.UsersItemsObject.class);
+//	            sessionFactory = sources.buildMetadata().buildSessionFactory();
+//	            newSessionFactory = true;
 			}
 		} catch (HibernateException e) {
 			System.out.println("Error trying to create sessionFactory");
@@ -64,4 +97,10 @@ public class HibernateUtilities {
 		
 		return sessionFactory;
 	}
+	
+	public static void shutdown() {
+      if (registry != null) {
+         StandardServiceRegistryBuilder.destroy(registry);
+      }
+   }
 }

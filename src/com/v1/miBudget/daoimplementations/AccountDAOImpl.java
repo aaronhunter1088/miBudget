@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import com.plaid.client.response.Account;
+import com.v1.miBudget.entities.Account;
 import com.v1.miBudget.entities.Item;
+import com.v1.miBudget.entities.ItemAccountObject;
 import com.v1.miBudget.entities.User;
 import com.v1.miBudget.entities.UserAccountObject;
 import com.v1.miBudget.utilities.HibernateUtilities;
@@ -24,7 +26,31 @@ private static SessionFactory factory = HibernateUtilities.getSessionFactory();
     	AccountDAOImpl.factory = factory;
     }
     
-    public static List<String> getAccountIdsFromUser(int userId) {
+    public List<String> getAccountIdsFromUser(Item item) {
+    	List<String> accountIds = new ArrayList<>();
+    	try {
+    		System.out.println("\nAttempting to execute getAccountIdsFromUser...");
+    		Session session = factory.openSession();
+    		Transaction t;
+    		t = session.beginTransaction();
+    		List<?> accountIdsFromDB = session
+    				.createNativeQuery("SELECT account_id FROM accounts " +
+    								   "WHERE item_table_id = " + item.getItemId())
+    									.getResultList();
+    	} catch (Exception e) {
+			System.out.println("Error connecting to DB");
+			System.out.println(e.getMessage());
+		}
+    	return accountIds;
+    }
+    
+    /**
+     * This method will return a List<String> object that
+     * has all the accountIds for a specific user.
+     * @param userId
+     * @return
+     */
+    public List<String> getAccountIdsFromUser(int userId) {
     	List<String> userAccounts = new ArrayList<>();
 		try {
 			System.out.println("\nAttempting to execute getAccountIdsFromUser query...");
@@ -59,7 +85,7 @@ private static SessionFactory factory = HibernateUtilities.getSessionFactory();
 		return userAccounts;
     }
     
-    public static List<String> getAccountIdsFromUser(User user) {
+    public List<String> getAccountIdsFromUser(User user) {
     	List<String> userAccounts = new ArrayList<>();
 		try {
 			System.out.println("\nAttempting to execute getAccountIdsFromUser query...");
@@ -94,7 +120,7 @@ private static SessionFactory factory = HibernateUtilities.getSessionFactory();
 		return userAccounts;
     }
 
-    public static int addAccountObjectToAccountsTableDatabase(com.v1.miBudget.entities.Account account, Item item, User user) {
+    public int addAccountObjectToAccountsTableDatabase(com.v1.miBudget.entities.Account account) {
     	
     	try {
 			System.out.println("\nAttempting to execute insert account query...");
@@ -130,7 +156,7 @@ private static SessionFactory factory = HibernateUtilities.getSessionFactory();
     	return 0; // bad
     }
     
-    public static int addAccountObjectToUsers_AccountsTable(com.v1.miBudget.entities.Account account, User user) {
+    public int addAccountObjectToUsers_AccountsTable(com.v1.miBudget.entities.Account account, User user) {
     	
     	try {
     		System.out.println("\nAttempting to execute addAccountToUsers_Table query...");
@@ -143,7 +169,20 @@ private static SessionFactory factory = HibernateUtilities.getSessionFactory();
 			// Using SQL code here because there is no object for users_accounts.
 //			int insert = session.createNativeQuery("INSERT INTO users_accounts ('user_id', 'account_id') " +
 //									  "VALUES (" + account.getAccountId() + "), (" + user.getId() + ")").executeUpdate();
-			session.saveOrUpdate(new UserAccountObject(user.getId(), account.getAccountId()));
+			session.saveOrUpdate(new UserAccountObject(
+					user.getId(), 
+					account.getAccountId(),
+					account.getItemTableId(),
+					account.getAvailableBalance(),
+					account.getCurrentBalance(),
+					account.getLimit(),
+					account.getCurrencyCode(),
+					account.getNameOfAccount(),
+					account.getOfficialName(),
+					account.getMask(),
+					account.getType(),
+					account.getSubType()
+					));
 			System.out.println("Inserted account into users_accounts");
 			t.commit();
 			session.close();
@@ -160,7 +199,7 @@ private static SessionFactory factory = HibernateUtilities.getSessionFactory();
      * @param account_ids
      * @return
      */
-    public static List<com.v1.miBudget.entities.Account> getAllAccounts(User user, List<String> account_ids) {
+    public List<com.v1.miBudget.entities.Account> getAllAccounts(User user, List<String> account_ids) {
     	List<com.v1.miBudget.entities.Account> accounts = new ArrayList<>();
     	
     	Iterator<String> iter = account_ids.iterator();
@@ -191,7 +230,7 @@ private static SessionFactory factory = HibernateUtilities.getSessionFactory();
      * @param user
      * @return
      */
-    public static List<String> getAllAccountsIds(User user) {
+    public List<String> getAllAccountsIds(User user) {
     	List<String> accountIds = new ArrayList<>();
     	try {
     		System.out.println("\nAttempting to execute getAllAccountIds query...");
@@ -242,5 +281,79 @@ private static SessionFactory factory = HibernateUtilities.getSessionFactory();
     	return accountIds;
     }
     
+    public int addAccountIdToItems_AccountsTable(int itemTableId, String accountId) {
+    	try {
+			System.out.println("\nAttempting to execute insert accountId to Items_Accounts query...");
+			Session session = factory.openSession();
+			Transaction t;
+			t = session.beginTransaction();
+			
+			ItemAccountObject obj = new ItemAccountObject(itemTableId, accountId);
+			System.out.println("obj: " + obj);
+			
+			session.save(obj);
+			t.commit();
+			session.close();
+			return 1; // good
+		} catch (Exception e) {
+			System.out.println("Error connecting to Database");
+			System.out.println(e.getMessage());
+			e.printStackTrace(System.out);
+			
+		} 
+    	return 0; // bad
+    }
+
+    /**
+     * TODO: Implement
+     * This method will delete one account from the accounts 
+     * table for a given Item.
+     * @param account
+     * @return
+     */
+    public int deleteAccountFromDatabase(Account account) {
+    	try {
+    		System.out.println("\nAttempting to execute delete account query...");
+    		return 1;
+    	} catch (HibernateException e) {
+    		System.out.println("Error performing hibernate action.");
+    		System.out.println(e.getMessage());
+    		return 0;
+    	} catch (Exception e) {
+    		System.out.println("Error connecting to DB");
+			System.out.println(e.getMessage());
+			return 0; // bad
+    	}
+    }
     
+    /**
+     * This method will delete all accounts from the accounts
+     * table from a given Item.
+     */
+    public int deleteAccountsFromDatabase(ArrayList<Account> accounts) {
+    	try {
+    		System.out.println("\nAttempting to execute delete accounts query...");
+    		Session session = factory.openSession();
+    		Transaction t;
+    		t = session.beginTransaction();
+    		StringBuilder allAccountIdsString = new StringBuilder();
+    		allAccountIdsString.append("'");
+    		accounts.forEach(acct -> {
+    			allAccountIdsString.append(acct.getAccountId() + "', ");
+    		});
+    		allAccountIdsString.deleteCharAt(allAccountIdsString.length()-1); // removes last space
+    		allAccountIdsString.deleteCharAt(allAccountIdsString.length()-1); // removes last comma
+    		session.createQuery("DELETE FROM accounts " + 
+    							"WHERE account_id IN " + allAccountIdsString + "");
+    		return 1;
+    	} catch (HibernateException e) {
+    		System.out.println("Error performing hibernate action.");
+    		System.out.println(e.getMessage());
+    		return 0;
+    	} catch (Exception e) {
+    		System.out.println("Error connecting to DB");
+			System.out.println(e.getMessage());
+			return 0; // bad
+    	}
+    }
 }

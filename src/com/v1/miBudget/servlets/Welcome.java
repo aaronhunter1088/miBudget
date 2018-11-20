@@ -33,8 +33,8 @@ public class Welcome extends HttpServlet {
 		HttpSession session = request.getSession(false);  
         if(session != null && (Boolean) session.getAttribute("isUserLoggedIn") == true ) {
         	System.out.println("requestSessionId: " + session.getId());
-        	System.out.println("NumberOfAccounts: " + (Integer) session.getAttribute("NoOfAccts"));
-        	System.out.println("Accounts: " + session.getAttribute("listOfAccountIds"));
+        	System.out.println("NumberOfAccounts: " + (Integer) session.getAttribute("accountsSize"));
+        	//System.out.println("Accounts: " + session.getAttribute("listOfAccountIds"));
         	getServletContext().getRequestDispatcher("/Welcome.jsp").forward(request, response);
 //        	response.sendRedirect("Welcome.jsp");
         }  

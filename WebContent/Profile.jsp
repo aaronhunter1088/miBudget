@@ -119,6 +119,7 @@
 			      console.log("public_token: " + public_token);
 			      var accounts = [], account = [];
 			      var _id, _name, _mask, _type, _subtype;
+			      console.log(metadata.institution_id);
 			      for(var i = 0; i < metadata.accounts.length; i++) {
 			        console.log("account id: " + metadata.accounts[i].id);
 			        console.log("name: " + metadata.accounts[i].name);
@@ -145,6 +146,7 @@
 			    	 data: {
 			    		 public_token: public_token,
 			             link_session_id: metadata.link_session_id,
+			             institutionId: metadata.insitution_id,
 			             accounts: jsonAccount,
 			             institution_name: metadata.institution.name,
 			             institution_id: metadata.institution.institution_id
@@ -232,12 +234,13 @@
 				Iterator institutionIdsIter = institutionsIdsList.iterator();
 				Iterator accountIdsIter = user.getAccountIds().iterator();
 				while (institutionIdsIter.hasNext()) {
-				//while (true) {
+				String currentId = (String)institutionIdsIter.next();
+				String idCopy = currentId;
 				%> 
 				<!-- [Bank Logo | Update | Delete] --> 
 				<tr id="bank"> 
 					<td id="logo">
-					 	<%= institutionIdsIter.next() %> <!-- change to Logo --> 
+					 	<%= currentId %> <!-- change to Logo --> 
 				 	</td> 
 				 	<!-- Whitespace -->
 				 	<td id="updatebtn">
@@ -249,7 +252,8 @@
 				 	  <!-- Delete button -->
 				 	  <!-- Goes to Delete.java and performs doPost --> 
 				      <form id="delete" method="post" action="Delete"> 
-				      	<input type="hidden" value="DeleteBank"></input>
+				      	<input type="hidden" name="delete" value="bank"></input>
+				      	<input type="hidden" name="idCopy" value="<%= idCopy %>"></input>
 					    <button type="submit" formmethod="post">Delete Bank</button>
 					  </form> 
 				    </td> 

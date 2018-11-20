@@ -9,8 +9,8 @@ public class ClientTest {
 	
 	private static SessionFactory factory = HibernateUtilities.getSessionFactory();
 	
+	
 	public static void main(String[] args) {
-		
 		try {
 			Session hibernateSession = factory.openSession();
 			//Transaction t = hibernateSession.beginTransaction();
@@ -18,6 +18,7 @@ public class ClientTest {
 			String result = hibernateSession.createNativeQuery(SQL).getResultList().get(0).toString();
 			System.out.format("MySQL version is %s\n", result);
 			System.out.println("Test completed. Passed.");
+			HibernateUtilities.shutdown();
 		} catch (NullPointerException | HibernateException e) {
 			System.out.println("Error making a connection to the database...\n");
 			StackTraceElement[] ste = e.getStackTrace();

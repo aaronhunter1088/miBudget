@@ -24,6 +24,7 @@ import com.v1.miBudget.daoimplementations.MiBudgetDAOImpl;
 public class User implements Serializable {
 	
 	private static final long serialVersionUID = -6056201749901818847L;
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id", updatable = false, nullable = false)
@@ -172,9 +173,10 @@ public class User implements Serializable {
 	
 	public static List<String> getAccountIds(User user) {
 		System.out.println("Getting account_ids from user...");
+		AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
 		// Get list of item_ids from user in DB
 //		List<String> idsFromUserInDB = MiBudgetDAOImpl.getAllItemIdsFromUser(this);
-		List<String> accountIdsFromUserInDB = AccountDAOImpl.getAccountIdsFromUser(user);
+		List<String> accountIdsFromUserInDB = accountDAOImpl.getAccountIdsFromUser(user);
 		return accountIdsFromUserInDB;
 		
 	}

@@ -1,17 +1,21 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 5, 2018 2:05:18 PM by Hibernate Tools 3.5.0.Final -->
+<!-- Generated Nov 20, 2018 11:32:29 AM by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
-    <class name="com.v1.miBudget.entities.Item" table="items">
-    	<id name="id" type="int">
-            <column name="item_table_id" />
+    <class name="com.v1.miBudget.entities.Item" table="ITEM">
+        <id name="id" type="int" access="field">
+            <column name="ID" />
+            <generator class="assigned" />
         </id>
-        <property name="item_id" type="java.lang.String">
-            <column name="item_id" />
+        <property name="institution_id" type="java.lang.String" access="field">
+            <column name="INSTITUTION_ID" />
         </property>
-        <property name="access_token" type="java.lang.String">
-            <column name="access_token" />
+        <property name="item_id" type="java.lang.String" access="field">
+            <column name="ITEM_ID" />
+        </property>
+        <property name="access_token" type="java.lang.String" access="field">
+            <column name="ACCESS_TOKEN" />
         </property>
     </class>
 </hibernate-mapping>

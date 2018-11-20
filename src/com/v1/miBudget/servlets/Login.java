@@ -30,6 +30,7 @@ public class Login extends HttpServlet {
 	private final SessionFactory factory = HibernateUtilities.getSessionFactory();
 	
 	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
+	private AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//doPost(request, response);
@@ -96,7 +97,7 @@ public class Login extends HttpServlet {
 			if (user.getCellphone().equals(cellphone) && user.getPassword().equals(password)) {
 				// registered user
 				System.out.println("Registered user. Logging in");
-				List<String> accountIdsList = AccountDAOImpl.getAllAccountsIds(user);
+				List<String> accountIdsList = accountDAOImpl.getAllAccountsIds(user);
 				user.setAccountIds(accountIdsList);
 				int accounts = accountIdsList.size();
 				loginCredentials = true;
