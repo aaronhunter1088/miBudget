@@ -25,6 +25,7 @@
 /Users/michaelball/git/miBudget/src/com/plaid/client/response/BaseResponse.java
 /Users/michaelball/git/miBudget/src/com/v1/miBudget/daoimplementations/MiBudgetDAOImpl.java
 /Users/michaelball/git/miBudget/src/com/plaid/client/response/ItemGetResponse.java
+/Users/michaelball/git/miBudget/src/com/v1/miBudget/entities/UsersInstitutionIdsObject.java
 /Users/michaelball/git/miBudget/src/com/plaid/client/request/ItemGetRequest.java
 /Users/michaelball/git/miBudget/src/com/plaid/client/internal/gson/BaseOptionsSerializer.java
 /Users/michaelball/git/miBudget/src/com/plaid/client/request/SandboxPublicTokenCreateRequest.java
@@ -68,7 +69,6 @@
 /Users/michaelball/git/miBudget/src/com/plaid/client/request/AuthGetRequest.java
 /Users/michaelball/git/miBudget/src/com/plaid/client/internal/gson/RequiredField.java
 /Users/michaelball/git/miBudget/src/com/plaid/client/request/common/BaseAccessTokenRequest.java
-/Users/michaelball/git/miBudget/src/com/v1/miBudget/entities/UserItem.java
 /Users/michaelball/git/miBudget/src/com/v1/miBudget/servlets/Authenticate.java
 /Users/michaelball/git/miBudget/src/com/plaid/client/response/ItemCredentialsUpdateResponse.java
 /Users/michaelball/git/miBudget/src/com/plaid/client/request/common/BasePublicRequest.java
@@ -83,6 +83,7 @@
 /Users/michaelball/git/miBudget/src/com/plaid/client/request/common/Product.java
 /Users/michaelball/git/miBudget/src/com/plaid/client/request/ItemPublicTokenExchangeRequest.java
 /Users/michaelball/git/miBudget/src/com/v1/miBudget/servlets/MiBudget.java
+/Users/michaelball/git/miBudget/src/com/v1/miBudget/entities/ItemAccountObject.java
 /Users/michaelball/git/miBudget/src/com/v1/miBudget/entities/User.java
 /Users/michaelball/git/miBudget/src/com/v1/miBudget/daoimplementations/ItemDAOImpl.java
 /Users/michaelball/git/miBudget/src/com/v1/miBudget/serviceimplementations/UserServiceImpls.java
@@ -92,6 +93,7 @@
 /Users/michaelball/git/miBudget/src/com/plaid/client/response/InstitutionsGetByIdResponse.java
 /Users/michaelball/git/miBudget/src/com/v1/miBudget/entities/Item.java
 /Users/michaelball/git/miBudget/src/com/plaid/request/common/BaseClientRequest.java
+/Users/michaelball/git/miBudget/src/com/v1/miBudget/entities/UsersItemsObject.java
 /Users/michaelball/git/miBudget/src/com/v1/miBudget/servlets/CheckInstitutionIds.java
 /Users/michaelball/git/miBudget/src/com/plaid/client/response/ItemStatus.java
 /Users/michaelball/git/miBudget/src/com/v1/miBudget/utilities/HibernateUtilities.java

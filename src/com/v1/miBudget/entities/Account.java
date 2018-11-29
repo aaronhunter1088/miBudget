@@ -27,10 +27,10 @@ public class Account implements Serializable {
 	
 	public Account() {}
 	
-	public Account(String account_id, int itemTableId, double availableBalance, double currentBalance,
+	public Account(String accountId, int itemTableId, double availableBalance, double currentBalance,
 			double limit, String currencyCode, String nameOfAcct, String officialNameOfAcct,
 			String mask, String type, String subtype) {
-		this.account_id = account_id;
+		this.accountId = accountId;
 		this.itemTableId = itemTableId;
 		this.availableBalance = availableBalance;
 		this.currentBalance = currentBalance;
@@ -44,9 +44,8 @@ public class Account implements Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="account_id")
-	private String account_id;
+	private String accountId;
 	
 	@Column(name="item_table_id")
 	private int itemTableId;
@@ -82,7 +81,7 @@ public class Account implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Account [account_id=" + account_id + ", itemTableId=" + itemTableId + ", availableBalance=" + availableBalance
+		return "Account [account_id=" + accountId + ", itemTableId=" + itemTableId + ", availableBalance=" + availableBalance
 				+ ", currentBalance=" + currentBalance + ", limit=" + limit + ", currencyCode=" + currencyCode
 				+ ", nameOfAccount=" + nameOfAccount + ", officialName=" + officialName + ", mask=" + mask + ", type="
 				+ type + ", subType=" + subType + "]";
@@ -92,14 +91,14 @@ public class Account implements Serializable {
 	 * @return the account_id
 	 */
 	public String getAccountId() {
-		return account_id;
+		return accountId;
 	}
 
 	/**
 	 * @param account_id the account_id to set
 	 */
-	public void setAccountId(String account_id) {
-		this.account_id = account_id;
+	public void setAccountId(String accountId) {
+		this.accountId = accountId;
 	}
 
 	/**

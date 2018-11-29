@@ -10,9 +10,11 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 
 import com.v1.miBudget.entities.Item;
 import com.v1.miBudget.entities.User;
+import com.v1.miBudget.entities.UsersItemsObject;
 import com.v1.miBudget.utilities.HibernateUtilities;
 
 public class ItemDAOImpl {
@@ -151,7 +153,7 @@ public class ItemDAOImpl {
     
     public int addItemToDatabase(Item item) {
 		try {
-			System.out.println("\nAttempting to execute insert query...");
+			System.out.println("\nAttempting to execute insert item query...");
 			Session session = factory.openSession();
 			Transaction t;
 			t = session.beginTransaction();
@@ -179,7 +181,7 @@ public class ItemDAOImpl {
     		session.beginTransaction();
     		// Users_institutions_ids table
     		// delete from users_institution_ids where user_id = 20 and institution_id = 'ins_3';
-    		session.createQuery("DELETE FROM users_institution_ids " +
+    		session.createQuery("DELETE FROM UsersInstitutionIdsObject " +
     						    "WHERE institution_id = '" + item.getInsitutionId() + "'").executeUpdate();
     		//org.hibernate.query.Query query = session.createQuery("DELETE users_institution_ids WHERE institution_id = :institution_id");
     		//query.setParameter("institution_id", item.getInsitutionId());
@@ -189,22 +191,26 @@ public class ItemDAOImpl {
     		session.beginTransaction();
     		// Users_accounts table
     		// delete from users_accounts where user_id = 20 and institution_id = 'ins_3';
-    		session.createNativeQuery("DELETE FROM users_accounts " +
-    							"WHERE insitution_id = '" + item.getInsitutionId() + "'").executeUpdate();
+    		session.createQuery("DELETE FROM UserAccountObject " +
+    							"WHERE user_id = " + user.getId() + " " +
+    							"AND item_table_id = " + item.getItemTableId()).executeUpdate();
+    		
     		System.out.println("... reference(s) deleted from users_accounts table...");
     		session.getTransaction().commit();
     		session.beginTransaction();
     		// Users_items table
     		// delete from users_items where item_table_id = 963;
-    		session.createNativeQuery("DELETE FROM users_items " + 
-    							"WHERE item_table_id = " + item.getItemId()).executeUpdate();
+    		session.createQuery("DELETE FROM UsersItemsObject " + 
+    							"WHERE item_table_id = " + item.getItemTableId()).executeUpdate();
     		System.out.println("... reference(s) deleted from users_items table...");
+//    		UsersItemsObject usersItemsObj = new UsersItemsObject(item.getItemTableId(), user.getId());
+//    		session.delete(usersItemsObj);
     		session.getTransaction().commit();
     		session.beginTransaction();
     		// Items_accounts table
     		// delete from items_accounts where item_table_id = 963;
-    		session.createNativeQuery("DELETE FROM items_accounts " + 
-    							"WHERE item_table_id = " + item.getItemId()).executeUpdate();
+    		session.createQuery("DELETE FROM ItemAccountObject " + 
+    							"WHERE item_table_id = " + item.getItemTableId()).executeUpdate();
     		System.out.println("... reference(s) deleted from items_accounts table...");
     		session.getTransaction().commit();
     		session.close();

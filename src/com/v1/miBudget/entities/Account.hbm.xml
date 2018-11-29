@@ -3,40 +3,40 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Nov 20, 2018 11:32:29 AM by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
-    <class name="com.v1.miBudget.entities.Account" table="ACCOUNT">
-        <id name="account_id" type="java.lang.String" access="field">
-            <column name="ACCOUNT_ID" />
+    <class name="com.v1.miBudget.entities.Account" table="ACCOUNTS">
+        <id name="accountId" type="java.lang.String">
+            <column name="account_id" />
             <generator class="assigned" />
         </id>
         <property name="itemTableId" type="int">
-            <column name="ITEMTABLEID" />
+            <column name="item_table_id" />
         </property>
         <property name="availableBalance" type="double">
-            <column name="AVAILABLEBALANCE" />
+            <column name="available_balance" />
         </property>
         <property name="currentBalance" type="double">
-            <column name="CURRENTBALANCE" />
+            <column name="current_balance" />
         </property>
         <property name="limit" type="double">
-            <column name="LIMIT" />
+            <column name="_limit" />
         </property>
         <property name="currencyCode" type="java.lang.String">
-            <column name="CURRENCYCODE" />
+            <column name="iso_currency_code" />
         </property>
         <property name="nameOfAccount" type="java.lang.String">
-            <column name="NAMEOFACCOUNT" />
+            <column name="name_of_account" />
         </property>
         <property name="officialName" type="java.lang.String">
-            <column name="OFFICIALNAME" />
+            <column name="official_name" />
         </property>
         <property name="mask" type="java.lang.String">
-            <column name="MASK" />
+            <column name="mask" />
         </property>
         <property name="type" type="java.lang.String">
-            <column name="TYPE" />
+            <column name="_type" />
         </property>
         <property name="subType" type="java.lang.String">
-            <column name="SUBTYPE" />
+            <column name="subtype" />
         </property>
     </class>
 </hibernate-mapping>

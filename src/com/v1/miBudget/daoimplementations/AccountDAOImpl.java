@@ -35,7 +35,7 @@ private static SessionFactory factory = HibernateUtilities.getSessionFactory();
     		t = session.beginTransaction();
     		List<?> accountIdsFromDB = session
     				.createNativeQuery("SELECT account_id FROM accounts " +
-    								   "WHERE item_table_id = " + item.getItemId())
+    								   "WHERE item_table_id = " + item.getItemTableId())
     									.getResultList();
     	} catch (Exception e) {
 			System.out.println("Error connecting to DB");
@@ -199,8 +199,8 @@ private static SessionFactory factory = HibernateUtilities.getSessionFactory();
      * @param account_ids
      * @return
      */
-    public List<com.v1.miBudget.entities.Account> getAllAccounts(User user, List<String> account_ids) {
-    	List<com.v1.miBudget.entities.Account> accounts = new ArrayList<>();
+    public List<Account> getAllAccounts(User user, List<String> account_ids) {
+    	List<Account> accounts = new ArrayList<>();
     	
     	Iterator<String> iter = account_ids.iterator();
     	while (iter.hasNext()) {
@@ -209,7 +209,7 @@ private static SessionFactory factory = HibernateUtilities.getSessionFactory();
     			Session session = factory.openSession();
     			Transaction t;
     			t = session.beginTransaction();
-    			List<com.v1.miBudget.entities.Account> userAccountsFromDB = session
+    			accounts = session
     					   .createNativeQuery("SELECT * FROM accounts " +
     							   			  "WHERE account_id = '" + iter.next() + "'").getResultList();
     			System.out.println("Query executed!");
@@ -343,7 +343,7 @@ private static SessionFactory factory = HibernateUtilities.getSessionFactory();
     		});
     		allAccountIdsString.deleteCharAt(allAccountIdsString.length()-1); // removes last space
     		allAccountIdsString.deleteCharAt(allAccountIdsString.length()-1); // removes last comma
-    		session.createQuery("DELETE FROM accounts " + 
+    		session.createQuery("DELETE FROM account " + 
     							"WHERE account_id IN " + allAccountIdsString + "");
     		return 1;
     	} catch (HibernateException e) {

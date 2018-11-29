@@ -7,11 +7,9 @@ import org.hibernate.SessionFactory;
 
 public class ClientTest {
 	
-	private static SessionFactory factory = HibernateUtilities.getSessionFactory();
-	
-	
 	public static void main(String[] args) {
 		try {
+			SessionFactory factory = HibernateUtilities.getSessionFactory();
 			Session hibernateSession = factory.openSession();
 			//Transaction t = hibernateSession.beginTransaction();
 			String SQL = "SELECT version()";

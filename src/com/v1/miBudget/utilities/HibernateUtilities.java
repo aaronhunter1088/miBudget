@@ -23,14 +23,22 @@ public class HibernateUtilities {
 		try {
 			if (sessionFactory == null) {
 				// loads configuration and mappings
-	            Configuration configuration = new Configuration().configure("hibernate.cfg.xml")
-	            		.addAnnotatedClass(com.v1.miBudget.entities.User.class)
-	            		.addAnnotatedClass(com.v1.miBudget.entities.Item.class)
-	            		.addAnnotatedClass(com.v1.miBudget.entities.Account.class)
-	            		.addAnnotatedClass(com.v1.miBudget.entities.UserAccountObject.class)
-	            		.addAnnotatedClass(com.v1.miBudget.entities.ItemAccountObject.class)
-	            		.addAnnotatedClass(com.v1.miBudget.entities.UsersInstitutionIdsObject.class)
-	            		.addAnnotatedClass(com.v1.miBudget.entities.UsersItemsObject.class);
+	            Configuration configuration = new Configuration()
+	            		.configure("hibernate.cfg.xml");
+//	            		.addAnnotatedClass(com.v1.miBudget.entities.User.class)
+//	            		.addAnnotatedClass(com.v1.miBudget.entities.Item.class)
+//	            		.addAnnotatedClass(com.v1.miBudget.entities.Account.class)
+//	            		.addAnnotatedClass(com.v1.miBudget.entities.UserAccountObject.class)
+//	            		.addAnnotatedClass(com.v1.miBudget.entities.ItemAccountObject.class)
+//	            		.addAnnotatedClass(com.v1.miBudget.entities.UsersInstitutionIdsObject.class)
+//	            		.addAnnotatedClass(com.v1.miBudget.entities.UsersItemsObject.class);
+	            configuration.addAnnotatedClass(com.v1.miBudget.entities.User.class)
+	            			 .addAnnotatedClass(com.v1.miBudget.entities.Item.class)
+	            			 .addAnnotatedClass(com.v1.miBudget.entities.Account.class)
+	            			 .addAnnotatedClass(com.v1.miBudget.entities.UsersItemsObject.class)
+	            			 .addAnnotatedClass(com.v1.miBudget.entities.ItemAccountObject.class)
+	            			 .addAnnotatedClass(com.v1.miBudget.entities.UsersInstitutionIdsObject.class)
+	            			 .addAnnotatedClass(com.v1.miBudget.entities.UserAccountObject.class);
 	            ServiceRegistry serviceRegistry
 	            	= new StandardServiceRegistryBuilder()
 	                    .applySettings(configuration.getProperties()).build();

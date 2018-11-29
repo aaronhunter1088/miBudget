@@ -15,11 +15,11 @@ public class UserAccountObject implements Serializable {
 	
 	public UserAccountObject() {}
 	
-	public UserAccountObject(int user_id, String account_id, int itemTableId, double availableBalance, double currentBalance,
+	public UserAccountObject(int userId, String accountId, int itemTableId, double availableBalance, double currentBalance,
 			double limit, String currencyCode, String nameOfAcct, String officialNameOfAcct,
 			String mask, String type, String subtype) {
-		this.user_id = user_id;
-		this.account_id = account_id;
+		this.userId = userId;
+		this.accountId = accountId;
 		this.itemTableId = itemTableId;
 		this.availableBalance = availableBalance;
 		this.currentBalance = currentBalance;
@@ -43,10 +43,10 @@ public class UserAccountObject implements Serializable {
 	private int id;
 	
 	@Column(name="user_id")
-	private int user_id;
+	private int userId;
 	
 	@Column(name="account_id")
-	private String account_id;
+	private String accountId;
 	
 	@Column(name="available_balance", precision=10, scale=2)
 	private double availableBalance;
@@ -83,29 +83,29 @@ public class UserAccountObject implements Serializable {
 	/**
 	 * @return the user_id
 	 */
-	public int getUser_id() {
-		return user_id;
+	public int getUserId() {
+		return userId;
 	}
 
 	/**
 	 * @param user_id the user_id to set
 	 */
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	/**
 	 * @return the account_id
 	 */
-	public String getAccount_id() {
-		return account_id;
+	public String getAccountId() {
+		return accountId;
 	}
 
 	/**
 	 * @param account_id the account_id to set
 	 */
-	public void setAccount_id(String account_id) {
-		this.account_id = account_id;
+	public void setAccountId(String accountId) {
+		this.accountId = accountId;
 	}
 
 	public int getId() {

@@ -3,19 +3,19 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Nov 20, 2018 11:32:29 AM by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
-    <class name="com.v1.miBudget.entities.Item" table="ITEM">
-        <id name="id" type="int" access="field">
-            <column name="ID" />
+    <class name="com.v1.miBudget.entities.Item" table="ITEMS">
+        <id name="itemTableId" type="int">
+            <column name="item_table_id" />
             <generator class="assigned" />
         </id>
-        <property name="institution_id" type="java.lang.String" access="field">
-            <column name="INSTITUTION_ID" />
+        <property name="institutionId" type="java.lang.String" access="field">
+            <column name="institution_id" />
         </property>
-        <property name="item_id" type="java.lang.String" access="field">
-            <column name="ITEM_ID" />
+        <property name="itemId" type="java.lang.String" access="field">
+            <column name="item_id" />
         </property>
-        <property name="access_token" type="java.lang.String" access="field">
-            <column name="ACCESS_TOKEN" />
+        <property name="accessToken" type="java.lang.String" access="field">
+            <column name="access_token" />
         </property>
     </class>
 </hibernate-mapping>

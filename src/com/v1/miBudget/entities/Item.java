@@ -20,9 +20,9 @@ public class Item implements Serializable {
 	
 	public Item(String itemID, String accessToken, String institutionId) {
 		if (StringUtils.isNotEmpty(accessToken) && StringUtils.isNotEmpty(itemID)) {
-			this.institution_id = institutionId;
-			this.access_token = accessToken;
-			this.item_id = itemID;
+			this.institutionId = institutionId;
+			this.accessToken = accessToken;
+			this.itemId = itemID;
 		} else {
 			throw new NullPointerException("item_id: " + itemID + "\naccess_token: " + accessToken);
 			// Fail here
@@ -30,11 +30,11 @@ public class Item implements Serializable {
 		
 	}
 	
-	public Item(int id, String item_id, String access_token, String institution_id) {
-		this.id = id;
-		this.institution_id = institution_id;
-		this.item_id = item_id;
-		this.access_token = access_token;
+	public Item(int itemTableId, String itemId, String accessToken, String institutionId) {
+		this.itemTableId = itemTableId;
+		this.institutionId = institutionId;
+		this.itemId = itemId;
+		this.accessToken = accessToken;
 	}
 	
 	private static final long serialVersionUID = -8735910955797101041L;
@@ -42,54 +42,50 @@ public class Item implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="item_table_id")
-	public int id;
+	public int itemTableId;
 	
 	@Column(name="institution_id")
-	public String institution_id;
+	public String institutionId;
 	
 	@Column(name="item_id")
-	public String item_id;
+	public String itemId;
 	
 	@Column(name="access_token")
-	public String access_token;
+	public String accessToken;
 
 	public int getItemTableId() {
-		return id;
+		return itemTableId;
 	}
 
-	public void setItemTableId(int id) {
-		this.id = id;
+	public void setItemTableId(int itemTableId) {
+		this.itemTableId = itemTableId;
 	}
 	
 	public String getInsitutionId() {
-		return institution_id;
+		return institutionId;
 	}
 	
-	public void setInsitutionId(String id) {
-		this.institution_id = id;
+	public void setInsitutionId(String institutionId) {
+		this.institutionId = institutionId;
 	}
 
 	public String getItemId() {
-		return item_id;
+		return itemId;
 	}
 
-	public void setItemId(String item_id) {
-		this.item_id = item_id;
+	public void setItemId(String itemId) {
+		this.itemId = itemId;
 	}
 
 	public String getAccessToken() {
-		return access_token;
+		return accessToken;
 	}
 
-	public void setAccessToken(String access_token) {
-		this.access_token = access_token;
+	public void setAccessToken(String access_Tken) {
+		this.accessToken = accessToken;
 	}
 
-	@Override
-	public String toString() {
-		return "Item [id=" + id + ", institution_id=" + institution_id + ", item_id=" + item_id + ", access_token="
-				+ access_token + "]";
-	}
+	
 
 	
 }

@@ -97,6 +97,10 @@ public class Delete extends HttpServlet {
 				response.setContentType("application/html");
 				response.setStatus(HttpServletResponse.SC_OK);
 				response.sendRedirect("Profile.jsp");
+			} else {
+				response.setContentType("applicaiton/html");
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				response.sendRedirect("Profile.jsp");
 			}
 			
 		} else if (request.getParameter("delete").equals("account")) {
