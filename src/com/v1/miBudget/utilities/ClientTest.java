@@ -11,7 +11,6 @@ public class ClientTest {
 		try {
 			SessionFactory factory = HibernateUtilities.getSessionFactory();
 			Session hibernateSession = factory.openSession();
-			//Transaction t = hibernateSession.beginTransaction();
 			String SQL = "SELECT version()";
 			String result = hibernateSession.createNativeQuery(SQL).getResultList().get(0).toString();
 			System.out.format("MySQL version is %s\n", result);

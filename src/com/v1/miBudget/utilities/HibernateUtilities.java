@@ -19,6 +19,7 @@ public class HibernateUtilities {
 	public static void shutdown() {
        if (serviceRegistry != null) {
           StandardServiceRegistryBuilder.destroy(serviceRegistry);
+          System.out.println("sessionFactory shutdown.");
        }
     }
 	
