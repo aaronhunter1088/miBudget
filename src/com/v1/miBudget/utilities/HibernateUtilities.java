@@ -2,11 +2,8 @@ package com.v1.miBudget.utilities;
 
 import org.hibernate.HibernateException;
 import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.BootstrapServiceRegistry;
-import org.hibernate.boot.registry.BootstrapServiceRegistryBuilder;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.boot.registry.internal.BootstrapServiceRegistryImpl;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -28,8 +25,6 @@ public class HibernateUtilities {
 	public static SessionFactory getSessionFactory() {
 		try {
 			if (sessionFactory == null) {
-				// loads configuration and mappings
-				
 				MetadataSources sources = new MetadataSources(serviceRegistry)
 	            		.addAnnotatedClass(com.v1.miBudget.entities.User.class)
 	            		.addAnnotatedClass(com.v1.miBudget.entities.Item.class)
