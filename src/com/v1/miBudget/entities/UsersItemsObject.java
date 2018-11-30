@@ -26,11 +26,6 @@ public class UsersItemsObject implements Serializable {
 		this.userId = userId;
 	}
 	
-	/**
-	 * Default generated
-	 */
-	private static final long serialVersionUID = 1L;
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id")
@@ -41,6 +36,11 @@ public class UsersItemsObject implements Serializable {
 	
 	@Column(name="user_id")
 	int userId;
+	
+	/**
+	 * Default generated
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public int getId() {
 		return id;

@@ -11,19 +11,95 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
 import com.v1.miBudget.daoimplementations.AccountDAOImpl;
-import com.v1.miBudget.daoimplementations.MiBudgetDAOImpl;
 
 
 @Entity
 @Table(name="users")
 public class User implements Serializable {
+
+	public User() {}
 	
-	private static final long serialVersionUID = -6056201749901818847L;
+	/**
+	 * If you need to validate a user, you can use this constructor.
+	 * @param cellphone
+	 * @param password
+	 */
+	public User(String cellphone, String password) {
+		this.cellphone = cellphone;
+		this.password = password;
+		createAccounts();
+	}
+	
+	/**
+	 * To create a user, please provide in the following order:
+	 * @param firstname
+	 * @param lastname
+	 * @param cellphone
+	 * @param password
+	 */
+	public User(String firstname, String lastname, String cellphone, String password) {
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.cellphone = cellphone;
+		this.password = password;
+		createAccounts();
+	}
+	
+	/**
+	 * To create a user, please provide in the following order:
+	 * @param firstname
+	 * @param lastname
+	 * @param cellphone
+	 * @param password
+	 * @param email
+	 */
+	public User(String firstname, String lastname, String cellphone, String password, String email) {
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.cellphone = cellphone;
+		this.password = password;
+		this.email = email;
+		createAccounts();
+	}
+	
+	/**
+	 * To create a user with no accounts, please provide in the following order:
+	 * @param id
+	 * @param firstname
+	 * @param lastname
+	 * @param cellphone
+	 * @param password
+	 */
+	public User(int id, String firstname, String lastname, String cellphone, String password, String email) {
+		this.id = id;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.cellphone = cellphone;
+		this.password = password;
+		this.email = email;
+		createAccounts();
+	}
+	
+	/**
+	 * To create a user with accounts, please provide in the following order:
+	 * @param id
+	 * @param firstname
+	 * @param lastname
+	 * @param cellphone
+	 * @param password
+	 * @param email
+	 * @param accountIds
+	 */
+	public User(int id, String firstname, String lastname, String cellphone, String password, String email, List<String> accountIds) {
+		this.id = id;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.cellphone = cellphone;
+		this.password = password;
+		this.email = email;
+		this.accountIds = accountIds;
+	}
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -47,80 +123,13 @@ public class User implements Serializable {
 	private String email;
 	
 	@Transient
-	private List<String> account_ids; // will become budget_ids ...
-	
-	public User(int id, String firstname, String lastname, String cellphone, String password, String email, List<String> accountIds) {
-		this.id = id;
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.cellphone = cellphone;
-		this.password = password;
-		this.email = email;
-		this.account_ids = accountIds;
-	}
+	private List<String> accountIds; // will become budget_ids ...
 	
 	/**
-	 * To create a user, please provide in the following order:
-	 * @param id
-	 * @param firstname
-	 * @param lastname
-	 * @param cellphone
-	 * @param password
+	 * 
 	 */
-	public User(int id, String firstname, String lastname, String cellphone, String password, String email) {
-		this.id = id;
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.cellphone = cellphone;
-		this.password = password;
-		this.email = email;
-		this.account_ids = createAccounts();
-	}
+	private static final long serialVersionUID = 1L;
 	
-	/**
-	 * To create a user, please provide in the following order:
-	 * @param firstname
-	 * @param lastname
-	 * @param cellphone
-	 * @param password
-	 */
-	public User(String firstname, String lastname, String cellphone, String password, String email) {
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.cellphone = cellphone;
-		this.password = password;
-		this.email = email;
-		createAccounts();
-	}
-	
-	/**
-	 * To create a user, please provide in the following order:
-	 * @param firstname
-	 * @param lastname
-	 * @param cellphone
-	 * @param password
-	 */
-	public User(String firstname, String lastname, String cellphone, String password) {
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.cellphone = cellphone;
-		this.password = password;
-		createAccounts();
-	}
-	
-	/**
-	 * If you need to validate a user, you can use this constructor.
-	 * @param cellphone
-	 * @param password
-	 */
-	public User(String cellphone, String password) {
-		this.cellphone = cellphone;
-		this.password = password;
-		createAccounts();
-	}
-	
-	public User() {}
-
 	public int getId() {
 		return id;
 	}
@@ -168,9 +177,13 @@ public class User implements Serializable {
 	private void setEmail(String email) {
 		this.email = email;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", cellphone=" + cellphone
+				+ ", password=" + password + ", email=" + email + ", accountIds=" + accountIds + "]";
+	}
+
 	public static List<String> getAccountIds(User user) {
 		System.out.println("Getting account_ids from user...");
 		AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
@@ -182,7 +195,7 @@ public class User implements Serializable {
 	}
 	
 	public List<String> getAccountIds() {
-		return this.account_ids;
+		return this.accountIds;
 	}
 	
 	/**
@@ -190,36 +203,18 @@ public class User implements Serializable {
 	 * itemSepcifics is : access token, item id, request id
 	 * @param itemSpecifics
 	 */
-	public void setAccountIds(List<String> account_ids) {
-		if (account_ids.size() == 0) {
+	public void setAccountIds(List<String> accountIds) {
+		if (accountIds.size() == 0) {
 			createAccounts();
 		}
-		this.account_ids = account_ids;
+		this.accountIds = accountIds;
 	}
-	
-	@SuppressWarnings("unchecked")
-	public JSONObject toJsonArray() {
-		JSONObject userJsonObj = new JSONObject();
-		userJsonObj.put("id", id);
-		userJsonObj.put("firstname", firstname);
-		userJsonObj.put("lastname", lastname);
-		userJsonObj.put("cellphone", cellphone);
-		userJsonObj.put("email", email);
-		userJsonObj.put("password", password);
-		userJsonObj.put("accountIds", account_ids);
-		//System.out.println(userJsonObj);
-		return userJsonObj;
-//		return "User [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", cellphone=" + cellphone
-//				+ ", password=" + password + ", account_ids=" + account_ids + "]";
-	}
-	
-	
-	
+		
 	public List<String> createAccounts() {
 		System.out.println("account_ids is null");
-		account_ids = new ArrayList<String>();
+		accountIds = new ArrayList<String>();
 		System.out.println("AccountsList has been created for " + this.firstname);
-		return account_ids;
+		return accountIds;
 		
 	}
 }

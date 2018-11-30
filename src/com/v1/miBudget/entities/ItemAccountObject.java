@@ -24,11 +24,6 @@ public class ItemAccountObject implements Serializable {
 		this.accountId = accountId;
 	}
 	
-	/**
-	 * Default generated
-	 */
-	private static final long serialVersionUID = 1L;
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id")
@@ -39,6 +34,11 @@ public class ItemAccountObject implements Serializable {
 	
 	@Column(name="account_id")
 	private String accountId;
+	
+	/**
+	 * Default generated
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public int getId() {
 		return id;

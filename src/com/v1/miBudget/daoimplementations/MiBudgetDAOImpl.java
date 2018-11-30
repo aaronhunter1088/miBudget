@@ -162,7 +162,7 @@ public class MiBudgetDAOImpl {
 									 passwordsFromDB.get(i).toString(),
 									 emailsFromDB.get(i).toString(),
 									 accountIds );
-				System.out.println("user: " + user.toJsonArray());
+				System.out.println("user: " + user.toString());
 				users.add(user);
 			}
 			

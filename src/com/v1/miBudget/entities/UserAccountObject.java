@@ -32,11 +32,6 @@ public class UserAccountObject implements Serializable {
 		this.subType = subtype;
 	}
 	
-	/**
-	 * Default generated
-	 */
-	private static final long serialVersionUID = 1L;
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id")
@@ -78,8 +73,11 @@ public class UserAccountObject implements Serializable {
 	@Column(name="subtype")
 	private String subType;
 	
+	/**
+	 * Default generated
+	 */
+	private static final long serialVersionUID = 1L;
 	
-
 	/**
 	 * @return the user_id
 	 */

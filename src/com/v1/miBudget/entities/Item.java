@@ -15,16 +15,16 @@ import javax.persistence.Column;
 @Entity
 @Table(name="items")
 public class Item implements Serializable {
-	
+
 	public Item() {}
 	
-	public Item(String itemID, String accessToken, String institutionId) {
-		if (StringUtils.isNotEmpty(accessToken) && StringUtils.isNotEmpty(itemID)) {
-			this.institutionId = institutionId;
+	public Item(String itemId, String accessToken, String institutionId) {
+		if (StringUtils.isNotEmpty(accessToken) && StringUtils.isNotEmpty(itemId) && StringUtils.isNotEmpty(institutionId)) {
+			this.itemId = itemId;
 			this.accessToken = accessToken;
-			this.itemId = itemID;
+			this.institutionId = institutionId;
 		} else {
-			throw new NullPointerException("item_id: " + itemID + "\naccess_token: " + accessToken);
+			throw new NullPointerException("itemId: " + itemId + "\naccessToken: " + accessToken + "\ninstituionId: " + institutionId);
 			// Fail here
 		}
 		
@@ -36,8 +36,6 @@ public class Item implements Serializable {
 		this.itemId = itemId;
 		this.accessToken = accessToken;
 	}
-	
-	private static final long serialVersionUID = -8735910955797101041L;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -81,24 +79,25 @@ public class Item implements Serializable {
 		return accessToken;
 	}
 
-	public void setAccessToken(String access_Tken) {
+	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
 	}
 
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
+	@Override
+	public String toString() {
+		return "Item [itemTableId=" + itemTableId + ", institutionId=" + institutionId + ", itemId=" + itemId
+				+ ", accessToken=" + accessToken + "]";
+	}
 	
 }
 
 /**
- * Example
- * {
-  "access_token": "access-sandbox-de3ce8ef-33f8-452c-a685-8671031fc0f6",
-  "item_id": "M5eVJqLnv3tbzdngLDp9FL5OlDNxlNhlE55op"
-}
-
-We are leaving out request_id because this is a session related object, not necessarily 
-related to the Item we just created, just when the Item was created. Therefore, it is 
-left out of the creation of this Item.
- * 
+ * We are leaving out request_id because this is a session related object, not necessarily 
+ * related to the Item we just created, just when the Item was created. Therefore, it is 
+ * left out of the creation of this Item.
  */
