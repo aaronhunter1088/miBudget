@@ -1,3 +1,4 @@
+com/v1/miBudget/entities/UsersItemsObject_.class
 com/plaid/client/response/IdentityGetResponse$PhoneNumber.class
 com/plaid/client/response/IdentityGetResponse$Address.class
 com/v1/miBudget/entities/User.class
@@ -15,6 +16,7 @@ com/plaid/client/response/IdentityGetResponse$Identity.class
 com/plaid/client/request/AccountsBalanceGetRequest$Options.class
 com/plaid/client/request/ItemMfaRequest$Options.class
 com/plaid/client/PlaidClient$Builder.class
+com/v1/miBudget/entities/Account_.class
 com/v1/miBudget/servlets/CheckInstitutionIds.class
 com/plaid/client/internal/gson/CredentialInjectingTypeAdapterFactory.class
 com/v1/miBudget/servlets/MiBudget.class
@@ -60,11 +62,14 @@ com/plaid/client/request/TransactionsGetRequest$BaseOptions.class
 com/v1/miBudget/servlets/Test.class
 com/v1/miBudget/servlets/Profile.class
 com/plaid/client/internal/gson/RequiredField.class
+com/v1/miBudget/entities/UserAccountObject_.class
 com/plaid/client/response/IdentityGetResponse$AddressData.class
 com/plaid/client/PlaidHeaders.class
 com/plaid/client/internal/gson/Optional.class
+com/v1/miBudget/entities/User_.class
 com/plaid/client/internal/gson/BaseOptionsSerializer.class
 com/plaid/client/request/ItemCredentialsUpdateRequest$Options.class
+com/v1/miBudget/entities/Item_.class
 com/plaid/client/internal/gson/OptionalTypeAdapterFactory.class
 com/plaid/client/response/CreditDetailsGetResponse$CreditDetail.class
 com/plaid/client/request/ItemCreateRequest$Options.class
@@ -88,6 +93,7 @@ com/plaid/client/request/common/MfaType.class
 com/plaid/client/response/SandboxPublicTokenCreateResponse.class
 com/plaid/client/request/InstitutionsGetRequest.class
 com/plaid/client/response/ItemGetResponse.class
+com/v1/miBudget/entities/ItemAccountObject_.class
 com/plaid/client/internal/gson/DateOnlyTypeAdapterFactory$1.class
 com/plaid/client/response/IdentityGetResponse.class
 com/plaid/client/response/InstitutionsSearchResponse.class
@@ -103,6 +109,7 @@ com/v1/miBudget/daoimplementations/ItemDAOImpl.class
 com/plaid/request/common/BaseClientRequest.class
 com/plaid/client/request/TransactionsGetRequest$Options.class
 com/plaid/client/request/ItemStripeTokenCreateRequest.class
+com/v1/miBudget/entities/UsersInstitutionIdsObject_.class
 com/plaid/client/request/ItemPublicTokenExchangeRequest.class
 com/v1/miBudget/entities/UsersItemsObject.class
 com/v1/miBudget/daoimplementations/AccountDAOImpl.class
