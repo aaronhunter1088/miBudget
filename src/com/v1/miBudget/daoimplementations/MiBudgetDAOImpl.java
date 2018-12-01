@@ -16,8 +16,6 @@ import com.v1.miBudget.utilities.HibernateUtilities;
 
 public class MiBudgetDAOImpl {
 	
-	private SessionFactory factory = HibernateUtilities.getSessionFactory();
-	
 	private AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
 	
 	public MiBudgetDAOImpl() {
@@ -25,12 +23,14 @@ public class MiBudgetDAOImpl {
     
     // get the users institutuion ids from users_institution_ids table
     public List<String> getAllInstitutionIdsFromUser(User user) {
-    	// TODO Auto-generated method stub
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
 		List<String> institutionIds = new ArrayList<>();
 		try {
 			System.out.println("\nAttempting to execute getAllInstitutionIds query...");
-			Session session = this.factory.openSession();
-			Transaction t;
+			factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> institutionIdsFromDB = session
 					   .createNativeQuery("SELECT institution_id FROM users_institution_ids " + 
@@ -49,18 +49,21 @@ public class MiBudgetDAOImpl {
 		} catch (Exception e) {
 			System.out.println("Error connecting to DB");
 			System.out.println(e.getMessage());
-			return null;
-			
-		} finally {
-		}
+			t.rollback();
+			session.close();
+		} 
+		return null;
     }
 	
     // SQL Implementation
     public int addInstitutionIdToDatabase(String ins_id, User user) {
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
     	try {
 			System.out.println("\nAttempting to execute insert institution_id query...");
-			Session session = this.factory.openSession();
-			Transaction t;
+			factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
 			t = session.beginTransaction();
 			session.createNativeQuery("INSERT INTO users_institution_ids (institution_id, user_id) " +
 									  "VALUES ('" + ins_id + "', " + user.getId() + ")").executeUpdate(); // recall Strings need quotes around them. numbers don't
@@ -71,16 +74,20 @@ public class MiBudgetDAOImpl {
 		} catch (Exception e) {
 			System.out.println("Error connecting to DB");
 			System.out.println(e.getMessage());
-			return 0; // bad
-		} finally {
+			t.rollback();
+			session.close();
 		}
+		return 0; // bad
 	}
     
     // POJO Implementation
     public int addUserToDatabase(User user) {
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
     	try {
-    		Session session = this.factory.openSession();
-    		Transaction t;
+    		factory = HibernateUtilities.getSessionFactory();
+    		session = factory.openSession();
     		t = session.beginTransaction();
     		session.save(user);
     		t.commit();
@@ -89,17 +96,21 @@ public class MiBudgetDAOImpl {
 		} catch (Exception e) {
 			System.out.println("Error connecting to DB");
 			System.out.println(e.getMessage());
-			return 0; // bad
+			t.rollback();
+			session.close();
 		}
+		return 0; // bad
     }
     
 	public List<String> getAllCellphones() {
-		// TODO Auto-generated method stub
 		List<String> cellphones = new ArrayList<>();
+		SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
 		try {
 			System.out.println("\nAttempting to execute query...");
-			Session session = this.factory.openSession();
-			Transaction t;
+			factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> cellphonesFromDB = session
 					   .createNativeQuery("SELECT Cellphone FROM Users")
@@ -118,19 +129,21 @@ public class MiBudgetDAOImpl {
 		} catch (Exception e) {
 			System.out.println("Error connecting to DB");
 			System.out.println(e.getMessage());
-			
-		} finally {
+			t.rollback();
+			session.close();
 		}
 		return cellphones;
 	}
 
 	public List<User> getAllUsers() {
-		// TODO Auto-generated method stub
 		List<User> users = new ArrayList<>();
+		SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
 		try {
 			System.out.println("\nAttempting to execute getAllUsers query...");
-			Session session = this.factory.openSession();
-			Transaction t;
+			factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> idsFromDB = session
 					   				.createNativeQuery("SELECT id FROM users")
@@ -174,6 +187,8 @@ public class MiBudgetDAOImpl {
 			StackTraceElement[] ste = e.getStackTrace();
 			for (int i=0; i<ste.length; i++) { System.out.println(ste[i]); }
 			System.out.println("Returning null.");
+			t.rollback();
+			session.close();
 			return null;
 		} catch (Exception e) {
 			System.out.println("Error connecting to DB");
@@ -181,8 +196,9 @@ public class MiBudgetDAOImpl {
 			StackTraceElement[] ste = e.getStackTrace();
 			for (int i=0; i<ste.length; i++) { System.out.println(ste[i]); }
 			System.out.println("Returning null.");
+			t.rollback();
+			session.close();
 			return null;
-		} finally {
 		}
 		return users;
 	}
@@ -192,12 +208,14 @@ public class MiBudgetDAOImpl {
 	
 	
 	public int addItemToUsersItemsTable(int item_table_id, User user) {
-		
+		SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
 		try {
 			System.out.println("\nAttempting to execute addItemToUsersItemsTable query...");
-			Session session = this.factory.openSession();
+			factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
 			int user_id = user.getId();
-			Transaction t;
 			t = session.beginTransaction();
 			UsersItemsObject uiObj = new UsersItemsObject(item_table_id, user_id);
 //			session.createNativeQuery("INSERT INTO users_items ('item_id', 'user_id') " +
@@ -217,20 +235,21 @@ public class MiBudgetDAOImpl {
 		} catch (NullPointerException e) {
 			System.out.println("Error connecting to DB");
 			System.out.println(e.getMessage());
-			return 0;
-			
-		} finally {
+			t.rollback();
+			session.close();
 		}
+		return 0;
 	}
 	
 	public List<Item> getAllItemIds() {
 		List<Item> items = new ArrayList<>();
-		
-		// Excute the queries
+		SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
 		try {
 			System.out.println("\nAttempting to execute query...");
-			Session session = this.factory.openSession();
-			Transaction t;
+			factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> idsFromDB = session
 					   				.createNativeQuery("SELECT item_id FROM items")
@@ -257,18 +276,21 @@ public class MiBudgetDAOImpl {
 		} catch (Exception e) {
 			System.out.println("Error connecting to DB");
 			System.out.println(e.getMessage());
-			
-		} finally {
+			t.rollback();
+			session.close();
 		}
 		return null;
 	}
 
 	public List<String> getAllItemIdsFromUser(User user) {
 		List<String> itemIds = new ArrayList<>();
+		SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
 		try {
 			System.out.println("\nAttempting to execute query getAllItemsFromUser...");
-			Session session = this.factory.openSession();
-			Transaction t;
+			factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> item_idsFromDB = session
 					   .createNativeQuery("SELECT item_id FROM users_items " +
@@ -304,17 +326,20 @@ public class MiBudgetDAOImpl {
 			System.out.println(e);
 			System.out.println(e.getStackTrace());
 			System.out.println(e.getMessage());
-			
-		} finally {
+			t.rollback();
+			session.close();
 		}
 		return null;
 	}
 
 	public Item getItemFromDatabase(String institution_id) {
 		Item item = null;
+		SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
 		try {
-			Session session = factory.openSession();
-			Transaction t;
+			factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> itemTableId = session.createNativeQuery("SELECT item_table_id " +
 													   "FROM items " +
@@ -328,11 +353,13 @@ public class MiBudgetDAOImpl {
 			item = new Item(Integer.parseInt(itemTableId.get(0).toString()), itemId.get(0).toString(), 
 					accessToken.get(0).toString(), institution_id);
 			System.out.println("retrieving item: " + item.toString());
-			session.getTransaction().commit();
+			t.commit();
 			session.close();
 			return item;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			t.rollback();
+			session.close();
 		}
 		return item;
 	}

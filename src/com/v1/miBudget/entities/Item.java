@@ -18,6 +18,17 @@ public class Item implements Serializable {
 
 	public Item() {}
 	
+	public Item(String itemId, String accessToken) {
+		this.itemId = itemId;
+		this.accessToken = accessToken;
+	}
+	
+	public Item(int itemTableId, String itemId, String accessToken) {
+		this.itemTableId = itemTableId;
+		this.itemId = itemId;
+		this.accessToken = accessToken;
+	}
+	
 	public Item(String itemId, String accessToken, String institutionId) {
 		if (StringUtils.isNotEmpty(accessToken) && StringUtils.isNotEmpty(itemId) && StringUtils.isNotEmpty(institutionId)) {
 			this.itemId = itemId;

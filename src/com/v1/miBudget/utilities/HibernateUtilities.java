@@ -16,12 +16,29 @@ public class HibernateUtilities {
 	public static StandardServiceRegistry serviceRegistry = standardServiceRegistryBuilder.build();
 	private static boolean newSessionFactory = false;
 	
-	public static void shutdown() {
+	public static void destroyServiceRegistry() {
        if (serviceRegistry != null) {
           StandardServiceRegistryBuilder.destroy(serviceRegistry);
-          System.out.println("sessionFactory shutdown.");
+          System.out.println("serviceRegistry destroyed.");
        }
     }
+	
+	/**
+	 * HibernateUtilities.shutdown() does the following:
+	 * sessionFactory.close();
+	 * StandardServiceRegistryBuilder.destroy(serviceRegistry);
+	 * 
+	 */
+	public static void shutdown() {
+		if (sessionFactory.isOpen()) {
+			sessionFactory.close();
+			System.out.println("sessionFactory closed.");
+		}  
+		if (serviceRegistry != null) {
+			StandardServiceRegistryBuilder.destroy(serviceRegistry);
+			System.out.println("serviceRegistry destroyed.");
+		}
+	}
 	
 	public static SessionFactory getSessionFactory() {
 		try {

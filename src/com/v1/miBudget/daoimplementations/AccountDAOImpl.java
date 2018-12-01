@@ -17,29 +17,32 @@ import com.v1.miBudget.entities.UserAccountObject;
 import com.v1.miBudget.utilities.HibernateUtilities;
 
 public class AccountDAOImpl {
-private static SessionFactory factory = HibernateUtilities.getSessionFactory();
-	
+
 	public AccountDAOImpl() {
     }
- 
-    public AccountDAOImpl(SessionFactory factory) {
-    	AccountDAOImpl.factory = factory;
-    }
     
-    public List<String> getAccountIdsFromUser(Item item) {
-    	List<String> accountIds = new ArrayList<>();
+    @SuppressWarnings("unchecked")
+	public List<String> getAccountIdsFromUser(Item item) {
+    	ArrayList<String> accountIds = null;
+    	Session session = null;
+    	SessionFactory factory = null;
+    	Transaction t = null;
     	try {
     		System.out.println("\nAttempting to execute getAccountIdsFromUser...");
-    		Session session = factory.openSession();
-    		Transaction t;
+    		factory = HibernateUtilities.getSessionFactory();
+    		session = factory.openSession();
     		t = session.beginTransaction();
-    		List<?> accountIdsFromDB = session
-    				.createNativeQuery("SELECT account_id FROM accounts " +
-    								   "WHERE item_table_id = " + item.getItemTableId())
-    									.getResultList();
+    		accountIds = (ArrayList<String>) session
+    				            .createNativeQuery("SELECT account_id FROM accounts " +
+    								               "WHERE item_table_id = " + item.getItemTableId())
+    											   .getResultList();
+    		t.commit();
+    		session.close();
     	} catch (Exception e) {
-			System.out.println("Error connecting to DB");
+			System.out.println("Error executing getAccountIdsFromUser...");
 			System.out.println(e.getMessage());
+			t.rollback();
+			session.close();
 		}
     	return accountIds;
     }
@@ -52,10 +55,13 @@ private static SessionFactory factory = HibernateUtilities.getSessionFactory();
      */
     public List<String> getAccountIdsFromUser(int userId) {
     	List<String> userAccounts = new ArrayList<>();
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
 		try {
 			System.out.println("\nAttempting to execute getAccountIdsFromUser query...");
-			Session session = factory.openSession();
-			Transaction t;
+			factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> userAccountsFromDB = session
 					   .createNativeQuery("SELECT account_id FROM users_accounts " +
@@ -80,17 +86,21 @@ private static SessionFactory factory = HibernateUtilities.getSessionFactory();
 		} catch (Exception e) {
 			System.out.println("Error connecting to DB");
 			System.out.println(e.getMessage());
-			
+			t.rollback();
+			session.close();
 		} 
 		return userAccounts;
     }
     
     public List<String> getAccountIdsFromUser(User user) {
     	List<String> userAccounts = new ArrayList<>();
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
 		try {
 			System.out.println("\nAttempting to execute getAccountIdsFromUser query...");
-			Session session = factory.openSession();
-			Transaction t;
+			factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> userAccountsFromDB = session
 					   .createNativeQuery("SELECT account_id FROM users_accounts " +
@@ -115,17 +125,19 @@ private static SessionFactory factory = HibernateUtilities.getSessionFactory();
 		} catch (Exception e) {
 			System.out.println("Error connecting to DB");
 			System.out.println(e.getMessage());
-			
+			session.close();
 		} 
 		return userAccounts;
     }
 
     public int addAccountObjectToAccountsTableDatabase(com.v1.miBudget.entities.Account account) {
-    	
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
     	try {
 			System.out.println("\nAttempting to execute insert account query...");
-			Session session = factory.openSession();
-			Transaction t;
+			factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
 			t = session.beginTransaction();
 			
 //			com.v1.miBudget.entities.Account myAccount = new com.v1.miBudget.entities.Account(
@@ -151,17 +163,20 @@ private static SessionFactory factory = HibernateUtilities.getSessionFactory();
 			System.out.println("Error connecting to Database");
 			System.out.println(e.getMessage());
 			e.printStackTrace(System.out);
-			
+			t.rollback();
+			session.close();
 		} 
     	return 0; // bad
     }
     
     public int addAccountObjectToUsers_AccountsTable(com.v1.miBudget.entities.Account account, User user) {
-    	
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
     	try {
     		System.out.println("\nAttempting to execute addAccountToUsers_Table query...");
-			Session session = factory.openSession();
-			Transaction t;
+    		factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
 			t = session.beginTransaction();
 			
 			
@@ -189,6 +204,8 @@ private static SessionFactory factory = HibernateUtilities.getSessionFactory();
 			return 1; // good
     	} catch (Exception e) {
     		e.printStackTrace(System.out);
+    		t.rollback();
+    		session.close();
     	}
     	return 0; // bad
     }
@@ -199,30 +216,65 @@ private static SessionFactory factory = HibernateUtilities.getSessionFactory();
      * @param account_ids
      * @return
      */
-    public List<Account> getAllAccounts(User user, List<String> account_ids) {
-    	List<Account> accounts = new ArrayList<>();
-    	
-    	Iterator<String> iter = account_ids.iterator();
-    	while (iter.hasNext()) {
-    		try {
-        		System.out.println("\nAttempting to execute getAllAccounts query...");
-    			Session session = factory.openSession();
-    			Transaction t;
-    			t = session.beginTransaction();
-    			accounts = session
-    					   .createNativeQuery("SELECT * FROM accounts " +
-    							   			  "WHERE account_id = '" + iter.next() + "'").getResultList();
-    			System.out.println("Query executed!");
-    			t.commit();
-    			session.close();
-        	} catch (Exception e) {
-        		System.out.println("Error connecting to DB");
-    			System.out.println(e.getMessage());
-        	}
+    @SuppressWarnings("unchecked")
+	public List<Account> getAllAccounts(ArrayList<String> accountIds) {
+    	SessionFactory factory = HibernateUtilities.getSessionFactory();
+    	Session session = null;
+		Transaction t = null;
+    	try {
+    		session = factory.openSession();
+    	} catch (HibernateException e) {
+    		System.out.println("Error connecting to DB");
+			System.out.println(e.getMessage());
     	}
     	
+    	Iterator<String> iter = accountIds.iterator();
+    	StringBuilder str = new StringBuilder();
+    	str.append("'" + iter.next() + "'");
+    	while (iter.hasNext()) {
+    		str.append(", '" + iter.next() + "'");
+    	}
+    	System.out.println("strBuilder: " + str);
+    	List<Account> accountsResult = null;
     	
-    	return accounts;
+		try {
+    		System.out.println("\nAttempting to execute getAllAccounts from user query...");
+			t = session.beginTransaction();
+			accountsResult = (List<Account>) session
+					.createNativeQuery("SELECT * FROM accounts " +
+									   "WHERE account_id " +
+									   "IN (" +  str + ")")
+					.addEntity(Account.class).getResultList();
+			t.commit();
+			session.close();
+			System.out.println("Query executed!");
+		} catch (HibernateException e) {
+    		System.out.println("Error during retrieval of next account or adding account to accounts list.");
+			System.out.println(e.getMessage());
+			System.out.println(e.getCause());
+			t.rollback();
+			session.close();
+    	} 
+		ArrayList<Account> accounts = new ArrayList<>();
+		for (int i = 0; i < accountsResult.size(); i++) {
+			//System.out.println("acc: " + accountsResult.get(i));
+			accounts.add(accountsResult.get(i));
+		}
+		
+		return accounts;
+		
+		/**
+		 * Hibernate: 
+			    SELECT
+			        * 
+			    FROM
+			        accounts 
+			    WHERE
+			        account_id = 'D7zZvPBJn9uyk5WA3gr1CWgLJJRaDbfvwQ8rB'
+			account received: [[Ljava.lang.Object;@4fba8eec]
+			
+		 * Solution: See above implementation
+		 */
     }
     
     /**
@@ -232,10 +284,13 @@ private static SessionFactory factory = HibernateUtilities.getSessionFactory();
      */
     public List<String> getAllAccountsIds(User user) {
     	List<String> accountIds = new ArrayList<>();
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
     	try {
     		System.out.println("\nAttempting to execute getAllAccountIds query...");
-			Session session = factory.openSession();
-			Transaction t;
+    		factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> userAccountsFromDB = session
 					   .createNativeQuery("SELECT account_id FROM users_accounts " +
@@ -247,45 +302,24 @@ private static SessionFactory factory = HibernateUtilities.getSessionFactory();
 			
 			for (Object id : userAccountsFromDB) {
 				accountIds.add((String) id);
-			}
-			
-//			if (userAccountsFromDB.size() > 0) {
-//				for (Object o : userAccountsFromDB) {
-//					com.v1.miBudget.entities.Account newAccount = new com.v1.miBudget.entities.Account();
-//					com.v1.miBudget.entities.Account acct = (com.v1.miBudget.entities.Account) o;
-//					newAccount.setAccountId(acct.getAccountId());
-//					newAccount.setItemTableId(acct.getItemTableId());
-//					newAccount.setAvailableBalance(acct.getAvailableBalance());
-//					newAccount.setCurrentBalance(acct.getCurrentBalance());
-//					newAccount.setLimit(acct.getLimit());
-//					newAccount.setCurrencyCode(acct.getCurrencyCode());
-//					newAccount.setNameOfAccount(acct.getNameOfAccount());
-//					newAccount.setOfficialName(acct.getOfficialName());
-//					newAccount.setType(acct.getType());
-//					newAccount.setSubType(acct.getSubType());
-//					accounts.add(newAccount);
-//				}
-//				System.out.println("returning all accounts for " + user.getFirstName());
-//				return accounts;
-//				
-//			} else {
-//				System.out.println("No accounts for user " + user.getFirstName());
-//				return accounts;
-//			}
-			
-			
+			}	
     	} catch (Exception e) {
     		System.out.println("Error connecting to DB");
 			System.out.println(e.getMessage());
+			t.rollback();
+			session.close();
     	}
     	return accountIds;
     }
     
     public int addAccountIdToItems_AccountsTable(int itemTableId, String accountId) {
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
     	try {
 			System.out.println("\nAttempting to execute insert accountId to Items_Accounts query...");
-			Session session = factory.openSession();
-			Transaction t;
+			factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
 			t = session.beginTransaction();
 			
 			ItemAccountObject obj = new ItemAccountObject(itemTableId, accountId);
@@ -299,7 +333,8 @@ private static SessionFactory factory = HibernateUtilities.getSessionFactory();
 			System.out.println("Error connecting to Database");
 			System.out.println(e.getMessage());
 			e.printStackTrace(System.out);
-			
+			t.rollback();
+			session.close();
 		} 
     	return 0; // bad
     }
@@ -312,16 +347,29 @@ private static SessionFactory factory = HibernateUtilities.getSessionFactory();
      * @return
      */
     public int deleteAccountFromDatabase(Account account) {
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
     	try {
     		System.out.println("\nAttempting to execute delete account query...");
+    		factory = HibernateUtilities.getSessionFactory();
+    		session = factory.openSession();
+    		t = session.beginTransaction();
+    		// TODO: Implement
+    		// t.commit();
+    		session.close();
     		return 1;
     	} catch (HibernateException e) {
     		System.out.println("Error performing hibernate action.");
     		System.out.println(e.getMessage());
+    		t.rollback();
+    		session.close();
     		return 0;
     	} catch (Exception e) {
     		System.out.println("Error connecting to DB");
 			System.out.println(e.getMessage());
+			t.rollback();
+			session.close();
 			return 0; // bad
     	}
     }
@@ -331,29 +379,44 @@ private static SessionFactory factory = HibernateUtilities.getSessionFactory();
      * table from a given Item.
      */
     public int deleteAccountsFromDatabase(ArrayList<Account> accounts) {
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
     	try {
     		System.out.println("\nAttempting to execute delete accounts query...");
-    		Session session = factory.openSession();
-    		Transaction t;
-    		t = session.beginTransaction();
-    		StringBuilder allAccountIdsString = new StringBuilder();
-    		allAccountIdsString.append("'");
-    		accounts.forEach(acct -> {
-    			allAccountIdsString.append(acct.getAccountId() + "', ");
-    		});
-    		allAccountIdsString.deleteCharAt(allAccountIdsString.length()-1); // removes last space
-    		allAccountIdsString.deleteCharAt(allAccountIdsString.length()-1); // removes last comma
-    		session.createQuery("DELETE FROM account " + 
-    							"WHERE account_id IN " + allAccountIdsString + "");
+    		factory = HibernateUtilities.getSessionFactory();
+    		session = factory.openSession();
+    		
+//    		StringBuilder allAccountIdsString = new StringBuilder();
+//    		allAccountIdsString.append("'");
+//    		accounts.forEach(acct -> {
+//    			allAccountIdsString.append(acct.getAccountId() + "', ");
+//    		});
+//    		allAccountIdsString.deleteCharAt(allAccountIdsString.length()-1); // removes last space
+//    		allAccountIdsString.deleteCharAt(allAccountIdsString.length()-1); // removes last comma
+//    		session.createQuery("DELETE FROM account " + 
+//    							"WHERE account_id IN " + allAccountIdsString + "");
+    		for(int i = 0; i < accounts.size(); i++) {
+    			String delAcct = accounts.get(i).getNameOfAccount();
+    			t = session.beginTransaction();
+    			session.delete(accounts.get(i));
+    			t.commit();
+    			System.out.println(delAcct + " was deleted!");
+    		}
+    		session.close();
     		return 1;
     	} catch (HibernateException e) {
     		System.out.println("Error performing hibernate action.");
     		System.out.println(e.getMessage());
+    		t.rollback();
+    		session.close();
     		return 0;
     	} catch (Exception e) {
     		System.out.println("Error connecting to DB");
 			System.out.println(e.getMessage());
+			t.rollback();
+			session.close();
 			return 0; // bad
-    	}
+    	} 
     }
 }

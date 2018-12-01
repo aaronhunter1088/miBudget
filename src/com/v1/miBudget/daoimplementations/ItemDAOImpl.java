@@ -3,22 +3,16 @@ package com.v1.miBudget.daoimplementations;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.persistence.Query;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
-
 import com.v1.miBudget.entities.Item;
 import com.v1.miBudget.entities.User;
-import com.v1.miBudget.entities.UsersItemsObject;
 import com.v1.miBudget.utilities.HibernateUtilities;
 
 public class ItemDAOImpl {
-	private SessionFactory factory = HibernateUtilities.getSessionFactory();
+	
 	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
 	
 	public ItemDAOImpl() {
@@ -26,10 +20,13 @@ public class ItemDAOImpl {
     
     public List<Item> getAllItems() {
     	List<Item> itemsList = new ArrayList<>();
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
     	try {
 			System.out.println("\nAttempting to execute getAllItems query...");
-			Session session = factory.openSession();
-			Transaction t;
+			factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> itemTableIds = session
 					   .createNativeQuery("SELECT item_table_id FROM items").getResultList();
@@ -39,6 +36,7 @@ public class ItemDAOImpl {
 					   .createNativeQuery("SELECT item_id FROM items").getResultList();
 			List<?> accessTokens = session
 					   .createNativeQuery("SELECT access_token FROM items").getResultList();
+			t.commit();
 			System.out.println("4 Querys executed!");
 			//t.commit();
 			session.close();
@@ -62,35 +60,46 @@ public class ItemDAOImpl {
 		} catch (Exception e) {
 			System.out.println("One of the queries has failed.");
 			e.printStackTrace(System.out);
-			
+			t.rollback();
+			session.close();
 		} 
 		return itemsList;
     }
     
     public int getItemTableIdForItemId(String item_id) {
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
     	try {
     		System.out.println("\nAttempting to execute getItemTableIdForItemId query...");
-    		Session session = factory.openSession();
-    		Transaction t;
+    		factory = HibernateUtilities.getSessionFactory();
+    		session = factory.openSession();
     		t = session.beginTransaction();
     		List<?> singleItemIdList = session
     				.createNativeQuery("SELECT item_table_id FROM items " +
     								   "WHERE item_id = '" + item_id + "'") // integer doesn't need quotes. string values do!
     				.getResultList();
     		System.out.println("singleItemIdList: " + singleItemIdList.get(0));
+    		t.commit();
+    		session.close();
     		return (Integer) singleItemIdList.get(0);
     	} catch (Exception e) {
     		e.printStackTrace(System.out);
+    		t.rollback();
+    		session.close();
     	}
     	return 0;
     }
     
     public List<String> getAllItemIds() {
     	List<String> itemIdsList = new ArrayList<>();
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
     	try {
 			System.out.println("\nAttempting to execute getAllItemTableIds query...");
-			Session session = factory.openSession();
-			Transaction t;
+			factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> itemIds = session
 					   .createNativeQuery("SELECT item_id FROM items").getResultList();
@@ -113,17 +122,21 @@ public class ItemDAOImpl {
 		} catch (Exception e) {
 			System.out.println("Error connecting to DB");
 			System.out.println(e.getMessage());
-			
+			t.rollback();
+			session.close();
 		} 
 		return itemIdsList;
     }
     
     public List<Integer> getAllItemTableIds() {
     	List<Integer> itemTableIdsList = new ArrayList<>();
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
 		try {
 			System.out.println("\nAttempting to execute getAllItemTableIds query...");
-			Session session = factory.openSession();
-			Transaction t;
+			factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> tableIds = session
 					   .createNativeQuery("SELECT id FROM items").getResultList();
@@ -146,16 +159,20 @@ public class ItemDAOImpl {
 		} catch (Exception e) {
 			System.out.println("Error connecting to DB");
 			System.out.println(e.getMessage());
-			
+			t.rollback();
+			session.close();
 		} 
 		return itemTableIdsList;
     }
     
     public int addItemToDatabase(Item item) {
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
 		try {
 			System.out.println("\nAttempting to execute insert item query...");
-			Session session = factory.openSession();
-			Transaction t;
+			factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
 			t = session.beginTransaction();
 //			session.createNativeQuery("INSERT INTO items ('item_id', 'access_token') " +
 //									  "VALUES (" + item.getItemId() + "), (" + item.getAccessToken() + ")");
@@ -167,18 +184,21 @@ public class ItemDAOImpl {
 		} catch (Exception e) {
 			System.out.println("Error connecting to DB");
 			System.out.println(e.getMessage());
-			return 0; // bad
-		} finally {
-		}
-		
+			t.rollback();
+			session.close();
+		} 
+		return 0; // bad
 	}
     
     public int deleteBankReferencesFromDatabase(Item item, User user) {
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
     	try {
     		System.out.println("\nAttempting to execute deleteBankReferencesFromDatabase");
-    		
-    		Session session = factory.openSession();
-    		session.beginTransaction();
+    		factory = HibernateUtilities.getSessionFactory();
+    		session = factory.openSession();
+    		t = session.beginTransaction();
     		// Users_institutions_ids table
     		// delete from users_institution_ids where user_id = 20 and institution_id = 'ins_3';
     		session.createQuery("DELETE FROM UsersInstitutionIdsObject " +
@@ -187,8 +207,8 @@ public class ItemDAOImpl {
     		//query.setParameter("institution_id", item.getInsitutionId());
     		//int executeResult = query.executeUpdate();
     		System.out.println("... reference(s) deleted from users_institution_ids table...");
-    		session.getTransaction().commit();
-    		session.beginTransaction();
+    		t.commit();
+    		t = session.beginTransaction();
     		// Users_accounts table
     		// delete from users_accounts where user_id = 20 and institution_id = 'ins_3';
     		session.createQuery("DELETE FROM UserAccountObject " +
@@ -196,8 +216,8 @@ public class ItemDAOImpl {
     							"AND item_table_id = " + item.getItemTableId()).executeUpdate();
     		
     		System.out.println("... reference(s) deleted from users_accounts table...");
-    		session.getTransaction().commit();
-    		session.beginTransaction();
+    		t.commit();
+    		t = session.beginTransaction();
     		// Users_items table
     		// delete from users_items where item_table_id = 963;
     		session.createQuery("DELETE FROM UsersItemsObject " + 
@@ -205,14 +225,14 @@ public class ItemDAOImpl {
     		System.out.println("... reference(s) deleted from users_items table...");
 //    		UsersItemsObject usersItemsObj = new UsersItemsObject(item.getItemTableId(), user.getId());
 //    		session.delete(usersItemsObj);
-    		session.getTransaction().commit();
-    		session.beginTransaction();
+    		t.commit();
+    		t = session.beginTransaction();
     		// Items_accounts table
     		// delete from items_accounts where item_table_id = 963;
     		session.createQuery("DELETE FROM ItemAccountObject " + 
     							"WHERE item_table_id = " + item.getItemTableId()).executeUpdate();
     		System.out.println("... reference(s) deleted from items_accounts table...");
-    		session.getTransaction().commit();
+    		t.commit();
     		session.close();
     		System.out.println("4 delete queries executed.");
     		return 1;
@@ -222,10 +242,14 @@ public class ItemDAOImpl {
     		System.out.println(e.getMessage());
     		StackTraceElement[] err = e.getStackTrace();
     		for(int i=0; i<err.length; i++) { System.out.println(err[i]); }
+    		t.rollback();
+    		session.close();
     		return 0;
     	} catch (Exception e) {
     		System.out.println("Error connecting to DB");
 			System.out.println(e.getMessage());
+			t.rollback();
+			session.close();
 			return 0; // bad
     	}
     }
@@ -237,25 +261,30 @@ public class ItemDAOImpl {
      * @return
      */
     public int deleteItemFromDatabase(Item item) {
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
     	try {
     		System.out.println("\nAttempting to execute delete item query...");
-    		Session session = factory.openSession();
-    		Transaction t;
+    		factory = HibernateUtilities.getSessionFactory();
+    		session = factory.openSession();
     		t = session.beginTransaction();
-    		Item itemFromSession = miBudgetDAOImpl.getItemFromDatabase(item.getInsitutionId());
-    		System.out.println("itemFromSession: " + itemFromSession.toString());
-    		System.out.println("itemPassedIn: " + item.toString());
-    		session.delete(itemFromSession);
+    		session.delete(item);
+    		System.out.println("item was deleted: " + item);
     		session.getTransaction().commit();
-    		
+    		session.close();
     		return 1;
     	} catch (HibernateException e) {
     		System.out.println("Error performing hibernate action.");
     		System.out.println(e.getMessage());
+    		t.rollback();
+    		session.close();
     		return 0;
     	} catch (Exception e) {
     		System.out.println("Error connecting to DB");
 			System.out.println(e.getMessage());
+			t.rollback();
+			session.close();
 			return 0; // bad
     	}
     }

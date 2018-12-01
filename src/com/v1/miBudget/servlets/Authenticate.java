@@ -433,7 +433,7 @@ public class Authenticate extends HttpServlet {
 		  
 		  // Add accountsList to requestSession
 		  ArrayList<String> listOfAccountIds = (ArrayList<String>) accountDAOImpl.getAccountIdsFromUser(user);
-		  ArrayList<com.v1.miBudget.entities.Account> listOfAccounts = (ArrayList<com.v1.miBudget.entities.Account>) accountDAOImpl.getAllAccounts(user, listOfAccountIds);
+		  ArrayList<com.v1.miBudget.entities.Account> listOfAccounts = (ArrayList<com.v1.miBudget.entities.Account>) accountDAOImpl.getAllAccounts(listOfAccountIds);
 		  listOfAccounts.forEach(account -> {
 			  System.out.println(account);
 			  //request.getSession(false).setAttribute("Name", account.getNameOfAccount());

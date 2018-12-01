@@ -59,7 +59,7 @@ public class Delete extends HttpServlet {
 			return "FAIL: did not delete bank references from the database.";
 		}
 		ArrayList<String> accountIdsList = (ArrayList<String>)accountDAOImpl.getAccountIdsFromUser(item);
-		ArrayList<Account> accounts = (ArrayList<Account>) accountDAOImpl.getAllAccounts(user, accountIdsList);
+		ArrayList<Account> accounts = (ArrayList<Account>) accountDAOImpl.getAllAccounts(accountIdsList);
 		verify = accountDAOImpl.deleteAccountsFromDatabase(accounts);
 		if (verify == 0) {
 			return "FAIL: did not delete the accounts from the accounts table.";

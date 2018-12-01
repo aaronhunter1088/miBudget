@@ -16,7 +16,7 @@
 	    <groupId>net.bytebuddy</groupId>
 	    <artifactId>byte-buddy</artifactId>
 	    <version>1.9.5</version>
-	</dependency>
+	</dependency> 
 	<!-- https://mvnrepository.com/artifact/com.fasterxml/classmate -->
 	<dependency>
 	    <groupId>com.fasterxml</groupId>
@@ -24,11 +24,11 @@
 	    <version>1.4.0</version>
 	</dependency>
 	<!-- https://mvnrepository.com/artifact/org.dom4j/dom4j -->
-	<dependency>
+	<!-- <dependency>
 	    <groupId>org.dom4j</groupId>
 	    <artifactId>dom4j</artifactId>
 	    <version>2.1.1</version>
-	</dependency>
+	</dependency> -->
 	<!-- https://mvnrepository.com/artifact/org.geolatte/geolatte-geom -->
 	<dependency>
 	    <groupId>org.geolatte</groupId>
@@ -92,11 +92,11 @@
 	    <scope>provided</scope>
 	</dependency>
 	<!-- https://mvnrepository.com/artifact/org.jboss.logging/jboss-logging -->
-	<dependency>
+	<!-- <dependency>
 	    <groupId>org.jboss.logging</groupId>
 	    <artifactId>jboss-logging</artifactId>
 	    <version>3.3.2.Final</version>
-	</dependency>
+	</dependency> -->
 	<!-- https://mvnrepository.com/artifact/org.jboss/jandex -->
 	<dependency>
 	    <groupId>org.jboss</groupId>
@@ -179,132 +179,159 @@
 	    <scope>test</scope>
 	</dependency>
 	
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-annotations-api</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-catalina-ant</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-catalina-ha</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-storeconfig</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-tribes</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-catalina</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jdt</groupId>
-      <artifactId>ecj</artifactId>
-      <version>3.12.3</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-el-api</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-jasper-el</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-jasper</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-jaspic-api</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-jsp-api</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-servlet-api</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-api</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-coyote</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-dbcp</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-i18n-es</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-i18n-fr</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-i18n-ja</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-jdbc</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-jni</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-util-scan</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-util</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-websocket</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-websocket-api</artifactId>
-      <version>8.5.30</version>
-    </dependency>
-    
+    <!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-annotations-api -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-annotations-api</artifactId>
+	    <version>9.0.13</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-catalina-ant -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-catalina-ant</artifactId>
+	    <version>9.0.13</version>
+	    <scope>runtime</scope>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-catalina-ha -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-catalina-ha</artifactId>
+	    <version>9.0.13</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-tribes -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-tribes</artifactId>
+	    <version>9.0.13</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-catalina -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-catalina</artifactId>
+	    <version>9.0.13</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.eclipse.jdt/ecj -->
+	<dependency>
+	    <groupId>org.eclipse.jdt</groupId>
+	    <artifactId>ecj</artifactId>
+	    <version>3.15.1</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-el-api -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-el-api</artifactId>
+	    <version>9.0.13</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jasper-el -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-jasper-el</artifactId>
+	    <version>9.0.13</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jasper -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-jasper</artifactId>
+	    <version>9.0.13</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jaspic-api -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-jaspic-api</artifactId>
+	    <version>9.0.13</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jsp-api -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-jsp-api</artifactId>
+	    <version>9.0.13</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-servlet-api -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-servlet-api</artifactId>
+	    <version>9.0.13</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-api -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-api</artifactId>
+	    <version>9.0.13</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-coyote -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-coyote</artifactId>
+	    <version>9.0.13</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-dbcp -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-dbcp</artifactId>
+	    <version>9.0.13</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-i18n-es -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-i18n-es</artifactId>
+	    <version>9.0.13</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-i18n-fr -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-i18n-fr</artifactId>
+	    <version>9.0.13</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-i18n-ja -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-i18n-ja</artifactId>
+	    <version>9.0.13</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jdbc -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-jdbc</artifactId>
+	    <version>9.0.13</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jni -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-jni</artifactId>
+	    <version>9.0.13</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-util-scan -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-util-scan</artifactId>
+	    <version>9.0.13</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-util -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-util</artifactId>
+	    <version>9.0.13</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-websocket -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-websocket</artifactId>
+	    <version>9.0.13</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-websocket-api -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-websocket-api</artifactId>
+	    <version>9.0.13</version>
+	</dependency>
+<!-- https://mvnrepository.com/artifact/com.sun.xml.fastinfoset/FastInfoset -->
+<dependency>
+    <groupId>com.sun.xml.fastinfoset</groupId>
+    <artifactId>FastInfoset</artifactId>
+    <version>1.2.15</version>
+</dependency>
+
+	
   </dependencies>
   <build>
     <sourceDirectory>src</sourceDirectory>
