@@ -205,8 +205,6 @@ public class MiBudgetDAOImpl {
 
 	// Logic for Items we create
 	
-	
-	
 	public int addItemToUsersItemsTable(int item_table_id, User user) {
 		SessionFactory factory = null;
     	Session session = null;

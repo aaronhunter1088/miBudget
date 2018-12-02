@@ -43,7 +43,7 @@ public class CheckInstitutionIds extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		System.out.println("Inside CheckInstitutionIds doPost");
+		System.out.println("\nInside CheckInstitutionIds doPost");
 		boolean exit = checkInstitutionIds(request, (User)request.getSession(false).getAttribute("User") );
 		if (exit) {
 			System.out.println("Finished with CheckInstitutionIds doPost");

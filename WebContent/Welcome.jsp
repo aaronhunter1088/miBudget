@@ -18,7 +18,7 @@
 User user = (User)session.getAttribute("user");
 if (!user.getFirstName().equals(null)) {
 %>
-<h1>Welcome, <%= user.getFirstName() %> <%= user.getLastName() %> : ${accountsSize}</h1>
+<h1>Welcome, <%= user.getFirstName() %> <%= user.getLastName() %> : <%= user.getAccountIds().size() %></h1>
 <% } %>
 <hr />
 <!-- <input class="button" type="button" onclick="window.location.replace('Profile.jsp')" value="Profile" /> -->

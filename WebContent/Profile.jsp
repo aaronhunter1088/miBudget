@@ -46,8 +46,97 @@
 		<button id="link-button">Link Account</button>
 		<hr/>
 		<button id="testButton" onclick="updateAccountsTable()">Update Table</button>
+		<hr/>
+		<p id="changingText"><b>${change}</b></p>
+		<br/>
+		<p>Items for '${Firstname}' '${Lastname}' </p>
+		<br/>
+		<p id="institutions">Banks : ${institutionIdsListSize}
+		<p id="accounts">Accounts : ${accountsSize}</p>
+		<!-- Create a table that lists all accounts -->
+		<!-- Each account should have an update button and a delete button -->
+		<!-- Update updates the Item -->
+		<!-- Delete deletes the Item -->
+		<div class="mainTable" id="accountsTable">
+			<table class="outerTable" id="outerTable">
+				<% 
+				Iterator institutionIdsIter = institutionsIdsList.iterator();
+				Iterator accountIdsIter = user.getAccountIds().iterator();
+				while (institutionIdsIter.hasNext()) {
+				String currentId = (String)institutionIdsIter.next();
+				String idCopy = currentId;
+				%> 
+				<!-- [Bank Logo | Update | Delete] --> 
+				<tr id="bank"> 
+					<td id="logo">
+					 	<%= currentId %> <!-- change to Logo --> 
+				 	</td> 
+				 	<!-- Whitespace -->
+				 	<td id="updatebtn">
+				 		<!-- Update button --> 
+				 		<button id="link-update-button" name="will_populate">Update Bank</button>
+				 	</td> 
+				 	<!-- Whitespace -->
+				 	<td id="deletebtn">
+				 	  <!-- Delete button -->
+				 	  <!-- Goes to Delete.java and performs doPost --> 
+				      <form id="delete" method="post" action="Delete"> 
+				      	<input type="hidden" name="delete" value="bank"></input>
+				      	<input type="hidden" name="idCopy" value="<%= idCopy %>"></input>
+					    <button type="submit" formmethod="post">Delete Bank</button>
+					  </form> 
+				    </td> 
+				</tr> 
+				<% } %>
+			</table>
+			<!-- Space for readability -->
+			<table class="innerTable" id="innerTable">
+				<!-- <th> 
+					<button type="button" onclick="hideInnerTable()">Back</button>
+				</th> -->
+				<% 
+				//int noOfAccts = user.getAccountIds().size(); 
+				List<String> acctIds = user.getAccountIds(); 
+		        Iterator innerIter = acctIds.iterator();
+				//while (innerIter.hasNext()) {
+				%> 
+				<!-- [Name | Mask | Subtype | Delete] --> 
+				<tr id="acct"> 
+					<td>
+				 	<!-- Account -->
+				 		<!-- Name | Mask | Subtype -->
+					  	<td>
+					  		<%-- <%= innerIter.next() %> --%> <!-- Name --> 
+					  	</td> 
+				 			<!-- Whitespace - Mask --> 
+				 		<td>
+				 		</td>
+				 			<!-- Whitespace - Subtype -->
+				 		<td> 
+				 		</td>
+				 	</td> 
+				 	<!-- Whitespace -->
+				 	<td>
+				 		<!-- Delete button -->
+				 		<!-- Goes to Delete.java and performs doPost --> 
+				      <!-- <form id="delete" method="post" action="Delete"> 
+					    <button type="submit" formmethod="post">Delete Account</button>
+					  </form> --> 
+				    </td> 
+				</tr> 
+				<%-- <% } %> --%>
+			</table>
+		</div>
 		
 		<script>
+			$("img").on("click", function() {
+				$(".outerTable").hide();
+				$(".innerTable").show();
+			});
+			function hideInnerTable() {
+				$(".innerTable").hide();
+				$(".outerTable.").show();
+			};
 			function resetParagraphs(metadata_accounts_length) {
 				console.log("Inside resetParagraphs");
 				var usersAccounts = <%= user.getAccountIds().size() %>;
@@ -58,39 +147,39 @@
 			};
 			function updateAccountsTable() {
 				console.log('Inside updateInnerTable()...');
-
-				//$('.outerTable').find('tr td:first').each(function() {
-				$('tr > td:first-child').each(function() {
-					//var institutionId = $(this).text().replace(/\s/g,'');
-					var institutionId = $(this).text().replace(/\s/g,'');
-					console.log("cell value: " + institutionId);
-
-					if (institutionId == "") { $(this).html(''); }
-
-					
-					if (institutionId == "ins_1") { $(this).html('<img src="bankofamerica.jpg" alt="bankofamericaLogo"/>'); }
-					if (institutionId == "ins_2") { $(this).html('<img src="bb&t.jpg" alt="bb&tLogo"/>'); }
-					if (institutionId == "ins_3") { $(this).html('<img src="chaseLogo.jpg" alt="chaseLogo"/>'); }
-					if (institutionId == "ins_4") { $(this).html('<img src="wellsfargo.jpg" alt="wellsfargoLogo"/>'); }
-					if (institutionId == "ins_5") { $(this).html('<img src="citi.jpg" alt="citiLogo"/>'); }
-					if (institutionId == "ins_6") { $(this).html('<img src="usbank.jpg" alt="usbankLogo"/>'); }
-					if (institutionId == "ins_7") { $(this).html('<img src="usaa.jpg" alt="usaaLogo"/>'); }
-					if (institutionId == "ins_9") { $(this).html('<img src="capitalone.jpg" alt="capitaloneLogo"/>'); }
-					if (institutionId == "ins_10") { $(this).html('<img src="amex.jpg" alt="amexLogo"/>'); }
-					if (institutionId == "ins_11") { $(this).html('<img src="charlesschwab.jpg" alt="charlesschwabLogo"/>'); }
-					if (institutionId == "ins_12") { $(this).html('<img src="fidelity.jpg" alt="fidelityLogo"/>'); }
-					if (institutionId == "ins_13") { $(this).html('<img src="pnc.jpg" alt="pncLogo"/>'); }
-					if (institutionId == "ins_14") { $(this).html('<img src="tdbank.jpg" alt="tdbankLogo"/>'); }
-					if (institutionId == "ins_15") { $(this).html('<img src="navyfederal.jpg" alt="navyfederalLogo"/>'); }
-					if (institutionId == "ins_16") { $(this).html('<img src="suntrust.jpg" alt="suntrustLogo"/>'); }
-					if (institutionId == "ins_19") { $(this).html('<img src="regions.jpg" alt="regionsLogo"/>'); }
-					if (institutionId == "ins_20") { $(this).html('<img src="citizensbank.jpg" alt="citizensbankLogo"/>'); }
-					if (institutionId == "ins_21") { $(this).html('<img src="huntington.jpg" alt="huntingtonLogo"/>'); }
-					
-				});
-				//console.log(outerTable);
+				var firstRowText = $("[id='bank']").attr('id');
+				console.log(firstRowText == 'bank' ? 'ROW ATTAINED!' : 'DO NOT HAVE ROW')  ;
+				// $('tr > td:first-child').each(function() {
+				// $('tr > td:nth-child(2)').each(function() {
 				
-			    //$('#accountsTable').toggle();
+				$("[id='outerTable'] [id='bank']").each(function() {
+					var institutionId = $(this).find('td:nth-child(1)').text().replace(/\s/g,'');
+					//var institutionId = $(this).text().replace(/\s/g,'');
+					$(this).find('td:nth-child(2)').find('button').attr('name', institutionId);
+					console.log("cell value: " + institutionId);
+					var nameOfButton = $(this).find('td:nth-child(2)').find('button').attr('name');
+					console.log("button's name is now: " + nameOfButton);
+					if (institutionId == "") { $(this).html(''); }
+					if (institutionId == "ins_1") { $(this).find('td:nth-child(1)').html('<img src="bankofamerica.jpg" alt="ins_1"/>'); }
+					if (institutionId == "ins_2") { $(this).find('td:nth-child(1)').html('<img src="bb&t.jpg" alt="ins_2"/>'); }
+					if (institutionId == "ins_3") { $(this).find('td:nth-child(1)').html('<img src="chaseLogo.jpg" alt="ins_3"/>'); }
+					if (institutionId == "ins_4") { $(this).find('td:nth-child(1)').html('<img src="wellsfargo.jpg" alt="ins_4"/>'); }
+					if (institutionId == "ins_5") { $(this).find('td:nth-child(1)').html('<img src="citi.jpg" alt="ins_5"/>'); }
+					if (institutionId == "ins_6") { $(this).find('td:nth-child(1)').html('<img src="usbank.jpg" alt="ins_6"/>'); }
+					if (institutionId == "ins_7") { $(this).find('td:nth-child(1)').html('<img src="usaa.jpg" alt="ins_7"/>'); }
+					if (institutionId == "ins_9") { $(this).find('td:nth-child(1)').html('<img src="capitalone.jpg" alt="ins_9"/>'); }
+					if (institutionId == "ins_10") { $(this).find('td:nth-child(1)').html('<img src="amex.jpg" alt="ins_10"/>'); }
+					if (institutionId == "ins_11") { $(this).find('td:nth-child(1)').html('<img src="charlesschwab.jpg" alt="ins_11"/>'); }
+					if (institutionId == "ins_12") { $(this).find('td:nth-child(1)').html('<img src="fidelity.jpg" alt="ins_12"/>'); }
+					if (institutionId == "ins_13") { $(this).find('td:nth-child(1)').html('<img src="pnc.jpg" alt="ins_13"/>'); }
+					if (institutionId == "ins_14") { $(this).find('td:nth-child(1)').html('<img src="tdbank.jpg" alt="ins_14"/>'); }
+					if (institutionId == "ins_15") { $(this).find('td:nth-child(1)').html('<img src="navyfederal.jpg" alt="ins_15"/>'); }
+					if (institutionId == "ins_16") { $(this).find('td:nth-child(1)').html('<img src="suntrust.jpg" alt="ins_16"/>'); }
+					if (institutionId == "ins_19") { $(this).find('td:nth-child(1)').html('<img src="regions.jpg" alt="ins_19"/>'); }
+					if (institutionId == "ins_20") { $(this).find('td:nth-child(1)').html('<img src="citizensbank.jpg" alt="ins_20"/>'); }
+					if (institutionId == "ins_21") { $(this).find('td:nth-child(1)').html('<img src="huntington.jpg" alt="ins_21"/>'); }
+				});
+				//$('tr > td:nth-child(2)')
 			};
 			$(function() {
 				$('.button').removeAttr('disabled');
@@ -102,10 +191,12 @@
 				updateAccountsTable();
 				console.log("jsp page has finished loading.")
 			});
+			// Create an Item
 			(function($) {
 			  var handler = Plaid.create({
+				env: 'sandbox',
+				apiVersion: 'v2',
 			    clientName: 'Plaid Walkthrough Demo',
-			    env: 'sandbox',
 			    // Replace with your public_key from the Dashboard
 			    key: 'f0503c4bc8e63cc6c37f07dbe0ae2b',
 			    product: ["transactions"],
@@ -210,104 +301,58 @@
 			  $('#link-button').on('click', function(e) {
 			    handler.open();
 			  });
+			  /* $('#link-update-button').on('click', function(e) { alert('hi. you clicked me.'); }); */
+			  $('#link-update-button').on('click', function(e) {
+				var institutionIdName = $(this).attr('name');
+				console.log('the button you clicked: ' + institutionIdName);
+				// need to obtain accessToken
+				// post request to /item/public_token/create using accessToken for given Item
+				$.ajax({
+			    	 type: "POST",
+			    	 url: "updatebank",
+			    	 data: {
+					     institutionId: institutionIdName
+				     },
+			      }).success(function (response) {
+				     console.log(JSON.stringify(response));
+				     var publicToken = response.get(public_token);
+				     // Update an Item
+				     // Initialize Link with the token parameter
+				     // set to the generated public_token for the Item
+				     handlerUpdate = Plaid.create({
+				       env: 'sandbox',
+				       apiVersion: 'v2',
+				       clientName: 'Plaid Walkthrough Demo',
+				       key: 'f0503c4bc8e63cc6c37f07dbe0ae2b',
+				       product: ["transactions"],
+				       token: publicToken,
+				       // Optional, use webhooks to get transaction and error updates
+			   	       webhook: 'https://requestb.in',
+					   onLoad: function() {
+					     // Optional, called when Link loads
+					     console.log("loading Plaid handlerUpdate...")
+				       },
+				       onSuccess: function(public_token, metadata) {
+				         console.log('Here we are...');
+				       },
+				       onExit: function(err, metadata) {
+				         // The user exited the Link flow.
+				         if (err != null) {
+				           // The user encountered a Plaid API error prior
+			               // to exiting.
+			    	       console.log(err);
+				         }
+				         // metadata contains the most recent API request ID and the
+				         // Link session ID. Storing this information is helpful
+				         // for support.
+				       }
+				     });
+				  }).error(function (response) {
+				  });
+				handlerUpdate.open();
+			  });
 			})(jQuery);
-		</script>
-
-		<p id="changingText"><b>${change}</b></p>
-		<br/>
-		<p>Items for '${Firstname}' '${Lastname}' </p>
-		<br/>
-		<p id="institutions">Banks : ${institutionIdsListSize}
-		<p id="accounts">Accounts : ${accountsSize}</p>
-		<!-- Create a table that lists all accounts -->
-		<!-- Each account should have an update button and a delete button -->
-		<!-- Update updates the Item -->
-		<!-- Delete deletes the Item -->
-		
-		<!-- List of images -->
-		
-		
-	
-		<div class="mainTable" id="accountsTable">
-			<table class="outerTable" id="outerTable">
-				<% 
-				Iterator institutionIdsIter = institutionsIdsList.iterator();
-				Iterator accountIdsIter = user.getAccountIds().iterator();
-				while (institutionIdsIter.hasNext()) {
-				String currentId = (String)institutionIdsIter.next();
-				String idCopy = currentId;
-				%> 
-				<!-- [Bank Logo | Update | Delete] --> 
-				<tr id="bank"> 
-					<td id="logo">
-					 	<%= currentId %> <!-- change to Logo --> 
-				 	</td> 
-				 	<!-- Whitespace -->
-				 	<td id="updatebtn">
-				 		<!-- Update button --> 
-				 		<button id="link--update-button">Update Bank</button>
-				 	</td> 
-				 	<!-- Whitespace -->
-				 	<td id="deletebtn">
-				 	  <!-- Delete button -->
-				 	  <!-- Goes to Delete.java and performs doPost --> 
-				      <form id="delete" method="post" action="Delete"> 
-				      	<input type="hidden" name="delete" value="bank"></input>
-				      	<input type="hidden" name="idCopy" value="<%= idCopy %>"></input>
-					    <button type="submit" formmethod="post">Delete Bank</button>
-					  </form> 
-				    </td> 
-				</tr> 
-				<% } %>
-			</table>
-			<!-- Space for readability -->
-			<table class="innerTable" id="innerTable">
-				<!-- <th> 
-					<button type="button" onclick="hideInnerTable()">Back</button>
-				</th> -->
-				<% 
-				//int noOfAccts = user.getAccountIds().size(); 
-				List<String> acctIds = user.getAccountIds(); 
-		        Iterator innerIter = acctIds.iterator();
-				//while (innerIter.hasNext()) {
-				%> 
-				<!-- [Name | Mask | Subtype | Delete] --> 
-				<tr id="acct"> 
-					<td>
-				 	<!-- Account -->
-				 		<!-- Name | Mask | Subtype -->
-					  	<td>
-					  		<%-- <%= innerIter.next() %> --%> <!-- Name --> 
-					  	</td> 
-				 			<!-- Whitespace - Mask --> 
-				 		<td>
-				 		</td>
-				 			<!-- Whitespace - Subtype -->
-				 		<td> 
-				 		</td>
-				 	</td> 
-				 	<!-- Whitespace -->
-				 	<td>
-				 		<!-- Delete button -->
-				 		<!-- Goes to Delete.java and performs doPost --> 
-				      <!-- <form id="delete" method="post" action="Delete"> 
-					    <button type="submit" formmethod="post">Delete Account</button>
-					  </form> --> 
-				    </td> 
-				</tr> 
-				<%-- <% } %> --%>
-			</table>
-		</div>
-		
-		<script>
-			$("img").on("click", function() {
-				$(".outerTable").hide();
-				$(".innerTable").show();
-			});
-			function hideInnerTable() {
-				$(".innerTable").hide();
-				$(".outerTable.").show();
-			};
+			
 		</script>
 	</body>
 </html>

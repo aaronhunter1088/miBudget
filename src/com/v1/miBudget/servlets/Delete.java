@@ -93,6 +93,7 @@ public class Delete extends HttpServlet {
 		if (request.getParameter("delete").equals("bank")) {
 			String deleteResponse = deleteBank(request, response);
 			System.out.println("deleteResponse: " + deleteResponse);
+			// TODO: research /item/delete ... what are we deleting the item from??
 			if (deleteResponse.equals("SUCCESS")) {
 				response.setContentType("application/html");
 				response.setStatus(HttpServletResponse.SC_OK);

@@ -190,6 +190,18 @@ public class ItemDAOImpl {
 		return 0; // bad
 	}
     
+    /**
+     * Currently deletes from :
+     * User_Account
+     * User_items
+     * Items_Accounts
+     * Users_InstitutionIds
+     * @param item
+     * @param user
+     * @return
+     */
+    // TODO: Note: Keep this todo as reference that when we maybe add a new table for whatever logic and 
+    // we need to delete a reference to an Item, we need to add that logic here. 
     public int deleteBankReferencesFromDatabase(Item item, User user) {
     	SessionFactory factory = null;
     	Session session = null;
