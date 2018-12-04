@@ -1,30 +1,34 @@
 package com.v1.miBudget.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.plaid.client.PlaidClient;
+import com.plaid.client.request.ItemGetRequest;
 import com.plaid.client.request.ItemPublicTokenCreateRequest;
+import com.plaid.client.response.ItemGetResponse;
 import com.plaid.client.response.ItemPublicTokenCreateResponse;
+import com.plaid.client.response.ItemStatus;
+import com.v1.miBudget.daoimplementations.ItemDAOImpl;
 import com.v1.miBudget.daoimplementations.MiBudgetDAOImpl;
-import com.v1.miBudget.entities.Item;
-
 import retrofit2.Response;
 
 /**
- * Servlet implementation class UpdateAccount
+ * Servlet implementation class UpdateBank
  */
-@WebServlet("/UpdateAccount")
+@WebServlet("/updatebank")
 public class UpdateBank extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
+	private ItemDAOImpl itemDAOImpl = new ItemDAOImpl();
 	private final String clientId = "5ae66fb478f5440010e414ae";
-	private final String secret = "0e580ef72b47a2e4a7723e8abc7df5";
-       
+	private final String secret = "0e580ef72b47a2e4a7723e8abc7df5"; 
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -55,22 +59,26 @@ public class UpdateBank extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		System.out.println("\nInside UpdateBank doPost()...");
 		System.out.println("Retrieving public token...");
 		String institutionId = request.getParameter("institutionId");
-		Item item = miBudgetDAOImpl.getItemFromDatabase(institutionId);
-		ItemPublicTokenCreateRequest req = new ItemPublicTokenCreateRequest(item.getAccessToken());
+		String accessToken = itemDAOImpl.getAccessToken(institutionId);
+		ItemGetRequest itemReq = new ItemGetRequest(accessToken);
+		Response<ItemGetResponse> itemRes = client().service().itemGet(itemReq).execute();
+		ItemStatus item = null;
+		if (itemRes.isSuccessful()) {
+			item = itemRes.body().getItem();
+		}
+		//SandboxPublicTokenCreateRequest req = new SandboxPublicTokenCreateRequest(accessToken, Arrays.asList(Product.TRANSACTIONS));
+		ItemPublicTokenCreateRequest req = new ItemPublicTokenCreateRequest(accessToken);
 		Response<ItemPublicTokenCreateResponse> res = client().service().itemPublicTokenCreate(req).execute();
 		if (res.isSuccessful()) {
+			System.out.println("public_token: " + res.body().getPublicToken());
 			System.out.println("Public token retrieved. Returning to Profile.jsp");
-			
-			// Now figure out how to return the public token we generated.
-			response.getWriter().append(res.body().getPublicToken());
-			response.sendRedirect("Profile.jsp");
+			response.setStatus(HttpServletResponse.SC_OK);
+			response.setContentType("application/text");
+			response.getWriter().append(res.body().getPublicToken().trim());
+			response.getWriter().flush();
 		}
-		
-		
 	}
-
 }

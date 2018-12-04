@@ -350,7 +350,7 @@ public class MiBudgetDAOImpl {
 															"WHERE institution_id = '" + institution_id + "'").getResultList();
 			item = new Item(Integer.parseInt(itemTableId.get(0).toString()), itemId.get(0).toString(), 
 					accessToken.get(0).toString(), institution_id);
-			System.out.println("retrieving item: " + item.toString());
+			System.out.println("retrieving item: " + item);
 			t.commit();
 			session.close();
 			return item;

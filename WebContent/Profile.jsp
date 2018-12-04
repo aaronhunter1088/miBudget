@@ -28,6 +28,7 @@
 		.images {
 			display: none; /* all */
 		}
+		.updateButton {}
 		.outertable {}
 		.innertable {}
 	</style>
@@ -74,7 +75,7 @@
 				 	<!-- Whitespace -->
 				 	<td id="updatebtn">
 				 		<!-- Update button --> 
-				 		<button id="link-update-button" name="will_populate">Update Bank</button>
+				 		<button class="updateButton" id="link-update-button" name="will_populate">Update Bank</button>
 				 	</td> 
 				 	<!-- Whitespace -->
 				 	<td id="deletebtn">
@@ -129,14 +130,15 @@
 		</div>
 		
 		<script>
-			$("img").on("click", function() {
+			/* $("img").on("click", function() {
+				console.log('inside click()');
 				$(".outerTable").hide();
 				$(".innerTable").show();
-			});
-			function hideInnerTable() {
+			}); */
+			/* function hideInnerTable() {
 				$(".innerTable").hide();
 				$(".outerTable.").show();
-			};
+			}; */
 			function resetParagraphs(metadata_accounts_length) {
 				console.log("Inside resetParagraphs");
 				var usersAccounts = <%= user.getAccountIds().size() %>;
@@ -146,13 +148,16 @@
 		        $('#changingText').text('You have successfully loaded ' + metadata_accounts_length + strAccounts);
 			};
 			function updateAccountsTable() {
-				console.log('Inside updateInnerTable()...');
+				console.log('Inside updateAccountsTable()...');
 				var firstRowText = $("[id='bank']").attr('id');
 				console.log(firstRowText == 'bank' ? 'ROW ATTAINED!' : 'DO NOT HAVE ROW')  ;
 				// $('tr > td:first-child').each(function() {
 				// $('tr > td:nth-child(2)').each(function() {
 				
-				$("[id='outerTable'] [id='bank']").each(function() {
+				// we want every element that is a column that is a direct
+				// child of a tr element that has id attr = blah
+				// every element we want should be a td
+				$("[id='bank']").each(function() {
 					var institutionId = $(this).find('td:nth-child(1)').text().replace(/\s/g,'');
 					//var institutionId = $(this).text().replace(/\s/g,'');
 					$(this).find('td:nth-child(2)').find('button').attr('name', institutionId);
@@ -160,9 +165,16 @@
 					var nameOfButton = $(this).find('td:nth-child(2)').find('button').attr('name');
 					console.log("button's name is now: " + nameOfButton);
 					if (institutionId == "") { $(this).html(''); }
-					if (institutionId == "ins_1") { $(this).find('td:nth-child(1)').html('<img src="bankofamerica.jpg" alt="ins_1"/>'); }
+					if (institutionId == "ins_1") { 
+						$(this).find('td:nth-child(1)').html('<img src="bankofamerica.jpg" alt="ins_1"/>'); 
+						$(this).find('td:nth-child(2)').find('button').attr('name', institutionId);
+						//$(this).find('td:nth-child(2)').html('<button class="updateButton" id="link-update-button" name="'+institutionId+'">Update This Bank</button>');
+					}
 					if (institutionId == "ins_2") { $(this).find('td:nth-child(1)').html('<img src="bb&t.jpg" alt="ins_2"/>'); }
-					if (institutionId == "ins_3") { $(this).find('td:nth-child(1)').html('<img src="chaseLogo.jpg" alt="ins_3"/>'); }
+					if (institutionId == "ins_3") { 
+						$(this).find('td:nth-child(1)').html('<img src="chaseLogo.jpg" alt="ins_3"/>'); 
+						$(this).find('td:nth-child(2)').find('button').attr('name', institutionId);
+					}
 					if (institutionId == "ins_4") { $(this).find('td:nth-child(1)').html('<img src="wellsfargo.jpg" alt="ins_4"/>'); }
 					if (institutionId == "ins_5") { $(this).find('td:nth-child(1)').html('<img src="citi.jpg" alt="ins_5"/>'); }
 					if (institutionId == "ins_6") { $(this).find('td:nth-child(1)').html('<img src="usbank.jpg" alt="ins_6"/>'); }
@@ -173,7 +185,11 @@
 					if (institutionId == "ins_12") { $(this).find('td:nth-child(1)').html('<img src="fidelity.jpg" alt="ins_12"/>'); }
 					if (institutionId == "ins_13") { $(this).find('td:nth-child(1)').html('<img src="pnc.jpg" alt="ins_13"/>'); }
 					if (institutionId == "ins_14") { $(this).find('td:nth-child(1)').html('<img src="tdbank.jpg" alt="ins_14"/>'); }
-					if (institutionId == "ins_15") { $(this).find('td:nth-child(1)').html('<img src="navyfederal.jpg" alt="ins_15"/>'); }
+					if (institutionId == "ins_15") { 
+						$(this).find('td:nth-child(1)').html('<img src="navyfederal.jpg" alt="ins_15"/>'); 
+						//$(this).find('td:nth-child(2)').html('<button class="updateButton" id="link-update-button" name="'+institutionId+'">Update Bank</button>');
+						$(this).find('td:nth-child(2)').find('button').attr('name', institutionId);
+					}
 					if (institutionId == "ins_16") { $(this).find('td:nth-child(1)').html('<img src="suntrust.jpg" alt="ins_16"/>'); }
 					if (institutionId == "ins_19") { $(this).find('td:nth-child(1)').html('<img src="regions.jpg" alt="ins_19"/>'); }
 					if (institutionId == "ins_20") { $(this).find('td:nth-child(1)').html('<img src="citizensbank.jpg" alt="ins_20"/>'); }
@@ -183,7 +199,7 @@
 			};
 			$(function() {
 				$('.button').removeAttr('disabled');
-				$('.accountsTable').show();
+				
 				var usersAccounts = <%= user.getAccountIds().size() %>;
 				//$('.accountsSize').text('Accounts - ' + usersAccounts);
 				//$('.changingText').val('This text will change after using the Plaid Link Initializer.');
@@ -191,6 +207,9 @@
 				updateAccountsTable();
 				console.log("jsp page has finished loading.")
 			});
+
+
+			// IIFE Immediately Invoked Function Expression
 			// Create an Item
 			(function($) {
 			  var handler = Plaid.create({
@@ -241,8 +260,7 @@
 			             accounts: jsonAccount,
 			             institution_name: metadata.institution.name,
 			             institution_id: metadata.institution.institution_id
-			    	 },
-		    	 
+			    	 }
 			      }).success(function (response) {
 			    	  location.reload(true);
 			    	  var resp = JSON.stringify(response);
@@ -301,58 +319,66 @@
 			  $('#link-button').on('click', function(e) {
 			    handler.open();
 			  });
-			  /* $('#link-update-button').on('click', function(e) { alert('hi. you clicked me.'); }); */
-			  $('#link-update-button').on('click', function(e) {
+			  
+			  
+			  $('button').on('click', function(e) {
+				alert('hi');
+			  });
+
+			  $("[id='link-update-button']").on('click', function(e) {
 				var institutionIdName = $(this).attr('name');
-				console.log('the button you clicked: ' + institutionIdName);
+			    console.log('the button you clicked: ' + institutionIdName);
+				var publicToken;
 				// need to obtain accessToken
 				// post request to /item/public_token/create using accessToken for given Item
 				$.ajax({
-			    	 type: "POST",
-			    	 url: "updatebank",
-			    	 data: {
-					     institutionId: institutionIdName
-				     },
-			      }).success(function (response) {
-				     console.log(JSON.stringify(response));
-				     var publicToken = response.get(public_token);
-				     // Update an Item
-				     // Initialize Link with the token parameter
-				     // set to the generated public_token for the Item
-				     handlerUpdate = Plaid.create({
-				       env: 'sandbox',
-				       apiVersion: 'v2',
-				       clientName: 'Plaid Walkthrough Demo',
-				       key: 'f0503c4bc8e63cc6c37f07dbe0ae2b',
-				       product: ["transactions"],
-				       token: publicToken,
-				       // Optional, use webhooks to get transaction and error updates
-			   	       webhook: 'https://requestb.in',
-					   onLoad: function() {
-					     // Optional, called when Link loads
-					     console.log("loading Plaid handlerUpdate...")
-				       },
-				       onSuccess: function(public_token, metadata) {
-				         console.log('Here we are...');
-				       },
-				       onExit: function(err, metadata) {
-				         // The user exited the Link flow.
-				         if (err != null) {
-				           // The user encountered a Plaid API error prior
-			               // to exiting.
-			    	       console.log(err);
-				         }
-				         // metadata contains the most recent API request ID and the
-				         // Link session ID. Storing this information is helpful
-				         // for support.
-				       }
-				     });
-				  }).error(function (response) {
-				  });
-				handlerUpdate.open();
-			  });
-			})(jQuery);
-			
+			      type: "POST",
+			      url: "updatebank",
+			      data: {
+				 	institutionId: institutionIdName
+				  },
+			    }).success(function (response) {
+				  console.log(JSON.stringify(response));
+				  publicToken = JSON.stringify(response);
+				  // Update an Item
+				  // Initialize Link with the token parameter
+				  // set to the generated public_token for the Item
+				}).error(function (response) { // end .success
+				   console.log('review the response...');
+				   console.log(response);
+				}); // end .error
+				var handlerUpdate = Plaid.create({
+			      env: 'sandbox',
+			      apiVersion: 'v2',
+			      clientName: 'Plaid Walkthrough Demo',
+			      // Replace with your public_key from the Dashboard
+				  key: 'f0503c4bc8e63cc6c37f07dbe0ae2b',
+				  product: ["transactions"],
+			      token: publicToken,
+			      // Optional, use webhooks to get transaction and error updates
+		   	      webhook: 'https://requestb.in',
+				  onLoad: function() {
+				     // Optional, called when Link loads
+				     console.log("loading Plaid handlerUpdate...")
+			       },
+			         onSuccess: function(token, metadata) {
+			          console.log('Here we are...');
+			       },
+			       onExit: function(err, metadata) {
+			         // The user exited the Link flow.
+			         if (err != null) {
+			           // The user encountered a Plaid API error prior
+		               // to exiting.
+		    	       console.log(err);
+			         }
+			             // metadata contains the most recent API request ID and the
+			             // Link session ID. Storing this information is helpful
+			             // for support.
+			       }    
+				 }); // end handlerUpdate
+				 handlerUpdate.open();
+			  }); // end link-update-button.on('click')
+		    })(jQuery);
 		</script>
 	</body>
 </html>

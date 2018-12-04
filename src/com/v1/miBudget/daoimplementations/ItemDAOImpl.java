@@ -165,6 +165,25 @@ public class ItemDAOImpl {
 		return itemTableIdsList;
     }
     
+    public String getAccessToken(String institutionId) {
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
+    	try {
+    		System.out.println("\nAttempting to execute getAccessToken query");
+    		factory = HibernateUtilities.getSessionFactory();
+    		session = factory.openSession();
+    		t = session.beginTransaction();
+    		Object res = session.createNativeQuery("SELECT access_token " +
+    											   "FROM items " +
+    											   "WHERE institution_id = '" + institutionId + "'").getSingleResult();
+    		return res.toString();
+    	} catch (HibernateException e) {
+    		
+    	}
+    	return "";
+    }
+
     public int addItemToDatabase(Item item) {
     	SessionFactory factory = null;
     	Session session = null;
