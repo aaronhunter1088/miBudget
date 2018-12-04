@@ -8,6 +8,7 @@
 <%@ page import="com.v1.miBudget.daoimplementations.AccountDAOImpl" %>
 <%@ page import="com.v1.miBudget.entities.Account" %>
 <%@ page import="com.v1.miBudget.entities.User" %>
+<%@ page import="java.util.HashMap" %>
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -28,7 +29,9 @@
 		.images {
 			display: none; /* all */
 		}
-		.updateButton {}
+		.updateButton {
+			display: none;
+		}
 		.outertable {}
 		.innertable {}
 	</style>
@@ -63,19 +66,22 @@
 				<% 
 				Iterator institutionIdsIter = institutionsIdsList.iterator();
 				Iterator accountIdsIter = user.getAccountIds().iterator();
+				HashMap<String, Boolean> errMapForItems = (HashMap) session.getAttribute("ErrMapForItems");
+				// Load Map of ItemGetResponses here
 				while (institutionIdsIter.hasNext()) {
 				String currentId = (String)institutionIdsIter.next();
 				String idCopy = currentId;
 				%> 
 				<!-- [Bank Logo | Update | Delete] --> 
-				<tr id="bank"> 
+				<tr id="bank">
 					<td id="logo">
 					 	<%= currentId %> <!-- change to Logo --> 
 				 	</td> 
 				 	<!-- Whitespace -->
-				 	<td id="updatebtn">
+				 	<!--  Change this button to ONLY show if there is an error.  -->
+				 	<td id="updatebtn" name="<%= errMapForItems.get(currentId) %>">
 				 		<!-- Update button --> 
-				 		<button class="updateButton" id="link-update-button" name="will_populate">Update Bank</button>
+				 		<button class="updateButton" id="link-update-button" name="will_populate"><b>Update Bank</b></button>
 				 	</td> 
 				 	<!-- Whitespace -->
 				 	<td id="deletebtn">
@@ -159,6 +165,7 @@
 				// every element we want should be a td
 				$("[id='bank']").each(function() {
 					var institutionId = $(this).find('td:nth-child(1)').text().replace(/\s/g,'');
+					var row2 = $(this).find('td:nth-child(2)');
 					//var institutionId = $(this).text().replace(/\s/g,'');
 					$(this).find('td:nth-child(2)').find('button').attr('name', institutionId);
 					console.log("cell value: " + institutionId);
@@ -167,15 +174,29 @@
 					if (institutionId == "") { $(this).html(''); }
 					if (institutionId == "ins_1") { 
 						$(this).find('td:nth-child(1)').html('<img src="bankofamerica.jpg" alt="ins_1"/>'); 
-						$(this).find('td:nth-child(2)').find('button').attr('name', institutionId);
-						//$(this).find('td:nth-child(2)').html('<button class="updateButton" id="link-update-button" name="'+institutionId+'">Update This Bank</button>');
+						if ($(this).find('td:nth-child(2)').attr('name') == 'true') 
+							$(this).find('td:nth-child(2)').find('button').show();
+						else
+							row2.hide();
 					}
 					if (institutionId == "ins_2") { $(this).find('td:nth-child(1)').html('<img src="bb&t.jpg" alt="ins_2"/>'); }
 					if (institutionId == "ins_3") { 
-						$(this).find('td:nth-child(1)').html('<img src="chaseLogo.jpg" alt="ins_3"/>'); 
-						$(this).find('td:nth-child(2)').find('button').attr('name', institutionId);
+						$(this).find('td:nth-child(1)').html('<img src="chaseLogo.jpg" alt="ins_3"/>');
+						var name = $(this).find('td:nth-child(2)').attr('name');
+						console.log('name: ' + name);
+						if (name == 'true') {
+							$(this).find('td:nth-child(2)').find('button').show();
+						} else {
+							row2.hide();
+						}
 					}
-					if (institutionId == "ins_4") { $(this).find('td:nth-child(1)').html('<img src="wellsfargo.jpg" alt="ins_4"/>'); }
+					if (institutionId == "ins_4") { 
+						$(this).find('td:nth-child(1)').html('<img src="wellsfargo.jpg" alt="ins_4"/>'); 
+						if (row2.attr('name') == "true")
+							row2.show();
+						else
+							row2.hide();
+					}
 					if (institutionId == "ins_5") { $(this).find('td:nth-child(1)').html('<img src="citi.jpg" alt="ins_5"/>'); }
 					if (institutionId == "ins_6") { $(this).find('td:nth-child(1)').html('<img src="usbank.jpg" alt="ins_6"/>'); }
 					if (institutionId == "ins_7") { $(this).find('td:nth-child(1)').html('<img src="usaa.jpg" alt="ins_7"/>'); }
@@ -185,11 +206,7 @@
 					if (institutionId == "ins_12") { $(this).find('td:nth-child(1)').html('<img src="fidelity.jpg" alt="ins_12"/>'); }
 					if (institutionId == "ins_13") { $(this).find('td:nth-child(1)').html('<img src="pnc.jpg" alt="ins_13"/>'); }
 					if (institutionId == "ins_14") { $(this).find('td:nth-child(1)').html('<img src="tdbank.jpg" alt="ins_14"/>'); }
-					if (institutionId == "ins_15") { 
-						$(this).find('td:nth-child(1)').html('<img src="navyfederal.jpg" alt="ins_15"/>'); 
-						//$(this).find('td:nth-child(2)').html('<button class="updateButton" id="link-update-button" name="'+institutionId+'">Update Bank</button>');
-						$(this).find('td:nth-child(2)').find('button').attr('name', institutionId);
-					}
+					if (institutionId == "ins_15") { $(this).find('td:nth-child(1)').html('<img src="navyfederal.jpg" alt="ins_15"/>'); }
 					if (institutionId == "ins_16") { $(this).find('td:nth-child(1)').html('<img src="suntrust.jpg" alt="ins_16"/>'); }
 					if (institutionId == "ins_19") { $(this).find('td:nth-child(1)').html('<img src="regions.jpg" alt="ins_19"/>'); }
 					if (institutionId == "ins_20") { $(this).find('td:nth-child(1)').html('<img src="citizensbank.jpg" alt="ins_20"/>'); }
@@ -321,9 +338,9 @@
 			  });
 			  
 			  
-			  $('button').on('click', function(e) {
+			  /* $('button').on('click', function(e) {
 				alert('hi');
-			  });
+			  }); */
 
 			  $("[id='link-update-button']").on('click', function(e) {
 				var institutionIdName = $(this).attr('name');
@@ -340,9 +357,9 @@
 			    }).success(function (response) {
 				  console.log(JSON.stringify(response));
 				  publicToken = JSON.stringify(response);
-				  // Update an Item
-				  // Initialize Link with the token parameter
-				  // set to the generated public_token for the Item
+				  location.reload(true);
+
+				  
 				}).error(function (response) { // end .success
 				   console.log('review the response...');
 				   console.log(response);
@@ -363,6 +380,8 @@
 			       },
 			         onSuccess: function(token, metadata) {
 			          console.log('Here we are...');
+			          console.log('metadata:');
+			          console.log(JSON.stringify(metadata));
 			       },
 			       onExit: function(err, metadata) {
 			         // The user exited the Link flow.

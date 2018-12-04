@@ -3,20 +3,28 @@ package com.v1.miBudget.servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import com.plaid.client.PlaidClient;
 import com.plaid.client.request.ItemGetRequest;
 import com.plaid.client.request.ItemPublicTokenCreateRequest;
+import com.plaid.client.response.ErrorResponse;
 import com.plaid.client.response.ItemGetResponse;
 import com.plaid.client.response.ItemPublicTokenCreateResponse;
 import com.plaid.client.response.ItemStatus;
+import com.plaid.client.response.ErrorResponse.ErrorType;
 import com.v1.miBudget.daoimplementations.ItemDAOImpl;
 import com.v1.miBudget.daoimplementations.MiBudgetDAOImpl;
+import com.v1.miBudget.entities.Item;
+import com.v1.miBudget.entities.User;
+
 import retrofit2.Response;
 
 /**
@@ -60,14 +68,15 @@ public class UpdateBank extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("\nInside UpdateBank doPost()...");
+		HttpSession session = null;
 		System.out.println("Retrieving public token...");
 		String institutionId = request.getParameter("institutionId");
 		String accessToken = itemDAOImpl.getAccessToken(institutionId);
 		ItemGetRequest itemReq = new ItemGetRequest(accessToken);
 		Response<ItemGetResponse> itemRes = client().service().itemGet(itemReq).execute();
-		ItemStatus item = null;
+		ItemStatus itemStatus = null;
 		if (itemRes.isSuccessful()) {
-			item = itemRes.body().getItem();
+			itemStatus = itemRes.body().getItem();
 		}
 		//SandboxPublicTokenCreateRequest req = new SandboxPublicTokenCreateRequest(accessToken, Arrays.asList(Product.TRANSACTIONS));
 		ItemPublicTokenCreateRequest req = new ItemPublicTokenCreateRequest(accessToken);
@@ -79,6 +88,14 @@ public class UpdateBank extends HttpServlet {
 			response.setContentType("application/text");
 			response.getWriter().append(res.body().getPublicToken().trim());
 			response.getWriter().flush();
+			session = request.getSession(false);
 		}
+		// Might need to add logic to update ErrMapForItems
+		User user = (User) session.getAttribute("user");
+		// update ErrMapForItems
+	    @SuppressWarnings("unchecked")
+		HashMap<String, Boolean> errMapForItems = (HashMap<String, Boolean>) session.getAttribute("ErrMapForItems");
+	    errMapForItems.put(institutionId, false);
+	    session.setAttribute("ErrMapForItems", errMapForItems);
 	}
 }

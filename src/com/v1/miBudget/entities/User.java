@@ -20,6 +20,10 @@ public class User implements Serializable {
 
 	public User() {}
 	
+	public User(int id) {
+		this.id = id;
+	}
+	
 	/**
 	 * If you need to validate a user, you can use this constructor.
 	 * @param cellphone

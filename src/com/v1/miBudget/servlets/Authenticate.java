@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -23,10 +24,15 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import com.plaid.client.PlaidClient;
 import com.plaid.client.request.AccountsGetRequest;
+import com.plaid.client.request.ItemGetRequest;
 import com.plaid.client.request.ItemPublicTokenExchangeRequest;
 import com.plaid.client.response.Account;
 import com.plaid.client.response.AccountsGetResponse;
+import com.plaid.client.response.ErrorResponse;
+import com.plaid.client.response.ItemGetResponse;
 import com.plaid.client.response.ItemPublicTokenExchangeResponse;
+import com.plaid.client.response.ItemStatus;
+import com.plaid.client.response.ErrorResponse.ErrorType;
 import com.v1.miBudget.daoimplementations.AccountDAOImpl;
 import com.v1.miBudget.daoimplementations.ItemDAOImpl;
 import com.v1.miBudget.daoimplementations.MiBudgetDAOImpl;
@@ -456,6 +462,38 @@ public class Authenticate extends HttpServlet {
 		  session.setAttribute("change", "You have successfully loaded " + acctsGetRes.body().getAccounts().size() + strAccounts);
 		  // update user in requestSession
 		  
+		  // update ErrMapForItems
+		  HashMap<String, Boolean> errMapForItems = new HashMap<>();
+		  ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
+		  ArrayList<Item> items = new ArrayList<>();
+		  for(int i = 0; i < institutionIdsList.size(); i++) {
+			  Item item = itemDAOImpl.getItemFromUser(institutionIdsList.get(i));
+			  System.out.println(item);
+			  items.add(item);
+		  }
+//			
+		  for(int i = 0; i < items.size(); i++) {
+			  ItemGetRequest getReq = new ItemGetRequest(items.get(i).getAccessToken());
+			  Response<ItemGetResponse> getRes = client().service().itemGet(getReq).execute();
+			  if (getRes.isSuccessful()) {
+				  ItemStatus itemStatus = getRes.body().getItem();
+				  ErrorResponse err = itemStatus.getError();
+				  if (err != null) {
+					  if (err.getErrorType() == ErrorType.ITEM_ERROR) {
+						  System.out.println("There is an Item_Error");
+						  System.out.println(err.toString());
+						  errMapForItems.put(items.get(i).getInsitutionId(), true);
+					  } 
+				  } else {
+					  System.out.println("No error for this item: " + items.get(i).toString());
+					  errMapForItems.put(items.get(i).getInsitutionId(), false);
+				  }
+			  } else {
+				  System.out.println("ItemGetResponse failed.");
+				  System.out.println(getRes.errorBody());
+			  }
+		  }
+		  session.setAttribute("ErrMapForItems", errMapForItems);
 		  
 		  //response.setContentType("application/json");
 		  return "SUCCESS";

@@ -22,11 +22,11 @@ public class MiBudgetDAOImpl {
     }
     
     // get the users institutuion ids from users_institution_ids table
-    public List<String> getAllInstitutionIdsFromUser(User user) {
+    public ArrayList<String> getAllInstitutionIdsFromUser(User user) {
     	SessionFactory factory = null;
     	Session session = null;
     	Transaction t = null;
-		List<String> institutionIds = new ArrayList<>();
+		ArrayList<String> institutionIds = new ArrayList<>();
 		try {
 			System.out.println("\nAttempting to execute getAllInstitutionIds query...");
 			factory = HibernateUtilities.getSessionFactory();

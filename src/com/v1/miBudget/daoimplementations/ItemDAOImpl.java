@@ -7,8 +7,11 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+
+import com.v1.miBudget.entities.Account;
 import com.v1.miBudget.entities.Item;
 import com.v1.miBudget.entities.User;
+import com.v1.miBudget.entities.UsersItemsObject;
 import com.v1.miBudget.utilities.HibernateUtilities;
 
 public class ItemDAOImpl {
@@ -18,6 +21,30 @@ public class ItemDAOImpl {
 	public ItemDAOImpl() {
     }
     
+	@SuppressWarnings("unchecked")
+	public Item getItemFromUser(String institutionId) {
+		Item item = new Item();
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
+    	try {
+    		System.out.println("\nAttempting to getItemFromUser query...");
+    		factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
+			t = session.beginTransaction();
+			item = (Item) session
+					.createNativeQuery("SELECT * FROM items " +
+			                           "WHERE institution_id = '" + institutionId + "'")
+					.addEntity(Item.class).getSingleResult();
+			t.commit();
+			session.close();
+			return item;
+    	} catch (HibernateException e) {
+    		System.out.println(e.getMessage());
+    	}
+    	return item;
+	}
+	
     public List<Item> getAllItems() {
     	List<Item> itemsList = new ArrayList<>();
     	SessionFactory factory = null;
@@ -163,6 +190,31 @@ public class ItemDAOImpl {
 			session.close();
 		} 
 		return itemTableIdsList;
+    }
+    
+    public ArrayList<String> getAccessTokensFromUser(User user) {
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
+    	ArrayList<String> accessTokens = new ArrayList<>();
+    	try {
+    		System.out.println("\nAttempting to execute getAccessTokens query");
+    		factory = HibernateUtilities.getSessionFactory();
+    		session = factory.openSession();
+    		t = session.beginTransaction();
+    		List<?> res = (List<?>) session.createNativeQuery("SELECT access_token " +
+    											              "FROM items " +
+    											              "WHERE user_id = '" + user.getId() + "'").getResultList();
+    		t.commit();
+    		session.close();
+    		res.forEach(str -> {
+    			accessTokens.add((String) str);
+    		});
+    		return accessTokens;
+    	} catch (HibernateException e) {
+    		
+    	}
+    	return accessTokens;
     }
     
     public String getAccessToken(String institutionId) {
