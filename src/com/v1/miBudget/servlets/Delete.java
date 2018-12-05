@@ -76,6 +76,8 @@ public class Delete extends HttpServlet {
 			session.setAttribute("institutionIdsListSize", institutionIdsList.size());
 			session.setAttribute("accountsSize", numberOfAccounts);
 		}
+		
+		// Need to call /item/delete to invalidate access-token for Item
 		return "SUCCESS";
 		
 	}

@@ -226,10 +226,10 @@ public class ItemDAOImpl {
     		factory = HibernateUtilities.getSessionFactory();
     		session = factory.openSession();
     		t = session.beginTransaction();
-    		Object res = session.createNativeQuery("SELECT access_token " +
+    		String res = (String) session.createNativeQuery("SELECT access_token " +
     											   "FROM items " +
     											   "WHERE institution_id = '" + institutionId + "'").getSingleResult();
-    		return res.toString();
+    		return res;
     	} catch (HibernateException e) {
     		
     	}

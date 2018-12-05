@@ -84,7 +84,7 @@ public class Profile extends HttpServlet {
 					ErrorResponse err = itemStatus.getError();
 					if (err != null) {
 						if (err.getErrorType() == ErrorType.ITEM_ERROR) {
-							System.out.println("There is an Item_Error");
+							System.out.print("There is an Item_Error: ");
 							System.out.println(err.toString());
 							errMapForItems.put(items.get(i).getInsitutionId(), true);
 						} 

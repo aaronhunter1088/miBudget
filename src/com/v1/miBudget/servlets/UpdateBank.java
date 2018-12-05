@@ -82,20 +82,25 @@ public class UpdateBank extends HttpServlet {
 		ItemPublicTokenCreateRequest req = new ItemPublicTokenCreateRequest(accessToken);
 		Response<ItemPublicTokenCreateResponse> res = client().service().itemPublicTokenCreate(req).execute();
 		if (res.isSuccessful()) {
+			session = request.getSession(false);
+			// Might need to add logic to update ErrMapForItems
+			User user = (User) session.getAttribute("user");
+			
+			
+			// update ErrMapForItems
+		    @SuppressWarnings("unchecked")
+			HashMap<String, Boolean> errMapForItems = (HashMap<String, Boolean>) session.getAttribute("ErrMapForItems");
+		    errMapForItems.put(institutionId, false);
+		    session.setAttribute("ErrMapForItems", errMapForItems);
 			System.out.println("public_token: " + res.body().getPublicToken());
 			System.out.println("Public token retrieved. Returning to Profile.jsp");
+			System.out.println("UpdateBank Response: Good");
 			response.setStatus(HttpServletResponse.SC_OK);
 			response.setContentType("application/text");
 			response.getWriter().append(res.body().getPublicToken().trim());
 			response.getWriter().flush();
-			session = request.getSession(false);
+			
 		}
-		// Might need to add logic to update ErrMapForItems
-		User user = (User) session.getAttribute("user");
-		// update ErrMapForItems
-	    @SuppressWarnings("unchecked")
-		HashMap<String, Boolean> errMapForItems = (HashMap<String, Boolean>) session.getAttribute("ErrMapForItems");
-	    errMapForItems.put(institutionId, false);
-	    session.setAttribute("ErrMapForItems", errMapForItems);
+		
 	}
 }

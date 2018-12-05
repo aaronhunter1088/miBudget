@@ -552,10 +552,12 @@ public class Authenticate extends HttpServlet {
 		ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
 		boolean exit = false;
 		Iterator<String> iter = institutionIdsList.iterator();
+		String institutionIdThatIsAdded = null;
 		while (iter.hasNext()) {
 			String id = iter.next();
 			if (id.equals(institution_idIncoming)) {
 				System.out.println(institution_idIncoming + " has already been added. We cannot add it again.");
+				institutionIdThatIsAdded = institution_idIncoming;
 				exit = true;
 				break;
 			} else
@@ -568,7 +570,8 @@ public class Authenticate extends HttpServlet {
 			request.getSession(false).setAttribute("NoOfAccts", numberOfAccounts);
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 			response.setContentType("application/text");
-			
+			response.getWriter().append(institutionIdThatIsAdded + " has already been added. We cannot add it again.");
+			System.out.println("Authenticate response: " + institutionIdThatIsAdded + " has already been added. We cannot add it again.");
 			return;
 		}
 		
