@@ -60,7 +60,18 @@ public class UpdateBank extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		System.out.println("\nInside UpdateBank doGet()...");
+		HttpSession session = request.getSession(false);
+		System.out.println("Updating ErrMapForItems...");
+		String institutionId = request.getParameter("institutionId");
+		// update ErrMapForItems
+	    @SuppressWarnings("unchecked")
+		HashMap<String, Boolean> errMapForItems = (HashMap<String, Boolean>) session.getAttribute("ErrMapForItems");
+	    errMapForItems.put(institutionId, false);
+	    session.setAttribute("ErrMapForItems", errMapForItems);
+		System.out.println("Returning to Profile.jsp");
+		System.out.println("UpdateBank Response: Good");
+		response.setStatus(HttpServletResponse.SC_OK);
 	}
 
 	/**

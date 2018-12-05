@@ -49,7 +49,7 @@
 		<hr/>
 		<button id="link-button">Link Account</button>
 		<hr/>
-		<button id="testButton" onclick="updateAccountsTable()">Update Table</button>
+		<button id="testButton" onclick="reloadPage()")>Update Table</button>
 		<hr/>
 		<p id="changingText"><b>${change}</b></p>
 		<br/>
@@ -236,6 +236,7 @@
 			            console.log('metadata:');
 			            console.log(JSON.stringify(metadata));
 			            location.reload(true);
+			            reloadErrMapForItems();
 			        },
 			        onExit: function(err, metadata) {
 			            // The user exited the Link flow.
@@ -255,6 +256,12 @@
 			    return updateHandler; 
 		    	
 		    }
+			function reloadErrMapForItems() {
+				$.get("Profile",
+				function(data) {
+
+				});
+			};
 			$(function() {
 				$('.button').removeAttr('disabled');
 				
@@ -262,7 +269,7 @@
 				//$('.accountsSize').text('Accounts - ' + usersAccounts);
 				//$('.changingText').val('This text will change after using the Plaid Link Initializer.');
 				//$('p').toggle();
-				updateAccountsTable();
+				
 			
 
 
@@ -384,11 +391,12 @@
 			     console.log('the button you clicked: ' + institutionIdName);
 			     
 			     $.when(ajax1()).done(function(publicToken) {
-					alert('we are done');
+					alert('Public token received...');
 					updateHandler = getUpdateHandler(publicToken);
 					 console.log('updateHandler returned');
 					 //updateHandler.open(institutionIdName);
 					 //updateHandler.open(publicToken);
+					 
 					 updateHandler.open();
 				 });
 				 function ajax1() {
@@ -419,10 +427,21 @@
 			  /* $('button').on('click', function(e) {
 				alert('hi');
 			  }); */
-			  
+			  updateAccountsTable();
 		      console.log("jsp page has finished loading.")
 		    });
 		    //})(jQuery);
+		    function reloadPage() {
+			    $.when(reload()).done(function() {
+			    	location.reload(true);
+				});
+			    function reload() { 
+			    	return $.get("Profile",
+					function(data) {
+
+					});
+				};
+			}
 		</script>
 	</body>
 </html>
