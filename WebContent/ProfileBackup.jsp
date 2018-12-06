@@ -19,22 +19,25 @@
 		<link rel="icon" type="image/x-icon" href="wallet.ico">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
 		<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
-	    <style>
-			img {
-				width : 50px;
-				height: 50px;
-				border-style : solid;
-			}
-			.images {
-				display: none; /* all */
-			}
-			.updateButton {
-				display: all;
-			}
-			.outertable {}
-			.innertable {}
-		</style>
 	</head>
+	<style>
+		img {
+			width : 50px;
+			height: 50px;
+			border-style : solid;
+		}
+		.images {
+			display: none; /* all */
+		}
+		.clickableImage {
+		
+		}
+		.updateButton {
+			display: all;
+		}
+		.outertable {}
+		.innertable {}
+	</style>
 	<body>
 		<h1>Profile for ${Firstname} ${Lastname}</h1>
 		<br/>
@@ -166,21 +169,20 @@
 				$("[id='bank']").each(function() {
 					//var institutionId = $(this).find('td:nth-child(1)').text().replace(/\s/g,'');
 					var institutionId = $(this).find('td:nth-child(1)').attr('name');
-					var col1 = $(this).find('td:nth-child(1)');
-					var col2 = $(this).find('td:nth-child(2)');
+					var row2 = $(this).find('td:nth-child(2)');
 					//var institutionId = $(this).text().replace(/\s/g,'');
 					//var name = $(this).find('td:nth-child(2)').attr('name', institutionId);
 					console.log("cell value: " + institutionId);
-					var nameOfButton = col2.attr('name');
+					var nameOfButton = $(this).find('td:nth-child(2)').attr('name');
 					console.log("button name is: " + nameOfButton);
 					if (institutionId == "") { $(this).html(''); }
 					// will do for all update buttons
-					if (col2.attr('name') == "true") { col2.show(); }
-					else { col2.hide(); }
+					if (row2.attr('name') == "true") { row2.show(); }
+					else { row2.hide(); }
 					
 					
 					if (institutionId == "ins_1") { 
-						$(this).find('td:nth-child(1)').html('<img src="bankofamerica.jpg" alt="ins_1"/>'); 
+						$(this).find('td:nth-child(1)').html('<img class="clickableImages" src="bankofamerica.jpg" alt="ins_1"/>'); 
 					}
 					if (institutionId == "ins_2") { 
 						$(this).find('td:nth-child(1)').html('<img src="bb&t.jpg" alt="ins_2"/>');
@@ -214,20 +216,8 @@
 						$(this).find('td:nth-child(1)').html('<img src="huntington.jpg" alt="ins_21"/>'); 
 					}
 					// will do for all images
-					var code = col1.html().split(" ",2).pop();
-					nameOfButton = code.substring(code.indexOf('"')+1, code.lastIndexOf('"'));
-					//console.log('name: ' + name);
-					col1.attr('name', nameOfButton);
-					console.log('image column name is now: ' + col1.attr('name'));
-					col1.click(function() {
-						var col1 = $(this);
-						var nameOfButton;
-						var code = col1.html().split(" ",2).pop();
-						nameOfButton = code.substring(code.indexOf('"')+1, code.lastIndexOf('"'));
-						//console.log('code: ' + code);
-						console.log('you clicked ' + nameOfButton);
-						
-					});
+					$(this).find('td:nth-child(1)').addClass();
+				//$('tr > td:nth-child(2)')
 				}); // end for each row
 			};
 			function getUpdateHandler(publicToken) {

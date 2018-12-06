@@ -10,12 +10,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.plaid.client.PlaidClient;
+import com.plaid.client.request.ItemRemoveRequest;
+import com.plaid.client.response.ItemRemoveResponse;
 import com.v1.miBudget.daoimplementations.AccountDAOImpl;
 import com.v1.miBudget.daoimplementations.ItemDAOImpl;
 import com.v1.miBudget.daoimplementations.MiBudgetDAOImpl;
 import com.v1.miBudget.entities.Account;
 import com.v1.miBudget.entities.Item;
 import com.v1.miBudget.entities.User;
+
+import retrofit2.Response;
 
 /**
  * Servlet implementation class Delete
@@ -27,7 +32,17 @@ public class Delete extends HttpServlet {
 	private ItemDAOImpl itemDAOImpl = new ItemDAOImpl();
 	private AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
 	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
-       
+	private final String clientId = "5ae66fb478f5440010e414ae";
+	private final String secret = "0e580ef72b47a2e4a7723e8abc7df5"; 
+    public final PlaidClient client() {
+		// Use builder to create a client
+		PlaidClient client = PlaidClient.newBuilder()
+				.clientIdAndSecret(clientId, secret)
+				.publicKey("") // optional. only needed to call endpoints that require a public key
+				.sandboxBaseUrl() // or equivalent, depending on which environment you're calling into
+				.build();
+		return client;
+    }   
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -69,16 +84,27 @@ public class Delete extends HttpServlet {
 			return "FAIL: did not delete the item from the items table.";
 		}
 		if (verify == 1) {
-			// update session values
-			int numberOfAccounts = accountDAOImpl.getAccountIdsFromUser(user).size();
-			ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
-			session.setAttribute("institutionIdsList", institutionIdsList);
-			session.setAttribute("institutionIdsListSize", institutionIdsList.size());
-			session.setAttribute("accountsSize", numberOfAccounts);
+			Response<ItemRemoveResponse> itemRemoveRes =  client().service()
+					.itemRemove(new ItemRemoveRequest(item.getAccessToken()))
+					.execute();
+					// The Item has been removed and the access token is now invalid
+			Boolean isRemoved = itemRemoveRes.body().getRemoved();
+			System.out.println(item.getAccessToken() + " was invalidated?: " + isRemoved);
+			if (isRemoved == true) {
+				// update session values
+				int numberOfAccounts = accountDAOImpl.getAccountIdsFromUser(user).size();
+				ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
+				session.setAttribute("institutionIdsList", institutionIdsList);
+				session.setAttribute("institutionIdsListSize", institutionIdsList.size());
+				session.setAttribute("accountsSize", numberOfAccounts);
+			} else {
+				return "FAIL: access token was not invalidated for " + item.getInsitutionId();
+			}
 		}
 		
+		
 		// Need to call /item/delete to invalidate access-token for Item
-		return "SUCCESS";
+		return "deleteBank: SUCCESS";
 		
 	}
 	
@@ -96,7 +122,7 @@ public class Delete extends HttpServlet {
 			String deleteResponse = deleteBank(request, response);
 			System.out.println("deleteResponse: " + deleteResponse);
 			// TODO: research /item/delete ... what are we deleting the item from??
-			if (deleteResponse.equals("SUCCESS")) {
+			if (deleteResponse.contains("SUCCESS")) {
 				response.setContentType("application/html");
 				response.setStatus(HttpServletResponse.SC_OK);
 				response.sendRedirect("Profile.jsp");

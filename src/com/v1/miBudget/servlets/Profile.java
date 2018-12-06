@@ -59,14 +59,6 @@ public class Profile extends HttpServlet {
 			System.out.println("Attempting to log in...");
 			User user = (User) request.getAttribute("user");
 			requestSession.setAttribute("change", "This text will change after using the Plaid Link Initializer.");
-
-
-			// Make a call to ItemGetResponse. It returns ItemStatus object.
-			// That ItemStatus has an ErrorResponse that could have error code 
-			// We can check for a code equal to ITEM_LOGIN_REQUIRED
-			// Store results for all Items in a Map of institutionId : true/false
-			// true for login required, false for not required
-			// On Profile.jsp, we display an update icon if true for that Item.
 			HashMap<String, Boolean> errMapForItems = new HashMap<>();
 			ArrayList<String> ids = (ArrayList<String>) requestSession.getAttribute("institutionIdsList");
 			ArrayList<Item> items = new ArrayList<>();
