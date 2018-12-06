@@ -267,8 +267,8 @@
 						console.log('you clicked ' + nameOfButton);
 						// hilde outer table. show inner table
 						$('.outerTable').hide();
-						var acctCol = $("[id='acct'] > tr:nth-child(2)").attr('name')
-						console.log(acctCol)
+						//var acctCol = $("[id='acct'] > tr:nth-child(2)").attr('name')
+						//console.log(acctCol)
 						$('.innerTable').show();
 					});
 				}); // end for each row
