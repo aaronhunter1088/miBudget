@@ -5,9 +5,12 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Iterator" %>
 <%@ page import="java.lang.String" %>
+<%@ page import="com.v1.miBudget.daoimplementations.MiBudgetDAOImpl" %>
 <%@ page import="com.v1.miBudget.daoimplementations.AccountDAOImpl" %>
+<%@ page import="com.v1.miBudget.daoimplementations.ItemDAOImpl" %>
 <%@ page import="com.v1.miBudget.entities.Account" %>
 <%@ page import="com.v1.miBudget.entities.User" %>
+<%@ page import="com.v1.miBudget.entities.UserAccountObject" %>
 <%@ page import="java.util.HashMap" %>
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -39,7 +42,9 @@
 		<h1>Profile for ${Firstname} ${Lastname}</h1>
 		<br/>
 		<% User user = (User)session.getAttribute("user"); %>
-		<% List institutionsIdsList = (ArrayList<String>)session.getAttribute("institutionIdsList"); %>
+		<% MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl(); %>
+		<% AccountDAOImpl accountDAOImpl = new AccountDAOImpl(); %>
+		<% ItemDAOImpl itemsDAOImpl = new ItemDAOImpl(); %>
 		<h1>Profile for <%= user.getFirstName() %> <%= user.getLastName() %></h1>
 	
 		<form action="Welcome" method="post"> <!-- think about chaning this call to get -->
@@ -61,6 +66,7 @@
 		<!-- Each account should have an update button and a delete button -->
 		<!-- Update updates the Item -->
 		<!-- Delete deletes the Item -->
+		<% List institutionsIdsList = (ArrayList<String>)session.getAttribute("institutionIdsList"); %>
 		<div class="mainTable" id="accountsTable">
 			<table class="outerTable" id="outerTable">
 				<% 
@@ -69,8 +75,8 @@
 				HashMap<String, Boolean> errMapForItems = (HashMap) session.getAttribute("ErrMapForItems");
 				// Load Map of ItemGetResponses here
 				while (institutionIdsIter.hasNext()) {
-				String currentId = (String)institutionIdsIter.next();
-				String idCopy = currentId;
+				    String currentId = (String)institutionIdsIter.next();
+				    String idCopy = currentId;
 				%> 
 				<!-- [Bank Logo | Update | Delete] --> 
 				<tr id="bank">
@@ -98,53 +104,85 @@
 			</table>
 			<!-- Space for readability -->
 			<table class="innerTable" id="innerTable">
-				<!-- <th> 
-					<button type="button" onclick="hideInnerTable()">Back</button>
-				</th> -->
 				<% 
-				//int noOfAccts = user.getAccountIds().size(); 
-				List<String> acctIds = user.getAccountIds(); 
-		        Iterator innerIter = acctIds.iterator();
-				//while (innerIter.hasNext()) {
-				%> 
-				<!-- [Name | Mask | Subtype | Delete] --> 
-				<tr id="acct"> 
-					<td>
-				 	<!-- Account -->
-				 		<!-- Name | Mask | Subtype -->
-					  	<td>
-					  		<%-- <%= innerIter.next() %> --%> <!-- Name --> 
-					  	</td> 
-				 			<!-- Whitespace - Mask --> 
-				 		<td>
-				 		</td>
-				 			<!-- Whitespace - Subtype -->
-				 		<td> 
-				 		</td>
-				 	</td> 
-				 	<!-- Whitespace -->
-				 	<td>
-				 		<!-- Delete button -->
-				 		<!-- Goes to Delete.java and performs doPost --> 
-				      <!-- <form id="delete" method="post" action="Delete"> 
-					    <button type="submit" formmethod="post">Delete Account</button>
-					  </form> --> 
-				    </td> 
-				</tr> 
-				<%-- <% } %> --%>
+				institutionIdsIter = institutionsIdsList.iterator();
+				while (institutionIdsIter.hasNext()) {	
+					String currentId = (String) institutionIdsIter.next();	
+					%>
+				    <tr id="header">
+				    	<td>
+				    		<h4 name="bankName"><%= currentId %></h4>
+				    	</td>
+				    	<th> 
+							<button onclick="hideInnerTable()">Go Back</button>
+						</th>
+				    </tr>
+					<% 
+					HashMap<String, ArrayList<Account>> acctsMap = (HashMap<String, ArrayList<Account>>) session.getAttribute("acctsAndInstitutionIdMap")
+						!= null ? (HashMap<String, ArrayList<Account>>) session.getAttribute("acctsAndInstitutionIdMap") : new HashMap<String, ArrayList<Account>>();
+					ArrayList<Account> acctsList = acctsMap.get(currentId);
+					try {
+						for (int i = 0; i < acctsList.size(); i++) { 
+							Account acct = acctsList.get(i); %>
+							<!-- [Name | Mask | Available Balance] | Delete --> 
+							<tr id="acct" name="<%= currentId %>"> 
+								<!-- Account -->
+								<td>
+							 		<!-- Name | Mask | Subtype -->
+								  	<td>
+								  		<%= acct.getNameOfAccount() != null ? 
+								  			acct.getNameOfAccount() :
+								  			acct.getOfficialName() %> <!-- Name of Account otherwise Official Name --> 
+								  	</td> 
+							 		<!-- Whitespace -->	
+							 		<td>
+							 			<%= acct.getMask() %>
+							 		</td>
+							 		<!-- Whitespace -->	
+							 		<td> 
+							 			<%= acct.getAvailableBalance() %>
+							 		</td>
+							 		<!-- Whitespace -->	
+							 		<td>
+							 			<%= acct.getType() %>
+							 		</td>
+							 		<!-- Whitespace -->	
+							 		<td> 
+							 			<%= acct.getSubType() %>
+							 		</td>
+							 	</td> 
+							 	<!-- Delete Account -->
+							 	<td>
+							 		<button onclick="deleteAccount()">Delete Account</button>
+							 		<!-- Delete button -->
+							 		<!-- Goes to Delete.java and performs doPost --> 
+							        <!-- <form id="delete" method="post" action="Delete"> 
+								    <button type="submit" formmethod="post">Delete Account</button>
+								  </form> -->
+							 	</td> 
+							</tr>
+					<%	}
+					} catch (NullPointerException e) {
+						
+					}		
+				  
+		    	} %> 
 			</table>
 		</div>
 		
 		<script>
-			/* $("img").on("click", function() {
+			$("img").on("click", function() {
 				console.log('inside click()');
 				$(".outerTable").hide();
 				$(".innerTable").show();
-			}); */
-			/* function hideInnerTable() {
+			});
+			function hideInnerTable() {
 				$(".innerTable").hide();
-				$(".outerTable.").show();
-			}; */
+				$(".outerTable").show();
+			}; 
+			function deleteAccount() {
+				console.log('We need to delete this account');
+			};
 			function resetParagraphs(metadata_accounts_length) {
 				console.log("Inside resetParagraphs");
 				var usersAccounts = <%= user.getAccountIds().size() %>;
@@ -224,9 +262,14 @@
 						var nameOfButton;
 						var code = col1.html().split(" ",2).pop();
 						nameOfButton = code.substring(code.indexOf('"')+1, code.lastIndexOf('"'));
+						nameOfButton = nameOfButton.substring(0, nameOfButton.length-4);
 						//console.log('code: ' + code);
 						console.log('you clicked ' + nameOfButton);
-						
+						// hilde outer table. show inner table
+						$('.outerTable').hide();
+						var acctCol = $("[id='acct'] > tr:nth-child(2)").attr('name')
+						console.log(acctCol)
+						$('.innerTable').show();
 					});
 				}); // end for each row
 			};
@@ -452,6 +495,7 @@
 			  /* $('button').on('click', function(e) {
 				alert('hi');
 			  }); */
+			  hideInnerTable();
 			  updateAccountsTable();
 		      console.log("jsp page has finished loading.")
 		    });

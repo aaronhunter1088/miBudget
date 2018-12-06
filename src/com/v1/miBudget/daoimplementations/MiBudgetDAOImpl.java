@@ -16,9 +16,10 @@ import com.v1.miBudget.utilities.HibernateUtilities;
 
 public class MiBudgetDAOImpl {
 	
-	private AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
+	private AccountDAOImpl accountDAOImpl;
 	
 	public MiBudgetDAOImpl() {
+		this.accountDAOImpl = new AccountDAOImpl();
     }
     
     // get the users institutuion ids from users_institution_ids table
@@ -330,7 +331,16 @@ public class MiBudgetDAOImpl {
 		return null;
 	}
 
+	/**
+	 * TODO: need to update this method. it is not good. in the sense that when i have two users in the program
+	 * it will create Items for the first institution_id it finds. this will be wrong if we have multiple users.
+	 * Hence, the addition of user specific tables. I may need to get all items from the item table, but only the 
+	 * ones that have this institution_id 
+	 * @param institution_id
+	 * @return
+	 */
 	public Item getItemFromDatabase(String institution_id) {
+		System.out.println("\nAttempting to getItemFromDatabase using institutionId query...");
 		Item item = null;
 		SessionFactory factory = null;
     	Session session = null;
@@ -348,6 +358,8 @@ public class MiBudgetDAOImpl {
 			List<?> accessToken = session.createNativeQuery("SELECT access_token " + 
 															"FROM items " +
 															"WHERE institution_id = '" + institution_id + "'").getResultList();
+//			Item item = session.createNativeQuery("SELECT * FROM " + 
+//												  "WHERE ")
 			item = new Item(Integer.parseInt(itemTableId.get(0).toString()), itemId.get(0).toString(), 
 					accessToken.get(0).toString(), institution_id);
 			System.out.println("retrieving item: " + item);

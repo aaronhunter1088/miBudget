@@ -3,6 +3,8 @@ package com.v1.miBudget.servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -109,6 +111,7 @@ public class Profile extends HttpServlet {
 		HttpSession requestSession = request.getSession(false);  
         if (requestSession != null && (Boolean)requestSession.getAttribute("isUserLoggedIn") == true){  
         	System.out.println("stored requestSessionId: " + requestSession.getAttribute("requestSessionId"));
+        	requestSession.setAttribute("acctsAndInstitutionIdMap", new HashMap<String, List<com.v1.miBudget.entities.Account>>() );
         	//RequestDispatcher view = request.getRequestDispatcher("/Profile.html");
         	//view.forward(request, response); // doesn't take the session
         	response.sendRedirect("Profile.jsp");

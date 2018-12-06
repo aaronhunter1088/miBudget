@@ -2,6 +2,7 @@ package com.v1.miBudget.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,8 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.plaid.client.PlaidClient;
+import com.plaid.client.request.ItemGetRequest;
 import com.plaid.client.request.ItemRemoveRequest;
+import com.plaid.client.response.ErrorResponse;
+import com.plaid.client.response.ItemGetResponse;
 import com.plaid.client.response.ItemRemoveResponse;
+import com.plaid.client.response.ItemStatus;
+import com.plaid.client.response.ErrorResponse.ErrorType;
 import com.v1.miBudget.daoimplementations.AccountDAOImpl;
 import com.v1.miBudget.daoimplementations.ItemDAOImpl;
 import com.v1.miBudget.daoimplementations.MiBudgetDAOImpl;
@@ -116,13 +122,42 @@ public class Delete extends HttpServlet {
 		System.out.println("Inside the Delete doPost method");
 		System.out.println("currentId: " + request.getParameter("idCopy"));
 		System.out.println("deleting request: " + request.getParameter("delete"));
-		
+		HttpSession session = request.getSession(false);
 		// Perform the following logic:
 		if (request.getParameter("delete").equals("bank")) {
 			String deleteResponse = deleteBank(request, response);
 			System.out.println("deleteResponse: " + deleteResponse);
-			// TODO: research /item/delete ... what are we deleting the item from??
+			HashMap<String, Boolean> errMapForItems = new HashMap<>();
+			ArrayList<String> ids = (ArrayList<String>) session.getAttribute("institutionIdsList");
+			ArrayList<Item> items = new ArrayList<>();
+			for(int i = 0; i < ids.size(); i++) {
+				Item item = itemDAOImpl.getItemFromUser(ids.get(i));
+				System.out.println(item);
+				items.add(item);
+			}
 			if (deleteResponse.contains("SUCCESS")) {
+				for(int i = 0; i < items.size(); i++) {
+					ItemGetRequest getReq = new ItemGetRequest(items.get(i).getAccessToken());
+					Response<ItemGetResponse> getRes = client().service().itemGet(getReq).execute();
+					if (getRes.isSuccessful()) {
+						ItemStatus itemStatus = getRes.body().getItem();
+						ErrorResponse err = itemStatus.getError();
+						if (err != null) {
+							if (err.getErrorType() == ErrorType.ITEM_ERROR) {
+								System.out.print("There is an Item_Error: ");
+								System.out.println(err.toString());
+								errMapForItems.put(items.get(i).getInsitutionId(), true);
+							} 
+						} else {
+							System.out.println("No error for this item: " + items.get(i).toString());
+							errMapForItems.put(items.get(i).getInsitutionId(), false);
+						}
+					} else {
+						System.out.println("ItemGetResponse failed.");
+						System.out.println(getRes.errorBody());
+					}
+				}
+				session.setAttribute("ErrMapForItems", errMapForItems);
 				response.setContentType("application/html");
 				response.setStatus(HttpServletResponse.SC_OK);
 				response.sendRedirect("Profile.jsp");

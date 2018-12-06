@@ -18,6 +18,8 @@ import com.v1.miBudget.utilities.HibernateUtilities;
 
 public class AccountDAOImpl {
 
+	
+	
 	public AccountDAOImpl() {
     }
     
@@ -275,6 +277,73 @@ public class AccountDAOImpl {
 			
 		 * Solution: See above implementation
 		 */
+    }
+    
+    @SuppressWarnings("unchecked")
+	public ArrayList<Account> getAllAccounts(String institutionId) {
+    	ArrayList<Account> accounts = new ArrayList<>();
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
+    	try {
+    		System.out.println("\nAttempting to execute getAllAccounts using institutionId query...");
+    		ItemDAOImpl itemDAOImpl = new ItemDAOImpl();
+    		Item item = itemDAOImpl.getItemFromUser(institutionId);
+    		factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
+			t = session.beginTransaction();
+			
+			
+			List<UserAccountObject> userAccountsFromDB = session
+					   .createNativeQuery("SELECT * FROM accounts " +
+							   		     "WHERE item_table_id = " + item.getItemTableId() + "\"")
+					   .addEntity(Account.class)
+					   .getResultList();
+			System.out.println("Query executed!");
+			t.commit();
+			session.close();
+			
+			for (Object id : userAccountsFromDB) {
+				accounts.add((Account) id);
+			}	
+    	} catch (Exception e) {
+    		System.out.println("Error connecting to DB");
+			System.out.println(e.getMessage());
+			t.rollback();
+			session.close();
+    	}
+    	return accounts;	
+    }
+    
+    @SuppressWarnings("unchecked")
+	public ArrayList<UserAccountObject> getAllOfUsersAccounts() {
+    	ArrayList<UserAccountObject> accounts = new ArrayList<>();
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
+    	try {
+    		System.out.println("\nAttempting to execute getAllOfUsersAccounts query...");
+    		factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
+			t = session.beginTransaction();
+			List<UserAccountObject> userAccountsFromDB = session
+					   .createNativeQuery("SELECT * FROM users_accounts")
+					   .addEntity(UserAccountObject.class)
+					   .getResultList();
+			System.out.println("Query executed!");
+			//t.commit();
+			session.close();
+			
+			for (Object id : userAccountsFromDB) {
+				accounts.add((UserAccountObject) id);
+			}	
+    	} catch (Exception e) {
+    		System.out.println("Error connecting to DB");
+			System.out.println(e.getMessage());
+			t.rollback();
+			session.close();
+    	}
+    	return accounts;
     }
     
     /**

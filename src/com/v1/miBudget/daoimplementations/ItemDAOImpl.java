@@ -16,8 +16,6 @@ import com.v1.miBudget.utilities.HibernateUtilities;
 
 public class ItemDAOImpl {
 	
-	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
-	
 	public ItemDAOImpl() {
     }
     
@@ -375,6 +373,7 @@ public class ItemDAOImpl {
     public Item createItemFromInstitutionId(String institutionId) {
     	try {
     		System.out.println("\nAttempting to get item using " + institutionId);
+    		MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
     		Item item = miBudgetDAOImpl.getItemFromDatabase(institutionId);
     		System.out.println("Item received");
     		return item;
