@@ -36,6 +36,7 @@
 			}
 			.outertable {}
 			.innertable {}
+			.acct {}
 		</style>
 	</head>
 	<body>
@@ -104,69 +105,73 @@
 			</table>
 			<!-- Space for readability -->
 			<table class="innerTable" id="innerTable">
-				<% 
+				<tr id="header" name="">
+			    	<th>
+			    		<h4 id="bankName"></h4>
+			    	</th>
+			    	<!-- <td>
+			    	</td>
+			    	<td>
+			    	</td> -->
+			    	<th> 
+						<button onclick="hideInnerTable()">Go Back</button>
+					</th>
+			    </tr>
+				<%
+				HashMap<Integer, ArrayList<Account>> acctsMap = (HashMap<Integer, ArrayList<Account>>)
+					session.getAttribute("acctsAndInstitutionIdMap");
+				System.out.println("acctsMap size: " + acctsMap.size());
+				Iterator mapsIter = acctsMap.keySet().iterator();
+				
 				institutionIdsIter = institutionsIdsList.iterator();
-				while (institutionIdsIter.hasNext()) {	
-					String currentId = (String) institutionIdsIter.next();	
-					%>
-				    <tr id="header">
-				    	<td>
-				    		<h4 name="bankName"><%= currentId %></h4>
-				    	</td>
-				    	<th> 
-							<button onclick="hideInnerTable()">Go Back</button>
-						</th>
-				    </tr>
-					<% 
-					HashMap<String, ArrayList<Account>> acctsMap = (HashMap<String, ArrayList<Account>>) session.getAttribute("acctsAndInstitutionIdMap")
-						!= null ? (HashMap<String, ArrayList<Account>>) session.getAttribute("acctsAndInstitutionIdMap") : new HashMap<String, ArrayList<Account>>();
-					ArrayList<Account> acctsList = acctsMap.get(currentId);
-					try {
-						for (int i = 0; i < acctsList.size(); i++) { 
-							Account acct = acctsList.get(i); %>
-							<!-- [Name | Mask | Available Balance] | Delete --> 
-							<tr id="acct" name="<%= currentId %>"> 
-								<!-- Account -->
-								<td>
-							 		<!-- Name | Mask | Subtype -->
-								  	<td>
-								  		<%= acct.getNameOfAccount() != null ? 
-								  			acct.getNameOfAccount() :
-								  			acct.getOfficialName() %> <!-- Name of Account otherwise Official Name --> 
-								  	</td> 
-							 		<!-- Whitespace -->	
-							 		<td>
-							 			<%= acct.getMask() %>
-							 		</td>
-							 		<!-- Whitespace -->	
-							 		<td> 
-							 			<%= acct.getAvailableBalance() %>
-							 		</td>
-							 		<!-- Whitespace -->	
-							 		<td>
-							 			<%= acct.getType() %>
-							 		</td>
-							 		<!-- Whitespace -->	
-							 		<td> 
-							 			<%= acct.getSubType() %>
-							 		</td>
-							 	</td> 
-							 	<!-- Delete Account -->
-							 	<td>
-							 		<button onclick="deleteAccount()">Delete Account</button>
-							 		<!-- Delete button -->
-							 		<!-- Goes to Delete.java and performs doPost --> 
-							        <!-- <form id="delete" method="post" action="Delete"> 
-								    <button type="submit" formmethod="post">Delete Account</button>
-								  </form> -->
-							 	</td> 
-							</tr>
-					<%	}
-					} catch (NullPointerException e) {
-						
-					}		
-				  
-		    	} %> 
+				
+				while (mapsIter.hasNext()) {
+					int itemTableId = Integer.parseInt(mapsIter.next().toString());
+					ArrayList<Account> acctsList = acctsMap.get(itemTableId);
+					String currentId = (String) institutionIdsIter.next();
+					System.out.println("\tacctsList size: " + acctsList.size());
+					Iterator acctsListIter = acctsList.iterator();
+					while (acctsListIter.hasNext()) {
+						Account acct = (Account) acctsListIter.next(); %>
+						<!-- [Name | Mask | Available Balance] | Delete --> 
+						<tr id="acct" class="acct" name="<%= currentId %>"> 
+							<!-- Account -->
+							<td>
+						 		<!-- Name | Mask | Subtype -->
+							  	<td>
+							  		<%= acct.getNameOfAccount() != null ? 
+							  			acct.getNameOfAccount() :
+							  			acct.getOfficialName() %> <!-- Name of Account otherwise Official Name --> 
+							  	</td> 
+						 		<!-- Whitespace -->	
+						 		<td>
+						 			<%= acct.getMask() %>
+						 		</td>
+						 		<!-- Whitespace -->	
+						 		<td> 
+						 			<%= acct.getAvailableBalance() %>
+						 		</td>
+						 		<!-- Whitespace -->	
+						 		<td>
+						 			<%= acct.getType() %>
+						 		</td>
+						 		<!-- Whitespace -->	
+						 		<td> 
+						 			<%= acct.getSubType() %>
+						 		</td>
+						 	</td> 
+						 	<!-- Delete Account -->
+						 	<td>
+						 		<button onclick="deleteAccount()">Delete Account</button>
+						 		<!-- Delete button -->
+						 		<!-- Goes to Delete.java and performs doPost --> 
+						        <!-- <form id="delete" method="post" action="Delete"> 
+							    <button type="submit" formmethod="post">Delete Account</button>
+							  </form> -->
+						 	</td> 
+						</tr>
+				<% }
+		    } %> 
 			</table>
 		</div>
 		
@@ -177,6 +182,9 @@
 				$(".innerTable").show();
 			});
 			function hideInnerTable() {
+				$("[id='acct']").each(function() {
+					$(this).show();
+				});
 				$(".innerTable").hide();
 				$(".outerTable").show();
 			}; 
@@ -191,8 +199,8 @@
 				$('#accounts').text('Accounts - ' + usersAccounts);
 		        $('#changingText').text('You have successfully loaded ' + metadata_accounts_length + strAccounts);
 			};
-			function updateAccountsTable() {
-				console.log('Inside updateAccountsTable()...');
+			function updateBanksTable() {
+				console.log('Inside updateBanksTable()...');
 				var firstRowText = $("[id='bank']").attr('id');
 				console.log(firstRowText == 'bank' ? 'ROW ATTAINED!' : 'DO NOT HAVE ROW')  ;
 				// $('tr > td:first-child').each(function() {
@@ -224,7 +232,7 @@
 						$(this).find('td:nth-child(1)').html('<img src="bb&t.jpg" alt="ins_2"/>');
 				    }
 					if (institutionId == "ins_3") { 
-						$(this).find('td:nth-child(1)').html('<img src="chaseLogo.jpg" alt="ins_3"/>');
+						$(this).find('td:nth-child(1)').html('<img src="chase.jpg" alt="ins_3"/>');
 					}
 					if (institutionId == "ins_4") { 
 						$(this).find('td:nth-child(1)').html('<img src="wellsfargo.jpg" alt="ins_4"/>'); 
@@ -253,7 +261,7 @@
 					}
 					// will do for all images
 					var code = col1.html().split(" ",2).pop();
-					nameOfButton = code.substring(code.indexOf('"')+1, code.lastIndexOf('"'));
+					nameOfButton = code.substring(code.indexOf('"')+1, code.indexOf('.'));
 					//console.log('name: ' + name);
 					col1.attr('name', nameOfButton);
 					console.log('image column name is now: ' + col1.attr('name'));
@@ -267,11 +275,53 @@
 						console.log('you clicked ' + nameOfButton);
 						// hilde outer table. show inner table
 						$('.outerTable').hide();
-						//var acctCol = $("[id='acct'] > tr:nth-child(2)").attr('name')
-						//console.log(acctCol)
+						<%-- <tr id="acct" name="<%= currentId %>"> --%>
+						//var acctRow = $("[name='"+nameOfButton+"']");
+						//console.log(acctRow)
+						$("[id='header'] > th > h4").text(nameOfButton);
+						$("[id='acct']").each(function() {
+							var acctRow = $(this); //$("[id='acct']")
+							acctRow.show();
+							var acctRowId = acctRow.attr('id');
+							var acctRowName = acctRow.attr('name');
+							console.log('name is ' + acctRowName);
+							if (acctRowName == nameOfButton) acctRow.show();
+							else acctRow.hide();
+						});
 						$('.innerTable').show();
+						
 					});
 				}); // end for each row
+			};
+
+			 <%-- <tr id="header">
+		    	<th>
+		    		<h4 id="bankName"><%= currentId %></h4>
+		    	</th> --%>
+			
+			function updateAccountsTable() {
+				console.log("\nInside updateAccountsTable()");
+				<%-- <tr id="acct" name="<%= currentId %>"> 
+				id="bankName" --%>
+				$("[id='acct']").each(function() {
+					var acctRow = $(this); //$("[id='acct']")
+					var acctRowId = acctRow.attr('id');
+					var acctRowName = acctRow.attr('name');
+					console.log(acctRowId == 'acct' ? 'ROW ATTAINED!' : 'DO NOT HAVE ROW')  ;
+					
+					console.log('acctRowName: ' + acctRowName);
+					//var institutionId = secondRow.attr('name');
+					if (acctRowName == "ins_1") { 
+						acctRow.attr('name', 'bankofamerica');
+					}
+					if (acctRowName == "ins_2") { 
+						$(this).find('td:nth-child(1)').html('<img src="bb&t.jpg" alt="ins_2"/>');
+				    }
+					if (acctRowName == "ins_3") { 
+						acctRow.attr('name', 'chase');
+					}
+					console.log('acctRowName: ' + acctRow.attr('name'));
+				});
 			};
 			function getUpdateHandler(publicToken) {
 				console.log('Inside getUpdateHandler');
@@ -497,6 +547,7 @@
 			  }); */
 			  hideInnerTable();
 			  updateAccountsTable();
+			  updateBanksTable();
 		      console.log("jsp page has finished loading.")
 		    });
 		    //})(jQuery);

@@ -447,12 +447,11 @@ public class Authenticate extends HttpServlet {
 			  //request.getSession(false).setAttribute("SubType", account.getSubType());
 		  });
 		  
-		  // Create a Map of institution_id, and list of appropriate accounts
+		  // Create a Map of itemIds, and list of appropriate accounts
 		  @SuppressWarnings("unchecked")
-		  HashMap<String, ArrayList<com.v1.miBudget.entities.Account>> acctsAndInstitutionIdMap = (HashMap<String, ArrayList<com.v1.miBudget.entities.Account>>) session.getAttribute("acctsAndInstitutionIdMap")
-		  	!= null ? (HashMap<String, ArrayList<com.v1.miBudget.entities.Account>>) session.getAttribute("acctsAndInstitutionIdMap") :
-		  	          new HashMap<String, ArrayList<com.v1.miBudget.entities.Account>>();
-		  acctsAndInstitutionIdMap.put(itemToAdd.getInsitutionId(), (ArrayList<com.v1.miBudget.entities.Account>) accountsList);
+		  HashMap<Integer, ArrayList<com.v1.miBudget.entities.Account>> acctsAndInstitutionIdMap = 
+		  	(HashMap<Integer, ArrayList<com.v1.miBudget.entities.Account>>) session.getAttribute("acctsAndInstitutionIdMap");
+		  acctsAndInstitutionIdMap.put(itemToAdd.getItemTableId(), listOfAccounts);
 		  session.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
 		  
 		  // Accounts list is all accounts in users profile
