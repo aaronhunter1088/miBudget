@@ -3,6 +3,7 @@ package com.v1.miBudget.servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +26,7 @@ import com.v1.miBudget.daoimplementations.MiBudgetDAOImpl;
 import com.v1.miBudget.entities.Account;
 import com.v1.miBudget.entities.Item;
 import com.v1.miBudget.entities.User;
+import com.v1.miBudget.entities.UsersItemsObject;
 
 import retrofit2.Response;
 
@@ -97,10 +99,16 @@ public class Delete extends HttpServlet {
 			Boolean isRemoved = itemRemoveRes.body().getRemoved();
 			System.out.println(item.getAccessToken() + " was invalidated?: " + isRemoved);
 			if (isRemoved == true) {
+				//ArrayList<UsersItemsObject> usersItemsList = itemDAOImpl.getAllUserItems((User)session.getAttribute("user"));
+				@SuppressWarnings("unchecked")
+				HashMap<Integer, ArrayList<Account>> acctsAndInstitutionIdMap = (HashMap<Integer, ArrayList<Account>>) 
+						session.getAttribute("acctsAndInstitutionIdMap");
+				acctsAndInstitutionIdMap.remove(item.getItemTableId());
 				// update session values
 				int numberOfAccounts = accountDAOImpl.getAccountIdsFromUser(user).size();
 				ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
 				session.setAttribute("institutionIdsList", institutionIdsList);
+				session.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
 				session.setAttribute("institutionIdsListSize", institutionIdsList.size());
 				session.setAttribute("accountsSize", numberOfAccounts);
 			} else {
@@ -136,6 +144,8 @@ public class Delete extends HttpServlet {
 				items.add(item);
 			}
 			if (deleteResponse.contains("SUCCESS")) {
+				
+					
 				for(int i = 0; i < items.size(); i++) {
 					ItemGetRequest getReq = new ItemGetRequest(items.get(i).getAccessToken());
 					Response<ItemGetResponse> getRes = client().service().itemGet(getReq).execute();

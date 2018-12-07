@@ -315,10 +315,13 @@
 						acctRow.attr('name', 'bankofamerica');
 					}
 					if (acctRowName == "ins_2") { 
-						$(this).find('td:nth-child(1)').html('<img src="bb&t.jpg" alt="ins_2"/>');
+						accrRow.attr('name', 'bb&t');
 				    }
 					if (acctRowName == "ins_3") { 
 						acctRow.attr('name', 'chase');
+					}
+					if (acctRowName == "ins_4") { 
+						acctRow.attr('name', 'wellsfargo');
 					}
 					console.log('acctRowName: ' + acctRow.attr('name'));
 				});
@@ -454,6 +457,7 @@
 					          //$('#accounts').html('Accounts : ' + usersAccounts);
 						      //$('#changingText').html('You have successfully loaded ' + metadata.accounts.length + strAccounts);
 					          //location.reload(true);
+					          updateBanksTable();
 					          updateAccountsTable();
 					          console.log("end of success");
 						  }).error(function (response) {

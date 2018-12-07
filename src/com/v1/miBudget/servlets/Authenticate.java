@@ -250,7 +250,7 @@ public class Authenticate extends HttpServlet {
 		}
 		System.out.println("number of accounts requested: " + accountsRequestedJsonArray.size());
 		
-		List<com.v1.miBudget.entities.Account> accountsList = new ArrayList<>();
+		ArrayList<com.v1.miBudget.entities.Account> accountsList = new ArrayList<>();
 		List<String> accountIdsList = new ArrayList<>();
 		JSONObject jsonObject = null;
 		for(int i = 0; i < accountsRequestedJsonArray.size(); i++) {
@@ -451,7 +451,7 @@ public class Authenticate extends HttpServlet {
 		  @SuppressWarnings("unchecked")
 		  HashMap<Integer, ArrayList<com.v1.miBudget.entities.Account>> acctsAndInstitutionIdMap = 
 		  	(HashMap<Integer, ArrayList<com.v1.miBudget.entities.Account>>) session.getAttribute("acctsAndInstitutionIdMap");
-		  acctsAndInstitutionIdMap.put(itemToAdd.getItemTableId(), listOfAccounts);
+		  acctsAndInstitutionIdMap.put(itemToAdd.getItemTableId(), accountsList);
 		  session.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
 		  
 		  // Accounts list is all accounts in users profile

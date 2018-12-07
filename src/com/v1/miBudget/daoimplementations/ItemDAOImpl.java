@@ -55,8 +55,7 @@ public class ItemDAOImpl {
 			session = factory.openSession();
 			t = session.beginTransaction();
 			itemsList = (ArrayList<UsersItemsObject>) session
-					.createNativeQuery("SELECT * FROM users_items " +
-			                           "WHERE user_id = " + user.getId())
+					.createNativeQuery("SELECT * FROM users_items WHERE user_id = " + user.getId())
 					.addEntity(UsersItemsObject.class).getResultList();
 			t.commit();
 			session.close();
