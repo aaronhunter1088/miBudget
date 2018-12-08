@@ -1,4 +1,4 @@
-package com.v1.miBudget.utilities;
+package com.miBudget.v1.utilities;
 
 import org.hibernate.HibernateException;
 import org.hibernate.boot.MetadataSources;
