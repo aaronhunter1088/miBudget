@@ -167,11 +167,13 @@ public class Delete extends HttpServlet {
 						System.out.println(getRes.errorBody());
 					}
 				}
+				session.setAttribute("change", "You have successfully deleted your bank.");
 				session.setAttribute("ErrMapForItems", errMapForItems);
 				response.setContentType("application/html");
 				response.setStatus(HttpServletResponse.SC_OK);
 				response.sendRedirect("Profile.jsp");
 			} else {
+				session.setAttribute("change", "There was an issue deleting your bank: " + deleteResponse);
 				response.setContentType("applicaiton/html");
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 				response.sendRedirect("Profile.jsp");

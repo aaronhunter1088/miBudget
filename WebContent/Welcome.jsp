@@ -12,15 +12,14 @@
 </head>
 <body>
 
-<h1>Welcome, ${Firstname} ${Lastname} : ${accountsSize}</h1>
+<h1>Welcome, <i>${Firstname}</i> : ${accountsSize}</h1>
 <br/>
 <%
 User user = (User)session.getAttribute("user");
 if (!user.getFirstName().equals(null)) {
 %>
-<h1>Welcome, <%= user.getFirstName() %> <%= user.getLastName() %> : <%= user.getAccountIds().size() %></h1>
+<h1>Welcome, <i><%= user.getFirstName() %></i> : <%= user.getAccountIds().size() %></h1>
 <% } %>
-<hr />
 <!-- <input class="button" type="button" onclick="window.location.replace('Profile.jsp')" value="Profile" /> -->
 <br/>
 <form action="Profile" method="get">

@@ -575,10 +575,10 @@ public class Authenticate extends HttpServlet {
 			System.out.println("");
 			int numberOfAccounts = accountDAOImpl.getAccountIdsFromUser(user).size();
 			request.getSession(false).setAttribute("NoOfAccts", numberOfAccounts);
-			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+			response.setStatus(HttpServletResponse.SC_CONFLICT); // TODO: Implement as some 2xx. 4xx is for invalid requests. We don't have that, we just restrict the logic. 
 			response.setContentType("application/text");
 			response.getWriter().append(institutionIdThatIsAdded + " has already been added. We cannot add it again.");
-			System.out.println("Authenticate response: " + institutionIdThatIsAdded + " has already been added. We cannot add it again.");
+			System.out.println("NOT ALLOWED: " + institutionIdThatIsAdded + " has already been added. We cannot add it again.");
 			return;
 		}
 		
