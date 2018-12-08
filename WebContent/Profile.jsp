@@ -29,10 +29,10 @@
 				border-style : solid;
 			}
 			.images {
-				display: none; /* all */
+				display: all; /* all */
 			}
 			.updateButton {
-				display: all;
+				display: none;
 			}
 			.mainTable, th, td {
 				border: 1px solid black;
@@ -41,7 +41,9 @@
 				font-weight: bold;
 			}
 			.outertable {}
-			.innertable {}
+			.innertable {
+				visibility: hidden; /* visible */
+			}
 			.acct {}
 		</style>
 	</head>
@@ -100,10 +102,10 @@
 				 	<td id="deletebtn">
 				 	  <!-- Delete button -->
 				 	  <!-- Goes to Delete.java and performs doPost --> 
-				      <form id="delete" method="post" action="Delete"> 
+				      <form id="delete" method="post" onsubmit="return deleteBank()" action="Delete"> 
 				      	<input type="hidden" name="delete" value="bank"></input>
 				      	<input type="hidden" name="idCopy" value="<%= idCopy %>"></input>
-					    <button type="submit" onsubmit="return deleteBank()" formmethod="post">Delete Bank</button>
+					    <button type="submit" formmethod="post">Delete Bank</button>
 					  </form> 
 				    </td> 
 				</tr> 
@@ -192,13 +194,15 @@
 			    return str.replace(new RegExp(find, 'g'), replace);
 			};
 			function deleteBank() {
-				var bankName = "";
+				var bankName = $("[id='acct']").attr('name');
 				var ans = "";
-				while (!ans.equals('Yes'.toLowerCase()) || !ans.equals('No'.toLowerCase())) {
-					ans = prompt('WARNING! You are about to delete your ' + bankName + ' bank. Are you sure you want to continue? Enter: \'Yes\' or \'No\'','');
-				}
+				//do {
+				ans = prompt('WARNING! You are about to delete your \'' + bankName + '\' bank. Are you sure you want to continue? Enter: \'Yes\' to confirm.', '');
+				console.log('answer: ' + ans);
+				//} while (ans != "Yes".toLowerCase() || ans != "No".toLowerCase() || ans != null || ans != "" );
 				if (ans == 'Yes'.toLowerCase()) {
-					console.log('Make a post request to Delete to delete this single ' + bankName + ' account.');
+					console.log('Making a post request to Delete to delete this single ' + bankName + ' account.');
+					return true;
 				}
 				return false;
 			}; 
@@ -206,7 +210,7 @@
 				var acctName = $(this).attr('name');
 				var acctMask = $("[id='acct'] > td:first-child > td:nthh-child(2)");
 				console.log('acctMask: ' + acctMask);
-				var ans = "";
+				var ans = prompt('WARNING! You are about to delete this single ' + acctName + ' account. Are you sure you want to continue? Enter: \'Yes\' or \'No\'','');
 				while (!ans.equals('Yes'.toLowerCase()) || !ans.equals('No'.toLowerCase())) {
 					ans = prompt('WARNING! You are about to delete this single ' + acctName + ' account. Are you sure you want to continue? Enter: \'Yes\' or \'No\'','');
 				}
@@ -307,7 +311,7 @@
 							acctRow.show();
 							var acctRowId = acctRow.attr('id');
 							var acctRowName = acctRow.attr('name');
-							console.log('name is ' + acctRowName);
+							//console.log('name is ' + acctRowName);
 							if (acctRowName == nameOfButton) acctRow.show();
 							else acctRow.hide();
 						});
@@ -419,12 +423,18 @@
 				//$('p').toggle();
 				var goodText = "You successfully re-authorized your bank!";
 				var goodLength = goodText.length;
+				var goodText2 = "You have successfully loaded";
+				var goodLength2 = goodText2.length;
 				var errText = "We cannot add it again.";
 				var errLength = errText.length;
+				var deleteText = "You have successfully deleted your bank.";
+				var deleteLength = deleteText.length;
 				//var changingText_TextObj = $("[id='changingText']");
 				var text = $("[id='changingText']").text();
 				matchGoodText = text.substring(0, goodLength);
+				matchGoodText2 = text.substring(0, goodLength2);
 				matchErrText = text.substring(text.indexOf('.')+2, errLength);
+				matchDeleteText = text.substring(0, deleteLength);
 				console.log('matchGoodText: ' + matchGoodText);
 				console.log('matchErrText: ' + matchErrText);
 				if ( matchGoodText == goodText ) {
@@ -432,7 +442,12 @@
 						$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
 						.css({ 'font-weight' : 'bold'});
 					});
-				} else if ( matchErrText == errText) {
+				} else if ( matchGoodText2 == goodText2) {
+					$("[id='changingText']").fadeOut(8000, function() {
+						$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
+						.css({ 'font-weight' : 'bold'});
+					});
+				} else if ( matchDeleteText == deleteText) {
 					$("[id='changingText']").fadeOut(8000, function() {
 						$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
 						.css({ 'font-weight' : 'bold'});
