@@ -32,7 +32,6 @@
 				display: all; /* all */
 			}
 			.updateButton {
-				display: none;
 			}
 			.mainTable, th, td {
 				border: 1px solid black;

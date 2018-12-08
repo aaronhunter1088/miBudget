@@ -337,9 +337,12 @@
     <resources>
       <resource>
         <directory>src</directory>
-        <excludes>
+        <includes>
+        	<include>**/*.java</include>
+        </includes>
+        <!-- <excludes>
           <exclude>**/*.java</exclude>
-        </excludes>
+        </excludes> -->
       </resource>
     </resources>
     <plugins>
