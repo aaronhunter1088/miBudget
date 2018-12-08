@@ -1,4 +1,4 @@
-package com.v1.miBudget.entities;
+package com.miBudget.v1.entities;
 
 import java.io.Serializable;
 

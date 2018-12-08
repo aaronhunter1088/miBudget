@@ -1,4 +1,4 @@
-package com.v1.miBudget.servlets;
+package com.miBudget.v1.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,17 +13,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import com.v1.miBudget.daoimplementations.AccountDAOImpl;
-import com.v1.miBudget.daoimplementations.ItemDAOImpl;
-import com.v1.miBudget.daoimplementations.MiBudgetDAOImpl;
-import com.v1.miBudget.entities.Account;
-import com.v1.miBudget.entities.Item;
-import com.v1.miBudget.entities.User;
-import com.v1.miBudget.entities.UsersItemsObject;
-import com.v1.miBudget.utilities.HibernateUtilities;
+import com.miBudget.v1.daoimplementations.AccountDAOImpl;
+import com.miBudget.v1.daoimplementations.ItemDAOImpl;
+import com.miBudget.v1.daoimplementations.MiBudgetDAOImpl;
+import com.miBudget.v1.entities.Account;
+import com.miBudget.v1.entities.Item;
+import com.miBudget.v1.entities.User;
+import com.miBudget.v1.entities.UsersItemsObject;
+import com.miBudget.v1.utilities.HibernateUtilities;
+
 
 /**
  * Servlet implementation class Login

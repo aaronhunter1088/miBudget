@@ -1,13 +1,10 @@
-package com.v1.miBudget.servlets;
+package com.miBudget.v1.servlets;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.ServletException;
@@ -18,10 +15,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.HibernateException;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+import com.miBudget.v1.daoimplementations.AccountDAOImpl;
+import com.miBudget.v1.daoimplementations.ItemDAOImpl;
+import com.miBudget.v1.daoimplementations.MiBudgetDAOImpl;
+import com.miBudget.v1.entities.Item;
+import com.miBudget.v1.entities.User;
 import com.plaid.client.PlaidClient;
 import com.plaid.client.request.AccountsGetRequest;
 import com.plaid.client.request.ItemGetRequest;
@@ -29,17 +31,11 @@ import com.plaid.client.request.ItemPublicTokenExchangeRequest;
 import com.plaid.client.response.Account;
 import com.plaid.client.response.AccountsGetResponse;
 import com.plaid.client.response.ErrorResponse;
+import com.plaid.client.response.ErrorResponse.ErrorType;
 import com.plaid.client.response.ItemGetResponse;
 import com.plaid.client.response.ItemPublicTokenExchangeResponse;
 import com.plaid.client.response.ItemStatus;
-import com.plaid.client.response.ErrorResponse.ErrorType;
-import com.v1.miBudget.daoimplementations.AccountDAOImpl;
-import com.v1.miBudget.daoimplementations.ItemDAOImpl;
-import com.v1.miBudget.daoimplementations.MiBudgetDAOImpl;
-import com.v1.miBudget.entities.Item;
-import com.v1.miBudget.entities.User;
 
-import retrofit2.Call;
 import retrofit2.Response;
 
 

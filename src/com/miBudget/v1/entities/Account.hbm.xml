@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Nov 20, 2018 11:32:29 AM by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
-    <class name="com.v1.miBudget.entities.Account" table="ACCOUNTS">
+    <class name="com.miBudget.v1.entities.Account" table="ACCOUNTS">
         <id name="accountId" type="java.lang.String">
             <column name="account_id" />
             <generator class="assigned" />

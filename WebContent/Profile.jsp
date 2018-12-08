@@ -5,12 +5,12 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Iterator" %>
 <%@ page import="java.lang.String" %>
-<%@ page import="com.v1.miBudget.daoimplementations.MiBudgetDAOImpl" %>
-<%@ page import="com.v1.miBudget.daoimplementations.AccountDAOImpl" %>
-<%@ page import="com.v1.miBudget.daoimplementations.ItemDAOImpl" %>
-<%@ page import="com.v1.miBudget.entities.Account" %>
-<%@ page import="com.v1.miBudget.entities.User" %>
-<%@ page import="com.v1.miBudget.entities.UserAccountObject" %>
+<%@ page import="com.miBudget.v1.daoimplementations.MiBudgetDAOImpl" %>
+<%@ page import="com.miBudget.v1.daoimplementations.AccountDAOImpl" %>
+<%@ page import="com.miBudget.v1.daoimplementations.ItemDAOImpl" %>
+<%@ page import="com.miBudget.v1.entities.Account" %>
+<%@ page import="com.miBudget.v1.entities.User" %>
+<%@ page import="com.miBudget.v1.entities.UserAccountObject" %>
 <%@ page import="java.util.HashMap" %>
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">

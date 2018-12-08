@@ -1,4 +1,4 @@
-package com.v1.miBudget.entities;
+package com.miBudget.v1.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import com.v1.miBudget.daoimplementations.AccountDAOImpl;
+import com.miBudget.v1.daoimplementations.AccountDAOImpl;
 
 
 @Entity

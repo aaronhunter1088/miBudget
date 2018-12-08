@@ -1,18 +1,18 @@
-package com.v1.miBudget.utilities;
+package com.miBudget.v1.utilities;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import org.hibernate.Transaction;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import com.v1.miBudget.daoimplementations.AccountDAOImpl;
-import com.v1.miBudget.daoimplementations.ItemDAOImpl;
-import com.v1.miBudget.daoimplementations.MiBudgetDAOImpl;
-import com.v1.miBudget.entities.Item;
-import com.v1.miBudget.entities.User;
-import com.v1.miBudget.entities.UsersItemsObject;
+import org.hibernate.Transaction;
+
+import com.miBudget.v1.daoimplementations.AccountDAOImpl;
+import com.miBudget.v1.daoimplementations.ItemDAOImpl;
+import com.miBudget.v1.daoimplementations.MiBudgetDAOImpl;
+import com.miBudget.v1.entities.Item;
+import com.miBudget.v1.entities.User;
+
 
 
 public class ClientTest {

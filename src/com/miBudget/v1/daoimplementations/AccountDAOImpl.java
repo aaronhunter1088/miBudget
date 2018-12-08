@@ -1,4 +1,4 @@
-package com.v1.miBudget.daoimplementations;
+package com.miBudget.v1.daoimplementations;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,12 +9,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import com.v1.miBudget.entities.Account;
-import com.v1.miBudget.entities.Item;
-import com.v1.miBudget.entities.ItemAccountObject;
-import com.v1.miBudget.entities.User;
-import com.v1.miBudget.entities.UserAccountObject;
-import com.v1.miBudget.utilities.HibernateUtilities;
+import com.miBudget.v1.entities.Account;
+import com.miBudget.v1.entities.Item;
+import com.miBudget.v1.entities.ItemAccountObject;
+import com.miBudget.v1.entities.User;
+import com.miBudget.v1.entities.UserAccountObject;
+import com.miBudget.v1.utilities.HibernateUtilities;
 
 public class AccountDAOImpl {
 

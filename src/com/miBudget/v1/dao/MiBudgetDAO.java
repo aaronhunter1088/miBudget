@@ -1,4 +1,4 @@
-package com.v1.miBudget.dao;
+package com.miBudget.v1.dao;
 
 //import java.util.List;
 //

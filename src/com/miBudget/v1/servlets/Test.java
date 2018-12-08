@@ -1,4 +1,4 @@
-package com.v1.miBudget.servlets;
+package com.miBudget.v1.servlets;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

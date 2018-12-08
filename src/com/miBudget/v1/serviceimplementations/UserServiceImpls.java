@@ -1,11 +1,11 @@
-package com.v1.miBudget.serviceimplementations;
+package com.miBudget.v1.serviceimplementations;
 
 import java.util.List;
 
 import org.hibernate.Session;
 
 //import com.v1.miBudget.daoimplementations.MiBudgetDAOImpl;
-import com.v1.miBudget.services.UserServices;
+import com.miBudget.v1.services.UserServices;
 
 public class UserServiceImpls implements UserServices {
 	

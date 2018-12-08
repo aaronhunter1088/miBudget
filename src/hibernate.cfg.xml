@@ -29,13 +29,13 @@
   <!-- Related to the mapping start 
 	  	<mapping resource ="mapping xml file name" /> 
  <mapping class="" resource=""/> -->
-  <mapping class="com.v1.miBudget.entities.User" resource="com/v1/miBudget/entities/User.hbm.xml"/>
-  <mapping class="com.v1.miBudget.entities.Item" resource="com/v1/miBudget/entities/Item.hbm.xml"/>
-  <mapping class="com.v1.miBudget.entities.Account" resource="com/v1/miBudget/entities/Account.hbm.xml"/>
-  <mapping class="com.v1.miBudget.entities.UserAccountObject" resource="com/v1/miBudget/entities/UserAccountObject.hbm.xml"/>
-  <mapping class="com.v1.miBudget.entities.ItemAccountObject" resource="com/v1/miBudget/entities/ItemAccountObject.hbm.xml"/>
-  <mapping class="com.v1.miBudget.entities.UsersInstitutionIdsObject" resource="com/v1/miBudget/entities/UsersInstitutionIdsObject.hbm.xml"/>
-  <mapping class="com.v1.miBudget.entities.UsersItemsObject" resource="com/v1/miBudget/entities/UsersItemsObject.hbm.xml"/>
+  <mapping class="com.miBudget.v1.entities.User" resource="com/miBudget/v1/entities/User.hbm.xml"/>
+  <mapping class="com.miBudget.v1.entities.Item" resource="com/miBudget/v1/entities/Item.hbm.xml"/>
+  <mapping class="com.miBudget.v1.entities.Account" resource="com/miBudget/v1/entities/Account.hbm.xml"/>
+  <mapping class="com.miBudget.v1.entities.UserAccountObject" resource="com/miBudget/v1/entities/UserAccountObject.hbm.xml"/>
+  <mapping class="com.miBudget.v1.entities.ItemAccountObject" resource="com/miBudget/v1/entities/ItemAccountObject.hbm.xml"/>
+  <mapping class="com.miBudget.v1.entities.UsersInstitutionIdsObject" resource="com/miBudget/v1/entities/UsersInstitutionIdsObject.hbm.xml"/>
+  <mapping class="com.miBudget.v1.entities.UsersItemsObject" resource="com/miBudget/v1/entities/UsersItemsObject.hbm.xml"/>
   <!-- Related to the mapping end -->
  </session-factory>
 </hibernate-configuration>
