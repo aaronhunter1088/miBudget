@@ -103,7 +103,8 @@ public class UpdateBank extends HttpServlet {
 			HashMap<String, Boolean> errMapForItems = (HashMap<String, Boolean>) session.getAttribute("ErrMapForItems");
 		    errMapForItems.put(institutionId, false);
 		    session.setAttribute("ErrMapForItems", errMapForItems);
-			System.out.println("public_token: " + res.body().getPublicToken());
+		    session.setAttribute("change", "You successfully re-authorized your bank! It's good to go.");
+		    System.out.println("public_token: " + res.body().getPublicToken());
 			System.out.println("Public token retrieved. Returning to Profile.jsp");
 			System.out.println("UpdateBank Response: Good");
 			response.setStatus(HttpServletResponse.SC_OK);

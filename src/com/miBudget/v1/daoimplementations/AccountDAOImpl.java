@@ -280,38 +280,39 @@ public class AccountDAOImpl {
     }
     
     @SuppressWarnings("unchecked")
-	public ArrayList<Account> getAllAccounts(String institutionId) {
+	public ArrayList<Account> getAllOfItemsAccounts(int itemTableId) {
     	ArrayList<Account> accounts = new ArrayList<>();
     	SessionFactory factory = null;
     	Session session = null;
     	Transaction t = null;
     	try {
-    		System.out.println("\nAttempting to execute getAllAccounts using institutionId query...");
-    		ItemDAOImpl itemDAOImpl = new ItemDAOImpl();
-    		Item item = itemDAOImpl.getItemFromUser(institutionId);
+    		System.out.println("\nAttempting to execute getAllOfItemsAccounts using item_table_id query...");
     		factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
-			
-			
-			List<UserAccountObject> userAccountsFromDB = session
+			List<Account> userAccountsFromDB = (List<Account>) session
 					   .createNativeQuery("SELECT * FROM accounts " +
-							   		     "WHERE item_table_id = " + item.getItemTableId() + "\"")
+							   		     "WHERE item_table_id = " + itemTableId)
 					   .addEntity(Account.class)
 					   .getResultList();
-			System.out.println("Query executed!");
+			System.out.println("getAllOfItemsAccounts query executed!");
 			t.commit();
 			session.close();
 			
 			for (Object id : userAccountsFromDB) {
 				accounts.add((Account) id);
+				System.out.println("Returning account: " + ((Account) id));
 			}	
-    	} catch (Exception e) {
-    		System.out.println("Error connecting to DB");
-			System.out.println(e.getMessage());
-			t.rollback();
-			session.close();
-    	}
+    	} catch (HibernateException e) {
+    		System.out.println("hibernate error:");
+    		System.out.println(e.getMessage());
+    	}	
+//    	} catch (Exception e) {
+//    		System.out.println("Error connecting to DB");
+//			System.out.println(e.getStackTrace());
+//			t.rollback();
+//			session.close();
+//    	}
     	return accounts;	
     }
     

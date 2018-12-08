@@ -250,7 +250,7 @@ public class Authenticate extends HttpServlet {
 		}
 		System.out.println("number of accounts requested: " + accountsRequestedJsonArray.size());
 		
-		List<com.v1.miBudget.entities.Account> accountsList = new ArrayList<>();
+		ArrayList<com.v1.miBudget.entities.Account> accountsList = new ArrayList<>();
 		List<String> accountIdsList = new ArrayList<>();
 		JSONObject jsonObject = null;
 		for(int i = 0; i < accountsRequestedJsonArray.size(); i++) {
@@ -447,12 +447,11 @@ public class Authenticate extends HttpServlet {
 			  //request.getSession(false).setAttribute("SubType", account.getSubType());
 		  });
 		  
-		  // Create a Map of institution_id, and list of appropriate accounts
+		  // Create a Map of itemIds, and list of appropriate accounts
 		  @SuppressWarnings("unchecked")
-		  HashMap<String, ArrayList<com.v1.miBudget.entities.Account>> acctsAndInstitutionIdMap = (HashMap<String, ArrayList<com.v1.miBudget.entities.Account>>) session.getAttribute("acctsAndInstitutionIdMap")
-		  	!= null ? (HashMap<String, ArrayList<com.v1.miBudget.entities.Account>>) session.getAttribute("acctsAndInstitutionIdMap") :
-		  	          new HashMap<String, ArrayList<com.v1.miBudget.entities.Account>>();
-		  acctsAndInstitutionIdMap.put(itemToAdd.getInsitutionId(), (ArrayList<com.v1.miBudget.entities.Account>) accountsList);
+		  HashMap<Integer, ArrayList<com.v1.miBudget.entities.Account>> acctsAndInstitutionIdMap = 
+		  	(HashMap<Integer, ArrayList<com.v1.miBudget.entities.Account>>) session.getAttribute("acctsAndInstitutionIdMap");
+		  acctsAndInstitutionIdMap.put(itemToAdd.getItemTableId(), accountsList);
 		  session.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
 		  
 		  // Accounts list is all accounts in users profile
@@ -576,10 +575,10 @@ public class Authenticate extends HttpServlet {
 			System.out.println("");
 			int numberOfAccounts = accountDAOImpl.getAccountIdsFromUser(user).size();
 			request.getSession(false).setAttribute("NoOfAccts", numberOfAccounts);
-			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+			response.setStatus(HttpServletResponse.SC_CONFLICT); // TODO: Implement as some 2xx. 4xx is for invalid requests. We don't have that, we just restrict the logic. 
 			response.setContentType("application/text");
 			response.getWriter().append(institutionIdThatIsAdded + " has already been added. We cannot add it again.");
-			System.out.println("Authenticate response: " + institutionIdThatIsAdded + " has already been added. We cannot add it again.");
+			System.out.println("NOT ALLOWED: " + institutionIdThatIsAdded + " has already been added. We cannot add it again.");
 			return;
 		}
 		

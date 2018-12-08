@@ -3,6 +3,7 @@ package com.v1.miBudget.servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -21,8 +22,10 @@ import com.plaid.client.response.ItemStatus;
 import com.v1.miBudget.daoimplementations.AccountDAOImpl;
 import com.v1.miBudget.daoimplementations.ItemDAOImpl;
 import com.v1.miBudget.daoimplementations.MiBudgetDAOImpl;
+import com.v1.miBudget.entities.Account;
 import com.v1.miBudget.entities.Item;
 import com.v1.miBudget.entities.User;
+import com.v1.miBudget.entities.UsersItemsObject;
 
 import retrofit2.Response;
 
@@ -60,7 +63,7 @@ public class Profile extends HttpServlet {
 		if (requestSession != null && (Boolean)requestSession.getAttribute("isUserLoggedIn") == true) {
 			System.out.println("Attempting to log in...");
 			User user = (User) request.getAttribute("user");
-			requestSession.setAttribute("change", "This text will change after using the Plaid Link Initializer.");
+			
 			HashMap<String, Boolean> errMapForItems = new HashMap<>();
 			ArrayList<String> ids = (ArrayList<String>) requestSession.getAttribute("institutionIdsList");
 			ArrayList<Item> items = new ArrayList<>();
@@ -69,7 +72,9 @@ public class Profile extends HttpServlet {
 				System.out.println(item);
 				items.add(item);
 			}
-//			
+			
+			
+			String errMsg = "";
 			for(int i = 0; i < items.size(); i++) {
 				ItemGetRequest getReq = new ItemGetRequest(items.get(i).getAccessToken());
 				Response<ItemGetResponse> getRes = client().service().itemGet(getReq).execute();
@@ -81,6 +86,9 @@ public class Profile extends HttpServlet {
 							System.out.print("There is an Item_Error: ");
 							System.out.println(err.toString());
 							errMapForItems.put(items.get(i).getInsitutionId(), true);
+							errMsg = err.getErrorMessage();
+							errMsg = errMsg.substring(0, errMsg.indexOf("(")-1) + errMsg.substring(errMsg.indexOf(")")+1, errMsg.length());
+							errMsg = errMsg.substring(0, errMsg.indexOf(".")+2) + "Click the update button to restore any banks in a bad state.";
 						} 
 					} else {
 						System.out.println("No error for this item: " + items.get(i).toString());
@@ -91,8 +99,9 @@ public class Profile extends HttpServlet {
 					System.out.println(getRes.errorBody());
 				}
 			}
+			if (errMsg.equals("") == true) requestSession.setAttribute("change", "This text will change after using the Plaid Link Initializer.");
+			else requestSession.setAttribute("change", errMsg);
 			requestSession.setAttribute("ErrMapForItems", errMapForItems);
-			
 			response.sendRedirect("Profile.jsp");
 		} else {
 			System.out.println("requestSession: " + requestSession );

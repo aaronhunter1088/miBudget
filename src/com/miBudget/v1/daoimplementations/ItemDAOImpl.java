@@ -18,8 +18,55 @@ public class ItemDAOImpl {
 	
 	public ItemDAOImpl() {
     }
-    
+	
+	public Item getItem(int itemTableId) {
+		Item item = new Item();
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
+    	try {
+    		System.out.println("\nAttempting to getItemFromUser query...");
+    		factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
+			t = session.beginTransaction();
+			item = (Item) session
+					.createNativeQuery("SELECT * FROM items " +
+			                           "WHERE item_table_id = " + itemTableId)
+					.addEntity(Item.class).getSingleResult();
+			t.commit();
+			session.close();
+			System.out.println("Returning " + item);
+			return item;
+    	} catch (HibernateException e) {
+    		System.out.println(e.getMessage());
+    	}
+    	return item;
+	}
+	
 	@SuppressWarnings("unchecked")
+	public ArrayList<UsersItemsObject> getAllUserItems(User user) {
+		ArrayList<UsersItemsObject> itemsList = new ArrayList<>();
+		SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
+    	try {
+    		System.out.println("\nAttempting to getAllUserItems query...");
+    		factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
+			t = session.beginTransaction();
+			itemsList = (ArrayList<UsersItemsObject>) session
+					.createNativeQuery("SELECT * FROM users_items WHERE user_id = " + user.getId())
+					.addEntity(UsersItemsObject.class).getResultList();
+			t.commit();
+			session.close();
+			System.out.println("Returning " + itemsList.size() + " UsersItemsObjects.");
+			return itemsList;
+    	} catch (HibernateException e) {
+    		System.out.println(e.getMessage());
+    	}
+    	return itemsList;
+	}
+    
 	public Item getItemFromUser(String institutionId) {
 		Item item = new Item();
     	SessionFactory factory = null;

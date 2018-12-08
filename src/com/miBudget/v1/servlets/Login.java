@@ -2,6 +2,8 @@ package com.v1.miBudget.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -16,8 +18,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import com.v1.miBudget.daoimplementations.AccountDAOImpl;
+import com.v1.miBudget.daoimplementations.ItemDAOImpl;
 import com.v1.miBudget.daoimplementations.MiBudgetDAOImpl;
+import com.v1.miBudget.entities.Account;
+import com.v1.miBudget.entities.Item;
 import com.v1.miBudget.entities.User;
+import com.v1.miBudget.entities.UsersItemsObject;
 import com.v1.miBudget.utilities.HibernateUtilities;
 
 /**
@@ -31,6 +37,7 @@ public class Login extends HttpServlet {
 	
 	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
 	private AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
+	private ItemDAOImpl itemDAOImpl = new ItemDAOImpl();
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//doPost(request, response);
@@ -58,39 +65,28 @@ public class Login extends HttpServlet {
 		boolean loginCredentials = false;
 		List<User> allUsersList = null;
 		HttpSession session = request.getSession(false);
-		try {
-//			Class.forName("com.mysql.jdbc.Driver");
-//			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/miBudget", "root", "root");
-//			mysqlSession = factory.openSession();
-//			System.out.println("Session opened...");
-//			if (mysqlSession.isOpen())
-//    			System.out.println("open after creation");
-			allUsersList = miBudgetDAOImpl.getAllUsers();
-//			if (mysqlSession.isOpen())
-//    			System.out.println("open after getting allUsersList");
-//			else
-//				System.out.println("... we literally just closed it and you're checking again...");
-			
-//			PreparedStatement statement = conn.prepareStatement(
-//					"SELECT * FROM users");
-//			ResultSet rs = (ResultSet) statement.executeQuery();
-//			while (rs.next()) {
-//				if (rs.getString("Cellphone").equals(cellphone) && rs.getString("Password").equals(password) ) {
-//					HttpSession requestSession = request.getSession();
-//					requestSession.setAttribute("Firstname", rs.getString("Firstname"));
-//					requestSession.setAttribute("Lastname", rs.getString("Lastname"));
-//					loginCredentials = true;
-//				} 
-//			} 
-		} catch (Exception e) {
-			System.out.println(e);
-		} 
+
+		// TODO: change variable to a single user which is received using cellphone AND password
+		allUsersList = miBudgetDAOImpl.getAllUsers();
 		// Validate user
 		System.out.println("validating user credentials...");
 		System.out.println("cellphone: " + cellphone);
 		System.out.println("password: " + password);
 		// for every user in the list
-		//forAll:
+		
+		ArrayList<UsersItemsObject> usersItemsList = itemDAOImpl.getAllUserItems(allUsersList.get(0));
+		HashMap<Integer, ArrayList<Account>> acctsAndInstitutionIdMap = new HashMap<>();
+		Iterator usersItemsIter = usersItemsList.iterator();
+		while (usersItemsIter.hasNext()) {
+			int itemTableId = ( (UsersItemsObject) usersItemsIter.next()).getItemTableId();
+			Item item = itemDAOImpl.getItem(itemTableId);
+			ArrayList<Account> list = accountDAOImpl.getAllOfItemsAccounts(itemTableId);
+			acctsAndInstitutionIdMap.put(item.getItemTableId(), list);
+		}
+		
+		
+		
+		// TODO: change logic to be for ONE USER. We don't need to search for a specific user like this
 		for (User user : allUsersList) {
 			System.out.println("user from allUsersList: " + user.getCellphone() + ", " + user.getPassword());
 			// if a registered user's cellphone and password are equal to the user's input
@@ -108,6 +104,7 @@ public class Login extends HttpServlet {
 //					requestSession.setMaxInactiveInterval(0);
 //					requestSession.setAttribute("requestSession", request.getSession(true));
 					ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
+					session.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
 					session.setAttribute("institutionIdsList", institutionIdsList);
 					session.setAttribute("institutionIdsListSize", institutionIdsList.size());
 					session.setAttribute("sessionId", session.getId());
@@ -125,6 +122,7 @@ public class Login extends HttpServlet {
 					session = request.getSession(true);
 //					requestSession.setMaxInactiveInterval(0); // just a check
 					ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
+					session.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
 					session.setAttribute("institutionIdsList", institutionIdsList);
 					session.setAttribute("institutionIdsListSize", institutionIdsList.size());
 					session.setAttribute("session", session); // just a check
