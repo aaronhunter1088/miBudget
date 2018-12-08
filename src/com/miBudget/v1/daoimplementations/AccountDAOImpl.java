@@ -132,7 +132,7 @@ public class AccountDAOImpl {
 		return userAccounts;
     }
 
-    public int addAccountObjectToAccountsTableDatabase(com.v1.miBudget.entities.Account account) {
+    public int addAccountObjectToAccountsTableDatabase(com.miBudget.v1.entities.Account account) {
     	SessionFactory factory = null;
     	Session session = null;
     	Transaction t = null;
@@ -171,7 +171,7 @@ public class AccountDAOImpl {
     	return 0; // bad
     }
     
-    public int addAccountObjectToUsers_AccountsTable(com.v1.miBudget.entities.Account account, User user) {
+    public int addAccountObjectToUsers_AccountsTable(com.miBudget.v1.entities.Account account, User user) {
     	SessionFactory factory = null;
     	Session session = null;
     	Transaction t = null;

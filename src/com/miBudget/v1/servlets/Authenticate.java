@@ -75,11 +75,11 @@ public class Authenticate extends HttpServlet {
      * Create an items_account object
      */
     
-    public int addAccountsToAccountsTableDatabase(List<com.v1.miBudget.entities.Account> accounts, Item item, User user) {
-		Iterator<com.v1.miBudget.entities.Account> iter = accounts.iterator();
+    public int addAccountsToAccountsTableDatabase(List<com.miBudget.v1.entities.Account> accounts, Item item, User user) {
+		Iterator<com.miBudget.v1.entities.Account> iter = accounts.iterator();
     	int verify = 0;
 		while (iter.hasNext()) {
-    		com.v1.miBudget.entities.Account account = iter.next();
+    		com.miBudget.v1.entities.Account account = iter.next();
     		// update account availableBalance, currentBalance, limit, currencyCode, item, figure out how to unmask mask to reveal last 4 of account
     		verify = accountDAOImpl.addAccountObjectToAccountsTableDatabase(account);
     		verify = accountDAOImpl.addAccountObjectToUsers_AccountsTable(account, user);
@@ -246,7 +246,7 @@ public class Authenticate extends HttpServlet {
 		}
 		System.out.println("number of accounts requested: " + accountsRequestedJsonArray.size());
 		
-		ArrayList<com.v1.miBudget.entities.Account> accountsList = new ArrayList<>();
+		ArrayList<com.miBudget.v1.entities.Account> accountsList = new ArrayList<>();
 		List<String> accountIdsList = new ArrayList<>();
 		JSONObject jsonObject = null;
 		for(int i = 0; i < accountsRequestedJsonArray.size(); i++) {
@@ -272,7 +272,7 @@ public class Authenticate extends HttpServlet {
 //			} catch (org.json.simple.parser.ParseException e) {
 //				e.printStackTrace(System.out);
 //			} 
-//			acctObj = new com.v1.miBudget.entities.Account();
+//			acctObj = new com.miBudget.v1.entities.Account();
 		
 		// Make call to AccountsGetResponse to receive additional information about the requested accounts
 		AccountsGetRequest acctsGetReq = new AccountsGetRequest(accessToken);
@@ -313,7 +313,7 @@ public class Authenticate extends HttpServlet {
 				while (iterOverAccountsGetRes.hasNext()) {
 					Account currentAcctFromResAcct = (Account)iterOverAccountsGetRes.next();
 					if (currentIdFromAccountIdsList.equals(currentAcctFromResAcct.getAccountId()) ){
-						com.v1.miBudget.entities.Account acctObj = new com.v1.miBudget.entities.Account();
+						com.miBudget.v1.entities.Account acctObj = new com.miBudget.v1.entities.Account();
 						System.out.println("Id's matched!");
 						System.out.println(currentIdFromAccountIdsList + " == " + currentAcctFromResAcct.getAccountId());
 						acctObj.setAccountId(currentAcctFromResAcct.getAccountId());
@@ -435,7 +435,7 @@ public class Authenticate extends HttpServlet {
 		  
 		  // Add accountsList to requestSession
 		  ArrayList<String> listOfAccountIds = (ArrayList<String>) accountDAOImpl.getAccountIdsFromUser(user);
-		  ArrayList<com.v1.miBudget.entities.Account> listOfAccounts = (ArrayList<com.v1.miBudget.entities.Account>) accountDAOImpl.getAllAccounts(listOfAccountIds);
+		  ArrayList<com.miBudget.v1.entities.Account> listOfAccounts = (ArrayList<com.miBudget.v1.entities.Account>) accountDAOImpl.getAllAccounts(listOfAccountIds);
 		  listOfAccounts.forEach(account -> {
 			  System.out.println(account);
 			  //request.getSession(false).setAttribute("Name", account.getNameOfAccount());
@@ -445,8 +445,8 @@ public class Authenticate extends HttpServlet {
 		  
 		  // Create a Map of itemIds, and list of appropriate accounts
 		  @SuppressWarnings("unchecked")
-		  HashMap<Integer, ArrayList<com.v1.miBudget.entities.Account>> acctsAndInstitutionIdMap = 
-		  	(HashMap<Integer, ArrayList<com.v1.miBudget.entities.Account>>) session.getAttribute("acctsAndInstitutionIdMap");
+		  HashMap<Integer, ArrayList<com.miBudget.v1.entities.Account>> acctsAndInstitutionIdMap = 
+		  	(HashMap<Integer, ArrayList<com.miBudget.v1.entities.Account>>) session.getAttribute("acctsAndInstitutionIdMap");
 		  acctsAndInstitutionIdMap.put(itemToAdd.getItemTableId(), accountsList);
 		  session.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
 		  

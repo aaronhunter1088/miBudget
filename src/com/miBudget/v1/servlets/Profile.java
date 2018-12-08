@@ -117,7 +117,7 @@ public class Profile extends HttpServlet {
 		HttpSession requestSession = request.getSession(false);  
         if (requestSession != null && (Boolean)requestSession.getAttribute("isUserLoggedIn") == true){  
         	System.out.println("stored requestSessionId: " + requestSession.getAttribute("requestSessionId"));
-        	requestSession.setAttribute("acctsAndInstitutionIdMap", new HashMap<String, List<com.v1.miBudget.entities.Account>>() );
+        	requestSession.setAttribute("acctsAndInstitutionIdMap", new HashMap<String, List<com.miBudget.v1.entities.Account>>() );
         	//RequestDispatcher view = request.getRequestDispatcher("/Profile.html");
         	//view.forward(request, response); // doesn't take the session
         	response.sendRedirect("Profile.jsp");

@@ -44,13 +44,13 @@ public class HibernateUtilities {
 		try {
 			if (sessionFactory == null) {
 				MetadataSources sources = new MetadataSources(serviceRegistry)
-	            		.addAnnotatedClass(com.v1.miBudget.entities.User.class)
-	            		.addAnnotatedClass(com.v1.miBudget.entities.Item.class)
-	            		.addAnnotatedClass(com.v1.miBudget.entities.Account.class)
-	            		.addAnnotatedClass(com.v1.miBudget.entities.UserAccountObject.class)
-	            		.addAnnotatedClass(com.v1.miBudget.entities.ItemAccountObject.class)
-	            		.addAnnotatedClass(com.v1.miBudget.entities.UsersInstitutionIdsObject.class)
-	            		.addAnnotatedClass(com.v1.miBudget.entities.UsersItemsObject.class);
+	            		.addAnnotatedClass(com.miBudget.v1.entities.User.class)
+	            		.addAnnotatedClass(com.miBudget.v1.entities.Item.class)
+	            		.addAnnotatedClass(com.miBudget.v1.entities.Account.class)
+	            		.addAnnotatedClass(com.miBudget.v1.entities.UserAccountObject.class)
+	            		.addAnnotatedClass(com.miBudget.v1.entities.ItemAccountObject.class)
+	            		.addAnnotatedClass(com.miBudget.v1.entities.UsersInstitutionIdsObject.class)
+	            		.addAnnotatedClass(com.miBudget.v1.entities.UsersItemsObject.class);
 				sessionFactory = new Configuration(sources)
 	            		.configure("hibernate.cfg.xml")
 	            		.buildSessionFactory();
