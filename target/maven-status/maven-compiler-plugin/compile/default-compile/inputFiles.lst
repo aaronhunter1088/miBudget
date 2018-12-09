@@ -1,5 +1,6 @@
 /Users/michaelball/git/miBudget/src/com/miBudget/v1/daoimplementations/MiBudgetDAOImpl.java
 /Users/michaelball/git/miBudget/src/com/miBudget/v1/servlets/MiBudget.java
+/Users/michaelball/git/miBudget/src/com/miBudget/v1/main/Category.java
 /Users/michaelball/git/miBudget/src/com/miBudget/v1/entities/UsersItemsObject.java
 /Users/michaelball/git/miBudget/src/com/miBudget/v1/servlets/Delete.java
 /Users/michaelball/git/miBudget/src/com/miBudget/v1/servlets/Authenticate.java
@@ -10,7 +11,9 @@
 /Users/michaelball/git/miBudget/src/com/miBudget/v1/servlets/Login.java
 /Users/michaelball/git/miBudget/src/com/miBudget/v1/utilities/HibernateUtilities.java
 /Users/michaelball/git/miBudget/src/com/miBudget/v1/services/UserServices.java
+/Users/michaelball/git/miBudget/src/com/miBudget/v1/main/Categories.java
 /Users/michaelball/git/miBudget/src/com/miBudget/v1/servlets/ForgotPassword.java
+/Users/michaelball/git/miBudget/src/com/miBudget/v1/main/CategoryTest.java
 /Users/michaelball/git/miBudget/src/com/miBudget/v1/servlets/Welcome.java
 /Users/michaelball/git/miBudget/src/com/miBudget/v1/servlets/Logout.java
 /Users/michaelball/git/miBudget/src/com/miBudget/v1/daoimplementations/AccountDAOImpl.java

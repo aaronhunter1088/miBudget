@@ -5,6 +5,7 @@ com/miBudget/v1/servlets/CheckInstitutionIds.class
 com/miBudget/v1/services/UserServices.class
 com/miBudget/v1/daoimplementations/AccountDAOImpl.class
 com/miBudget/v1/servlets/UpdateBank.class
+com/miBudget/v1/main/Category.class
 com/miBudget/v1/entities/UsersItemsObject_.class
 com/miBudget/v1/servlets/Test.class
 com/miBudget/v1/servlets/Delete.class
@@ -24,7 +25,9 @@ com/miBudget/v1/servlets/UpdateUser.class
 com/miBudget/v1/dao/MiBudgetDAO.class
 com/miBudget/v1/entities/User.class
 com/miBudget/v1/entities/User_.class
+com/miBudget/v1/main/CategoryTest.class
 com/miBudget/v1/entities/UserAccountObject.class
+com/miBudget/v1/main/Categories.class
 com/miBudget/v1/servlets/Logout.class
 com/miBudget/v1/servlets/Login.class
 com/miBudget/v1/serviceimplementations/UserServiceImpls.class
