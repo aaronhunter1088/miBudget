@@ -51,6 +51,14 @@ public class Category implements Serializable {
 	private void setAmount(Double amount) {
 		this.amount = amount;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Category [name=" + name + ", amount=" + amount + "]";
+	}
 	
 	
 }

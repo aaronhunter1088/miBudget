@@ -2,7 +2,7 @@ package com.miBudget.v1.main;
 
 import java.util.ArrayList;
 
-public class NewLogicTest {
+public class CategoryTest {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

@@ -3,7 +3,7 @@ package database;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import com.v1.miBudget.utilities.HibernateUtilities;
+import com.miBudget.v1.utilities.HibernateUtilities;
 
 public class DatabaseConnectionTest {
 
