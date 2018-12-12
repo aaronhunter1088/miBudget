@@ -26,7 +26,7 @@
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/ForgotPassword.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/Test.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/entities/ItemAccountObject.java
-/Users/michaelball/git/miBudget/src/test/java/database/DatabaseConnectionTest.java
+/Users/michaelball/git/miBudget/src/test/java/com/miBudget/v1/database/DatabaseConnectionTest.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/Login.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/UpdateBank.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/entities/UserAccountObject.java

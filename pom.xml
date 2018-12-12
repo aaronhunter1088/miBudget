@@ -30,13 +30,6 @@
 	    <artifactId>classmate</artifactId>
 	    <version>1.4.0</version>
 	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.dom4j/dom4j -->
-	<!-- <dependency>
-	    <groupId>org.dom4j</groupId>
-	    <artifactId>dom4j</artifactId>
-	    <version>2.1.1</version>
-	</dependency> -->
-	<!-- https://mvnrepository.com/artifact/org.geolatte/geolatte-geom -->
 	<dependency>
 	    <groupId>org.geolatte</groupId>
 	    <artifactId>geolatte-geom</artifactId>
@@ -91,13 +84,6 @@
 	    <artifactId>hibernate-spatial</artifactId>
 	    <version>5.4.0.CR2</version>
 	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.jboss.logging/jboss-logging -->
-	<!-- <dependency>
-	    <groupId>org.jboss.logging</groupId>
-	    <artifactId>jboss-logging</artifactId>
-	    <version>3.3.2.Final</version>
-	</dependency> -->
-	<!-- https://mvnrepository.com/artifact/org.jboss/jandex -->
 	<dependency>
 	    <groupId>org.jboss</groupId>
 	    <artifactId>jandex</artifactId>
@@ -317,12 +303,12 @@
 	    <artifactId>tomcat-websocket-api</artifactId>
 	    <version>9.0.13</version>
 	</dependency>
-<!-- https://mvnrepository.com/artifact/com.sun.xml.fastinfoset/FastInfoset -->
-<dependency>
-    <groupId>com.sun.xml.fastinfoset</groupId>
-    <artifactId>FastInfoset</artifactId>
-    <version>1.2.15</version>
-</dependency>
+	<!-- https://mvnrepository.com/artifact/com.sun.xml.fastinfoset/FastInfoset -->
+	<dependency>
+	    <groupId>com.sun.xml.fastinfoset</groupId>
+	    <artifactId>FastInfoset</artifactId>
+	    <version>1.2.15</version>
+	</dependency>
 
 	
   </dependencies>
@@ -334,15 +320,15 @@
         <includes>
         	<include>**/*.java</include>
         </includes>
-        <!-- <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes> -->
+        <excludes>
+          <exclude>**/*Test.java</exclude>
+        </excludes>
       </resource>
     </resources>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.5.1</version>
+        <version>3.5.1</version> <!-- update to 3.8.0 -->
         <configuration>
           <source>1.8</source>
           <target>1.8</target>

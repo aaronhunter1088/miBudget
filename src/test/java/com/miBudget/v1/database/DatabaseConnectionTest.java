@@ -1,4 +1,4 @@
-package database;
+package com.miBudget.v1.database;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;

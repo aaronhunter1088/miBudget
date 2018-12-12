@@ -1,6 +1,5 @@
 com/miBudget/v1/servlets/Welcome.class
 com/miBudget/v1/entities/UsersInstitutionIdsObject.class
-database/DatabaseConnectionTest.class
 com/miBudget/v1/entities/UserAccountObject_.class
 com/miBudget/v1/servlets/CheckInstitutionIds.class
 com/miBudget/v1/services/UserServices.class
@@ -20,6 +19,7 @@ com/miBudget/v1/entities/UsersItemsObject.class
 com/miBudget/v1/entities/UsersInstitutionIdsObject_.class
 com/miBudget/v1/servlets/MiBudget.class
 com/miBudget/v1/servlets/ForgotPassword.class
+com/miBudget/v1/database/DatabaseConnectionTest.class
 com/miBudget/v1/daoimplementations/ItemDAOImpl.class
 com/miBudget/v1/entities/Account_.class
 com/miBudget/v1/servlets/UpdateUser.class
