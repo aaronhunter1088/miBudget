@@ -1,5 +1,6 @@
 com/miBudget/v1/servlets/Welcome.class
 com/miBudget/v1/entities/UsersInstitutionIdsObject.class
+database/DatabaseConnectionTest.class
 com/miBudget/v1/entities/UserAccountObject_.class
 com/miBudget/v1/servlets/CheckInstitutionIds.class
 com/miBudget/v1/services/UserServices.class

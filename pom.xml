@@ -4,6 +4,7 @@
   <artifactId>miBudget</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>war</packaging>
+  <name>miBudget</name>
   <dependencies>
     <!-- https://mvnrepository.com/artifact/com.plaid/plaid-java -->
 	<dependency>
