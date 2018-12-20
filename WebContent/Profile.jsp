@@ -101,7 +101,7 @@
 				 	<td id="deletebtn">
 				 	  <!-- Delete button -->
 				 	  <!-- Goes to Delete.java and performs doPost --> 
-				      <form id="delete" method="post" onsubmit="return deleteBank()" action="Delete"> 
+				      <form id="delete" method="post" onsubmit="return deleteBank();" action="Delete"> 
 				      	<input type="hidden" name="delete" value="bank"></input>
 				      	<input type="hidden" name="idCopy" value="<%= idCopy %>"></input>
 					    <button type="submit" formmethod="post">Delete Bank</button>
@@ -123,7 +123,6 @@
 				<%
 				HashMap<Integer, ArrayList<Account>> acctsMap = (HashMap<Integer, ArrayList<Account>>)
 					session.getAttribute("acctsAndInstitutionIdMap");
-				System.out.println("acctsMap size: " + acctsMap.size());
 				Iterator mapsIter = acctsMap.keySet().iterator();
 				
 				institutionIdsIter = institutionsIdsList.iterator();
@@ -135,7 +134,8 @@
 					System.out.println("\tacctsList size: " + acctsList.size());
 					Iterator acctsListIter = acctsList.iterator();
 					while (acctsListIter.hasNext()) {
-						Account acct = (Account) acctsListIter.next(); %>
+						Account acct = (Account) acctsListIter.next(); 
+						System.out.println("next account: " + acct); %>
 						<!-- [Name | Mask | Available Balance] | Delete --> 
 						<tr id="acct" class="acct" name="<%= currentId %>"> 
 							<!-- Account -->
@@ -163,7 +163,8 @@
 					 		</td> 
 						 	<!-- Delete Account -->
 						 	<td>
-						 		<button id="deleteAcct" name="" onclick="deleteAccount()">Delete Account</button>
+						 		<!-- this functionality is not yet set up -->
+						 		<button id="deleteAcct" name="<%= acct.getAccountId() %>">Delete Account</button> 
 						 		<!-- Delete button -->
 						 		<!-- Goes to Delete.java and performs doPost --> 
 						        <!-- <form id="delete" method="post" action="Delete"> 
@@ -193,7 +194,7 @@
 			    return str.replace(new RegExp(find, 'g'), replace);
 			};
 			function deleteBank() {
-				var bankName = $("[id='acct']").attr('name');
+				var bankName = $("[id='acct']").find('td:nth-child(1)').attr('name');
 				var ans = "";
 				//do {
 				ans = prompt('WARNING! You are about to delete your \'' + bankName + '\' bank. Are you sure you want to continue? Enter: \'Yes\' to confirm.', '');
@@ -240,7 +241,7 @@
 					//var institutionId = $(this).find('td:nth-child(1)').text().replace(/\s/g,'');
 					var institutionId = $(this).find('td:nth-child(1)').attr('name');
 					var col1 = $(this).find('td:nth-child(1)');
-					var col2 = $(this).find('td:nth-child(2)');
+					
 					//var institutionId = $(this).text().replace(/\s/g,'');
 					//var name = $(this).find('td:nth-child(2)').attr('name', institutionId);
 					console.log("cell value: " + institutionId);
@@ -287,8 +288,12 @@
 						$(this).find('td:nth-child(1)').html('<img src="huntington.jpg" alt="Huntington"/>'); 
 					}
 					// will do for all images
-					var code = col1.html().split(" ",2).pop();
-					nameOfButton = code.substring(code.indexOf('"')+1, code.indexOf('.'));
+					var col2 = $(this).find('td:nth-child(2)'); // Update button
+					var code = col1.html().split(" ",2).pop(); 
+					<td id="logo" name="<%= currentId %>">
+					 	<%= currentId %> <!-- change to Logo -->  
+				 	</td> // TODO: all buttons coming back as false
+					var nameOfButton = code.substring(code.indexOf('"')+1, code.indexOf('.'));
 					//console.log('name: ' + name);
 					col1.attr('name', nameOfButton);
 					console.log('image column name is now: ' + col1.attr('name'));
@@ -351,7 +356,49 @@
 					if (acctRowName == "ins_4") { 
 						acctRow.attr('name', 'Wells Fargo');
 					}
-					console.log('acctRowName: ' + acctRow.attr('name'));
+					if (acctRowName == "ins_5") {
+						acctRow.attr('name', 'Citi');
+					}
+					if (acctRowName == "ins_6") {
+						acctRow.attr('name', 'US Bank');
+					}
+					if (acctRowName == "ins_7") {
+						acctRow.attr('name', 'USAA');
+					}
+					if (acctRowName == "ins_9") {
+						acctRow.attr('name', 'Capital One');
+					}
+					if (acctRowName == "ins_10") {
+						acctRow.attr('name', 'Amex');
+					}
+					if (acctRowName == "ins_11") {
+						acctRow.attr('name', 'Charles Schwab');
+					}
+					if (acctRowName == "ins_12") {
+						acctRow.attr('name', 'Fidelity');
+					}
+					if (acctRowName == "ins_13") {
+						acctRow.attr('name', 'PNC');
+					}
+					if (acctRowName == "ins_14") {
+						acctRow.attr('name', 'TD Bank');
+					}
+					if (acctRowName == "ins_15") {
+						acctRow.attr('name', 'Navy Federal');
+					}
+					if (acctRowName == "ins_16") {
+						acctRow.attr('name', 'Sun Trust');
+					}
+					if (acctRowName == "ins_19") {
+						acctRow.attr('name', 'Regions');
+					}
+					if (acctRowName == "ins_20") {
+						acctRow.attr('name', 'Citizens Bank');
+					}
+					if (acctRowName == "ins_21") {
+						acctRow.attr('name', 'Huntington');
+					}
+					console.log("acctRow name="+acctRow.attr('name')+"\"");
 				});
 			};
 			function getUpdateHandler(publicToken) {
@@ -360,7 +407,7 @@
 				//console.log('passed in param: ' + institutionIdName);
 				var thisPT = publicToken;
 				var updateHandler = Plaid.create({
-			        env: 'sandbox',
+			        env: 'development',
 			        apiVersion: 'v2',
 			        clientName: 'Plaid Update Mode',
 			        // Replace with your public_key from the Dashboard
@@ -414,8 +461,9 @@
 				};
 			}
 			$(function() {
+				console.log("starting document.onload()..");
 				$('.button').removeAttr('disabled');
-				
+				var text = $("[id='changingText']").text();
 				var usersAccounts = <%= user.getAccountIds().size() %>;
 				//$('.accountsSize').text('Accounts - ' + usersAccounts);
 				//$('.changingText').val('This text will change after using the Plaid Link Initializer.');
@@ -428,8 +476,7 @@
 				var errLength = errText.length;
 				var deleteText = "You have successfully deleted your bank.";
 				var deleteLength = deleteText.length;
-				//var changingText_TextObj = $("[id='changingText']");
-				var text = $("[id='changingText']").text();
+				
 				matchGoodText = text.substring(0, goodLength);
 				matchGoodText2 = text.substring(0, goodLength2);
 				matchErrText = text.substring(text.indexOf('.')+2, errLength);
@@ -460,9 +507,9 @@
 			//(function($) {
 			  $('#link-button').on('click', function(e) {
 				  var handler = Plaid.create({
-						env: 'sandbox',
+						env: 'development',
 						apiVersion: 'v2',
-					    clientName: 'Plaid Walkthrough Demo',
+					    clientName: 'Plaid Upload Mode',
 					    // Replace with your public_key from the Dashboard
 					    key: 'f0503c4bc8e63cc6c37f07dbe0ae2b',
 					    product: ["transactions"],
@@ -510,16 +557,14 @@
 					             institution_id: metadata.institution.institution_id
 					    	 }
 					      }).success(function (response) {
-					    	  location.reload(true);
-					    	  var resp = JSON.stringify(response);
-					    	  <%-- var usersAccounts = <%= user.getAccountIds().size() %>; --%>
+					    	  //var resp = JSON.stringify(response);
 					          //usersAccounts = parseInt(metadata.accounts.length) + usersAccounts;
 					          //var strAccounts = (usersAccounts == 1) ? ' account!' : ' accounts!';
 					          //console.log(usersAccounts);
 					          //$('#accounts').html('Accounts : ' + usersAccounts);
-						      //location.reload(true);
+						      location.reload(true);
+						      updateAccountsTable();
 					          updateBanksTable();
-					          updateAccountsTable();
 					          console.log("end of success");
 						  }).error(function (response) {
 							  // in Profile.java, we set the response using

@@ -52,13 +52,14 @@ public class Authenticate extends HttpServlet {
 	
 	private final String client_id = "5ae66fb478f5440010e414ae";
 	private final String secret = "0e580ef72b47a2e4a7723e8abc7df5";
+	private final String secretD = "c7d7ddb79d5b92aec57170440f7304";
 	
 	public PlaidClient client() {
 		// Use builder to create a client
 		PlaidClient client = PlaidClient.newBuilder()
-				  .clientIdAndSecret(client_id, secret)
+				  .clientIdAndSecret(client_id, secretD)
 				  .publicKey("") // optional. only needed to call endpoints that require a public key
-				  .sandboxBaseUrl() // or equivalent, depending on which environment you're calling into
+				  .developmentBaseUrl() // or equivalent, depending on which environment you're calling into
 				  .build();
 		return client;
 	}
@@ -195,7 +196,7 @@ public class Authenticate extends HttpServlet {
 			System.out.println("not the same session");
 			session = request.getSession();
 		} else {
-			System.out.println("same session");
+			System.out.println("active session");
 		}
 		String public_token = request.getParameter("public_token");
 		System.out.println("public_token: " + public_token);
@@ -277,7 +278,7 @@ public class Authenticate extends HttpServlet {
 		// Make call to AccountsGetResponse to receive additional information about the requested accounts
 		AccountsGetRequest acctsGetReq = new AccountsGetRequest(accessToken);
 		acctsGetReq.clientId = client_id;
-		acctsGetReq.secret = secret;
+		acctsGetReq.secret = secretD;
 		acctsGetReq.withAccountIds(accountIdsList);
 		Response<AccountsGetResponse> acctsGetRes = 
 				client().service().accountsGet(acctsGetReq).execute(); //.withAccountIds(accountIdsList)
@@ -286,8 +287,12 @@ public class Authenticate extends HttpServlet {
 		System.out.println("acctsGetRes msg: " + acctsGetRes.message());
 		System.out.println("acctsGetRes raw : " + acctsGetRes.raw());
 		System.out.println("acctsGetRes err: " + acctsGetRes.errorBody());
-		if (acctsGetRes.message().equals("Bad Request")) {
+		if (acctsGetRes.message().equals("Bad Request") || acctsGetRes.body().getAccounts().size() != accountsRequestedJsonArray.size() ) {
 			System.out.println("acctsGetRes errString: " + acctsGetRes.errorBody().string());
+			System.out.printf("/accounts/get endpoint retrieved %d accounts\n", acctsGetRes.body().getAccounts().size());
+			acctsGetRes.body().getAccounts().forEach(acct -> {
+				System.out.println(acct);
+			});
 		}
 		if (acctsGetRes.isSuccessful()) {
 			System.out.println("AccountsGetResponse : " + acctsGetRes.code());
@@ -447,6 +452,17 @@ public class Authenticate extends HttpServlet {
 		  @SuppressWarnings("unchecked")
 		  HashMap<Integer, ArrayList<com.miBudget.v1.entities.Account>> acctsAndInstitutionIdMap = 
 		  	(HashMap<Integer, ArrayList<com.miBudget.v1.entities.Account>>) session.getAttribute("acctsAndInstitutionIdMap");
+		  System.out.println("acctsAndInstitutionIdMap");
+		  for(Integer i : acctsAndInstitutionIdMap.keySet()) {
+			  System.out.println("\nkey: " + i + "\n");
+			  for (com.miBudget.v1.entities.Account a : acctsAndInstitutionIdMap.get(i)) {
+				  System.out.println("value: " + a + "\n");
+			  }
+		  }
+		  System.out.println("itemTableId: " + itemToAdd.getItemTableId());
+		  accountsList.forEach(account -> {
+			  System.out.println("account: " + account);
+		  });
 		  acctsAndInstitutionIdMap.put(itemToAdd.getItemTableId(), accountsList);
 		  session.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
 		  

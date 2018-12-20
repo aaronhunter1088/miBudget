@@ -399,7 +399,6 @@ public class ItemDAOImpl {
     		session = factory.openSession();
     		t = session.beginTransaction();
     		session.delete(item);
-    		System.out.println("item was deleted: " + item);
     		session.getTransaction().commit();
     		session.close();
     		return 1;

@@ -29,6 +29,7 @@ import retrofit2.Response;
 /**
  * Servlet implementation class Profile
  */
+@SuppressWarnings("unused")
 @WebServlet("/Profile")
 public class Profile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -39,12 +40,14 @@ public class Profile extends HttpServlet {
 	
 	private final String clientId = "5ae66fb478f5440010e414ae";
 	private final String secret = "0e580ef72b47a2e4a7723e8abc7df5"; 
+	private final String secretD = "c7d7ddb79d5b92aec57170440f7304";
+	
     public final PlaidClient client() {
 		// Use builder to create a client
 		PlaidClient client = PlaidClient.newBuilder()
-				  .clientIdAndSecret(clientId, secret)
+				  .clientIdAndSecret(clientId, secretD)
 				  .publicKey("") // optional. only needed to call endpoints that require a public key
-				  .sandboxBaseUrl() // or equivalent, depending on which environment you're calling into
+				  .developmentBaseUrl() // or equivalent, depending on which environment you're calling into
 				  .build();
 		return client;
 	}
@@ -52,13 +55,14 @@ public class Profile extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		System.out.println("\nInside Profile doGet() servlet");
 		HttpSession requestSession = request.getSession(false);
-		System.out.println("request: " + request.getSession(false));
+		//System.out.println("request: " + !request.getSession(false));
 		if (requestSession != null && (Boolean)requestSession.getAttribute("isUserLoggedIn") == true) {
-			System.out.println("Attempting to log in...");
+			System.out.println("Loading the Profile.jsp page...");
 			User user = (User) request.getAttribute("user");
 			
 			HashMap<String, Boolean> errMapForItems = new HashMap<>();

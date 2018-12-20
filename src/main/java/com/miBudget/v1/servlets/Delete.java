@@ -94,7 +94,13 @@ public class Delete extends HttpServlet {
 					.itemRemove(new ItemRemoveRequest(item.getAccessToken()))
 					.execute();
 					// The Item has been removed and the access token is now invalid
-			Boolean isRemoved = itemRemoveRes.body().getRemoved();
+			boolean isRemoved = false;
+			if (itemRemoveRes.isSuccessful()) {
+				isRemoved = itemRemoveRes.body().getRemoved();
+			} else {
+				System.out.println(itemRemoveRes.errorBody().string());
+				return "FAIL: item's access token was not invalidated. Request failed.";
+			}
 			System.out.println(item.getAccessToken() + " was invalidated?: " + isRemoved);
 			if (isRemoved == true) {
 				//ArrayList<UsersItemsObject> usersItemsList = itemDAOImpl.getAllUserItems((User)session.getAttribute("user"));

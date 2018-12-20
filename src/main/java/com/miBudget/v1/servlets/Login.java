@@ -58,7 +58,7 @@ public class Login extends HttpServlet {
 	//@SuppressWarnings("null")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		System.out.println("\nInside the Login servlet.");
+		System.out.println("\nInside Login doPost()...");
 		String cellphone = request.getParameter("Cellphone");
 		String password = request.getParameter("Password");
 		boolean loginCredentials = false;
@@ -81,6 +81,13 @@ public class Login extends HttpServlet {
 			Item item = itemDAOImpl.getItem(itemTableId);
 			ArrayList<Account> list = accountDAOImpl.getAllOfItemsAccounts(itemTableId);
 			acctsAndInstitutionIdMap.put(item.getItemTableId(), list);
+		}
+		System.out.println("acctsAndInstitutionIdMap");
+		for(Integer i : acctsAndInstitutionIdMap.keySet()) {
+			System.out.println("\nkey: " + i);
+			for (Account a : acctsAndInstitutionIdMap.get(i)) {
+				System.out.println("value: " + a);
+			}
 		}
 		
 		
