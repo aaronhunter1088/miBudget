@@ -17,10 +17,7 @@ import com.miBudget.v1.utilities.HibernateUtilities;
 
 public class MiBudgetDAOImpl {
 	
-	private AccountDAOImpl accountDAOImpl;
-	
 	public MiBudgetDAOImpl() {
-		this.accountDAOImpl = new AccountDAOImpl();
     }
     
     // get the users institutuion ids from users_institution_ids table
@@ -35,8 +32,7 @@ public class MiBudgetDAOImpl {
 			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> institutionIdsFromDB = session
-					   .createNativeQuery("SELECT institution_id FROM users_institution_ids " + 
-							   			  "WHERE user_id = " + user.getId()).getResultList();
+					   .createNativeQuery("SELECT institution_id FROM users_institution_ids").getResultList();
 			System.out.println("Query executed!");
 			t.commit();
 			session.close();
@@ -142,6 +138,7 @@ public class MiBudgetDAOImpl {
 		SessionFactory factory = null;
     	Session session = null;
     	Transaction t = null;
+    	AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
 		try {
 			System.out.println("\nAttempting to execute getAllUsers query...");
 			factory = HibernateUtilities.getSessionFactory();

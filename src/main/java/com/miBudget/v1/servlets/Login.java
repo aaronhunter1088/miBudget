@@ -74,18 +74,18 @@ public class Login extends HttpServlet {
 		// for every user in the list
 		
 		ArrayList<UsersItemsObject> usersItemsList = itemDAOImpl.getAllUserItems(allUsersList.get(0));
-		HashMap<Integer, ArrayList<Account>> acctsAndInstitutionIdMap = new HashMap<>();
+		HashMap<String, ArrayList<Account>> acctsAndInstitutionIdMap = new HashMap<>();
 		Iterator usersItemsIter = usersItemsList.iterator();
 		while (usersItemsIter.hasNext()) {
 			int itemTableId = ( (UsersItemsObject) usersItemsIter.next()).getItemTableId();
 			Item item = itemDAOImpl.getItem(itemTableId);
 			ArrayList<Account> list = accountDAOImpl.getAllOfItemsAccounts(itemTableId);
-			acctsAndInstitutionIdMap.put(item.getItemTableId(), list);
+			acctsAndInstitutionIdMap.put(item.getInsitutionId(), list);
 		}
 		System.out.println("acctsAndInstitutionIdMap");
-		for(Integer i : acctsAndInstitutionIdMap.keySet()) {
-			System.out.println("\nkey: " + i);
-			for (Account a : acctsAndInstitutionIdMap.get(i)) {
+		for(String id : acctsAndInstitutionIdMap.keySet()) {
+			System.out.println("\nkey: " + id);
+			for (Account a : acctsAndInstitutionIdMap.get(id)) {
 				System.out.println("value: " + a);
 			}
 		}

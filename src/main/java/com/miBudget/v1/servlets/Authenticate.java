@@ -421,9 +421,6 @@ public class Authenticate extends HttpServlet {
 			  return "FAIL: did not add institution_id to table.";
 		  else {
 			  System.out.println("Institution_id added to users_institution_ids table in database");
-			  ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
-			  session.setAttribute("institutionIdsList", institutionIdsList);
-			  session.setAttribute("institutionIdsListSize", institutionIdsList.size());
 		  }
 		  // Add accounts to users profile
 		  int itemTableId = itemDAOImpl.getItemTableIdForItemId(itemToAdd.getItemId());
@@ -450,21 +447,27 @@ public class Authenticate extends HttpServlet {
 		  
 		  // Create a Map of itemIds, and list of appropriate accounts
 		  @SuppressWarnings("unchecked")
-		  HashMap<Integer, ArrayList<com.miBudget.v1.entities.Account>> acctsAndInstitutionIdMap = 
-		  	(HashMap<Integer, ArrayList<com.miBudget.v1.entities.Account>>) session.getAttribute("acctsAndInstitutionIdMap");
+		  HashMap<String, ArrayList<com.miBudget.v1.entities.Account>> acctsAndInstitutionIdMap = 
+		  	(HashMap<String, ArrayList<com.miBudget.v1.entities.Account>>) session.getAttribute("acctsAndInstitutionIdMap");
 		  System.out.println("acctsAndInstitutionIdMap");
-		  for(Integer i : acctsAndInstitutionIdMap.keySet()) {
+		  for(String i : acctsAndInstitutionIdMap.keySet()) {
 			  System.out.println("\nkey: " + i + "\n");
 			  for (com.miBudget.v1.entities.Account a : acctsAndInstitutionIdMap.get(i)) {
 				  System.out.println("value: " + a + "\n");
 			  }
 		  }
-		  System.out.println("itemTableId: " + itemToAdd.getItemTableId());
+		  System.out.println("institutionId: " + itemToAdd.getInsitutionId());
 		  accountsList.forEach(account -> {
 			  System.out.println("account: " + account);
 		  });
-		  acctsAndInstitutionIdMap.put(itemToAdd.getItemTableId(), accountsList);
+		  Object resultOfPutInMap = acctsAndInstitutionIdMap.put(itemToAdd.getInsitutionId(), accountsList);
+		  if (resultOfPutInMap != null) System.out.println("Some item and its accounts were just overwritten!!");
+		  else System.out.println("Added the Integer and Accounts pairing to the acctsAndInsitutionIdMap");
 		  session.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
+		  
+		  ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
+		  session.setAttribute("institutionIdsList", institutionIdsList);
+		  session.setAttribute("institutionIdsListSize", institutionIdsList.size());
 		  
 		  // Accounts list is all accounts in users profile
 		  int numberOfAccounts = accountDAOImpl.getAccountIdsFromUser(user).size();
@@ -483,7 +486,7 @@ public class Authenticate extends HttpServlet {
 		  
 		  // update ErrMapForItems
 		  HashMap<String, Boolean> errMapForItems = new HashMap<>();
-		  ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
+		  institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
 		  ArrayList<Item> items = new ArrayList<>();
 		  for(int i = 0; i < institutionIdsList.size(); i++) {
 			  Item item = itemDAOImpl.getItemFromUser(institutionIdsList.get(i));

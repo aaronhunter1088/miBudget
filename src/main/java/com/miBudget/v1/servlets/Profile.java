@@ -68,9 +68,14 @@ public class Profile extends HttpServlet {
 			HashMap<String, Boolean> errMapForItems = new HashMap<>();
 			ArrayList<String> ids = (ArrayList<String>) requestSession.getAttribute("institutionIdsList");
 			ArrayList<Item> items = new ArrayList<>();
-			for(int i = 0; i < ids.size(); i++) {
-				Item item = itemDAOImpl.getItemFromUser(ids.get(i));
-				System.out.println(item);
+//			for(int i = 0; i < ids.size(); i++) {
+//				Item item = itemDAOImpl.getItemFromUser(ids.get(i));
+//				System.out.println(item);
+//				items.add(item);
+//			}
+			for (String id : ids) {
+				Item item = itemDAOImpl.getItemFromUser(id);
+				System.out.println("Retreived " + item);
 				items.add(item);
 			}
 			

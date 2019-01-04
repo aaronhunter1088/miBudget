@@ -4,6 +4,7 @@
 <%@ page import="java.util.Arrays" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Iterator" %>
+<%@ page import="java.util.Set" %>
 <%@ page import="java.lang.String" %>
 <%@ page import="com.miBudget.v1.daoimplementations.MiBudgetDAOImpl" %>
 <%@ page import="com.miBudget.v1.daoimplementations.AccountDAOImpl" %>
@@ -74,7 +75,8 @@
 		<!-- Each account should have an update button and a delete button -->
 		<!-- Update updates the Item -->
 		<!-- Delete deletes the Item -->
-		<% List institutionsIdsList = (ArrayList<String>)session.getAttribute("institutionIdsList"); %>
+		<% List institutionsIdsList = (ArrayList<String>)session.getAttribute("institutionIdsList"); 
+		int idCopy; %>
 		<div class="mainTable" id="accountsTable">
 			<table class="outerTable" id="outerTable">
 				<% 
@@ -84,10 +86,10 @@
 				// Load Map of ItemGetResponses here
 				while (institutionIdsIter.hasNext()) {
 				    String currentId = (String)institutionIdsIter.next();
-				    String idCopy = currentId;
+				    //idCopy = Integer.parseInt(currentId);
 				%> 
 				<!-- [Bank Logo | Update | Delete] --> 
-				<tr id="bank">
+				<tr id="bank" name="<%= currentId %>">
 					<td id="logo" name="<%= currentId %>">
 					 	<%= currentId %> <!-- change to Logo -->  
 				 	</td> 
@@ -98,13 +100,13 @@
 				 		<button class="updateButton" id="link-update-button" name="<%= currentId %>"><b>Update Bank</b></button>
 				 	</td> 
 				 	<!-- Whitespace -->
-				 	<td id="deletebtn">
+				 	<td id="deletebtn" name="<%= currentId %>">
 				 	  <!-- Delete button -->
 				 	  <!-- Goes to Delete.java and performs doPost --> 
-				      <form id="delete" method="post" onsubmit="return deleteBank();" action="Delete"> 
+				      <form id="delete" method="post" onsubmit="return deleteBank('<%= currentId %>');" action="Delete"> 
 				      	<input type="hidden" name="delete" value="bank"></input>
-				      	<input type="hidden" name="idCopy" value="<%= idCopy %>"></input>
-					    <button type="submit" formmethod="post">Delete Bank</button>
+				      	<input type="hidden" name="currentId" value="<%= currentId %>"></input>
+					    <button id="deleteButton" name="<%= currentId %>" type="submit" formmethod="post">Delete Bank</button>
 					  </form> 
 				    </td> 
 				</tr> 
@@ -121,23 +123,31 @@
 					</th>
 			    </tr>
 				<%
-				HashMap<Integer, ArrayList<Account>> acctsMap = (HashMap<Integer, ArrayList<Account>>)
-					session.getAttribute("acctsAndInstitutionIdMap");
-				Iterator mapsIter = acctsMap.keySet().iterator();
+				HashMap<String, ArrayList<Account>> acctsMap = (HashMap<String, ArrayList<Account>>)
+					session.getAttribute("acctsAndInstitutionIdMap"); // recall Integer is itemTableId
+				//Iterator mapsIter = acctsMap.keySet().iterator(); // .keySet() returns a Set of Integers which are itemTableIds
+				Set<String> acctsMapKeySet = acctsMap.keySet();
+				for (String acctsForThisInstitutionId : acctsMapKeySet) {	
+				//institutionsIdsList = (ArrayList<String>)session.getAttribute("institutionIdsList");
+				//institutionIdsIter = institutionsIdsList.iterator();
 				
-				institutionIdsIter = institutionsIdsList.iterator();
-				
-				while (mapsIter.hasNext()) {
-					int itemTableId = Integer.parseInt(mapsIter.next().toString());
-					ArrayList<Account> acctsList = acctsMap.get(itemTableId);
-					String currentId = (String) institutionIdsIter.next();
-					System.out.println("\tacctsList size: " + acctsList.size());
-					Iterator acctsListIter = acctsList.iterator();
-					while (acctsListIter.hasNext()) {
-						Account acct = (Account) acctsListIter.next(); 
-						System.out.println("next account: " + acct); %>
+				//while (mapsIter.hasNext()) {
+					//String institutionId = institutionIdsIter.next().toString();
+					//int itemTableId = Integer.parseInt(mapsIter.next().toString());
+					//System.out.println("\nitemTableId: " + itemTableId);
+					//if (institutionId == idCopy) System.out.println("Bank row matches itemTableId so we should print the accounts.");
+					//else System.out.println("The bank row doesn't match the itemTableId so we should print the accounts. We need to see if there are any more values in acctsAndInstitutonIdMap.");
+					ArrayList<Account> acctsList = acctsMap.get(acctsForThisInstitutionId);
+					
+					System.out.println("acctsList size: " + acctsList.size());
+					//System.out.println("institutionId: " + institutionId);
+					//Iterator acctsListIter = acctsList.iterator();
+					//while (acctsListIter.hasNext()) {
+					for (Account acct : acctsList) {
+						//com.miBudget.v1.entities.Account acct = (com.miBudget.v1.entities.Account) acctsListIter.next(); 
+						String name = acct.getOfficialName(); %>
 						<!-- [Name | Mask | Available Balance] | Delete --> 
-						<tr id="acct" class="acct" name="<%= currentId %>"> 
+						<tr id="acct" class="acct" name="<%= acctsForThisInstitutionId %>"> 
 							<!-- Account -->
 							<!-- Name | Mask | Subtype -->
 						  	<td>
@@ -151,7 +161,8 @@
 					 		</td>
 					 		<!-- Whitespace -->	
 					 		<td> 
-					 			<%= acct.getAvailableBalance() %>
+					 			<%= acct.getAvailableBalance() %> 
+					 			<!-- add logic for credit cards to show owed amount as well -->
 					 		</td>
 					 		<!-- Whitespace -->	
 					 		<td>
@@ -162,7 +173,7 @@
 					 			<%= acct.getSubType() %>
 					 		</td> 
 						 	<!-- Delete Account -->
-						 	<td>
+						 	<td id="deleteAccount">
 						 		<!-- this functionality is not yet set up -->
 						 		<button id="deleteAcct" name="<%= acct.getAccountId() %>">Delete Account</button> 
 						 		<!-- Delete button -->
@@ -193,13 +204,13 @@
 			function replaceAll(str, find, replace) {
 			    return str.replace(new RegExp(find, 'g'), replace);
 			};
-			function deleteBank() {
-				var bankName = $("[id='acct']").find('td:nth-child(1)').attr('name');
+			function deleteBank(institutionId) {
+				var bankName = getInstitutionNameFromId(institutionId);
 				var ans = "";
-				//do {
+				console.log('bankName: ' + bankName);
 				ans = prompt('WARNING! You are about to delete your \'' + bankName + '\' bank. Are you sure you want to continue? Enter: \'Yes\' to confirm.', '');
 				console.log('answer: ' + ans);
-				//} while (ans != "Yes".toLowerCase() || ans != "No".toLowerCase() || ans != null || ans != "" );
+
 				if (ans == 'Yes'.toLowerCase()) {
 					console.log('Making a post request to Delete to delete this single ' + bankName + ' account.');
 					return true;
@@ -240,63 +251,79 @@
 				$("[id='bank']").each(function() {
 					//var institutionId = $(this).find('td:nth-child(1)').text().replace(/\s/g,'');
 					var institutionId = $(this).find('td:nth-child(1)').attr('name');
+					var row = $(this);
 					var col1 = $(this).find('td:nth-child(1)');
-					
+					var col2 = $(this).find('td:nth-child(2)'); // Update button
+					var col3 = $(this).find('td:nth-child(3)'); // Delete button
 					//var institutionId = $(this).text().replace(/\s/g,'');
 					//var name = $(this).find('td:nth-child(2)').attr('name', institutionId);
 					console.log("cell value: " + institutionId);
 					var nameOfButton = col2.attr('name');
-					console.log("button name is: " + nameOfButton);
+					console.log("button name is: " + nameOfButton); // expecting true or false
 					if (institutionId == "") { $(this).html(''); }
 					// will do for all update buttons
 					if (col2.attr('name') == "true") { col2.show(); }
 					else { col2.hide(); }
 					
-					
-					if (institutionId == "ins_1") { 
-						$(this).find('td:nth-child(1)').html('<img src="bankofamerica.jpg" alt="Bank_of_America"/>'); 
-					}
-					if (institutionId == "ins_2") { 
-						$(this).find('td:nth-child(1)').html('<img src="bb&t.jpg" alt="BB&T"/>');
-				    }
-					if (institutionId == "ins_3") { 
-						$(this).find('td:nth-child(1)').html('<img src="chase.jpg" alt="Chase"/>');
-					}
-					if (institutionId == "ins_4") { 
-						$(this).find('td:nth-child(1)').html('<img src="wellsfargo.jpg" alt="Wells_Fargo"/>'); 
-					}
-					if (institutionId == "ins_5") { 
-						$(this).find('td:nth-child(1)').html('<img src="citi.jpg" alt="Citi"/>'); 
-					}
-					if (institutionId == "ins_6") { 
-						$(this).find('td:nth-child(1)').html('<img src="usbank.jpg" alt="US Bank"/>'); 
-					}
-					if (institutionId == "ins_7") { $(this).find('td:nth-child(1)').html('<img src="usaa.jpg" alt="USAA"/>'); }
-					if (institutionId == "ins_9") { $(this).find('td:nth-child(1)').html('<img src="capitalone.jpg" alt="Capital_One"/>'); }
-					if (institutionId == "ins_10") { $(this).find('td:nth-child(1)').html('<img src="amex.jpg" alt="American_Express"/>'); }
-					if (institutionId == "ins_11") { $(this).find('td:nth-child(1)').html('<img src="charlesschwab.jpg" alt="Charles_Schwab"/>'); }
-					if (institutionId == "ins_12") { $(this).find('td:nth-child(1)').html('<img src="fidelity.jpg" alt="Fidelity"/>'); }
-					if (institutionId == "ins_13") { $(this).find('td:nth-child(1)').html('<img src="pnc.jpg" alt="PNC"/>'); }
-					if (institutionId == "ins_14") { $(this).find('td:nth-child(1)').html('<img src="tdbank.jpg" alt="TD_Bank"/>'); }
-					if (institutionId == "ins_15") { $(this).find('td:nth-child(1)').html('<img src="navyfederal.jpg" alt="Navy_Federal"/>'); }
-					if (institutionId == "ins_16") { $(this).find('td:nth-child(1)').html('<img src="suntrust.jpg" alt="Sun_Trust"/>'); }
-					if (institutionId == "ins_19") { $(this).find('td:nth-child(1)').html('<img src="regions.jpg" alt="Regions"/>'); }
-					if (institutionId == "ins_20") { 
-						$(this).find('td:nth-child(1)').html('<img src="citizensbank.jpg" alt="Citizens_Bank"/>'); 
-					}
-					if (institutionId == "ins_21") { 
-						$(this).find('td:nth-child(1)').html('<img src="huntington.jpg" alt="Huntington"/>'); 
+					switch (institutionId) {
+						case "ins_1"  : $(this).find('td:nth-child(1)').html('<img src="bankofamerica.jpg" alt="Bank_of_America"/>'); 
+										break;
+						case "ins_2"  : $(this).find('td:nth-child(1)').html('<img src="bb&t.jpg" alt="BB&T"/>');
+										break;
+						case "ins_3"  : col1.html('<img src="chase.jpg" alt="Chase"/>');
+										break;
+						case "ins_4"  : $(this).find('td:nth-child(1)').html('<img src="wellsfargo.jpg" alt="Wells_Fargo"/>'); 
+										break;
+						case "ins_5"  : row.attr('name', 'Citi');
+										col1.html('<img src="citi.jpg" alt="Citi"/>');
+										console.log('row name: ' + row.attr('name'));
+										break;
+						case "ins_6"  : $(this).find('td:nth-child(1)').html('<img src="usbank.jpg" alt="US Bank"/>');
+										break;
+						case "ins_7"  : $(this).find('td:nth-child(1)').html('<img src="usaa.jpg" alt="USAA"/>');
+										break;
+						case "ins_9"  : $(this).find('td:nth-child(1)').html('<img src="capitalone.jpg" alt="Capital_One"/>');
+										break;
+						case "ins_10" : $(this).find('td:nth-child(1)').html('<img src="amex.jpg" alt="American_Express"/>');
+										break;
+						case "ins_11" : $(this).find('td:nth-child(1)').html('<img src="charlesschwab.jpg" alt="Charles_Schwab"/>');
+										break;
+						case "ins_12" : $(this).find('td:nth-child(1)').html('<img src="fidelity.jpg" alt="Fidelity"/>');
+										break;
+						case "ins_13" : $(this).find('td:nth-child(1)').html('<img src="pnc.jpg" alt="PNC"/>');
+										break;
+						case "ins_14" : $(this).find('td:nth-child(1)').html('<img src="tdbank.jpg" alt="TD_Bank"/>');
+										break;
+						case "ins_15" : $(this).find('td:nth-child(1)').html('<img src="navyfederal.jpg" alt="Navy_Federal"/>');
+										break;
+						case "ins_16" : $(this).find('td:nth-child(1)').html('<img src="suntrust.jpg" alt="Sun_Trust"/>');
+										break;
+						case "ins_19" : $(this).find('td:nth-child(1)').html('<img src="regions.jpg" alt="Regions"/>');
+										break;
+						case "ins_20" : $(this).find('td:nth-child(1)').html('<img src="citizensbank.jpg" alt="Citizens_Bank"/>');
+										break;
+						case "ins_21" : $(this).find('td:nth-child(1)').html('<img src="huntington.jpg" alt="Huntington"/>');
+										break;
+						default  : console.log('unknown institution.');
+										break;
 					}
 					// will do for all images
 					var col2 = $(this).find('td:nth-child(2)'); // Update button
-					var code = col1.html().split(" ",2).pop(); 
-					<td id="logo" name="<%= currentId %>">
-					 	<%= currentId %> <!-- change to Logo -->  
-				 	</td> // TODO: all buttons coming back as false
-					var nameOfButton = code.substring(code.indexOf('"')+1, code.indexOf('.'));
+					var col3 = $(this).find('td:nth-child(3)'); // Delete button
+					var col3Form = col3.find("#delete"); // Delete form 
+					var code = col1.html().split(" ",3).pop(); 
+					// TODO: all buttons coming back as false
+					var nameOfButton = code.substring(code.indexOf('"')+1, code.lastIndexOf('"'));
+					nameOfButton = nameOfButton.includes('_') == true ? replaceAll(nameOfButton, '_', ' ') : nameOfButton;
 					//console.log('name: ' + name);
 					col1.attr('name', nameOfButton);
-					console.log('image column name is now: ' + col1.attr('name'));
+					col2.attr('name', nameOfButton);
+					col3.attr('name', nameOfButton);
+					col3Form.attr('name', nameOfButton);
+					console.log('image(button) column name is now: ' + col1.attr('name'));
+					console.log('col2 name: ' + col2.attr('name'));
+					console.log('col3 name: ' + col3.attr('name'));
+					console.log('form name: ' + col3Form.attr('name'));
 					col1.click(function() {
 						var col1 = $(this);
 						var nameOfButton = "";
@@ -305,6 +332,7 @@
 						nameOfButton = nameOfButton.includes('_') == true ? replaceAll(nameOfButton, '_', ' ') : nameOfButton; 
 						//nameOfButton = nameOfButton.substring(0, nameOfButton.length-4);
 						//console.log('code: ' + code);
+						
 						console.log('you clicked ' + nameOfButton);
 						// hilde outer table. show inner table
 						$('.outerTable').hide();
@@ -315,12 +343,17 @@
 							acctRow.show();
 							var acctRowId = acctRow.attr('id');
 							var acctRowName = acctRow.attr('name');
-							//console.log('name is ' + acctRowName);
+							console.log('acctRowName is ' + acctRowName);
 							if (acctRowName == nameOfButton) acctRow.show();
 							else acctRow.hide();
 						});
 						$('.innerTable').show();
 						
+					}); // end col2
+					col3.click(function() {
+						console.log('we print this now.');
+						console.log($(this));
+
 					});
 				}); // end for each row
 			};
@@ -335,71 +368,97 @@
 				<%-- <tr id="acct" name="<%= currentId %>"> 
 				id="bankName" --%>
 				$("[id='acct']").each(function() {
+					//var col1 = $(this).find('td:nth-child(1)');
 					var acctRow = $(this); //$("[id='acct']")
 					var acctRowId = acctRow.attr('id');
 					var acctRowName = acctRow.attr('name');
-					var secondCol = acctRow.find('td:nth-child(2)');
 					console.log(acctRowId == 'acct' ? 'ROW ATTAINED!' : 'DO NOT HAVE ROW')  ;
-					
-					//console.log('acctRowName: ' + acctRowName);
+					console.log('acctRow name before: ' + acctRowName);
 					//var institutionId = secondRow.attr('name');
-					if (acctRowName == "ins_1") { 
-						acctRow.attr('name', 'Bank of America');
-						secondCol.attr('name', 'Bank of America');
+					switch(acctRowName) {
+						case "ins_1" :  acctRow.attr('name', 'Bank of America');
+										break;
+						case "ins_2" :  acctRow.attr('name', 'BB&T');
+										break;
+						case "ins_3" :  acctRow.attr('name', 'Chase');
+										break;
+						case "ins_4" :  acctRow.attr('name', 'Wells Fargo');
+										break;
+						case "ins_5" :  acctRow.attr('name', 'Citi');
+										break;
+						case "ins_6" :  acctRow.attr('name', 'US Bank');
+										break;
+						case "ins_7" :  acctRow.attr('name', 'USAA');
+										break;
+						case "ins_9" :  acctRow.attr('name', 'Capital One');
+										break;
+						case "ins_10" : acctRow.attr('name', 'American Express');
+										break;
+						case "ins_11" : acctRow.attr('name', 'Charles Schwab');
+										break;
+						case "ins_12" : acctRow.attr('name', 'Fidelity');
+										break;
+						case "ins_13" : acctRow.attr('name', 'PNC');
+										break;
+						case "ins_14" : acctRow.attr('name', 'TD Bank');
+										break;
+						case "ins_15" : acctRow.attr('name', 'Navy Federal');
+										break;
+						case "ins_16" : acctRow.attr('name', 'Sun Trust');
+										break;
+						case "ins_19" : acctRow.attr('name', 'Regions');
+										break;
+						case "ins_20" : acctRow.attr('name', 'Citizens Bank');
+										break;
+						case "ins_21" : acctRow.attr('name', 'Huntington');
+										break;
+						default : console.log('unknown institution.')
 					}
-					if (acctRowName == "ins_2") { 
-						accrRow.attr('name', 'BB&T');
-				    }
-					if (acctRowName == "ins_3") { 
-						acctRow.attr('name', 'Chase');
-					}
-					if (acctRowName == "ins_4") { 
-						acctRow.attr('name', 'Wells Fargo');
-					}
-					if (acctRowName == "ins_5") {
-						acctRow.attr('name', 'Citi');
-					}
-					if (acctRowName == "ins_6") {
-						acctRow.attr('name', 'US Bank');
-					}
-					if (acctRowName == "ins_7") {
-						acctRow.attr('name', 'USAA');
-					}
-					if (acctRowName == "ins_9") {
-						acctRow.attr('name', 'Capital One');
-					}
-					if (acctRowName == "ins_10") {
-						acctRow.attr('name', 'Amex');
-					}
-					if (acctRowName == "ins_11") {
-						acctRow.attr('name', 'Charles Schwab');
-					}
-					if (acctRowName == "ins_12") {
-						acctRow.attr('name', 'Fidelity');
-					}
-					if (acctRowName == "ins_13") {
-						acctRow.attr('name', 'PNC');
-					}
-					if (acctRowName == "ins_14") {
-						acctRow.attr('name', 'TD Bank');
-					}
-					if (acctRowName == "ins_15") {
-						acctRow.attr('name', 'Navy Federal');
-					}
-					if (acctRowName == "ins_16") {
-						acctRow.attr('name', 'Sun Trust');
-					}
-					if (acctRowName == "ins_19") {
-						acctRow.attr('name', 'Regions');
-					}
-					if (acctRowName == "ins_20") {
-						acctRow.attr('name', 'Citizens Bank');
-					}
-					if (acctRowName == "ins_21") {
-						acctRow.attr('name', 'Huntington');
-					}
-					console.log("acctRow name="+acctRow.attr('name')+"\"");
+					console.log("acctRow name after: \""+acctRow.attr('name')+"\"");
 				});
+			};
+			function getInstitutionNameFromId(institutionId) {
+				var bankName = '';
+				switch(institutionId) {
+					case "ins_1" :  bankName =  'Bank of America';
+									break;
+					case "ins_2" :  bankName =  'BB&T';
+									break;
+					case "ins_3" :  bankName =  'Chase';
+									break;
+					case "ins_4" :  bankName =  'Wells Fargo';
+									break;
+					case "ins_5" :  bankName =  'Citi';
+									break;
+					case "ins_6" :  bankName =  'US Bank';
+									break;
+					case "ins_7" :  bankName =  'USAA';
+									break;
+					case "ins_9" :  bankName =  'Capital One';
+									break;
+					case "ins_10" : bankName =  'American Express';
+									break;
+					case "ins_11" : bankName =  'Charles Schwab';
+									break;
+					case "ins_12" : bankName =  'Fidelity';
+									break;
+					case "ins_13" : bankName =  'PNC';
+									break;
+					case "ins_14" : bankName =  'TD Bank';
+									break;
+					case "ins_15" : bankName =  'Navy Federal';
+									break;
+					case "ins_16" : bankName =  'Sun Trust';
+									break;
+					case "ins_19" : bankName =  'Regions';
+									break;
+					case "ins_20" : bankName =  'Citizens Bank';
+									break;
+					case "ins_21" : bankName =  'Huntington';
+									break;
+					default : bankName = 'unknown institution.';
+				}
+				return bankName;
 			};
 			function getUpdateHandler(publicToken) {
 				console.log('Inside getUpdateHandler');
