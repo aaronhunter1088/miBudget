@@ -125,26 +125,12 @@
 				<%
 				HashMap<String, ArrayList<Account>> acctsMap = (HashMap<String, ArrayList<Account>>)
 					session.getAttribute("acctsAndInstitutionIdMap"); // recall Integer is itemTableId
-				//Iterator mapsIter = acctsMap.keySet().iterator(); // .keySet() returns a Set of Integers which are itemTableIds
 				Set<String> acctsMapKeySet = acctsMap.keySet();
 				for (String acctsForThisInstitutionId : acctsMapKeySet) {	
-				//institutionsIdsList = (ArrayList<String>)session.getAttribute("institutionIdsList");
-				//institutionIdsIter = institutionsIdsList.iterator();
-				
-				//while (mapsIter.hasNext()) {
-					//String institutionId = institutionIdsIter.next().toString();
-					//int itemTableId = Integer.parseInt(mapsIter.next().toString());
-					//System.out.println("\nitemTableId: " + itemTableId);
-					//if (institutionId == idCopy) System.out.println("Bank row matches itemTableId so we should print the accounts.");
-					//else System.out.println("The bank row doesn't match the itemTableId so we should print the accounts. We need to see if there are any more values in acctsAndInstitutonIdMap.");
 					ArrayList<Account> acctsList = acctsMap.get(acctsForThisInstitutionId);
 					
 					System.out.println("acctsList size: " + acctsList.size());
-					//System.out.println("institutionId: " + institutionId);
-					//Iterator acctsListIter = acctsList.iterator();
-					//while (acctsListIter.hasNext()) {
 					for (Account acct : acctsList) {
-						//com.miBudget.v1.entities.Account acct = (com.miBudget.v1.entities.Account) acctsListIter.next(); 
 						String name = acct.getOfficialName(); %>
 						<!-- [Name | Mask | Available Balance] | Delete --> 
 						<tr id="acct" class="acct" name="<%= acctsForThisInstitutionId %>"> 
@@ -242,21 +228,12 @@
 				console.log('Inside updateBanksTable()...');
 				var firstRowText = $("[id='bank']").attr('id');
 				console.log(firstRowText == 'bank' ? 'ROW ATTAINED!' : 'DO NOT HAVE ROW')  ;
-				// $('tr > td:first-child').each(function() {
-				// $('tr > td:nth-child(2)').each(function() {
-				
-				// we want every element that is a column that is a direct
-				// child of a tr element that has id attr = blah
-				// every element we want should be a td
 				$("[id='bank']").each(function() {
-					//var institutionId = $(this).find('td:nth-child(1)').text().replace(/\s/g,'');
 					var institutionId = $(this).find('td:nth-child(1)').attr('name');
 					var row = $(this);
 					var col1 = $(this).find('td:nth-child(1)');
 					var col2 = $(this).find('td:nth-child(2)'); // Update button
 					var col3 = $(this).find('td:nth-child(3)'); // Delete button
-					//var institutionId = $(this).text().replace(/\s/g,'');
-					//var name = $(this).find('td:nth-child(2)').attr('name', institutionId);
 					console.log("cell value: " + institutionId);
 					var nameOfButton = col2.attr('name');
 					console.log("button name is: " + nameOfButton); // expecting true or false
@@ -312,10 +289,8 @@
 					var col3 = $(this).find('td:nth-child(3)'); // Delete button
 					var col3Form = col3.find("#delete"); // Delete form 
 					var code = col1.html().split(" ",3).pop(); 
-					// TODO: all buttons coming back as false
 					var nameOfButton = code.substring(code.indexOf('"')+1, code.lastIndexOf('"'));
 					nameOfButton = nameOfButton.includes('_') == true ? replaceAll(nameOfButton, '_', ' ') : nameOfButton;
-					//console.log('name: ' + name);
 					col1.attr('name', nameOfButton);
 					col2.attr('name', nameOfButton);
 					col3.attr('name', nameOfButton);
@@ -330,11 +305,7 @@
 						var code = col1.html().split(" ",3).pop();
 						nameOfButton = code.substring(code.indexOf('"')+1, code.lastIndexOf('"'));
 						nameOfButton = nameOfButton.includes('_') == true ? replaceAll(nameOfButton, '_', ' ') : nameOfButton; 
-						//nameOfButton = nameOfButton.substring(0, nameOfButton.length-4);
-						//console.log('code: ' + code);
-						
 						console.log('you clicked ' + nameOfButton);
-						// hilde outer table. show inner table
 						$('.outerTable').hide();
 						<%-- <tr id="acct" name="<%= currentId %>"> --%>
 						$("[id='header'] > th > h4").text(nameOfButton);
@@ -368,13 +339,11 @@
 				<%-- <tr id="acct" name="<%= currentId %>"> 
 				id="bankName" --%>
 				$("[id='acct']").each(function() {
-					//var col1 = $(this).find('td:nth-child(1)');
 					var acctRow = $(this); //$("[id='acct']")
 					var acctRowId = acctRow.attr('id');
 					var acctRowName = acctRow.attr('name');
 					console.log(acctRowId == 'acct' ? 'ROW ATTAINED!' : 'DO NOT HAVE ROW')  ;
 					console.log('acctRow name before: ' + acctRowName);
-					//var institutionId = secondRow.attr('name');
 					switch(acctRowName) {
 						case "ins_1" :  acctRow.attr('name', 'Bank of America');
 										break;
@@ -463,7 +432,6 @@
 			function getUpdateHandler(publicToken) {
 				console.log('Inside getUpdateHandler');
 				console.log('passed in param: ' + publicToken);
-				//console.log('passed in param: ' + institutionIdName);
 				var thisPT = publicToken;
 				var updateHandler = Plaid.create({
 			        env: 'development',
@@ -486,12 +454,8 @@
 			            console.log('metadata:');
 			            console.log(JSON.stringify(metadata));
 			            location.reload(true);
-			            //document.getElementById("changingText").innerHTML = "You've re-authenticated <bank>. It's good to go!", metadata.instititution[zero].name;
-			            // Left to show that < text > will be blank with no value....
-			            //document.getElementById("changingText").innerHTML = "You've re-authenticated <your_bank>. It's good to go!";
 			        },
 			        onExit: function(err, metadata) {
-			            // The user exited the Link flow.
 			            if (err != null) {
 			                // The user encountered a Plaid API error prior
 		                    // to exiting.
@@ -504,7 +468,6 @@
 			        }  
 			    }); // end handlerUpdate
 			    console.log('created updateHandler');
-			    //updateHandler.open();
 			    return updateHandler; 
 		    	
 		    }
@@ -524,9 +487,6 @@
 				$('.button').removeAttr('disabled');
 				var text = $("[id='changingText']").text();
 				var usersAccounts = <%= user.getAccountIds().size() %>;
-				//$('.accountsSize').text('Accounts - ' + usersAccounts);
-				//$('.changingText').val('This text will change after using the Plaid Link Initializer.');
-				//$('p').toggle();
 				var goodText = "You successfully re-authorized your bank!";
 				var goodLength = goodText.length;
 				var goodText2 = "You have successfully loaded";
@@ -616,33 +576,21 @@
 					             institution_id: metadata.institution.institution_id
 					    	 }
 					      }).success(function (response) {
-					    	  //var resp = JSON.stringify(response);
-					          //usersAccounts = parseInt(metadata.accounts.length) + usersAccounts;
-					          //var strAccounts = (usersAccounts == 1) ? ' account!' : ' accounts!';
-					          //console.log(usersAccounts);
-					          //$('#accounts').html('Accounts : ' + usersAccounts);
-						      location.reload(true);
+					    	  location.reload(true);
 						      updateAccountsTable();
 					          updateBanksTable();
 					          console.log("end of success");
 						  }).error(function (response) {
-							  // in Profile.java, we set the response using
-							  // response.getWriter().append("");
-							  // This is how the response object in this function
-							  // and alike are set!
 							  var res = JSON.stringify(response.responseText); 
 							  res = res.substring(1, res.length -1);
 							  $("[id='changingText']").text(res).css({ 'font-weight': 'bold' }).fadeOut(8000, function() {
 									$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
 									.css({ 'font-weight' : 'bold'});
 								});
-					    	  //document.getElementById("changingText").innerHTML = "We didn't load the accounts because the bank already exists in your profile.";
 					      }).done(function () {
 						  }).fail(function () {
 					      }).always(function (response) {
-					    	  //console.log(parseInt(metadata.accounts.length));
 					    	  console.log(response);
-					    	  //alert("hello");
 					      });
 					    },
 					    onExit: function(err, metadata) {
@@ -688,12 +636,8 @@
 			     console.log('the button you clicked: ' + institutionIdName);
 			     
 			     $.when(ajax1()).done(function(publicToken) {
-					//alert('Public token received...');
-					updateHandler = getUpdateHandler(publicToken);
+				     updateHandler = getUpdateHandler(publicToken);
 					 console.log('updateHandler returned');
-					 //updateHandler.open(institutionIdName);
-					 //updateHandler.open(publicToken);
-					 
 					 updateHandler.open();
 				 });
 				 function ajax1() {
@@ -707,9 +651,6 @@
 					  }).success(function (response) {
 					     publicToken = JSON.stringify(response);
 					     console.log('after call to UpdateBank: ' + publicToken);
-					     //getUpdateHandler(publicToken);
-					     
-						  
 					  }).error(function (response) { // end .success
 						 console.log('review the response...');
 					 	 console.log(response);
@@ -717,19 +658,13 @@
 					  console.log('after ajax is defined: ' + publicToken);
 				      console.log('performing ajax call');
 				 } 
-				  // upddateHandler not defined yet
-				  //updateHandler.open();
 				 console.log('end update button here');
 			   }); // end link-update-button.on('click')
-			  /* $('button').on('click', function(e) {
-				alert('hi');
-			  }); */
-			  hideInnerTable();
-			  updateAccountsTable();
-			  updateBanksTable();
-		      console.log("jsp page has finished loading.")
+			   hideInnerTable();
+			   updateAccountsTable();
+			   updateBanksTable();
+		       console.log("jsp page has finished loading.")
 		    });
-		    //})(jQuery);
 		</script>
 	</body>
 </html>
