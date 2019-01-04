@@ -40,12 +40,14 @@ public class Delete extends HttpServlet {
 	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
 	private final String clientId = "5ae66fb478f5440010e414ae";
 	private final String secret = "0e580ef72b47a2e4a7723e8abc7df5"; 
+	private final String secretD = "c7d7ddb79d5b92aec57170440f7304";
+	
     public final PlaidClient client() {
 		// Use builder to create a client
 		PlaidClient client = PlaidClient.newBuilder()
-				.clientIdAndSecret(clientId, secret)
+				.clientIdAndSecret(clientId, secretD)
 				.publicKey("") // optional. only needed to call endpoints that require a public key
-				.sandboxBaseUrl() // or equivalent, depending on which environment you're calling into
+				.developmentBaseUrl() // or equivalent, depending on which environment you're calling into
 				.build();
 		return client;
     }   
@@ -67,9 +69,10 @@ public class Delete extends HttpServlet {
 
 	public String deleteBank(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		HttpSession session = request.getSession(false);  
-		String institutionId = request.getParameter("idCopy");
+		String institutionId = request.getParameter("currentId");
 		System.out.println("Attempting to delete bank: " + institutionId);
-		Item item = itemDAOImpl.createItemFromInstitutionId(institutionId);
+		Item item = itemDAOImpl.getItemFromUser(institutionId);
+		//Item item = itemDAOImpl.createItemFromInstitutionId(institutionId);
 		if (item == null) {
 			return "FAIL: error creating the item.";
 		}
@@ -88,13 +91,19 @@ public class Delete extends HttpServlet {
 		verify = itemDAOImpl.deleteItemFromDatabase(item);
 		if (verify == 0) {
 			return "FAIL: did not delete the item from the items table.";
-		}
+		} else { System.out.println("The item was successfully deleted."); }
 		if (verify == 1) {
 			Response<ItemRemoveResponse> itemRemoveRes =  client().service()
 					.itemRemove(new ItemRemoveRequest(item.getAccessToken()))
 					.execute();
 					// The Item has been removed and the access token is now invalid
-			Boolean isRemoved = itemRemoveRes.body().getRemoved();
+			boolean isRemoved = false;
+			if (itemRemoveRes.isSuccessful()) {
+				isRemoved = itemRemoveRes.body().getRemoved();
+			} else {
+				System.out.println(itemRemoveRes.errorBody().string());
+				return "FAIL: item's access token was not invalidated. Request failed.";
+			}
 			System.out.println(item.getAccessToken() + " was invalidated?: " + isRemoved);
 			if (isRemoved == true) {
 				//ArrayList<UsersItemsObject> usersItemsList = itemDAOImpl.getAllUserItems((User)session.getAttribute("user"));
@@ -125,9 +134,9 @@ public class Delete extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("Inside the Delete doPost method");
-		System.out.println("currentId: " + request.getParameter("idCopy"));
-		System.out.println("deleting request: " + request.getParameter("delete"));
+		System.out.println("\nInside the Delete doPost method");
+		System.out.println("currentId: " + request.getParameter("currentId"));
+		System.out.println("requesting to delete: " + request.getParameter("delete"));
 		HttpSession session = request.getSession(false);
 		// Perform the following logic:
 		if (request.getParameter("delete").equals("bank")) {

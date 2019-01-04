@@ -331,7 +331,8 @@ public class ItemDAOImpl {
     		// Users_institutions_ids table
     		// delete from users_institution_ids where user_id = 20 and institution_id = 'ins_3';
     		session.createQuery("DELETE FROM UsersInstitutionIdsObject " +
-    						    "WHERE institution_id = '" + item.getInsitutionId() + "'").executeUpdate();
+			    				"WHERE user_id = " + user.getId() + " " +
+								"AND institution_id = '" + item.getInsitutionId() + "'").executeUpdate();
     		//org.hibernate.query.Query query = session.createQuery("DELETE users_institution_ids WHERE institution_id = :institution_id");
     		//query.setParameter("institution_id", item.getInsitutionId());
     		//int executeResult = query.executeUpdate();
@@ -350,7 +351,7 @@ public class ItemDAOImpl {
     		// Users_items table
     		// delete from users_items where item_table_id = 963;
     		session.createQuery("DELETE FROM UsersItemsObject " + 
-    							"WHERE item_table_id = " + item.getItemTableId()).executeUpdate();
+			    				"WHERE item_table_id = " + item.getItemTableId()).executeUpdate();
     		System.out.println("... reference(s) deleted from users_items table...");
 //    		UsersItemsObject usersItemsObj = new UsersItemsObject(item.getItemTableId(), user.getId());
 //    		session.delete(usersItemsObj);
@@ -359,7 +360,7 @@ public class ItemDAOImpl {
     		// Items_accounts table
     		// delete from items_accounts where item_table_id = 963;
     		session.createQuery("DELETE FROM ItemAccountObject " + 
-    							"WHERE item_table_id = " + item.getItemTableId()).executeUpdate();
+			    				"WHERE item_table_id = " + item.getItemTableId()).executeUpdate();
     		System.out.println("... reference(s) deleted from items_accounts table...");
     		t.commit();
     		session.close();
@@ -399,7 +400,6 @@ public class ItemDAOImpl {
     		session = factory.openSession();
     		t = session.beginTransaction();
     		session.delete(item);
-    		System.out.println("item was deleted: " + item);
     		session.getTransaction().commit();
     		session.close();
     		return 1;

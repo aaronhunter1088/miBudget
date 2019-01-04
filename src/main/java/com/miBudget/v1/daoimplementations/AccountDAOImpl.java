@@ -66,8 +66,7 @@ public class AccountDAOImpl {
 			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> userAccountsFromDB = session
-					   .createNativeQuery("SELECT account_id FROM users_accounts " +
-							   			  "WHERE user_id = " + userId )
+					   .createNativeQuery("SELECT account_id FROM users_accounts ")
 					   .getResultList();
 			System.out.println("Query executed!");
 			t.commit();
@@ -121,7 +120,7 @@ public class AccountDAOImpl {
 					userAccounts.add(account_id);
 					System.out.println("account_id: " + account_id);
 				}
-				System.out.println("user accounts list populated from AccountDAOImpl\n");
+				System.out.println("accountsIds list populated from AccountDAOImpl\n");
 				return userAccounts;
 			}
 		} catch (Exception e) {
