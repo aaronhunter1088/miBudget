@@ -2,7 +2,9 @@ package com.miBudget.v1.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -64,9 +66,65 @@ public class Delete extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("\n\n--- START ---\n\n");
 		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		System.out.println("\n\n--- END ---\n\n");
 	}
 
+	@SuppressWarnings("null")
+	public HashMap<String, Object> deleteAccount(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String accountId = request.getParameter("accountId");
+		ArrayList<String> list = new ArrayList<>();
+		list.add(accountId);
+		Account account = accountDAOImpl.getAllAccounts(list).get(0);
+		if (!account.getAccountId().equals(accountId)) System.out.println("Wrong account received!!");
+		System.out.println("\nAttempting to delete: " + account);
+		HttpSession session = request.getSession(false);  
+		HashMap<String, Object> deleteResponse = new HashMap<String, Object>();
+		
+		String institutionId = request.getParameter("currentId");
+		User user = (User)session.getAttribute("user"); 
+		Item item = itemDAOImpl.getItemFromUser(institutionId);
+		ArrayList<String> accountIdsList = (ArrayList<String>)accountDAOImpl.getAccountIdsFromUser(item);
+		System.out.println("accountIdsList size: " + accountIdsList.size());
+		accountIdsList.remove(accountId);
+		user.setAccountIds(accountIdsList);
+		System.out.println("accountIdsList size: " + accountIdsList.size());
+		
+		boolean usersInstitutionIdsResult = false;
+		boolean usersItemsResult = false;
+		int itemsResult = 0;
+		
+		// Reference Tables
+		if (accountIdsList.size() < 1) {
+			usersInstitutionIdsResult = itemDAOImpl.deleteFromUsersInstitutionIds(item, user);
+			usersItemsResult = itemDAOImpl.deleteFromUsersItems(item);
+		}
+		boolean usersAccountsResult = accountDAOImpl.deleteAccountFromUsersAccounts(accountId, item, user);
+		boolean itemsAccountsResult = accountDAOImpl.deleteFromItemsAccounts(item, accountId);
+		System.out.println("usersInstitutionIdsResult: " + usersInstitutionIdsResult);
+		System.out.println("usersItemsResult: " + usersItemsResult);
+		System.out.println("usersAccountsResult: " + usersAccountsResult);
+		System.out.println("itemsAccountsResult: " + itemsAccountsResult);
+		
+		// Main Tables
+		boolean accountsResult = accountDAOImpl.deleteAccountFromDatabase(account);
+		if (usersInstitutionIdsResult == true && usersItemsResult == true) {
+			itemsResult = itemDAOImpl.deleteItemFromDatabase(item);
+			
+		}
+		
+		deleteResponse.put("usersInstitutionIdsResult", usersInstitutionIdsResult);
+		deleteResponse.put("usersAccountsResult", usersAccountsResult);
+		deleteResponse.put("usersItemsResult", usersItemsResult); 
+		deleteResponse.put("itemsAccountsResult", itemsAccountsResult);
+		deleteResponse.put("accountsResult", accountsResult);
+		deleteResponse.put("itemsResult", itemsResult == 1 ? true : false);
+		deleteResponse.put("name", account.getOfficialName().equals(null) ? account.getNameOfAccount() : account.getOfficialName());
+		
+		return deleteResponse;
+	}
 	public String deleteBank(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		HttpSession session = request.getSession(false);  
 		String institutionId = request.getParameter("currentId");
@@ -132,12 +190,17 @@ public class Delete extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@SuppressWarnings("unlikely-arg-type")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("\n\n--- START ---\n\n");
 		System.out.println("\nInside the Delete doPost method");
 		System.out.println("currentId: " + request.getParameter("currentId"));
 		System.out.println("requesting to delete: " + request.getParameter("delete"));
 		HttpSession session = request.getSession(false);
+		User user = (User)session.getAttribute("user"); 
+		String institutionId = request.getParameter("currentId");
+		Item item = itemDAOImpl.getItemFromUser(institutionId);
 		// Perform the following logic:
 		if (request.getParameter("delete").equals("bank")) {
 			String deleteResponse = deleteBank(request, response);
@@ -146,34 +209,33 @@ public class Delete extends HttpServlet {
 			ArrayList<String> ids = (ArrayList<String>) session.getAttribute("institutionIdsList");
 			ArrayList<Item> items = new ArrayList<>();
 			for(int i = 0; i < ids.size(); i++) {
-				Item item = itemDAOImpl.getItemFromUser(ids.get(i));
 				System.out.println(item);
 				items.add(item);
 			}
 			if (deleteResponse.contains("SUCCESS")) {
 				
 					
-				for(int i = 0; i < items.size(); i++) {
-					ItemGetRequest getReq = new ItemGetRequest(items.get(i).getAccessToken());
-					Response<ItemGetResponse> getRes = client().service().itemGet(getReq).execute();
-					if (getRes.isSuccessful()) {
-						ItemStatus itemStatus = getRes.body().getItem();
-						ErrorResponse err = itemStatus.getError();
-						if (err != null) {
-							if (err.getErrorType() == ErrorType.ITEM_ERROR) {
-								System.out.print("There is an Item_Error: ");
-								System.out.println(err.toString());
-								errMapForItems.put(items.get(i).getInsitutionId(), true);
-							} 
-						} else {
-							System.out.println("No error for this item: " + items.get(i).toString());
-							errMapForItems.put(items.get(i).getInsitutionId(), false);
-						}
-					} else {
-						System.out.println("ItemGetResponse failed.");
-						System.out.println(getRes.errorBody());
-					}
-				}
+//				for(int i = 0; i < items.size(); i++) {
+//					ItemGetRequest getReq = new ItemGetRequest(items.get(i).getAccessToken());
+//					Response<ItemGetResponse> getRes = client().service().itemGet(getReq).execute();
+//					if (getRes.isSuccessful()) {
+//						ItemStatus itemStatus = getRes.body().getItem();
+//						ErrorResponse err = itemStatus.getError();
+//						if (err != null) {
+//							if (err.getErrorType() == ErrorType.ITEM_ERROR) {
+//								System.out.print("There is an Item_Error: ");
+//								System.out.println(err.toString());
+//								errMapForItems.put(items.get(i).getInsitutionId(), true);
+//							} 
+//						} else {
+//							System.out.println("No error for this item: " + items.get(i).toString());
+//							errMapForItems.put(items.get(i).getInsitutionId(), false);
+//						}
+//					} else {
+//						System.out.println("ItemGetResponse failed.");
+//						System.out.println(getRes.errorBody());
+//					}
+//				}
 				session.setAttribute("change", "You have successfully deleted your bank.");
 				session.setAttribute("ErrMapForItems", errMapForItems);
 				response.setContentType("application/html");
@@ -187,10 +249,83 @@ public class Delete extends HttpServlet {
 			}
 			
 		} else if (request.getParameter("delete").equals("account")) {
-			System.out.println("Attempting to delete account: " /* add accountId here */);
+			String accountId = request.getParameter("accountId");
+			ArrayList<String> list = new ArrayList<>();
+			list.add(accountId);
+			Account account = accountDAOImpl.getAllAccounts(list).get(0);
+			HashMap<String, Object> deleteResponse = deleteAccount(request, response);
+			
+			
+//			"usersInstitutionIdsResult: " + usersInstitutionIdsResult +
+//			"\nusersAccountsResult: " + usersAccountsResult + 
+//			"\nusersItemsResult: " + usersItemsResult + 
+//			"\nitemsAccountsResult: " + itemsAccountsResult +
+//			"\naccountsResult: " + accountsResult +
+//			"\nitemsResult: " + itemsResult +
+//			"\n";
+			
+			@SuppressWarnings("unchecked")
+			HashMap<String, ArrayList<Account>> acctsAndInstitutionIdMap = (HashMap<String, ArrayList<Account>>) 
+					session.getAttribute("acctsAndInstitutionIdMap");
+			ArrayList<Account> newAcctList = new ArrayList<>();
+			System.out.println("newAcctList size: " + newAcctList.size());
+			
+			//if (newAcctList.size() >= 1) acctsAndInstitutionIdMap.put(item.getInsitutionId(), newAcctList);
+			//else acctsAndInstitutionIdMap.remove(item.getItemTableId());
+			System.out.println("accountId: " + accountId);
+			//System.out.println("Updated acctsAndInstitutionIdMap...\n");
+			for (String key : acctsAndInstitutionIdMap.keySet()) {
+				System.out.println("key: " + key);
+				for (Account a : acctsAndInstitutionIdMap.get(key)) {
+					if (!a.getAccountId().equals(accountId)) {
+						System.out.println("\t" + a);
+						newAcctList.add(a);
+					} else {
+						System.out.println("They do match...");
+					}
+				}
+				System.out.println("key with new accounts updated.");
+				System.out.println("\tcurrent newAcctList size: " + newAcctList.size());
+				acctsAndInstitutionIdMap.put(key, newAcctList);
+				newAcctList = new ArrayList<>();
+			}
+			
+			if (deleteResponse.get("usersInstitutionIdsResult") == Boolean.TRUE) {
+				System.out.println("Boolean result is true");
+				ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
+				session.setAttribute("institutionIdsList", institutionIdsList);
+				session.setAttribute("institutionIdsListSize", institutionIdsList.size());
+						
+				acctsAndInstitutionIdMap.remove(item.getItemTableId());
+			} else {
+				System.out.println("Boolean result is true ELSE");
+				ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
+				session.setAttribute("institutionIdsList", institutionIdsList);
+				session.setAttribute("institutionIdsListSize", institutionIdsList.size());
+						
+				acctsAndInstitutionIdMap.remove(item.getItemTableId());
+			}
+			
+			// If still has 1 or more accounts for an item
+			// insIdsList, acctsAndInsIdMap, and accounts sizes don't change
+			session.setAttribute("change", "You have successfully deleted your " + deleteResponse.get("name") + " account.");
+			session.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
+			
+			session.setAttribute("accountsSize", (Integer)session.getAttribute("accountsSize")-1);
+			
+//			for (String key : acctsAndInstitutionIdMap.keySet()) {
+//				System.out.println("key: " + key);
+//				for (Account a : acctsAndInstitutionIdMap.get(key)) {
+//					System.out.println("\t" + a);
+//				}
+//			}
+			
+			System.out.println("\n\n--- END ---\n\n");
+			response.setContentType("application/html");
+			response.setStatus(HttpServletResponse.SC_OK);
+			response.sendRedirect("Profile.jsp");
 		}
 		
-		//response.sendRedirect("Profile.jsp");
 	}
 
 }

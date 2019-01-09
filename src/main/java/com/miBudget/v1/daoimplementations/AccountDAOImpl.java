@@ -222,12 +222,7 @@ public class AccountDAOImpl {
     	SessionFactory factory = HibernateUtilities.getSessionFactory();
     	Session session = null;
 		Transaction t = null;
-    	try {
-    		session = factory.openSession();
-    	} catch (HibernateException e) {
-    		System.out.println("Error connecting to DB");
-			System.out.println(e.getMessage());
-    	}
+    	
     	
     	Iterator<String> iter = accountIds.iterator();
     	StringBuilder str = new StringBuilder();
@@ -240,13 +235,14 @@ public class AccountDAOImpl {
     	
 		try {
     		System.out.println("\nAttempting to execute getAllAccounts from user query...");
+    		session = factory.openSession();
 			t = session.beginTransaction();
 			accountsResult = (List<Account>) session
 					.createNativeQuery("SELECT * FROM accounts " +
 									   "WHERE account_id " +
 									   "IN (" +  str + ")")
 					.addEntity(Account.class).getResultList();
-			t.commit();
+			session.getTransaction().commit();
 			session.close();
 			System.out.println("Query executed!");
 		} catch (HibernateException e) {
@@ -407,40 +403,37 @@ public class AccountDAOImpl {
 		} 
     	return 0; // bad
     }
-
-    /**
-     * TODO: Implement
-     * This method will delete one account from the accounts 
-     * table for a given Item.
-     * @param account
-     * @return
-     */
-    public int deleteAccountFromDatabase(Account account) {
+    
+    
+    public boolean deleteAccountFromDatabase(Account account) {
     	SessionFactory factory = null;
     	Session session = null;
     	Transaction t = null;
+    	
     	try {
-    		System.out.println("\nAttempting to execute delete account query...");
+    		System.out.println("\nAttempting to execute delete account from database query...");
     		factory = HibernateUtilities.getSessionFactory();
     		session = factory.openSession();
     		t = session.beginTransaction();
-    		// TODO: Implement
-    		// t.commit();
+    		session.delete(account);
+    		session.getTransaction().commit();
+    		String name = account.getOfficialName() != null ? account.getOfficialName() : account.getNameOfAccount();
+    		System.out.println(name + " was deleted!");
     		session.close();
-    		return 1;
+    		return true;
     	} catch (HibernateException e) {
     		System.out.println("Error performing hibernate action.");
     		System.out.println(e.getMessage());
     		t.rollback();
     		session.close();
-    		return 0;
+    		return false;
     	} catch (Exception e) {
     		System.out.println("Error connecting to DB");
 			System.out.println(e.getMessage());
 			t.rollback();
 			session.close();
-			return 0; // bad
-    	}
+			return false; // bad
+    	} 
     }
     
     /**
@@ -456,15 +449,15 @@ public class AccountDAOImpl {
     		factory = HibernateUtilities.getSessionFactory();
     		session = factory.openSession();
     		
-//    		StringBuilder allAccountIdsString = new StringBuilder();
-//    		allAccountIdsString.append("'");
-//    		accounts.forEach(acct -> {
-//    			allAccountIdsString.append(acct.getAccountId() + "', ");
-//    		});
-//    		allAccountIdsString.deleteCharAt(allAccountIdsString.length()-1); // removes last space
-//    		allAccountIdsString.deleteCharAt(allAccountIdsString.length()-1); // removes last comma
-//    		session.createQuery("DELETE FROM account " + 
-//    							"WHERE account_id IN " + allAccountIdsString + "");
+    		StringBuilder allAccountIdsString = new StringBuilder();
+    		allAccountIdsString.append("'");
+    		accounts.forEach(acct -> {
+    			allAccountIdsString.append(acct.getAccountId() + "', ");
+    		});
+    		allAccountIdsString.deleteCharAt(allAccountIdsString.length()-1); // removes last space
+    		allAccountIdsString.deleteCharAt(allAccountIdsString.length()-1); // removes last comma
+    		session.createQuery("DELETE FROM account " + 
+    							"WHERE account_id IN " + allAccountIdsString + "");
     		for(int i = 0; i < accounts.size(); i++) {
     			String delAcct = accounts.get(i).getNameOfAccount();
     			t = session.beginTransaction();
@@ -487,5 +480,83 @@ public class AccountDAOImpl {
 			session.close();
 			return 0; // bad
     	} 
+    }
+    
+    
+    
+    public boolean deleteFromItemsAccounts(Item item, String accountId) {
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
+    	try {
+    		System.out.println("\nAttempting to execute delete_Items_Accounts_From_table");
+    		factory = HibernateUtilities.getSessionFactory();
+    		session = factory.openSession();
+	    	t = session.beginTransaction();
+			// Items_accounts table
+			// delete from items_accounts where item_table_id = 963;
+			session.createQuery("DELETE FROM ItemAccountObject " + 
+			    				"WHERE item_table_id = " + item.getItemTableId() + 
+			    				"AND account_id = \'" + accountId + "\'").executeUpdate();
+			System.out.println("... account was deleted from items_accounts table...");
+			t.commit();
+			session.close();
+			return true;
+			
+		} catch (HibernateException e) {
+			System.out.println("Error performing hibernate action.");
+			System.out.println(e.getMessage());
+			StackTraceElement[] err = e.getStackTrace();
+			for(int i=0; i<err.length; i++) { System.out.println(err[i]); }
+			t.rollback();
+			session.close();
+			return false;
+		} catch (Exception e) {
+			System.out.println("Error connecting to DB");
+			System.out.println(e.getMessage());
+			t.rollback();
+			session.close();
+			return false; // bad
+		}
+    }
+    
+    
+    public boolean deleteAccountFromUsersAccounts(String accountId, Item item, User user) {
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
+    	try {
+    		System.out.println("\nAttempting to execute delete account query...");
+    		factory = HibernateUtilities.getSessionFactory();
+    		session = factory.openSession();
+    		t = session.beginTransaction();
+    		
+    		System.out.println("\nAttempting to execute delete_Account_From_Users_Accounts_table");
+    		factory = HibernateUtilities.getSessionFactory();
+    		session = factory.openSession();
+    		t = session.beginTransaction();
+    		// Users_institutions_ids table
+    		// delete from users_institution_ids where user_id = 20 and institution_id = 'ins_3';
+    		session.createQuery("DELETE FROM UserAccountObject " +
+					"WHERE account_id = \'" + accountId + "\' " +
+					"AND item_table_id = " + item.getItemTableId()).executeUpdate();
+
+    		System.out.println("... account was deleted from users_accounts table...");
+    		t.commit();
+    		session.close();
+    		return true;
+    	} catch (HibernateException e) {
+    		System.out.println("Error performing hibernate action.");
+    		System.out.println(e.getMessage());
+    		t.rollback();
+    		session.close();
+    		return false;
+    	} catch (Exception e) {
+    		System.out.println("Error connecting to DB");
+			System.out.println(e.getMessage());
+			t.rollback();
+			session.close();
+			return false; // bad
+    	}
     }
 }

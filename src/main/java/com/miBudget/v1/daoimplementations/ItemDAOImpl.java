@@ -402,6 +402,7 @@ public class ItemDAOImpl {
     		session.delete(item);
     		session.getTransaction().commit();
     		session.close();
+    		System.out.println("Item deleted from database.");
     		return 1;
     	} catch (HibernateException e) {
     		System.out.println("Error performing hibernate action.");
@@ -417,6 +418,78 @@ public class ItemDAOImpl {
 			return 0; // bad
     	}
     }
+    
+    
+    public boolean deleteFromUsersInstitutionIds(Item item, User user) {
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
+    	try {
+    		System.out.println("\nAttempting to execute delete_InstitutionId_From_Users_Institution_Ids_table");
+    		factory = HibernateUtilities.getSessionFactory();
+    		session = factory.openSession();
+    		t = session.beginTransaction();
+    		// Users_institutions_ids table
+    		// delete from users_institution_ids where user_id = 20 and institution_id = 'ins_3';
+    		session.createQuery("DELETE FROM UsersInstitutionIdsObject " +
+			    				"WHERE user_id = " + user.getId() + " " +
+								"AND institution_id = '" + item.getInsitutionId() + "'").executeUpdate();
+    		//org.hibernate.query.Query query = session.createQuery("DELETE users_institution_ids WHERE institution_id = :institution_id");
+    		//query.setParameter("institution_id", item.getInsitutionId());
+    		//int executeResult = query.executeUpdate();
+    		System.out.println("... institution_id deleted from users_institution_ids table...");
+    		session.getTransaction().commit();
+    		return true;
+    	} catch (HibernateException e) {
+    		System.out.println("Error performing hibernate action.");
+    		System.out.println(e.getMessage());
+    		StackTraceElement[] err = e.getStackTrace();
+    		for(int i=0; i<err.length; i++) { System.out.println(err[i]); }
+    		t.rollback();
+    		session.close();
+    		return false;
+    	} catch (Exception e) {
+    		System.out.println("Error connecting to DB");
+			System.out.println(e.getMessage());
+			t.rollback();
+			session.close();
+			return false; // bad
+    	}
+	}
+    
+    public boolean deleteFromUsersItems(Item item) {
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
+    	try {
+    		System.out.println("\nAttempting to execute delete_Users_Item_Object_From_Table");
+    		factory = HibernateUtilities.getSessionFactory();
+    		session = factory.openSession();
+    		t = session.beginTransaction();
+    		// Users_institutions_ids table
+    		// delete from users_institution_ids where user_id = 20 and institution_id = 'ins_3';
+    		session.createQuery("DELETE FROM UsersItemsObject " + 
+    				"WHERE item_table_id = " + item.getItemTableId()).executeUpdate();
+    		System.out.println("... reference deleted from users_items table...");
+    		session.getTransaction().commit();
+    		return true;
+    	} catch (HibernateException e) {
+    		System.out.println("Error performing hibernate action.");
+    		System.out.println(e.getMessage());
+    		StackTraceElement[] err = e.getStackTrace();
+    		for(int i=0; i<err.length; i++) { System.out.println(err[i]); }
+    		t.rollback();
+    		session.close();
+    		return false;
+    	} catch (Exception e) {
+    		System.out.println("Error connecting to DB");
+			System.out.println(e.getMessage());
+			t.rollback();
+			session.close();
+			return false; // bad
+    	}
+    }
+    
     
     public Item createItemFromInstitutionId(String institutionId) {
     	try {

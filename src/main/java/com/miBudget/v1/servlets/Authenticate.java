@@ -19,6 +19,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import com.google.gson.Gson;
 import com.miBudget.v1.daoimplementations.AccountDAOImpl;
 import com.miBudget.v1.daoimplementations.ItemDAOImpl;
 import com.miBudget.v1.daoimplementations.MiBudgetDAOImpl;
@@ -228,7 +229,11 @@ public class Authenticate extends HttpServlet {
 		String institution_id = request.getParameter("institution_id");
 		String institution_name = request.getParameter("institution_name");
 		String link_session_id = request.getParameter("link_session_id");
+		
+		//Gson g = new Gson();
+		//Account acctsReq = g.fromJson(accountsRequested, com.plaid.client.response.Account.class);
 		System.out.println("accountsRequested: " + accountsRequested);
+		//System.out.println("acctsReq: " + acctsReq);
 		System.out.println("institution_id: " + institution_id);
 		System.out.println("instution_name: " + institution_name);
 		System.out.println("link_session_id: " + link_session_id);
@@ -564,12 +569,13 @@ public class Authenticate extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		System.out.println("--- START ---");
 		System.out.println("\nInside Authenticate servlet doPost.");
 		// Check to see if institution selected has already been saved
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		
+		// TODO: change logic from using iterator to using enhanced for loop. its a list of strings...
 		String institution_idIncoming = request.getParameter("institution_id");
 		ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
 		boolean exit = false;
@@ -585,15 +591,16 @@ public class Authenticate extends HttpServlet {
 			} else
 				System.out.println(id + " - This id did not match the one selected.");
 		}
+		
 		if (exit) {
-			System.out.println("Finished with doPost");
-			System.out.println("");
+			System.out.println("Try to add bank again...");
 			int numberOfAccounts = accountDAOImpl.getAccountIdsFromUser(user).size();
 			request.getSession(false).setAttribute("NoOfAccts", numberOfAccounts);
 			response.setStatus(HttpServletResponse.SC_CONFLICT); // TODO: Implement as some 2xx. 4xx is for invalid requests. We don't have that, we just restrict the logic. 
 			response.setContentType("application/text");
 			response.getWriter().append(institutionIdThatIsAdded + " has already been added. We cannot add it again.");
 			System.out.println("NOT ALLOWED: " + institutionIdThatIsAdded + " has already been added. We cannot add it again.");
+			System.out.println("\n\n--- END ---\n\n");
 			return;
 		}
 		
@@ -609,15 +616,19 @@ public class Authenticate extends HttpServlet {
 			response.setStatus(HttpServletResponse.SC_OK);
 //			getServletContext().getRequestDispatcher("/Profile.jsp").forward(request, response);
 			//response.sendRedirect("Profile.jsp");
+			System.out.println("\n\n--- END ---\n\n");
 			return;
 		} else {
 			//response.sendRedirect("Profile.jsp");
+			System.out.println("\n\n--- END ---\n\n");
 			return;
 		}
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("\n\n--- START ---\n\n");
 		System.out.println("\nInside the Profile servlet doGet().");
+		System.out.println("\n\n--- END ---\n\n");
 	}
 
 }

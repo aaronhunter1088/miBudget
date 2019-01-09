@@ -129,17 +129,16 @@
 				for (String acctsForThisInstitutionId : acctsMapKeySet) {	
 					ArrayList<Account> acctsList = acctsMap.get(acctsForThisInstitutionId);
 					
-					System.out.println("acctsList size: " + acctsList.size());
 					for (Account acct : acctsList) {
-						String name = acct.getOfficialName(); %>
+						String name = acct.getNameOfAccount() != null ? 
+						  			  acct.getNameOfAccount() :
+						  			  acct.getOfficialName(); %>
 						<!-- [Name | Mask | Available Balance] | Delete --> 
 						<tr id="acct" class="acct" name="<%= acctsForThisInstitutionId %>"> 
 							<!-- Account -->
 							<!-- Name | Mask | Subtype -->
 						  	<td>
-						  		<%= acct.getNameOfAccount() != null ? 
-						  			acct.getNameOfAccount() :
-						  			acct.getOfficialName() %> <!-- Name of Account otherwise Official Name --> 
+						  		<%= name %> <!-- Name of Account otherwise Official Name --> 
 						  	</td> 
 					 		<!-- Whitespace -->	
 					 		<td>
@@ -160,13 +159,13 @@
 					 		</td> 
 						 	<!-- Delete Account -->
 						 	<td id="deleteAccount">
-						 		<!-- this functionality is not yet set up -->
-						 		<button id="deleteAcct" name="<%= acct.getAccountId() %>">Delete Account</button> 
-						 		<!-- Delete button -->
-						 		<!-- Goes to Delete.java and performs doPost --> 
-						        <!-- <form id="delete" method="post" action="Delete"> 
-							    <button type="submit" formmethod="post">Delete Account</button>
-							  </form> -->
+						 		<%-- return deleteAccount('BOAChecking') as a reminder --%> 
+						 		<form id="delete" method="post" onsubmit="return deleteAccount('<%= name %>');" action="Delete"> 
+							      	<input type="hidden" name="delete" value="account"></input>
+							      	<input type="hidden" name="currentId" value="<%= acctsForThisInstitutionId %>"></input>
+							      	<input type="hidden" name="accountId" value="<%= acct.getAccountId() %>"></input>
+								    <button id="deleteAccountBtn" name="deleteAccountForm" type="submit">Delete Account</button>
+								</form>
 						 	</td> 
 						</tr>
 				<% }
@@ -203,18 +202,14 @@
 				}
 				return false;
 			}; 
-			function deleteAccount() {
-				var acctName = $(this).attr('name');
-				var acctMask = $("[id='acct'] > td:first-child > td:nthh-child(2)");
-				console.log('acctMask: ' + acctMask);
-				var ans = prompt('WARNING! You are about to delete this single ' + acctName + ' account. Are you sure you want to continue? Enter: \'Yes\' or \'No\'','');
-				while (!ans.equals('Yes'.toLowerCase()) || !ans.equals('No'.toLowerCase())) {
-					ans = prompt('WARNING! You are about to delete this single ' + acctName + ' account. Are you sure you want to continue? Enter: \'Yes\' or \'No\'','');
-				}
+			function deleteAccount(acctName) {
+				var ans = "";
+				ans = prompt('WARNING! You are about to delete your ' + acctName + ' account. Are you sure you want to continue? Enter: \'Yes\' to confirm.','');
 				if (ans == 'Yes'.toLowerCase()) {
-					console.log('Make a post request to Delete to delete this single ' + acctName + ' account.');
+					console.log('Making a post request to Delete to delete this single ' + acctName + ' account.');
+					return true;
 				}
-				return;
+				return false;
 			};
 			function resetParagraphs(metadata_accounts_length) {
 				console.log("Inside resetParagraphs");
@@ -328,12 +323,6 @@
 					});
 				}); // end for each row
 			};
-
-			 <%-- <tr id="header">
-		    	<th>
-		    		<h4 id="bankName"><%= currentId %></h4>
-		    	</th> --%>
-			
 			function updateAccountsTable() {
 				console.log("\nInside updateAccountsTable()");
 				<%-- <tr id="acct" name="<%= currentId %>"> 
@@ -507,12 +496,18 @@
 						$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
 						.css({ 'font-weight' : 'bold'});
 					});
-				} else if ( matchGoodText2 == goodText2) {
+				} else if ( matchGoodText2 == goodText2 ) {
 					$("[id='changingText']").fadeOut(8000, function() {
 						$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
 						.css({ 'font-weight' : 'bold'});
 					});
 				} else if ( matchDeleteText == deleteText) {
+					$("[id='changingText']").fadeOut(8000, function() {
+						$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
+						.css({ 'font-weight' : 'bold'});
+					});
+				} else {
+					// Default
 					$("[id='changingText']").fadeOut(8000, function() {
 						$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
 						.css({ 'font-weight' : 'bold'});
