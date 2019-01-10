@@ -150,6 +150,7 @@ public class Account implements Serializable {
 	 * @param availableBalance the availableBalance to set
 	 */
 	public void setAvailableBalance(double availableBalance) {
+		
 		this.availableBalance = availableBalance;
 	}
 

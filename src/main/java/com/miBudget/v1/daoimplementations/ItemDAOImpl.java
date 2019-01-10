@@ -74,7 +74,7 @@ public class ItemDAOImpl {
     	Session session = null;
     	Transaction t = null;
     	try {
-    		System.out.println("\nAttempting to getItemFromUser query...");
+    		System.out.println("\nAttempting to get Item From User query...");
     		factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
@@ -144,7 +144,7 @@ public class ItemDAOImpl {
     	Session session = null;
     	Transaction t = null;
     	try {
-    		System.out.println("\nAttempting to execute getItemTableIdForItemId query...");
+    		System.out.println("\nAttempting to execute get ItemTableId For ItemId query...");
     		factory = HibernateUtilities.getSessionFactory();
     		session = factory.openSession();
     		t = session.beginTransaction();
