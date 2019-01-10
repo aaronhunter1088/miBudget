@@ -581,7 +581,7 @@ public class Authenticate extends HttpServlet {
 		System.out.println("--- START ---");
 		System.out.println("\nInside Authenticate servlet doPost.");
 		// Check to see if institution selected has already been saved
-		HttpSession session = request.getSession(false);
+		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		
 		// TODO: change logic from using iterator to using enhanced for loop. its a list of strings...
