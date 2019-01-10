@@ -99,7 +99,7 @@ public class Login extends HttpServlet {
 			if (user.getCellphone().equals(cellphone) && user.getPassword().equals(password)) {
 				// registered user
 				System.out.println("Registered user. Logging in");
-				List<String> accountIdsList = accountDAOImpl.getAllAccountsIds(user);
+				ArrayList<String> accountIdsList = (ArrayList<String>) accountDAOImpl.getAllAccountsIds(user);
 				user.setAccountIds(accountIdsList);
 				int accounts = accountIdsList.size();
 				loginCredentials = true;

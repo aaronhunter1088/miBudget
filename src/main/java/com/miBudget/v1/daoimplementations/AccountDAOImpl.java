@@ -137,25 +137,10 @@ public class AccountDAOImpl {
     	Transaction t = null;
     	try {
 			System.out.println("\nAttempting to execute insert account query...");
+			System.out.println(account);
 			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
-			
-//			com.v1.miBudget.entities.Account myAccount = new com.v1.miBudget.entities.Account(
-//					account.getAccountId(),
-//					item.getItemTableId(),
-//					account.getAvailableBalance() != 0 ? account.getAvailableBalance() : 0.0,
-//					account.getCurrentBalance() != 0 ? account.getCurrentBalance() : 0.0,
-//					account.getLimit() != 0 ? account.getLimit() : 0.0,
-//					account.getCurrencyCode() != null ? account.getCurrencyCode() : "USD",
-//					account.getNameOfAccount() != null ? account.getNameOfAccount() : "",
-//					account.getOfficialName() != null ? account.getOfficialName() : "",
-//					account.getMask(),
-//					account.getType(),
-//					account.getSubType()
-//			);
-			System.out.println("Account: " + account);
-			
 			session.save(account);
 			t.commit();
 			session.close();
@@ -179,12 +164,6 @@ public class AccountDAOImpl {
     		factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
-			
-			
-			
-			// Using SQL code here because there is no object for users_accounts.
-//			int insert = session.createNativeQuery("INSERT INTO users_accounts ('user_id', 'account_id') " +
-//									  "VALUES (" + account.getAccountId() + "), (" + user.getId() + ")").executeUpdate();
 			session.saveOrUpdate(new UserAccountObject(
 					user.getId(), 
 					account.getAccountId(),
@@ -199,7 +178,7 @@ public class AccountDAOImpl {
 					account.getType(),
 					account.getSubType()
 					));
-			System.out.println("Inserted account into users_accounts");
+			System.out.println("Inserted account into users_accounts.");
 			t.commit();
 			session.close();
 			return 1; // good
@@ -383,13 +362,11 @@ public class AccountDAOImpl {
     	Transaction t = null;
     	try {
 			System.out.println("\nAttempting to execute insert accountId to Items_Accounts query...");
+			ItemAccountObject obj = new ItemAccountObject(itemTableId, accountId);
+			System.out.println("obj: " + obj);
 			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
-			
-			ItemAccountObject obj = new ItemAccountObject(itemTableId, accountId);
-			System.out.println("obj: " + obj);
-			
 			session.save(obj);
 			t.commit();
 			session.close();

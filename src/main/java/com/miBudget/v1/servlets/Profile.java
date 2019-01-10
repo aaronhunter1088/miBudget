@@ -62,24 +62,16 @@ public class Profile extends HttpServlet {
 		HttpSession requestSession = request.getSession(false);
 		//System.out.println("request: " + !request.getSession(false));
 		if (requestSession != null && (Boolean)requestSession.getAttribute("isUserLoggedIn") == true) {
-			System.out.println("Loading the Profile.jsp page...");
-			User user = (User) request.getAttribute("user");
 			
+			User user = (User) request.getAttribute("user");
 			HashMap<String, Boolean> errMapForItems = new HashMap<>();
 			ArrayList<String> ids = (ArrayList<String>) requestSession.getAttribute("institutionIdsList");
 			ArrayList<Item> items = new ArrayList<>();
-//			for(int i = 0; i < ids.size(); i++) {
-//				Item item = itemDAOImpl.getItemFromUser(ids.get(i));
-//				System.out.println(item);
-//				items.add(item);
-//			}
 			for (String id : ids) {
 				Item item = itemDAOImpl.getItemFromUser(id);
 				System.out.println("Retreived " + item);
 				items.add(item);
 			}
-			
-			
 			String errMsg = "";
 			for(int i = 0; i < items.size(); i++) {
 				ItemGetRequest getReq = new ItemGetRequest(items.get(i).getAccessToken());
@@ -108,6 +100,7 @@ public class Profile extends HttpServlet {
 			if (errMsg.equals("") == true) requestSession.setAttribute("change", "This text will change after using the Plaid Link Initializer.");
 			else requestSession.setAttribute("change", errMsg);
 			requestSession.setAttribute("ErrMapForItems", errMapForItems);
+			System.out.println("Loading the Profile.jsp page...");
 			response.sendRedirect("Profile.jsp");
 		} else {
 			System.out.println("requestSession: " + requestSession );

@@ -81,7 +81,7 @@
 			<table class="outerTable" id="outerTable">
 				<% 
 				Iterator institutionIdsIter = institutionsIdsList.iterator();
-				Iterator accountIdsIter = user.getAccountIds().iterator();
+				Iterator accountIdsIter = ((List)user.getAccountIds()).iterator();
 				HashMap<String, Boolean> errMapForItems = (HashMap) session.getAttribute("ErrMapForItems");
 				// Load Map of ItemGetResponses here
 				while (institutionIdsIter.hasNext()) {
@@ -506,12 +506,14 @@
 						$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
 						.css({ 'font-weight' : 'bold'});
 					});
-				} else {
+				} else if (text != 'This text will change after using the Plaid Link Initializer.') {
 					// Default
 					$("[id='changingText']").fadeOut(8000, function() {
 						$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
 						.css({ 'font-weight' : 'bold'});
 					});
+				} else {
+					// Don't fade the text
 				}
 			
 
