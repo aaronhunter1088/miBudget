@@ -4,6 +4,7 @@
 <%@ page import="java.util.Arrays" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Iterator" %>
+<%@ page import="java.util.Set" %>
 <%@ page import="java.lang.String" %>
 <%@ page import="com.miBudget.v1.daoimplementations.MiBudgetDAOImpl" %>
 <%@ page import="com.miBudget.v1.daoimplementations.AccountDAOImpl" %>
@@ -74,20 +75,21 @@
 		<!-- Each account should have an update button and a delete button -->
 		<!-- Update updates the Item -->
 		<!-- Delete deletes the Item -->
-		<% List institutionsIdsList = (ArrayList<String>)session.getAttribute("institutionIdsList"); %>
+		<% List institutionsIdsList = (ArrayList<String>)session.getAttribute("institutionIdsList"); 
+		int idCopy; %>
 		<div class="mainTable" id="accountsTable">
 			<table class="outerTable" id="outerTable">
 				<% 
 				Iterator institutionIdsIter = institutionsIdsList.iterator();
-				Iterator accountIdsIter = user.getAccountIds().iterator();
+				Iterator accountIdsIter = ((List)user.getAccountIds()).iterator();
 				HashMap<String, Boolean> errMapForItems = (HashMap) session.getAttribute("ErrMapForItems");
 				// Load Map of ItemGetResponses here
 				while (institutionIdsIter.hasNext()) {
 				    String currentId = (String)institutionIdsIter.next();
-				    String idCopy = currentId;
+				    //idCopy = Integer.parseInt(currentId);
 				%> 
 				<!-- [Bank Logo | Update | Delete] --> 
-				<tr id="bank">
+				<tr id="bank" name="<%= currentId %>">
 					<td id="logo" name="<%= currentId %>">
 					 	<%= currentId %> <!-- change to Logo -->  
 				 	</td> 
@@ -98,13 +100,13 @@
 				 		<button class="updateButton" id="link-update-button" name="<%= currentId %>"><b>Update Bank</b></button>
 				 	</td> 
 				 	<!-- Whitespace -->
-				 	<td id="deletebtn">
+				 	<td id="deletebtn" name="<%= currentId %>">
 				 	  <!-- Delete button -->
 				 	  <!-- Goes to Delete.java and performs doPost --> 
-				      <form id="delete" method="post" onsubmit="return deleteBank()" action="Delete"> 
+				      <form id="delete" method="post" onsubmit="return deleteBank('<%= currentId %>');" action="Delete"> 
 				      	<input type="hidden" name="delete" value="bank"></input>
-				      	<input type="hidden" name="idCopy" value="<%= idCopy %>"></input>
-					    <button type="submit" formmethod="post">Delete Bank</button>
+				      	<input type="hidden" name="currentId" value="<%= currentId %>"></input>
+					    <button id="deleteButton" name="<%= currentId %>" type="submit" formmethod="post">Delete Bank</button>
 					  </form> 
 				    </td> 
 				</tr> 
@@ -121,29 +123,22 @@
 					</th>
 			    </tr>
 				<%
-				HashMap<Integer, ArrayList<Account>> acctsMap = (HashMap<Integer, ArrayList<Account>>)
-					session.getAttribute("acctsAndInstitutionIdMap");
-				System.out.println("acctsMap size: " + acctsMap.size());
-				Iterator mapsIter = acctsMap.keySet().iterator();
-				
-				institutionIdsIter = institutionsIdsList.iterator();
-				
-				while (mapsIter.hasNext()) {
-					int itemTableId = Integer.parseInt(mapsIter.next().toString());
-					ArrayList<Account> acctsList = acctsMap.get(itemTableId);
-					String currentId = (String) institutionIdsIter.next();
-					System.out.println("\tacctsList size: " + acctsList.size());
-					Iterator acctsListIter = acctsList.iterator();
-					while (acctsListIter.hasNext()) {
-						Account acct = (Account) acctsListIter.next(); %>
+				HashMap<String, ArrayList<Account>> acctsMap = (HashMap<String, ArrayList<Account>>)
+					session.getAttribute("acctsAndInstitutionIdMap"); // recall Integer is itemTableId
+				Set<String> acctsMapKeySet = acctsMap.keySet();
+				for (String acctsForThisInstitutionId : acctsMapKeySet) {	
+					ArrayList<Account> acctsList = acctsMap.get(acctsForThisInstitutionId);
+					
+					for (Account acct : acctsList) {
+						String name = acct.getNameOfAccount() != null ? 
+						  			  acct.getNameOfAccount() :
+						  			  acct.getOfficialName(); %>
 						<!-- [Name | Mask | Available Balance] | Delete --> 
-						<tr id="acct" class="acct" name="<%= currentId %>"> 
+						<tr id="acct" class="acct" name="<%= acctsForThisInstitutionId %>"> 
 							<!-- Account -->
 							<!-- Name | Mask | Subtype -->
 						  	<td>
-						  		<%= acct.getNameOfAccount() != null ? 
-						  			acct.getNameOfAccount() :
-						  			acct.getOfficialName() %> <!-- Name of Account otherwise Official Name --> 
+						  		<%= name %> <!-- Name of Account otherwise Official Name --> 
 						  	</td> 
 					 		<!-- Whitespace -->	
 					 		<td>
@@ -151,7 +146,8 @@
 					 		</td>
 					 		<!-- Whitespace -->	
 					 		<td> 
-					 			<%= acct.getAvailableBalance() %>
+					 			<%= acct.getAvailableBalance() %> 
+					 			<!-- add logic for credit cards to show owed amount as well -->
 					 		</td>
 					 		<!-- Whitespace -->	
 					 		<td>
@@ -162,13 +158,14 @@
 					 			<%= acct.getSubType() %>
 					 		</td> 
 						 	<!-- Delete Account -->
-						 	<td>
-						 		<button id="deleteAcct" name="" onclick="deleteAccount()">Delete Account</button>
-						 		<!-- Delete button -->
-						 		<!-- Goes to Delete.java and performs doPost --> 
-						        <!-- <form id="delete" method="post" action="Delete"> 
-							    <button type="submit" formmethod="post">Delete Account</button>
-							  </form> -->
+						 	<td id="deleteAccount">
+						 		<%-- return deleteAccount('BOAChecking') as a reminder --%> 
+						 		<form id="delete" method="post" onsubmit="return deleteAccount('<%= name %>');" action="Delete"> 
+							      	<input type="hidden" name="delete" value="account"></input>
+							      	<input type="hidden" name="currentId" value="<%= acctsForThisInstitutionId %>"></input>
+							      	<input type="hidden" name="accountId" value="<%= acct.getAccountId() %>"></input>
+								    <button id="deleteAccountBtn" name="deleteAccountForm" type="submit">Delete Account</button>
+								</form>
 						 	</td> 
 						</tr>
 				<% }
@@ -192,31 +189,27 @@
 			function replaceAll(str, find, replace) {
 			    return str.replace(new RegExp(find, 'g'), replace);
 			};
-			function deleteBank() {
-				var bankName = $("[id='acct']").attr('name');
+			function deleteBank(institutionId) {
+				var bankName = getInstitutionNameFromId(institutionId);
 				var ans = "";
-				//do {
+				console.log('bankName: ' + bankName);
 				ans = prompt('WARNING! You are about to delete your \'' + bankName + '\' bank. Are you sure you want to continue? Enter: \'Yes\' to confirm.', '');
 				console.log('answer: ' + ans);
-				//} while (ans != "Yes".toLowerCase() || ans != "No".toLowerCase() || ans != null || ans != "" );
+
 				if (ans == 'Yes'.toLowerCase()) {
 					console.log('Making a post request to Delete to delete this single ' + bankName + ' account.');
 					return true;
 				}
 				return false;
 			}; 
-			function deleteAccount() {
-				var acctName = $(this).attr('name');
-				var acctMask = $("[id='acct'] > td:first-child > td:nthh-child(2)");
-				console.log('acctMask: ' + acctMask);
-				var ans = prompt('WARNING! You are about to delete this single ' + acctName + ' account. Are you sure you want to continue? Enter: \'Yes\' or \'No\'','');
-				while (!ans.equals('Yes'.toLowerCase()) || !ans.equals('No'.toLowerCase())) {
-					ans = prompt('WARNING! You are about to delete this single ' + acctName + ' account. Are you sure you want to continue? Enter: \'Yes\' or \'No\'','');
-				}
+			function deleteAccount(acctName) {
+				var ans = "";
+				ans = prompt('WARNING! You are about to delete your ' + acctName + ' account. Are you sure you want to continue? Enter: \'Yes\' to confirm.','');
 				if (ans == 'Yes'.toLowerCase()) {
-					console.log('Make a post request to Delete to delete this single ' + acctName + ' account.');
+					console.log('Making a post request to Delete to delete this single ' + acctName + ' account.');
+					return true;
 				}
-				return;
+				return false;
 			};
 			function resetParagraphs(metadata_accounts_length) {
 				console.log("Inside resetParagraphs");
@@ -230,78 +223,84 @@
 				console.log('Inside updateBanksTable()...');
 				var firstRowText = $("[id='bank']").attr('id');
 				console.log(firstRowText == 'bank' ? 'ROW ATTAINED!' : 'DO NOT HAVE ROW')  ;
-				// $('tr > td:first-child').each(function() {
-				// $('tr > td:nth-child(2)').each(function() {
-				
-				// we want every element that is a column that is a direct
-				// child of a tr element that has id attr = blah
-				// every element we want should be a td
 				$("[id='bank']").each(function() {
-					//var institutionId = $(this).find('td:nth-child(1)').text().replace(/\s/g,'');
 					var institutionId = $(this).find('td:nth-child(1)').attr('name');
+					var row = $(this);
 					var col1 = $(this).find('td:nth-child(1)');
-					var col2 = $(this).find('td:nth-child(2)');
-					//var institutionId = $(this).text().replace(/\s/g,'');
-					//var name = $(this).find('td:nth-child(2)').attr('name', institutionId);
+					var col2 = $(this).find('td:nth-child(2)'); // Update button
+					var col3 = $(this).find('td:nth-child(3)'); // Delete button
 					console.log("cell value: " + institutionId);
 					var nameOfButton = col2.attr('name');
-					console.log("button name is: " + nameOfButton);
+					console.log("button name is: " + nameOfButton); // expecting true or false
 					if (institutionId == "") { $(this).html(''); }
 					// will do for all update buttons
 					if (col2.attr('name') == "true") { col2.show(); }
 					else { col2.hide(); }
 					
-					
-					if (institutionId == "ins_1") { 
-						$(this).find('td:nth-child(1)').html('<img src="bankofamerica.jpg" alt="Bank_of_America"/>'); 
-					}
-					if (institutionId == "ins_2") { 
-						$(this).find('td:nth-child(1)').html('<img src="bb&t.jpg" alt="BB&T"/>');
-				    }
-					if (institutionId == "ins_3") { 
-						$(this).find('td:nth-child(1)').html('<img src="chase.jpg" alt="Chase"/>');
-					}
-					if (institutionId == "ins_4") { 
-						$(this).find('td:nth-child(1)').html('<img src="wellsfargo.jpg" alt="Wells_Fargo"/>'); 
-					}
-					if (institutionId == "ins_5") { 
-						$(this).find('td:nth-child(1)').html('<img src="citi.jpg" alt="Citi"/>'); 
-					}
-					if (institutionId == "ins_6") { 
-						$(this).find('td:nth-child(1)').html('<img src="usbank.jpg" alt="US Bank"/>'); 
-					}
-					if (institutionId == "ins_7") { $(this).find('td:nth-child(1)').html('<img src="usaa.jpg" alt="USAA"/>'); }
-					if (institutionId == "ins_9") { $(this).find('td:nth-child(1)').html('<img src="capitalone.jpg" alt="Capital_One"/>'); }
-					if (institutionId == "ins_10") { $(this).find('td:nth-child(1)').html('<img src="amex.jpg" alt="American_Express"/>'); }
-					if (institutionId == "ins_11") { $(this).find('td:nth-child(1)').html('<img src="charlesschwab.jpg" alt="Charles_Schwab"/>'); }
-					if (institutionId == "ins_12") { $(this).find('td:nth-child(1)').html('<img src="fidelity.jpg" alt="Fidelity"/>'); }
-					if (institutionId == "ins_13") { $(this).find('td:nth-child(1)').html('<img src="pnc.jpg" alt="PNC"/>'); }
-					if (institutionId == "ins_14") { $(this).find('td:nth-child(1)').html('<img src="tdbank.jpg" alt="TD_Bank"/>'); }
-					if (institutionId == "ins_15") { $(this).find('td:nth-child(1)').html('<img src="navyfederal.jpg" alt="Navy_Federal"/>'); }
-					if (institutionId == "ins_16") { $(this).find('td:nth-child(1)').html('<img src="suntrust.jpg" alt="Sun_Trust"/>'); }
-					if (institutionId == "ins_19") { $(this).find('td:nth-child(1)').html('<img src="regions.jpg" alt="Regions"/>'); }
-					if (institutionId == "ins_20") { 
-						$(this).find('td:nth-child(1)').html('<img src="citizensbank.jpg" alt="Citizens_Bank"/>'); 
-					}
-					if (institutionId == "ins_21") { 
-						$(this).find('td:nth-child(1)').html('<img src="huntington.jpg" alt="Huntington"/>'); 
+					switch (institutionId) {
+						case "ins_1"  : $(this).find('td:nth-child(1)').html('<img src="bankofamerica.jpg" alt="Bank_of_America"/>'); 
+										break;
+						case "ins_2"  : $(this).find('td:nth-child(1)').html('<img src="bb&t.jpg" alt="BB&T"/>');
+										break;
+						case "ins_3"  : col1.html('<img src="chase.jpg" alt="Chase"/>');
+										break;
+						case "ins_4"  : $(this).find('td:nth-child(1)').html('<img src="wellsfargo.jpg" alt="Wells_Fargo"/>'); 
+										break;
+						case "ins_5"  : row.attr('name', 'Citi');
+										col1.html('<img src="citi.jpg" alt="Citi"/>');
+										console.log('row name: ' + row.attr('name'));
+										break;
+						case "ins_6"  : $(this).find('td:nth-child(1)').html('<img src="usbank.jpg" alt="US Bank"/>');
+										break;
+						case "ins_7"  : $(this).find('td:nth-child(1)').html('<img src="usaa.jpg" alt="USAA"/>');
+										break;
+						case "ins_9"  : $(this).find('td:nth-child(1)').html('<img src="capitalone.jpg" alt="Capital_One"/>');
+										break;
+						case "ins_10" : $(this).find('td:nth-child(1)').html('<img src="amex.jpg" alt="American_Express"/>');
+										break;
+						case "ins_11" : $(this).find('td:nth-child(1)').html('<img src="charlesschwab.jpg" alt="Charles_Schwab"/>');
+										break;
+						case "ins_12" : $(this).find('td:nth-child(1)').html('<img src="fidelity.jpg" alt="Fidelity"/>');
+										break;
+						case "ins_13" : $(this).find('td:nth-child(1)').html('<img src="pnc.jpg" alt="PNC"/>');
+										break;
+						case "ins_14" : $(this).find('td:nth-child(1)').html('<img src="tdbank.jpg" alt="TD_Bank"/>');
+										break;
+						case "ins_15" : $(this).find('td:nth-child(1)').html('<img src="navyfederal.jpg" alt="Navy_Federal"/>');
+										break;
+						case "ins_16" : $(this).find('td:nth-child(1)').html('<img src="suntrust.jpg" alt="Sun_Trust"/>');
+										break;
+						case "ins_19" : $(this).find('td:nth-child(1)').html('<img src="regions.jpg" alt="Regions"/>');
+										break;
+						case "ins_20" : $(this).find('td:nth-child(1)').html('<img src="citizensbank.jpg" alt="Citizens_Bank"/>');
+										break;
+						case "ins_21" : $(this).find('td:nth-child(1)').html('<img src="huntington.jpg" alt="Huntington"/>');
+										break;
+						default  : console.log('unknown institution.');
+										break;
 					}
 					// will do for all images
-					var code = col1.html().split(" ",2).pop();
-					nameOfButton = code.substring(code.indexOf('"')+1, code.indexOf('.'));
-					//console.log('name: ' + name);
+					var col2 = $(this).find('td:nth-child(2)'); // Update button
+					var col3 = $(this).find('td:nth-child(3)'); // Delete button
+					var col3Form = col3.find("#delete"); // Delete form 
+					var code = col1.html().split(" ",3).pop(); 
+					var nameOfButton = code.substring(code.indexOf('"')+1, code.lastIndexOf('"'));
+					nameOfButton = nameOfButton.includes('_') == true ? replaceAll(nameOfButton, '_', ' ') : nameOfButton;
 					col1.attr('name', nameOfButton);
-					console.log('image column name is now: ' + col1.attr('name'));
+					col2.attr('name', nameOfButton);
+					col3.attr('name', nameOfButton);
+					col3Form.attr('name', nameOfButton);
+					console.log('image(button) column name is now: ' + col1.attr('name'));
+					console.log('col2 name: ' + col2.attr('name'));
+					console.log('col3 name: ' + col3.attr('name'));
+					console.log('form name: ' + col3Form.attr('name'));
 					col1.click(function() {
 						var col1 = $(this);
 						var nameOfButton = "";
 						var code = col1.html().split(" ",3).pop();
 						nameOfButton = code.substring(code.indexOf('"')+1, code.lastIndexOf('"'));
 						nameOfButton = nameOfButton.includes('_') == true ? replaceAll(nameOfButton, '_', ' ') : nameOfButton; 
-						//nameOfButton = nameOfButton.substring(0, nameOfButton.length-4);
-						//console.log('code: ' + code);
 						console.log('you clicked ' + nameOfButton);
-						// hilde outer table. show inner table
 						$('.outerTable').hide();
 						<%-- <tr id="acct" name="<%= currentId %>"> --%>
 						$("[id='header'] > th > h4").text(nameOfButton);
@@ -310,21 +309,20 @@
 							acctRow.show();
 							var acctRowId = acctRow.attr('id');
 							var acctRowName = acctRow.attr('name');
-							//console.log('name is ' + acctRowName);
+							console.log('acctRowName is ' + acctRowName);
 							if (acctRowName == nameOfButton) acctRow.show();
 							else acctRow.hide();
 						});
 						$('.innerTable').show();
 						
+					}); // end col2
+					col3.click(function() {
+						console.log('we print this now.');
+						console.log($(this));
+
 					});
 				}); // end for each row
 			};
-
-			 <%-- <tr id="header">
-		    	<th>
-		    		<h4 id="bankName"><%= currentId %></h4>
-		    	</th> --%>
-			
 			function updateAccountsTable() {
 				console.log("\nInside updateAccountsTable()");
 				<%-- <tr id="acct" name="<%= currentId %>"> 
@@ -333,34 +331,99 @@
 					var acctRow = $(this); //$("[id='acct']")
 					var acctRowId = acctRow.attr('id');
 					var acctRowName = acctRow.attr('name');
-					var secondCol = acctRow.find('td:nth-child(2)');
 					console.log(acctRowId == 'acct' ? 'ROW ATTAINED!' : 'DO NOT HAVE ROW')  ;
-					
-					//console.log('acctRowName: ' + acctRowName);
-					//var institutionId = secondRow.attr('name');
-					if (acctRowName == "ins_1") { 
-						acctRow.attr('name', 'Bank of America');
-						secondCol.attr('name', 'Bank of America');
+					console.log('acctRow name before: ' + acctRowName);
+					switch(acctRowName) {
+						case "ins_1" :  acctRow.attr('name', 'Bank of America');
+										break;
+						case "ins_2" :  acctRow.attr('name', 'BB&T');
+										break;
+						case "ins_3" :  acctRow.attr('name', 'Chase');
+										break;
+						case "ins_4" :  acctRow.attr('name', 'Wells Fargo');
+										break;
+						case "ins_5" :  acctRow.attr('name', 'Citi');
+										break;
+						case "ins_6" :  acctRow.attr('name', 'US Bank');
+										break;
+						case "ins_7" :  acctRow.attr('name', 'USAA');
+										break;
+						case "ins_9" :  acctRow.attr('name', 'Capital One');
+										break;
+						case "ins_10" : acctRow.attr('name', 'American Express');
+										break;
+						case "ins_11" : acctRow.attr('name', 'Charles Schwab');
+										break;
+						case "ins_12" : acctRow.attr('name', 'Fidelity');
+										break;
+						case "ins_13" : acctRow.attr('name', 'PNC');
+										break;
+						case "ins_14" : acctRow.attr('name', 'TD Bank');
+										break;
+						case "ins_15" : acctRow.attr('name', 'Navy Federal');
+										break;
+						case "ins_16" : acctRow.attr('name', 'Sun Trust');
+										break;
+						case "ins_19" : acctRow.attr('name', 'Regions');
+										break;
+						case "ins_20" : acctRow.attr('name', 'Citizens Bank');
+										break;
+						case "ins_21" : acctRow.attr('name', 'Huntington');
+										break;
+						default : console.log('unknown institution.')
 					}
-					if (acctRowName == "ins_2") { 
-						accrRow.attr('name', 'BB&T');
-				    }
-					if (acctRowName == "ins_3") { 
-						acctRow.attr('name', 'Chase');
-					}
-					if (acctRowName == "ins_4") { 
-						acctRow.attr('name', 'Wells Fargo');
-					}
-					console.log('acctRowName: ' + acctRow.attr('name'));
+					console.log("acctRow name after: \""+acctRow.attr('name')+"\"");
 				});
+			};
+			function getInstitutionNameFromId(institutionId) {
+				var bankName = '';
+				switch(institutionId) {
+					case "ins_1" :  bankName =  'Bank of America';
+									break;
+					case "ins_2" :  bankName =  'BB&T';
+									break;
+					case "ins_3" :  bankName =  'Chase';
+									break;
+					case "ins_4" :  bankName =  'Wells Fargo';
+									break;
+					case "ins_5" :  bankName =  'Citi';
+									break;
+					case "ins_6" :  bankName =  'US Bank';
+									break;
+					case "ins_7" :  bankName =  'USAA';
+									break;
+					case "ins_9" :  bankName =  'Capital One';
+									break;
+					case "ins_10" : bankName =  'American Express';
+									break;
+					case "ins_11" : bankName =  'Charles Schwab';
+									break;
+					case "ins_12" : bankName =  'Fidelity';
+									break;
+					case "ins_13" : bankName =  'PNC';
+									break;
+					case "ins_14" : bankName =  'TD Bank';
+									break;
+					case "ins_15" : bankName =  'Navy Federal';
+									break;
+					case "ins_16" : bankName =  'Sun Trust';
+									break;
+					case "ins_19" : bankName =  'Regions';
+									break;
+					case "ins_20" : bankName =  'Citizens Bank';
+									break;
+					case "ins_21" : bankName =  'Huntington';
+									break;
+					default : bankName = 'unknown institution.';
+				}
+				return bankName;
 			};
 			function getUpdateHandler(publicToken) {
 				console.log('Inside getUpdateHandler');
 				console.log('passed in param: ' + publicToken);
-				//console.log('passed in param: ' + institutionIdName);
 				var thisPT = publicToken;
 				var updateHandler = Plaid.create({
-			        env: 'sandbox',
+			        env: 'development',
 			        apiVersion: 'v2',
 			        clientName: 'Plaid Update Mode',
 			        // Replace with your public_key from the Dashboard
@@ -380,12 +443,8 @@
 			            console.log('metadata:');
 			            console.log(JSON.stringify(metadata));
 			            location.reload(true);
-			            //document.getElementById("changingText").innerHTML = "You've re-authenticated <bank>. It's good to go!", metadata.instititution[zero].name;
-			            // Left to show that < text > will be blank with no value....
-			            //document.getElementById("changingText").innerHTML = "You've re-authenticated <your_bank>. It's good to go!";
 			        },
 			        onExit: function(err, metadata) {
-			            // The user exited the Link flow.
 			            if (err != null) {
 			                // The user encountered a Plaid API error prior
 		                    // to exiting.
@@ -398,7 +457,6 @@
 			        }  
 			    }); // end handlerUpdate
 			    console.log('created updateHandler');
-			    //updateHandler.open();
 			    return updateHandler; 
 		    	
 		    }
@@ -414,12 +472,10 @@
 				};
 			}
 			$(function() {
+				console.log("starting document.onload()..");
 				$('.button').removeAttr('disabled');
-				
+				var text = $("[id='changingText']").text();
 				var usersAccounts = <%= user.getAccountIds().size() %>;
-				//$('.accountsSize').text('Accounts - ' + usersAccounts);
-				//$('.changingText').val('This text will change after using the Plaid Link Initializer.');
-				//$('p').toggle();
 				var goodText = "You successfully re-authorized your bank!";
 				var goodLength = goodText.length;
 				var goodText2 = "You have successfully loaded";
@@ -428,8 +484,7 @@
 				var errLength = errText.length;
 				var deleteText = "You have successfully deleted your bank.";
 				var deleteLength = deleteText.length;
-				//var changingText_TextObj = $("[id='changingText']");
-				var text = $("[id='changingText']").text();
+				
 				matchGoodText = text.substring(0, goodLength);
 				matchGoodText2 = text.substring(0, goodLength2);
 				matchErrText = text.substring(text.indexOf('.')+2, errLength);
@@ -441,7 +496,7 @@
 						$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
 						.css({ 'font-weight' : 'bold'});
 					});
-				} else if ( matchGoodText2 == goodText2) {
+				} else if ( matchGoodText2 == goodText2 ) {
 					$("[id='changingText']").fadeOut(8000, function() {
 						$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
 						.css({ 'font-weight' : 'bold'});
@@ -451,6 +506,14 @@
 						$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
 						.css({ 'font-weight' : 'bold'});
 					});
+				} else if (text != 'This text will change after using the Plaid Link Initializer.') {
+					// Default
+					$("[id='changingText']").fadeOut(8000, function() {
+						$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
+						.css({ 'font-weight' : 'bold'});
+					});
+				} else {
+					// Don't fade the text
 				}
 			
 
@@ -460,9 +523,9 @@
 			//(function($) {
 			  $('#link-button').on('click', function(e) {
 				  var handler = Plaid.create({
-						env: 'sandbox',
+						env: 'development',
 						apiVersion: 'v2',
-					    clientName: 'Plaid Walkthrough Demo',
+					    clientName: 'Plaid Upload Mode',
 					    // Replace with your public_key from the Dashboard
 					    key: 'f0503c4bc8e63cc6c37f07dbe0ae2b',
 					    product: ["transactions"],
@@ -511,34 +574,20 @@
 					    	 }
 					      }).success(function (response) {
 					    	  location.reload(true);
-					    	  var resp = JSON.stringify(response);
-					    	  <%-- var usersAccounts = <%= user.getAccountIds().size() %>; --%>
-					          //usersAccounts = parseInt(metadata.accounts.length) + usersAccounts;
-					          //var strAccounts = (usersAccounts == 1) ? ' account!' : ' accounts!';
-					          //console.log(usersAccounts);
-					          //$('#accounts').html('Accounts : ' + usersAccounts);
-						      //location.reload(true);
+						      updateAccountsTable();
 					          updateBanksTable();
-					          updateAccountsTable();
 					          console.log("end of success");
 						  }).error(function (response) {
-							  // in Profile.java, we set the response using
-							  // response.getWriter().append("");
-							  // This is how the response object in this function
-							  // and alike are set!
 							  var res = JSON.stringify(response.responseText); 
 							  res = res.substring(1, res.length -1);
 							  $("[id='changingText']").text(res).css({ 'font-weight': 'bold' }).fadeOut(8000, function() {
 									$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
 									.css({ 'font-weight' : 'bold'});
 								});
-					    	  //document.getElementById("changingText").innerHTML = "We didn't load the accounts because the bank already exists in your profile.";
 					      }).done(function () {
 						  }).fail(function () {
 					      }).always(function (response) {
-					    	  //console.log(parseInt(metadata.accounts.length));
 					    	  console.log(response);
-					    	  //alert("hello");
 					      });
 					    },
 					    onExit: function(err, metadata) {
@@ -584,12 +633,8 @@
 			     console.log('the button you clicked: ' + institutionIdName);
 			     
 			     $.when(ajax1()).done(function(publicToken) {
-					//alert('Public token received...');
-					updateHandler = getUpdateHandler(publicToken);
+				     updateHandler = getUpdateHandler(publicToken);
 					 console.log('updateHandler returned');
-					 //updateHandler.open(institutionIdName);
-					 //updateHandler.open(publicToken);
-					 
 					 updateHandler.open();
 				 });
 				 function ajax1() {
@@ -603,9 +648,6 @@
 					  }).success(function (response) {
 					     publicToken = JSON.stringify(response);
 					     console.log('after call to UpdateBank: ' + publicToken);
-					     //getUpdateHandler(publicToken);
-					     
-						  
 					  }).error(function (response) { // end .success
 						 console.log('review the response...');
 					 	 console.log(response);
@@ -613,19 +655,13 @@
 					  console.log('after ajax is defined: ' + publicToken);
 				      console.log('performing ajax call');
 				 } 
-				  // upddateHandler not defined yet
-				  //updateHandler.open();
 				 console.log('end update button here');
 			   }); // end link-update-button.on('click')
-			  /* $('button').on('click', function(e) {
-				alert('hi');
-			  }); */
-			  hideInnerTable();
-			  updateAccountsTable();
-			  updateBanksTable();
-		      console.log("jsp page has finished loading.")
+			   hideInnerTable();
+			   updateAccountsTable();
+			   updateBanksTable();
+		       console.log("jsp page has finished loading.")
 		    });
-		    //})(jQuery);
 		</script>
 	</body>
 </html>

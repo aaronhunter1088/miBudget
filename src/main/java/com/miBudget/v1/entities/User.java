@@ -95,7 +95,7 @@ public class User implements Serializable {
 	 * @param email
 	 * @param accountIds
 	 */
-	public User(int id, String firstname, String lastname, String cellphone, String password, String email, List<String> accountIds) {
+	public User(int id, String firstname, String lastname, String cellphone, String password, String email, ArrayList<String> accountIds) {
 		this.id = id;
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -127,7 +127,7 @@ public class User implements Serializable {
 	private String email;
 	
 	@Transient
-	private List<String> accountIds; // will become budget_ids ...
+	private ArrayList<String> accountIds; // will become budget_ids ...
 	
 	/**
 	 * 
@@ -198,7 +198,7 @@ public class User implements Serializable {
 		
 	}
 	
-	public List<String> getAccountIds() {
+	public ArrayList<String> getAccountIds() {
 		return this.accountIds;
 	}
 	
@@ -207,14 +207,14 @@ public class User implements Serializable {
 	 * itemSepcifics is : access token, item id, request id
 	 * @param itemSpecifics
 	 */
-	public void setAccountIds(List<String> accountIds) {
+	public void setAccountIds(ArrayList<String> accountIds) {
 		if (accountIds.size() == 0) {
 			createAccounts();
 		}
 		this.accountIds = accountIds;
 	}
 		
-	public List<String> createAccounts() {
+	public ArrayList<String> createAccounts() {
 		System.out.println("account_ids is null");
 		accountIds = new ArrayList<String>();
 		System.out.println("AccountsList has been created for " + this.firstname);

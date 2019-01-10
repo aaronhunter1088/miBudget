@@ -29,6 +29,7 @@ import retrofit2.Response;
 /**
  * Servlet implementation class Profile
  */
+@SuppressWarnings("unused")
 @WebServlet("/Profile")
 public class Profile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -39,12 +40,14 @@ public class Profile extends HttpServlet {
 	
 	private final String clientId = "5ae66fb478f5440010e414ae";
 	private final String secret = "0e580ef72b47a2e4a7723e8abc7df5"; 
+	private final String secretD = "c7d7ddb79d5b92aec57170440f7304";
+	
     public final PlaidClient client() {
 		// Use builder to create a client
 		PlaidClient client = PlaidClient.newBuilder()
-				  .clientIdAndSecret(clientId, secret)
+				  .clientIdAndSecret(clientId, secretD)
 				  .publicKey("") // optional. only needed to call endpoints that require a public key
-				  .sandboxBaseUrl() // or equivalent, depending on which environment you're calling into
+				  .developmentBaseUrl() // or equivalent, depending on which environment you're calling into
 				  .build();
 		return client;
 	}
@@ -52,25 +55,23 @@ public class Profile extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		System.out.println("\nInside Profile doGet() servlet");
 		HttpSession requestSession = request.getSession(false);
-		System.out.println("request: " + request.getSession(false));
+		//System.out.println("request: " + !request.getSession(false));
 		if (requestSession != null && (Boolean)requestSession.getAttribute("isUserLoggedIn") == true) {
-			System.out.println("Attempting to log in...");
-			User user = (User) request.getAttribute("user");
 			
+			User user = (User) request.getAttribute("user");
 			HashMap<String, Boolean> errMapForItems = new HashMap<>();
 			ArrayList<String> ids = (ArrayList<String>) requestSession.getAttribute("institutionIdsList");
 			ArrayList<Item> items = new ArrayList<>();
-			for(int i = 0; i < ids.size(); i++) {
-				Item item = itemDAOImpl.getItemFromUser(ids.get(i));
-				System.out.println(item);
+			for (String id : ids) {
+				Item item = itemDAOImpl.getItemFromUser(id);
+				System.out.println("Retreived " + item);
 				items.add(item);
 			}
-			
-			
 			String errMsg = "";
 			for(int i = 0; i < items.size(); i++) {
 				ItemGetRequest getReq = new ItemGetRequest(items.get(i).getAccessToken());
@@ -99,6 +100,7 @@ public class Profile extends HttpServlet {
 			if (errMsg.equals("") == true) requestSession.setAttribute("change", "This text will change after using the Plaid Link Initializer.");
 			else requestSession.setAttribute("change", errMsg);
 			requestSession.setAttribute("ErrMapForItems", errMapForItems);
+			System.out.println("Loading the Profile.jsp page...");
 			response.sendRedirect("Profile.jsp");
 		} else {
 			System.out.println("requestSession: " + requestSession );

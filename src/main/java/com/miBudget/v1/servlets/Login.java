@@ -58,7 +58,7 @@ public class Login extends HttpServlet {
 	//@SuppressWarnings("null")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		System.out.println("\nInside the Login servlet.");
+		System.out.println("\nInside Login doPost()...");
 		String cellphone = request.getParameter("Cellphone");
 		String password = request.getParameter("Password");
 		boolean loginCredentials = false;
@@ -74,13 +74,20 @@ public class Login extends HttpServlet {
 		// for every user in the list
 		
 		ArrayList<UsersItemsObject> usersItemsList = itemDAOImpl.getAllUserItems(allUsersList.get(0));
-		HashMap<Integer, ArrayList<Account>> acctsAndInstitutionIdMap = new HashMap<>();
+		HashMap<String, ArrayList<Account>> acctsAndInstitutionIdMap = new HashMap<>();
 		Iterator usersItemsIter = usersItemsList.iterator();
 		while (usersItemsIter.hasNext()) {
 			int itemTableId = ( (UsersItemsObject) usersItemsIter.next()).getItemTableId();
 			Item item = itemDAOImpl.getItem(itemTableId);
 			ArrayList<Account> list = accountDAOImpl.getAllOfItemsAccounts(itemTableId);
-			acctsAndInstitutionIdMap.put(item.getItemTableId(), list);
+			acctsAndInstitutionIdMap.put(item.getInsitutionId(), list);
+		}
+		System.out.println("acctsAndInstitutionIdMap");
+		for(String id : acctsAndInstitutionIdMap.keySet()) {
+			System.out.println("\nkey: " + id);
+			for (Account a : acctsAndInstitutionIdMap.get(id)) {
+				System.out.println("value: " + a);
+			}
 		}
 		
 		
@@ -92,7 +99,7 @@ public class Login extends HttpServlet {
 			if (user.getCellphone().equals(cellphone) && user.getPassword().equals(password)) {
 				// registered user
 				System.out.println("Registered user. Logging in");
-				List<String> accountIdsList = accountDAOImpl.getAllAccountsIds(user);
+				ArrayList<String> accountIdsList = (ArrayList<String>) accountDAOImpl.getAllAccountsIds(user);
 				user.setAccountIds(accountIdsList);
 				int accounts = accountIdsList.size();
 				loginCredentials = true;

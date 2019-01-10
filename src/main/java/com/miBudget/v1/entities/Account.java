@@ -1,6 +1,8 @@
 package com.miBudget.v1.entities;
 
 import java.io.Serializable;
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -74,6 +76,40 @@ public class Account implements Serializable {
 				+ ", nameOfAccount=" + nameOfAccount + ", officialName=" + officialName + ", mask=" + mask + ", type="
 				+ type + ", subType=" + subType + "]";
 	}
+	
+	
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hash(accountId, availableBalance, currencyCode, currentBalance, itemTableId, limit, mask,
+				nameOfAccount, officialName, subType, type);
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Account other = (Account) obj;
+		return Objects.equals(accountId, other.accountId)
+				&& Double.doubleToLongBits(availableBalance) == Double.doubleToLongBits(other.availableBalance)
+				&& Objects.equals(currencyCode, other.currencyCode)
+				&& Double.doubleToLongBits(currentBalance) == Double.doubleToLongBits(other.currentBalance)
+				&& itemTableId == other.itemTableId
+				&& Double.doubleToLongBits(limit) == Double.doubleToLongBits(other.limit)
+				&& Objects.equals(mask, other.mask) && Objects.equals(nameOfAccount, other.nameOfAccount)
+				&& Objects.equals(officialName, other.officialName) && Objects.equals(subType, other.subType)
+				&& Objects.equals(type, other.type);
+	}
 
 	/**
 	 * @return the account_id
@@ -114,6 +150,7 @@ public class Account implements Serializable {
 	 * @param availableBalance the availableBalance to set
 	 */
 	public void setAvailableBalance(double availableBalance) {
+		
 		this.availableBalance = availableBalance;
 	}
 
