@@ -189,7 +189,7 @@ public class Authenticate extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-	private String authenticate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, NullPointerException {
+	private String authenticate(HttpServletRequest request, HttpServletResponse response, boolean exit) throws ServletException, IOException, NullPointerException {
 		// TODO Auto-generated method stub
 		System.out.println("Inside authenticate()...");	
 		HttpSession session = request.getSession(false);
@@ -264,21 +264,29 @@ public class Authenticate extends HttpServlet {
 				e.printStackTrace(System.out);
 			}
 		}
+		
 		accountIdsList.forEach(id -> {
 			System.out.println(id);
 		});
-//		for(int i = 0; i < jsonObjectHoldsAcctIds.size(); i++) {
-//			accountIdsList.add(jsonObjectHoldsAcctIds.get(i).toString());
-//		}
 		
-//		for(int i = 0; i < accountsRequestedJsonArray.size(); i++) {
-//			JSONObject jsonObject = null;
-//			try {
-//				jsonObject = (JSONObject) parser.parse(accountsRequestedJsonArray.get(i).toString());
-//			} catch (org.json.simple.parser.ParseException e) {
-//				e.printStackTrace(System.out);
-//			} 
-//			acctObj = new com.miBudget.v1.entities.Account();
+		// TODO: Continue with Add single account logic here.
+		User user = (User) session.getAttribute("user");
+		ArrayList<String> allOfUserAccountIdsList = new ArrayList<>();
+		allOfUserAccountIdsList.addAll(user.getAccountIds());
+		List<com.miBudget.v1.entities.Account> usersCurrentAccountsList = accountDAOImpl.getAllAccounts(allOfUserAccountIdsList);
+		
+
+		if (exit) {
+			System.out.println("Try to add bank again...");
+			int numberOfAccounts = accountDAOImpl.getAccountIdsFromUser(user).size();
+			request.getSession(false).setAttribute("NoOfAccts", numberOfAccounts);
+			response.setStatus(HttpServletResponse.SC_CONFLICT); // TODO: Implement as some 2xx. 4xx is for invalid requests. We don't have that, we just restrict the logic. 
+			response.setContentType("application/text");
+			response.getWriter().append(institution_id + " has already been added. We cannot add it again.");
+			System.out.println("NOT ALLOWED: " + institution_id + " has already been added. We cannot add it again.");
+			System.out.println("\n\n--- END ---\n\n");
+			return "FAIL: Cannot add bank or duplicate accounts.";
+		}
 		
 		// Make call to AccountsGetResponse to receive additional information about the requested accounts
 		AccountsGetRequest acctsGetReq = new AccountsGetRequest(accessToken);
@@ -315,6 +323,7 @@ public class Authenticate extends HttpServlet {
 			// 		if yes, store that information in the current acctObj
 			//		if no, continue with next account from response
 			
+			// TODO: Change Iterator to enhanced for loop. You're using Strings
 			Iterator<String> iterOverAccountIdsList = accountIdsList.iterator();
 			while (iterOverAccountIdsList.hasNext()) {
 				String currentIdFromAccountIdsList = iterOverAccountIdsList.next().toString();
@@ -386,7 +395,7 @@ public class Authenticate extends HttpServlet {
 		if (publicTokenExchangeResponse.isSuccessful() && acctsGetRes.isSuccessful()) {
 		  
 		  // Get user from request session
-		  User user = (User) session.getAttribute("user");
+		  //User user = (User) session.getAttribute("user");
 		  try {
 			  if (user.getFirstName().equals(null)) {}
 		  } catch (NullPointerException e) {
@@ -572,7 +581,7 @@ public class Authenticate extends HttpServlet {
 		System.out.println("--- START ---");
 		System.out.println("\nInside Authenticate servlet doPost.");
 		// Check to see if institution selected has already been saved
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
 		User user = (User) session.getAttribute("user");
 		
 		// TODO: change logic from using iterator to using enhanced for loop. its a list of strings...
@@ -584,7 +593,8 @@ public class Authenticate extends HttpServlet {
 		while (iter.hasNext()) {
 			String id = iter.next();
 			if (id.equals(institution_idIncoming)) {
-				System.out.println(institution_idIncoming + " has already been added. We cannot add it again.");
+				System.out.println(institution_idIncoming + " has already been added. We cannot add it again. Checking"
+						+ "\nto see if the user is adding accounts back.");
 				institutionIdThatIsAdded = institution_idIncoming;
 				exit = true;
 				break;
@@ -592,20 +602,8 @@ public class Authenticate extends HttpServlet {
 				System.out.println(id + " - This id did not match the one selected.");
 		}
 		
-		if (exit) {
-			System.out.println("Try to add bank again...");
-			int numberOfAccounts = accountDAOImpl.getAccountIdsFromUser(user).size();
-			request.getSession(false).setAttribute("NoOfAccts", numberOfAccounts);
-			response.setStatus(HttpServletResponse.SC_CONFLICT); // TODO: Implement as some 2xx. 4xx is for invalid requests. We don't have that, we just restrict the logic. 
-			response.setContentType("application/text");
-			response.getWriter().append(institutionIdThatIsAdded + " has already been added. We cannot add it again.");
-			System.out.println("NOT ALLOWED: " + institutionIdThatIsAdded + " has already been added. We cannot add it again.");
-			System.out.println("\n\n--- END ---\n\n");
-			return;
-		}
-		
 		System.out.println("About to perform authenticate.");
-		String authResponse = authenticate(request, response);
+		String authResponse = authenticate(request, response, exit);
 		//request.getSession(false).setAttribute("authResponse", authResponse);
 		System.out.println("Authenticate response: " + authResponse);
 		
