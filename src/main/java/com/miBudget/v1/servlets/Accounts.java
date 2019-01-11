@@ -30,7 +30,7 @@ import retrofit2.Response;
  * Servlet implementation class Profile
  */
 @SuppressWarnings("unused")
-@WebServlet("/Account")
+@WebServlet("/Accounts")
 public class Accounts extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

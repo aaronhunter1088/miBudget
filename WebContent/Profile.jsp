@@ -17,12 +17,13 @@
 		<h1>Welcome, <i><%= user.getFirstName() %></i> : <%= user.getAccountIds().size() %></h1><%} %><!-- <input class="button" type="button" onclick="window.location.replace('Profile.jsp')" value="Profile" /> -->
 		<br>
 		<form action="Accounts" method="get">
-			<input class="button" type="submit">
+			<input class="button" type="submit" value="Accounts">
 		</form>
 		<hr>
-		<a href="">Categories</a>
-		<hr>
-		<a href="">Transactions</a>
+		<!-- <a href="">Categories</a> -->
+		<form action="CAT" method="get">
+			<button type="submit">Categories and Transactions</button>
+		</form>
 		<hr>
 		<a href="">Goals</a>
 		<hr>

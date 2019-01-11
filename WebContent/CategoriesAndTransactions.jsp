@@ -1,5 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page import="java.util.List" %>
+	<%@ page import="java.util.Arrays" %>
+	<%@ page import="java.util.ArrayList" %>
+	<%@ page import="java.util.Iterator" %>
+	<%@ page import="java.util.Set" %>
+	<%@ page import="java.lang.String" %>
+	<%@ page import="com.miBudget.v1.daoimplementations.MiBudgetDAOImpl" %>
+	<%@ page import="com.miBudget.v1.daoimplementations.AccountDAOImpl" %>
+	<%@ page import="com.miBudget.v1.daoimplementations.ItemDAOImpl" %>
+	<%@ page import="com.miBudget.v1.entities.Account" %>
+	<%@ page import="com.miBudget.v1.entities.User" %>
+	<%@ page import="com.miBudget.v1.entities.UserAccountObject" %>
+	<%@ page import="java.util.HashMap" %>
 <!DOCTYPE html>
 <html>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -42,11 +55,10 @@
 		<% MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl(); %>
 		<% AccountDAOImpl accountDAOImpl = new AccountDAOImpl(); %>
 		<% ItemDAOImpl itemsDAOImpl = new ItemDAOImpl(); %>
-		<h1>Profile for <%= user.getFirstName() %> <%= user.getLastName() %></h1>
+		<h1>Categories and Transactions for <%= user.getFirstName() %> <%= user.getLastName() %></h1>
 	
-		<form action="Welcome" method="post"> <!-- think about chaning this call to get -->
-			<br/><!-- Add a space between the buttons -->
-			<button type="submit">Welcome Page</button>
+		<form action="Profile" method="get"> <!-- think about chaning this call to get -->
+			<button type="submit">Profile Page</button>
 		</form>
 		<hr/>
 		

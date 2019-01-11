@@ -1,4 +1,3 @@
-com/miBudget/v1/servlets/Welcome.class
 com/miBudget/v1/entities/UsersInstitutionIdsObject.class
 com/miBudget/v1/entities/UserAccountObject_.class
 com/miBudget/v1/servlets/CheckInstitutionIds.class
@@ -12,12 +11,16 @@ com/miBudget/v1/servlets/Delete.class
 com/miBudget/v1/entities/Item.class
 com/miBudget/v1/entities/ItemAccountObject.class
 com/miBudget/v1/entities/Item_.class
+com/miBudget/v1/utilities/ContextListener.class
+com/miBudget/v1/utilities/test/TestLog4jServlet.class
 com/miBudget/v1/servlets/Profile.class
 com/miBudget/v1/entities/ItemAccountObject_.class
 com/miBudget/v1/servlets/Authenticate.class
 com/miBudget/v1/entities/UsersItemsObject.class
+com/miBudget/v1/database/test/DatabaseConnectionTest.class
 com/miBudget/v1/entities/UsersInstitutionIdsObject_.class
 com/miBudget/v1/servlets/MiBudget.class
+com/miBudget/v1/servlets/Accounts.class
 com/miBudget/v1/servlets/ForgotPassword.class
 com/miBudget/v1/database/DatabaseConnectionTest.class
 com/miBudget/v1/daoimplementations/ItemDAOImpl.class

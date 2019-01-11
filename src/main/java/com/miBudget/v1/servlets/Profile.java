@@ -20,8 +20,11 @@ public class Profile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//doPost(request, response);
-		response.sendRedirect("Profile.jsp");
+		System.out.println("\nInside the Profile doGet() servlet.");
+		HttpSession requestSession = request.getSession(false);
+		if (requestSession != null && (Boolean)requestSession.getAttribute("isUserLoggedIn") == true) {
+			response.sendRedirect("Profile.jsp");
+		} else response.sendRedirect("Login.html");
 	}
 	
 	/**
@@ -29,7 +32,7 @@ public class Profile extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		System.out.println("Inside the Welcome servlet.");
+		System.out.println("\nInside the Profile doPost() servlet.");
 		HttpSession session = request.getSession(false);  
         if(session != null && (Boolean) session.getAttribute("isUserLoggedIn") == true ) {
         	System.out.println("requestSessionId: " + session.getId());

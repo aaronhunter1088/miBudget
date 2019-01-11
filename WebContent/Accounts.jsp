@@ -54,7 +54,7 @@
 		<% MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl(); %>
 		<% AccountDAOImpl accountDAOImpl = new AccountDAOImpl(); %>
 		<% ItemDAOImpl itemsDAOImpl = new ItemDAOImpl(); %>
-		<h1>Profile for <%= user.getFirstName() %> <%= user.getLastName() %></h1>
+		<h1>Accounts Page for <%= user.getFirstName() %> <%= user.getLastName() %></h1>
 	
 		<form action="Profile" method="get"> <!-- think about chaning this call to get -->
 			<button type="submit">Profile Page</button>
@@ -522,7 +522,7 @@
 				  var handler = Plaid.create({
 						env: 'development',
 						apiVersion: 'v2',
-					    clientName: 'Plaid Upload Mode',
+					    clientName: 'Plaid Link Mode',
 					    // Replace with your public_key from the Dashboard
 					    key: 'f0503c4bc8e63cc6c37f07dbe0ae2b',
 					    product: ["transactions"],

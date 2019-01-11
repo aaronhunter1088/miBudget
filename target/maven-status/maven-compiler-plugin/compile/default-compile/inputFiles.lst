@@ -1,8 +1,8 @@
+/Users/michaelball/git/miBudget/src/test/java/com/miBudget/v1/utilities/test/TestLog4jServlet.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/MiBudget.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/Delete.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/utilities/HibernateUtilities.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/entities/UsersItemsObject.java
-/Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/Welcome.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/Register.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/main/Categories.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/entities/User.java
@@ -14,11 +14,14 @@
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/UpdateUser.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/CheckInstitutionIds.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/utilities/ClientTest.java
+/Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/Accounts.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/serviceimplementations/UserServiceImpls.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/entities/UsersInstitutionIdsObject.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/main/Category.java
+/Users/michaelball/git/miBudget/src/test/java/com/miBudget/v1/database/test/DatabaseConnectionTest.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/main/CategoryTest.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/services/UserServices.java
+/Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/utilities/ContextListener.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/Profile.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/entities/Account.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/entities/Item.java
