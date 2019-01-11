@@ -8,7 +8,7 @@
 </head>
 <body bgcolor="#32CD32">
 <h1>Login</h1>	
-<form action="Login" method="post" action="Welcome.jsp">
+<form action="Login" method="post" action="Profile.jsp">
   <div class="container">
     <input type="text" placeholder="Enter cellphone" name="Cellphone" value="${Cellphone}" required>
 	<br/>

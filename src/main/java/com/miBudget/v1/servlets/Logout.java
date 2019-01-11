@@ -21,7 +21,7 @@ public class Logout extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		System.out.println("Inside Logout servlet");
+		System.out.println("\nInside Logout servlet");
 		HttpSession requestSession = request.getSession(true);
 //		HttpSession requestSession = (HttpSession) request.getAttribute("requestSession");
 		if (requestSession.getAttribute("isUserLoggedIn") == null)

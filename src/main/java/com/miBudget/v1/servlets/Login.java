@@ -152,7 +152,7 @@ public class Login extends HttpServlet {
 			session.setAttribute("isUserLoggedIn", true);
 			//getServletContext().getRequestDispatcher("/Welcome.jsp").forward(request, response);
 		
-			response.sendRedirect("Welcome.jsp");
+			response.sendRedirect("Profile.jsp");
 		} else {
 			response.sendRedirect("Register.jsp");
 		}
