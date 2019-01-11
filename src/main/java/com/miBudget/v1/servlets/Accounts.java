@@ -31,7 +31,7 @@ import retrofit2.Response;
  */
 @SuppressWarnings("unused")
 @WebServlet("/Account")
-public class Account extends HttpServlet {
+public class Accounts extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
@@ -58,7 +58,7 @@ public class Account extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("\nInside Account doGet() servlet");
+		System.out.println("\nInside Accounts doGet() servlet");
 		HttpSession requestSession = request.getSession(false);
 		//System.out.println("request: " + !request.getSession(false));
 		if (requestSession != null && (Boolean)requestSession.getAttribute("isUserLoggedIn") == true) {
@@ -115,7 +115,7 @@ public class Account extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("\nInside the Account doPost() servlet.");
+		System.out.println("\nInside the Accounts doPost() servlet.");
 		HttpSession requestSession = request.getSession(false);  
         if (requestSession != null && (Boolean)requestSession.getAttribute("isUserLoggedIn") == true){  
         	System.out.println("stored requestSessionId: " + requestSession.getAttribute("requestSessionId"));
