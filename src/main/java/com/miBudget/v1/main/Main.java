@@ -18,6 +18,7 @@ public class Main {
 		
 		List<User> allUsersList = null;
 		allUsersList = miBudgetDAOImpl.getAllUsers();
+		
 		User loginUser = new User("8324279384", "1");
 		
 		for (User user : allUsersList) {
@@ -25,9 +26,16 @@ public class Main {
 				System.out.println(loginUser + " matches " + user);
 				System.out.println("Registered user. Logging in");
 				loginUser = user;
-			} // else check next user
+			} else if (loginUser.getCellphone().equals(user.getCellphone()) &&
+					   loginUser.getPassword().equals(user.getPassword()) ) {
+				System.out.println(loginUser + " matches " + user);
+				System.out.println("Registered user. Logging in");
+				loginUser = user;
+			} else {
+				System.out.println(loginUser + " is not a match to " + user);
+			}
 		}
-		
+		System.out.println(loginUser);
 		
 	}
 

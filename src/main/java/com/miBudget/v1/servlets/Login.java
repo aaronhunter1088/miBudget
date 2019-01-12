@@ -74,7 +74,15 @@ public class Login extends HttpServlet {
 				System.out.println("Registered user. Logging in");
 				loginUser = user;
 				loginCredentials = true;
-			} // else check next user
+			} else if (loginUser.getCellphone().equals(user.getCellphone()) &&
+					   loginUser.getPassword().equals(user.getPassword()) ) {
+				System.out.println(loginUser + " matches " + user);
+				System.out.println("Registered user. Logging in");
+				loginUser = user;
+				loginCredentials = true;
+			} else {
+				System.out.println(loginUser + " is not a match to " + user);
+			}
 		}
 		// if logInUser does not have a first name, then they are a new user
 		// else, logInUser will be fully populated and this is a returning user
@@ -172,7 +180,7 @@ public class Login extends HttpServlet {
 //			} 
 //		} // end for all
 		
-		if (loginCredentials == true && (Boolean)session.getAttribute("isUserLoggedIn") == true) {
+		if (loginCredentials == true) {
 			response.sendRedirect("Profile.jsp");
 		} else {
 			response.sendRedirect("Register.jsp");

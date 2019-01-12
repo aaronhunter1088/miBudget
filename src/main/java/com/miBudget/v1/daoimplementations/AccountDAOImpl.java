@@ -75,11 +75,9 @@ public class AccountDAOImpl {
 				System.out.println("This user currently doesn't have any accounts added.");
 				return userAccounts;
 			} else {
-				Iterator<?> iterator = userAccountsFromDB.iterator();
-				while (iterator.hasNext()) { 
-					String account_id = iterator.next().toString();
-					userAccounts.add(account_id);
-					System.out.println("account_id: " + account_id);
+				for (String accountId : (List<String>) userAccountsFromDB) {
+					userAccounts.add(accountId);
+					System.out.println("accountId: " + accountId);
 				}
 				System.out.println("user accounts list populated from AccountDAOImpl\n");
 				return userAccounts;

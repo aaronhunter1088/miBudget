@@ -216,7 +216,8 @@ public class User implements Serializable {
 	}
 		
 	public ArrayList<String> createAccounts() {
-		System.out.println("account_ids is null");
+		
+		System.out.println("accountIds is null for new user...");
 		accountIds = new ArrayList<String>();
 		System.out.println("AccountsList has been created for " + this.firstname);
 		return accountIds;
