@@ -3,6 +3,7 @@ package com.miBudget.v1.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -220,5 +221,30 @@ public class User implements Serializable {
 		System.out.println("AccountsList has been created for " + this.firstname);
 		return accountIds;
 		
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hash(accountIds, cellphone, email, firstname, id, lastname, password);
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		return Objects.equals(accountIds, other.accountIds) && Objects.equals(cellphone, other.cellphone)
+				&& Objects.equals(email, other.email) && Objects.equals(firstname, other.firstname) && id == other.id
+				&& Objects.equals(lastname, other.lastname) && Objects.equals(password, other.password);
 	}
 }

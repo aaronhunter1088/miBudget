@@ -52,7 +52,7 @@ public class HibernateUtilities {
 	            		.addAnnotatedClass(com.miBudget.v1.entities.UsersInstitutionIdsObject.class)
 	            		.addAnnotatedClass(com.miBudget.v1.entities.UsersItemsObject.class);
 				sessionFactory = new Configuration(sources)
-	            		.configure("hibernate.cfg.xml")
+	            		.configure()
 	            		.buildSessionFactory();
 				newSessionFactory = true;
 	         }

@@ -188,7 +188,6 @@ public class MiBudgetDAOImpl {
 			System.out.println("Returning null.");
 			t.rollback();
 			session.close();
-			return null;
 		} catch (Exception e) {
 			System.out.println("Error connecting to DB");
 			System.out.println(e.getMessage());
@@ -197,7 +196,6 @@ public class MiBudgetDAOImpl {
 			System.out.println("Returning null.");
 			t.rollback();
 			session.close();
-			return null;
 		}
 		return users;
 	}
