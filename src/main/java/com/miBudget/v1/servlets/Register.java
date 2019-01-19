@@ -32,26 +32,29 @@ public class Register extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//doPost(request, response);
-		System.out.println("\nInside the Register servlet doGet().");
+		System.out.println("--- START ---");
+		System.out.println("Inside the Register doGet() servlet.");
 		String btnSelected = request.getParameter("btnSelected");
 		response.reset();
 		if (btnSelected.equals("Cancel")) {
 			System.out.println("Redirecting to Index.html.");
+			System.out.println("--- END ---");
 			getServletContext().getRequestDispatcher("/index.html").forward(request, response);
 		} else if (btnSelected.equals("Register")) {
 			System.out.println("Redirecting to Register.html.");
+			System.out.println("--- END ---");
 			getServletContext().getRequestDispatcher("/Register.html").forward(request, response);
 		} else {
 			System.out.println("Redirecting to Login.html.");
+			System.out.println("--- END ---");
 			getServletContext().getRequestDispatcher("/Login.html").forward(request, response);
 		}
 	}
 	
 	@SuppressWarnings("null")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		System.out.println("\nInside the Register servlet.");
+		System.out.println("--- START ---");
+		System.out.println("Inside the Register servlet.");
 		
 		
 		
@@ -178,7 +181,9 @@ public class Register extends HttpServlet {
 				requestSession.setAttribute("Accounts", accounts);
 				requestSession.setAttribute("User", user); // add user object to requestSession object
 				
-				getServletContext().getRequestDispatcher("/Welcome.jsp")
+				System.out.println("Redirecting to Profile.jsp");
+				System.out.println("--- END ---");
+				getServletContext().getRequestDispatcher("/Profile.jsp")
 					.forward(request, response);
 				//response.sendRedirect("Welcome.jsp");
 			}
@@ -188,5 +193,6 @@ public class Register extends HttpServlet {
 			System.out.println(e.getMessage());
 			System.out.println(e.getStackTrace());
 		} 
+		System.out.println("--- END ---");
 	}
 }

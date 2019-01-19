@@ -71,7 +71,7 @@ public class Account implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Account [account_id=" + accountId + ", itemTableId=" + itemTableId + ", availableBalance=" + availableBalance
+		return "Account [accountId=" + accountId + ", itemTableId=" + itemTableId + ", availableBalance=" + availableBalance
 				+ ", currentBalance=" + currentBalance + ", limit=" + limit + ", currencyCode=" + currencyCode
 				+ ", nameOfAccount=" + nameOfAccount + ", officialName=" + officialName + ", mask=" + mask + ", type="
 				+ type + ", subType=" + subType + "]";

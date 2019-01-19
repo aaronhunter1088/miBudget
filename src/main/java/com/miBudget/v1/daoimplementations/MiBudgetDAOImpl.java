@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import com.miBudget.v1.entities.Account;
 import com.miBudget.v1.entities.Item;
 import com.miBudget.v1.entities.User;
 import com.miBudget.v1.entities.UsersItemsObject;
@@ -132,79 +133,114 @@ public class MiBudgetDAOImpl {
 		}
 		return cellphones;
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	public List<User> getAllUsers() {
 		List<User> users = new ArrayList<>();
+		List<User> usersNoAccounts = new ArrayList<>();
 		SessionFactory factory = null;
-    	Session session = null;
+		Session session = null;
     	Transaction t = null;
-    	AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
-		try {
-			System.out.println("\nAttempting to execute getAllUsers query...");
-			factory = HibernateUtilities.getSessionFactory();
+    	try {
+    		System.out.println("\nAttempting to execute getAllUsers query...");
+    		factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
-			List<?> idsFromDB = session
-					   				.createNativeQuery("SELECT id FROM users")
-					   				.getResultList();
-			List<?> firstnamesFromDB = session
-											.createNativeQuery("SELECT first_name FROM users")
-											.getResultList();
-			List<?> lastnamesFromDB = session
-										   .createNativeQuery("SELECT last_name FROM users")
-										   .getResultList();
-			List<?> cellphonesFromDB = session
-									  .createNativeQuery("SELECT cellphone FROM users")
-									  .getResultList();
-			List<?> passwordsFromDB = session
-					  					   .createNativeQuery("SELECT password FROM users")
-					  					   .getResultList();
-			List<?> emailsFromDB = session
-										.createNativeQuery("SELECT email FROM users")
-										.getResultList();
-			System.out.println("6 Queries executed!");
-			t.commit();
-			int size = idsFromDB.size();
-			for (int i = 0; i < size; i++) {
-				ArrayList<String> accountIds = (ArrayList<String>) accountDAOImpl.getAccountIdsFromUser((Integer)idsFromDB.get(i));
-				User user = new User((Integer)idsFromDB.get(i),
-									 firstnamesFromDB.get(i).toString(),
-									 lastnamesFromDB.get(i).toString(),
-									 cellphonesFromDB.get(i).toString(),
-									 passwordsFromDB.get(i).toString(),
-									 emailsFromDB.get(i).toString(),
-									 accountIds );
-				System.out.println("user: " + user.toString());
+			usersNoAccounts = (List<User>) session.createNativeQuery("SELECT * FROM users")
+										.addEntity(User.class).getResultList();
+			session.getTransaction().commit();
+			session.close();
+			System.out.println("Query executed! " + usersNoAccounts.size() + " users retrieved.");
+			int size = usersNoAccounts.size();
+			AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
+			for (User user : usersNoAccounts) {
+				ArrayList<String> accountIds = (ArrayList<String>) accountDAOImpl.getAccountIdsFromUser(user);
+				user.setAccountIds(accountIds);
+				System.out.println("userFromDB: " + user);
 				users.add(user);
 			}
-			
-			System.out.println("all users from miBudget");
-			session.close();
-		} catch (HibernateException e) { 
-			System.out.println("Error opening a session using the factory.");
+		} catch (HibernateException e) {
+    		System.out.println("Error during retrieval of next account or adding account to accounts list.");
 			System.out.println(e.getMessage());
-			StackTraceElement[] ste = e.getStackTrace();
-			for (int i=0; i<ste.length; i++) { System.out.println(ste[i]); }
-			System.out.println("Returning null.");
+			System.out.println(e.getCause());
 			t.rollback();
 			session.close();
-			return null;
-		} catch (Exception e) {
-			System.out.println("Error connecting to DB");
-			System.out.println(e.getMessage());
-			StackTraceElement[] ste = e.getStackTrace();
-			for (int i=0; i<ste.length; i++) { System.out.println(ste[i]); }
-			System.out.println("Returning null.");
-			t.rollback();
-			session.close();
-			return null;
-		}
-		return users;
+    	} 
+    	return users;
 	}
 
+//	public List<User> getAllUsers() {
+//		List<User> users = new ArrayList<>();
+//		SessionFactory factory = null;
+//    	Session session = null;
+//    	Transaction t = null;
+//    	AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
+//		try {
+//			System.out.println("\nAttempting to execute getAllUsers query...");
+//			factory = HibernateUtilities.getSessionFactory();
+//			session = factory.openSession();
+//			t = session.beginTransaction();
+//			List<?> idsFromDB = session
+//					   				.createNativeQuery("SELECT id FROM users")
+//					   				.getResultList();
+//			List<?> firstnamesFromDB = session
+//											.createNativeQuery("SELECT first_name FROM users")
+//											.getResultList();
+//			List<?> lastnamesFromDB = session
+//										   .createNativeQuery("SELECT last_name FROM users")
+//										   .getResultList();
+//			List<?> cellphonesFromDB = session
+//									  .createNativeQuery("SELECT cellphone FROM users")
+//									  .getResultList();
+//			List<?> passwordsFromDB = session
+//					  					   .createNativeQuery("SELECT password FROM users")
+//					  					   .getResultList();
+//			List<?> emailsFromDB = session
+//										.createNativeQuery("SELECT email FROM users")
+//										.getResultList();
+//			System.out.println("6 Queries executed!");
+//			session.getTransaction().commit();
+//			int size = idsFromDB.size();
+//			for (int i = 0; i < size; i++) {
+//				ArrayList<String> accountIds = (ArrayList<String>) accountDAOImpl.getAccountIdsFromUser((Integer)idsFromDB.get(i));
+//				User user = new User((Integer)idsFromDB.get(i),
+//									 firstnamesFromDB.get(i).toString(),
+//									 lastnamesFromDB.get(i).toString(),
+//									 cellphonesFromDB.get(i).toString(),
+//									 passwordsFromDB.get(i).toString(),
+//									 emailsFromDB.get(i).toString(),
+//									 accountIds );
+//				System.out.println("userFromDB: " + user);
+//				users.add(user);
+//			}
+//			
+//			System.out.println("all users from miBudget retrieved.");
+//			session.close();
+//		} catch (HibernateException e) { 
+//			System.out.println("Error opening a session using the factory.");
+//			System.out.println(e.getMessage());
+//			StackTraceElement[] ste = e.getStackTrace();
+//			for (int i=0; i<ste.length; i++) { System.out.println(ste[i]); }
+//			System.out.println("Returning null.");
+//			t.rollback();
+//			session.close();
+//		} catch (Exception e) {
+//			System.out.println("Error connecting to DB");
+//			System.out.println(e.getMessage());
+//			StackTraceElement[] ste = e.getStackTrace();
+//			for (int i=0; i<ste.length; i++) { System.out.println(ste[i]); }
+//			System.out.println("Returning null.");
+//			t.rollback();
+//			session.close();
+//		}
+//		return users;
+//	}
+
+	
+	
 	// Logic for Items we create
 	
-	public int addItemToUsersItemsTable(int item_table_id, User user) {
+	public int addItemToUsersItemsTable(int itemTableId, User user) {
 		SessionFactory factory = null;
     	Session session = null;
     	Transaction t = null;
@@ -214,7 +250,7 @@ public class MiBudgetDAOImpl {
 			session = factory.openSession();
 			int user_id = user.getId();
 			t = session.beginTransaction();
-			UsersItemsObject uiObj = new UsersItemsObject(item_table_id, user_id);
+			UsersItemsObject uiObj = new UsersItemsObject(itemTableId, user_id);
 //			session.createNativeQuery("INSERT INTO users_items ('item_id', 'user_id') " +
 //									  "VALUES (" + item_id + ", " + user_id + ")").executeUpdate();
 //			session.createNativeQuery("UPDATE users " + 
@@ -223,11 +259,11 @@ public class MiBudgetDAOImpl {
 //			update users set Items = "works" where Id = 2;
 			
 //			session.saveOrUpdate(user);
-			System.out.println("item_table_id: " + item_table_id);
+			System.out.println(uiObj);
 			session.save(uiObj);
 			t.commit();
 			session.close();
-			System.out.println("item_table_id: " + item_table_id + " added to \nuser: " + user.getFirstName() + " \nId: " + user.getId());
+			System.out.println(uiObj + " added to UsersItems table for: " + user.getFirstName() + ", Id: " + user.getId());
 			return 1;
 		} catch (NullPointerException e) {
 			System.out.println("Error connecting to DB");

@@ -70,11 +70,11 @@ public class Item implements Serializable {
 		this.itemTableId = itemTableId;
 	}
 	
-	public String getInsitutionId() {
+	public String getInstitutionId() {
 		return institutionId;
 	}
 	
-	public void setInsitutionId(String institutionId) {
+	public void setInstitutionId(String institutionId) {
 		this.institutionId = institutionId;
 	}
 
