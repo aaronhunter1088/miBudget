@@ -23,6 +23,12 @@ public class AccountDAOImpl {
 	public AccountDAOImpl() {
     }
     
+	// TODO: think of a better name and incorporate user.
+	/**
+	 * This method returns all the accountIds from a specific item for a specific user.
+	 * @param item
+	 * @return
+	 */
     @SuppressWarnings("unchecked")
 	public List<String> getAccountIdsFromUser(Item item) {
     	ArrayList<String> accountIds = null;
@@ -153,12 +159,12 @@ public class AccountDAOImpl {
     	return 0; // bad
     }
     
-    public int addAccountObjectToUsers_AccountsTable(com.miBudget.v1.entities.Account account, User user) {
+    public int addAccountObjectToUsersAccountsTable(com.miBudget.v1.entities.Account account, User user) {
     	SessionFactory factory = null;
     	Session session = null;
     	Transaction t = null;
     	try {
-    		System.out.println("\nAttempting to execute addAccountToUsers_Table query...");
+    		System.out.println("\nAttempting to execute addAccountToUsersAccounts Table query...");
     		factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
@@ -176,7 +182,7 @@ public class AccountDAOImpl {
 					account.getType(),
 					account.getSubType()
 					));
-			System.out.println("Inserted account into users_accounts.");
+			System.out.println("Inserted account into UsersAccounts.");
 			t.commit();
 			session.close();
 			return 1; // good
@@ -199,22 +205,22 @@ public class AccountDAOImpl {
     	SessionFactory factory = HibernateUtilities.getSessionFactory();
     	Session session = null;
 		Transaction t = null;
-    	
-    	
-    	Iterator<String> iter = accountIds.iterator();
-    	StringBuilder str = new StringBuilder();
-    	str.append("'" + iter.next() + "'");
-    	while (iter.hasNext()) {
-    		str.append(", '" + iter.next() + "'");
+		ArrayList<Account> accountsResult = new ArrayList<>();
+		StringBuilder str = new StringBuilder();
+    	if (accountIds.size() != 0) {
+			str.append("'" + accountIds.get(0) + "'");
+    		for (int i = 1; i < accountIds.size(); i++)
+    			str.append(", '" + accountIds.get(i) + "'");
+    	} else {
+    		System.out.println("Query not attempted. No accounts!");
+    		return accountsResult;
     	}
     	System.out.println("strBuilder: " + str);
-    	List<Account> accountsResult = null;
-    	
-		try {
+    	try {
     		System.out.println("\nAttempting to execute getAllAccounts from user query...");
     		session = factory.openSession();
 			t = session.beginTransaction();
-			accountsResult = (List<Account>) session
+			accountsResult = (ArrayList<Account>) session
 					.createNativeQuery("SELECT * FROM accounts " +
 									   "WHERE account_id " +
 									   "IN (" +  str + ")")
@@ -252,13 +258,13 @@ public class AccountDAOImpl {
     }
     
     @SuppressWarnings("unchecked")
-	public ArrayList<Account> getAllOfItemsAccounts(int itemTableId) {
+	public ArrayList<Account> getAllAccountsForItem(int itemTableId) {
     	ArrayList<Account> accounts = new ArrayList<>();
     	SessionFactory factory = null;
     	Session session = null;
     	Transaction t = null;
     	try {
-    		System.out.println("\nAttempting to execute getAllOfItemsAccounts using item_table_id query...");
+    		System.out.println("\nAttempting to getAllAccountsForItem using itemTableId query...");
     		factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
@@ -267,13 +273,13 @@ public class AccountDAOImpl {
 							   		     "WHERE item_table_id = " + itemTableId)
 					   .addEntity(Account.class)
 					   .getResultList();
-			System.out.println("getAllOfItemsAccounts query executed!");
+			System.out.println("getAllAccountsForItem query executed!");
 			t.commit();
 			session.close();
 			
-			for (Object id : userAccountsFromDB) {
-				accounts.add((Account) id);
-				System.out.println("Returning account: " + ((Account) id));
+			for (Object o : userAccountsFromDB) {
+				accounts.add((Account) o);
+				System.out.println("Returning account: " + ((Account) o));
 			}	
     	} catch (HibernateException e) {
     		System.out.println("hibernate error:");
@@ -354,18 +360,17 @@ public class AccountDAOImpl {
     	return accountIds;
     }
     
-    public int addAccountIdToItems_AccountsTable(int itemTableId, String accountId) {
+    public int addAccountIdToItemsAccountsTable(int itemTableId, String accountId) {
     	SessionFactory factory = null;
     	Session session = null;
     	Transaction t = null;
     	try {
-			System.out.println("\nAttempting to execute insert accountId to Items_Accounts query...");
-			ItemAccountObject obj = new ItemAccountObject(itemTableId, accountId);
-			System.out.println("obj: " + obj);
+    		ItemAccountObject iaObj = new ItemAccountObject(itemTableId, accountId);
+			System.out.println("\nAttempting to insert: " + iaObj + " into the ItemsAccounts table...");
 			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
-			session.save(obj);
+			session.save(iaObj);
 			t.commit();
 			session.close();
 			return 1; // good
@@ -464,7 +469,7 @@ public class AccountDAOImpl {
     	Session session = null;
     	Transaction t = null;
     	try {
-    		System.out.println("\nAttempting to execute delete_Items_Accounts_From_table");
+    		System.out.println("\nAttempting to delete ItemsAccountsObject from items_accounts table");
     		factory = HibernateUtilities.getSessionFactory();
     		session = factory.openSession();
 	    	t = session.beginTransaction();
@@ -501,12 +506,7 @@ public class AccountDAOImpl {
     	Session session = null;
     	Transaction t = null;
     	try {
-    		System.out.println("\nAttempting to execute delete account query...");
-    		factory = HibernateUtilities.getSessionFactory();
-    		session = factory.openSession();
-    		t = session.beginTransaction();
-    		
-    		System.out.println("\nAttempting to execute delete_Account_From_Users_Accounts_table");
+    		System.out.println("\nAttempting to execute delete account from users_accounts table...");
     		factory = HibernateUtilities.getSessionFactory();
     		session = factory.openSession();
     		t = session.beginTransaction();

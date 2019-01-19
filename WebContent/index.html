@@ -10,6 +10,7 @@ body {
     background-image: url("background.jpg");
 }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
 </head>
 <body>
 <h1>Welcome to miBudget!!!</h1>
@@ -24,7 +25,8 @@ budget to <br>see you are doing, where you can save money, slow spending, and mo
 	<input type="hidden" name="btnSelected" value="Login"></input>
 	<button type="submit" class="button" tabindex="1" formmethod="get">Login</button>
 </form> -->
-<input class="button" type="button" onclick="window.location.replace('Login.html')" value="Login" /> 
+<!-- <input class="button" type="button" onclick="window.location.replace('Login.html')" value="Login" /> -->
+<button id="loginBtn" onclick="loadLoginPage();">Login</button>
 <br/>
 <p/>
 <!-- 
@@ -36,11 +38,21 @@ budget to <br>see you are doing, where you can save money, slow spending, and mo
 <br/>
 <div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+
 <script>
 $(function() {
 	$('.button').removeAttr('disabled');
 });
+function loadLoginPage() {
+	console.log('clicked Login button. making ajax get request to Login.java');
+	$.ajax({
+    	url: "Login",
+    	type: "GET"
+    }).success(function (response) {
+        //console.log(response);
+    	window.location.href = 'Login.html';
+	});
+};
 </script>
 </body>
 </html>

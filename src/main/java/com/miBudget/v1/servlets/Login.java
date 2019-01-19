@@ -33,17 +33,21 @@ public class Login extends HttpServlet {
 	private ItemDAOImpl itemDAOImpl = new ItemDAOImpl();
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//doPost(request, response);
+		System.out.println("--- START ---");
+		System.out.println("Inside the Login doGet() servlet.");
 		String btnSelected = request.getParameter("btnSelected");
 		System.out.println("btnSelected: " + btnSelected);
-		if (btnSelected.equals("Cancel")) {
-			System.out.println("\nInside the Login servlet doGet(). Redirecting to index.html.");
-			getServletContext().getRequestDispatcher("/index.html").forward(request, response);
+		if (btnSelected != null) {
+			if (btnSelected.equals("Cancel")) {
+				System.out.println("Redirecting to index.html.");
+				System.out.println("--- END ---");
+				getServletContext().getRequestDispatcher("/index.html").forward(request, response);
+			}
 		} else {
-			System.out.println("\nInside the Login servlet doGet(). Redirecting to Login.html.");
-			getServletContext().getRequestDispatcher("/Login.html").forward(request, response);
+			System.out.println("Redirecting to Login.html.");
+			System.out.println("--- END ---");
+			response.setStatus(HttpServletResponse.SC_OK);
 		}
-		
 	}
 	
 	/**
@@ -51,8 +55,8 @@ public class Login extends HttpServlet {
 	 */
 	//@SuppressWarnings("null")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		System.out.println("\nInside Login doPost()...");
+		System.out.println("--- START ---");
+		System.out.println("Inside Login doPost() servlet.");
 		String cellphone = request.getParameter("Cellphone");
 		String password = request.getParameter("Password");
 		boolean loginCredentials = false;
@@ -89,16 +93,17 @@ public class Login extends HttpServlet {
 		if (loginCredentials == true) {
 			ArrayList<String> accountIdsList = (ArrayList<String>) accountDAOImpl.getAllAccountsIds(loginUser);
 			loginUser.setAccountIds(accountIdsList);
-			ArrayList<UsersItemsObject> usersItemsList = itemDAOImpl.getAllUserItems(loginUser);
+			ArrayList<UsersItemsObject> allUsersItemsList = itemDAOImpl.getAllUserItems(loginUser);
 			
 			// Populate accounts and institutions map
 			HashMap<String, ArrayList<Account>> acctsAndInstitutionIdMap = new HashMap<>();
-			for (UsersItemsObject uiObj : usersItemsList) {
+			for (UsersItemsObject uiObj : allUsersItemsList) {
 				Item item = itemDAOImpl.getItem(uiObj.getItemTableId() );
-				acctsAndInstitutionIdMap.put(item.getInsitutionId(), accountDAOImpl.getAllOfItemsAccounts(uiObj.getItemTableId()) );
+				acctsAndInstitutionIdMap.put(item.getInstitutionId(), accountDAOImpl.getAllAccountsForItem(uiObj.getItemTableId()) );
 			}
+			System.out.println("acctsAndInstitutionIdMap");
 			for(String id : acctsAndInstitutionIdMap.keySet()) {
-				System.out.println("\nkey: " + id);
+				System.out.println("key: " + id);
 				for (Account a : acctsAndInstitutionIdMap.get(id)) {
 					System.out.println("value: " + a);
 				}
@@ -181,8 +186,12 @@ public class Login extends HttpServlet {
 //		} // end for all
 		
 		if (loginCredentials == true) {
+			System.out.println("Redirecting to Profile.jsp");
+			System.out.println("--- END ---");
 			response.sendRedirect("Profile.jsp");
 		} else {
+			System.out.println("Redirecting to Register.jsp");
+			System.out.println("--- END ---");
 			response.sendRedirect("Register.jsp");
 		}
 	}

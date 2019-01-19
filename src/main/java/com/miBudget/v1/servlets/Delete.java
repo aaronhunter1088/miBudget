@@ -2,9 +2,7 @@ package com.miBudget.v1.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,13 +18,8 @@ import com.miBudget.v1.entities.Account;
 import com.miBudget.v1.entities.Item;
 import com.miBudget.v1.entities.User;
 import com.plaid.client.PlaidClient;
-import com.plaid.client.request.ItemGetRequest;
 import com.plaid.client.request.ItemRemoveRequest;
-import com.plaid.client.response.ErrorResponse;
-import com.plaid.client.response.ErrorResponse.ErrorType;
-import com.plaid.client.response.ItemGetResponse;
 import com.plaid.client.response.ItemRemoveResponse;
-import com.plaid.client.response.ItemStatus;
 
 import retrofit2.Response;
 
@@ -66,13 +59,13 @@ public class Delete extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("\n\n--- START ---\n\n");
+		System.out.println("--- START ---");
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		System.out.println("\n\n--- END ---\n\n");
+		System.out.println("--- END ---");
 	}
 
-	@SuppressWarnings("null")
+	
 	public HashMap<String, Object> deleteAccount(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String accountId = request.getParameter("accountId");
 		ArrayList<String> list = new ArrayList<>();
@@ -83,9 +76,9 @@ public class Delete extends HttpServlet {
 		HttpSession session = request.getSession(false);  
 		HashMap<String, Object> deleteResponse = new HashMap<String, Object>();
 		
-		String institutionId = request.getParameter("currentId");
+//		String institutionId = request.getParameter("currentId");
 		User user = (User)session.getAttribute("user"); 
-		Item item = itemDAOImpl.getItemFromUser(institutionId);
+		Item item = itemDAOImpl.getItem(Integer.parseInt(request.getParameter("itemTableId")));
 		ArrayList<String> accountIdsList = (ArrayList<String>)accountDAOImpl.getAccountIdsFromUser(item);
 		System.out.println("accountIdsList size: " + accountIdsList.size());
 		accountIdsList.remove(accountId);
@@ -177,7 +170,7 @@ public class Delete extends HttpServlet {
 				session.setAttribute("institutionIdsListSize", institutionIdsList.size());
 				session.setAttribute("accountsSize", numberOfAccounts);
 			} else {
-				return "FAIL: access token was not invalidated for " + item.getInsitutionId();
+				return "FAIL: access token was not invalidated for " + item.getInstitutionId();
 			}
 		}
 		
@@ -190,17 +183,18 @@ public class Delete extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	@SuppressWarnings("unlikely-arg-type")
+	@SuppressWarnings({ "unlikely-arg-type", "unchecked" })
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("\n\n--- START ---\n\n");
-		System.out.println("\nInside the Delete doPost method");
+		System.out.println("--- START ---");
+		System.out.println("Inside the Delete doPost method");
 		System.out.println("currentId: " + request.getParameter("currentId"));
 		System.out.println("requesting to delete: " + request.getParameter("delete"));
 		HttpSession session = request.getSession(false);
 		User user = (User)session.getAttribute("user"); 
 		String institutionId = request.getParameter("currentId");
-		Item item = itemDAOImpl.getItemFromUser(institutionId);
+		int itemTableId = Integer.parseInt(request.getParameter("itemTableId"));
+		Item item = itemDAOImpl.getItem(itemTableId);
 		// Perform the following logic:
 		if (request.getParameter("delete").equals("bank")) {
 			String deleteResponse = deleteBank(request, response);
@@ -213,29 +207,6 @@ public class Delete extends HttpServlet {
 				items.add(item);
 			}
 			if (deleteResponse.contains("SUCCESS")) {
-				
-					
-//				for(int i = 0; i < items.size(); i++) {
-//					ItemGetRequest getReq = new ItemGetRequest(items.get(i).getAccessToken());
-//					Response<ItemGetResponse> getRes = client().service().itemGet(getReq).execute();
-//					if (getRes.isSuccessful()) {
-//						ItemStatus itemStatus = getRes.body().getItem();
-//						ErrorResponse err = itemStatus.getError();
-//						if (err != null) {
-//							if (err.getErrorType() == ErrorType.ITEM_ERROR) {
-//								System.out.print("There is an Item_Error: ");
-//								System.out.println(err.toString());
-//								errMapForItems.put(items.get(i).getInsitutionId(), true);
-//							} 
-//						} else {
-//							System.out.println("No error for this item: " + items.get(i).toString());
-//							errMapForItems.put(items.get(i).getInsitutionId(), false);
-//						}
-//					} else {
-//						System.out.println("ItemGetResponse failed.");
-//						System.out.println(getRes.errorBody());
-//					}
-//				}
 				session.setAttribute("change", "You have successfully deleted your bank.");
 				session.setAttribute("ErrMapForItems", errMapForItems);
 				response.setContentType("application/html");
@@ -250,44 +221,25 @@ public class Delete extends HttpServlet {
 			
 		} else if (request.getParameter("delete").equals("account")) {
 			String accountId = request.getParameter("accountId");
-			ArrayList<String> list = new ArrayList<>();
-			list.add(accountId);
-			Account account = accountDAOImpl.getAllAccounts(list).get(0);
+			ArrayList<String> acctIdToDeleteList = new ArrayList<>();
+			acctIdToDeleteList.add(accountId);
+			Account account = accountDAOImpl.getAllAccounts(acctIdToDeleteList).get(0);
 			HashMap<String, Object> deleteResponse = deleteAccount(request, response);
 			
-			
-//			"usersInstitutionIdsResult: " + usersInstitutionIdsResult +
-//			"\nusersAccountsResult: " + usersAccountsResult + 
-//			"\nusersItemsResult: " + usersItemsResult + 
-//			"\nitemsAccountsResult: " + itemsAccountsResult +
-//			"\naccountsResult: " + accountsResult +
-//			"\nitemsResult: " + itemsResult +
-//			"\n";
-			
-			@SuppressWarnings("unchecked")
-			HashMap<String, ArrayList<Account>> acctsAndInstitutionIdMap = (HashMap<String, ArrayList<Account>>) 
-					session.getAttribute("acctsAndInstitutionIdMap");
+			HashMap<String, ArrayList<Account>> acctsAndInstitutionIdMap = 
+					(HashMap<String, ArrayList<Account>>) session.getAttribute("acctsAndInstitutionIdMap");
 			ArrayList<Account> newAcctList = new ArrayList<>();
+			newAcctList = acctsAndInstitutionIdMap.get(institutionId);
+			newAcctList.remove(account);
+			acctsAndInstitutionIdMap.put(institutionId, newAcctList);
 			System.out.println("newAcctList size: " + newAcctList.size());
 			
-			//if (newAcctList.size() >= 1) acctsAndInstitutionIdMap.put(item.getInsitutionId(), newAcctList);
-			//else acctsAndInstitutionIdMap.remove(item.getItemTableId());
-			System.out.println("accountId: " + accountId);
-			//System.out.println("Updated acctsAndInstitutionIdMap...\n");
+			System.out.println("\nUpdated acctsAndInstitutionIdMap");
 			for (String key : acctsAndInstitutionIdMap.keySet()) {
 				System.out.println("key: " + key);
 				for (Account a : acctsAndInstitutionIdMap.get(key)) {
-					if (!a.getAccountId().equals(accountId)) {
-						System.out.println("\t" + a);
-						newAcctList.add(a);
-					} else {
-						System.out.println("They do match...");
-					}
+					System.out.println("\t" + a);
 				}
-				System.out.println("key with new accounts updated.");
-				System.out.println("\tcurrent newAcctList size: " + newAcctList.size());
-				acctsAndInstitutionIdMap.put(key, newAcctList);
-				newAcctList = new ArrayList<>();
 			}
 			
 			if (deleteResponse.get("usersInstitutionIdsResult") == Boolean.TRUE) {
@@ -320,10 +272,10 @@ public class Delete extends HttpServlet {
 //				}
 //			}
 			
-			System.out.println("\n\n--- END ---\n\n");
+			System.out.println("--- END ---");
 			response.setContentType("application/html");
 			response.setStatus(HttpServletResponse.SC_OK);
-			response.sendRedirect("Profile.jsp");
+			response.sendRedirect("Accounts.jsp");
 		}
 		
 	}

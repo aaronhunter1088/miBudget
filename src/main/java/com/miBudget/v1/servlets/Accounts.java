@@ -57,8 +57,8 @@ public class Accounts extends HttpServlet {
 	 */
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		System.out.println("\nInside Accounts doGet() servlet");
+		System.out.println("--- START ---");
+		System.out.println("Inside Accounts doGet() servlet");
 		HttpSession requestSession = request.getSession(false);
 		//System.out.println("request: " + !request.getSession(false));
 		if (requestSession != null && (Boolean)requestSession.getAttribute("isUserLoggedIn") == true) {
@@ -83,14 +83,14 @@ public class Accounts extends HttpServlet {
 						if (err.getErrorType() == ErrorType.ITEM_ERROR) {
 							System.out.print("There is an Item_Error: ");
 							System.out.println(err.toString());
-							errMapForItems.put(items.get(i).getInsitutionId(), true);
+							errMapForItems.put(items.get(i).getInstitutionId(), true);
 							errMsg = err.getErrorMessage();
 							errMsg = errMsg.substring(0, errMsg.indexOf("(")-1) + errMsg.substring(errMsg.indexOf(")")+1, errMsg.length());
 							errMsg = errMsg.substring(0, errMsg.indexOf(".")+2) + "Click the update button to restore any banks in a bad state.";
 						} 
 					} else {
 						System.out.println("No error for this item: " + items.get(i).toString());
-						errMapForItems.put(items.get(i).getInsitutionId(), false);
+						errMapForItems.put(items.get(i).getInstitutionId(), false);
 					}
 				} else {
 					System.out.println("ItemGetResponse failed.");
@@ -100,11 +100,15 @@ public class Accounts extends HttpServlet {
 			if (errMsg.equals("") == true) requestSession.setAttribute("change", "This text will change after using the Plaid Link Initializer.");
 			else requestSession.setAttribute("change", errMsg);
 			requestSession.setAttribute("ErrMapForItems", errMapForItems);
-			System.out.println("Loading the Profile.jsp page...");
+			System.out.println("Redirecting to Accounts.jsp.");
+			System.out.println("--- END ---");
 			response.sendRedirect("Accounts.jsp");
 		} else {
 			System.out.println("requestSession: " + requestSession );
 			System.out.println("isUserLoggedIn: " + requestSession.getAttribute("isUserLoggedIn") );
+			System.out.println("Redirecting to Login.html");
+			System.out.println("--- END ---");
+			response.sendRedirect("Login.html");
 		}
 		
 		//doPost(request, response);

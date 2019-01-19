@@ -26,6 +26,7 @@ import com.miBudget.v1.daoimplementations.ItemDAOImpl;
 import com.miBudget.v1.daoimplementations.MiBudgetDAOImpl;
 import com.miBudget.v1.entities.Item;
 import com.miBudget.v1.entities.User;
+import com.miBudget.v1.entities.UsersItemsObject;
 import com.plaid.client.PlaidClient;
 import com.plaid.client.request.AccountsGetRequest;
 import com.plaid.client.request.ItemGetRequest;
@@ -78,15 +79,16 @@ public class Authenticate extends HttpServlet {
      * Create an items_account object
      */
     
-    public int addAccountsToAccountsTableDatabase(List<com.miBudget.v1.entities.Account> accounts, Item item, User user) {
-		Iterator<com.miBudget.v1.entities.Account> iter = accounts.iterator();
+    public int addAccountsToAccountsTableDatabase(List<com.miBudget.v1.entities.Account> accountsRequested, Item item, User user) {
+//		Iterator<com.miBudget.v1.entities.Account> iter = accounts.iterator();
     	int verify = 0;
-		while (iter.hasNext()) {
-    		com.miBudget.v1.entities.Account account = iter.next();
+		for (com.miBudget.v1.entities.Account account : accountsRequested) {
+//    		com.miBudget.v1.entities.Account account = iter.next();
     		// update account availableBalance, currentBalance, limit, currencyCode, item, figure out how to unmask mask to reveal last 4 of account
-    		verify = accountDAOImpl.addAccountObjectToAccountsTableDatabase(account);
-    		verify = accountDAOImpl.addAccountObjectToUsers_AccountsTable(account, user);
-    		verify = accountDAOImpl.addAccountIdToItems_AccountsTable(item.getItemTableId(), account.getAccountId());
+			verify = accountDAOImpl.addAccountObjectToAccountsTableDatabase(account);
+			verify = accountDAOImpl.addAccountObjectToUsersAccountsTable(account, user);
+    		verify = accountDAOImpl.addAccountIdToItemsAccountsTable(item.getItemTableId(), account.getAccountId());
+    		
 		}
     	if (verify == 0)
     		return 0;
@@ -105,21 +107,31 @@ public class Authenticate extends HttpServlet {
     	return verify;
     }
     
-    public int addItemToUsersItemsInDatabase(Item item, User user) {
-    	int itemTableId = 0;
+    public int addItemToUsersItemsInDatabase(ArrayList<UsersItemsObject> usersItemsList, Item item, User user) {
     	try {
-    		//Session mysqlSession = factory.openSession();
-    		// get the item_table_ids from the database
-    		itemTableId = itemDAOImpl.getItemTableIdForItemId(item.getItemId());
+//    		itemTableId = itemDAOImpl.getItemTableIdForItemId(item.getItemId());
+    		int itemTableId = item.getItemTableId();
     		
-    		//mysqlSession = factory.openSession();
-    		int verify = miBudgetDAOImpl.addItemToUsersItemsTable(itemTableId, user);
+    		boolean brokenLoop = false;
+    		int verify = 0;
+    		if (usersItemsList.size() == 0) {
+    			verify = miBudgetDAOImpl.addItemToUsersItemsTable(itemTableId, user);
+    		} else {
+    			for (UsersItemsObject uiObj : usersItemsList) {
+        			if (uiObj.getItemTableId() == item.getItemTableId()) {
+        				// we cannot add a bank again to a specific users list of items
+        				brokenLoop = true;
+        				break;
+        			}
+        		}
+    			if (!brokenLoop)
+    				verify = miBudgetDAOImpl.addItemToUsersItemsTable(itemTableId, user);
+    		}
+    		
+    		if (verify == 1)
+    			return 1;
     		if (verify == 0)
     			return 0;
-    		//verify = itemDAOImpl.addItemToItemTable(item);
-    		if (verify == 0)
-    			return 0;
-    		//System.out.println(item.getItemId() + " successfully added to " + user.getFirstname());
     		return 1; // good
     	} catch (HibernateException e) {
     		System.out.println("\nFailed to start SQL Session\n");
@@ -139,24 +151,38 @@ public class Authenticate extends HttpServlet {
 		return allItemIdsList;
     }
     
-    public List<Item> getAllItems() {
-    	List<Item> allItemsList = new ArrayList<>();
+    /**
+     * This method returns ALL the items added to the database.
+     * @return
+     */
+    public ArrayList<Item> getAllItems() {
+    	ArrayList<Item> allItemsList = new ArrayList<>();
     	allItemsList = itemDAOImpl.getAllItems();
     	return allItemsList;
     }
     
-    public int addItemToDatabase(List<Item> allItems, Item item) {
+    /**
+     * This method returns ALL the items for a specific user
+     * @return
+     */
+    public ArrayList<UsersItemsObject> getAllUsersItems(User user) {
+    	ArrayList<UsersItemsObject> usersItemsList = new ArrayList<>();
+    	usersItemsList = itemDAOImpl.getAllUserItems(user);
+    	return usersItemsList;
+    }
+    
+    public int addItemToDatabase(Item item) {
     	try {
     		
-    		for (Item i : allItems) {
-        		if (i.getItemTableId() == item.getItemTableId()) {
-        			System.out.println("next item: " + i);
-        			System.out.println("Item already added to database!");
-        			return 0; // bad
-        		}
-        	}
-    		// if the item does not exist in the database, add it
-        	System.out.println("before save...");
+    		// This logic does not make sense anymore. 
+//    		for (Item i : allItems) {
+//        		if (i.getItemTableId() == item.getItemTableId()) {
+//        			System.out.println("next item: " + i);
+//        			System.out.println("Item already added to database!");
+//        			return 0; // bad
+//        		}
+//        	}
+    		System.out.println("before save...");
         	int verify = itemDAOImpl.addItemToDatabase(item);
         	if (verify == 0)
         		return 0;
@@ -238,9 +264,9 @@ public class Authenticate extends HttpServlet {
 		System.out.println("linkSessionId: " + linkSessionId);
 		
 		// Parse accountsRequested; store in accountIdsRequestedList
-		JSONParser parser = new JSONParser();
+		JSONParser jsonParser = new JSONParser();
 		JSONArray accountsRequestedJsonArray = null;
-		try { accountsRequestedJsonArray = (JSONArray) parser.parse(accountsRequested); }
+		try { accountsRequestedJsonArray = (JSONArray) jsonParser.parse(accountsRequested); }
 		catch (Exception e) { e.printStackTrace(System.out); }
 		System.out.println("number of accounts requested: " + accountsRequestedJsonArray.size());
 		ArrayList<com.miBudget.v1.entities.Account> accountsRequestedList = new ArrayList<>();
@@ -248,8 +274,7 @@ public class Authenticate extends HttpServlet {
 		JSONObject jsonObject = null;
 		for(int i = 0; i < accountsRequestedJsonArray.size(); i++) {
 			try {
-				jsonObject = (JSONObject) parser.parse(accountsRequestedJsonArray.get(i).toString());
-//				accountIdsList.add((parser.parse(accountsRequestedJsonArray.get(i).toString())).toString());
+				jsonObject = (JSONObject) jsonParser.parse(accountsRequestedJsonArray.get(i).toString());
 				accountIdsRequestedList.add(jsonObject.get("id").toString());
 			} catch (org.json.simple.parser.ParseException e) {
 				e.printStackTrace(System.out);
@@ -283,15 +308,14 @@ public class Authenticate extends HttpServlet {
 			System.out.println("AccountsGetResponse : " + acctsGetRes.code());
 			List<Account> accountsFromRes = acctsGetRes.body().getAccounts();
 			accountsFromRes.forEach(acct -> {
-				System.out.println("acctsGetRes account: " + ((Account)acct).toString());
+				System.out.println("acctsGetRes account: " + ((Account)acct));
 			});
 
-			// TODO: Change Iterator to enhanced for loop. You're using Strings
 			for (String id : accountIdsRequestedList) {
 				for (Account getResA : accountsFromRes) {
 					if (id.equals(getResA.getAccountId()) ) {
 						com.miBudget.v1.entities.Account acctObj = new com.miBudget.v1.entities.Account();
-						System.out.println("Id's matched!");
+						//System.out.println("Id's matched!");
 						System.out.println(id + " == " + getResA.getAccountId());
 						acctObj.setAccountId(getResA.getAccountId());
 						acctObj.setAvailableBalance(getResA.getBalances().getAvailable() != null ? getResA.getBalances().getAvailable() : 0.00);
@@ -392,44 +416,53 @@ public class Authenticate extends HttpServlet {
 		    } catch (NullPointerException e) {
 			    return "FAIL: No user!";
 		    }
-		    Item bankToAdd;
+			
+			// Create bank object
+		    Item bankToAdd = new Item(itemId, accessToken, institutionId);
+		    System.out.println("created bankToAdd: " + bankToAdd);
 		    
 		    int verify = 0;
 		    if (!duplicateBank) {
 		    	
-		    	bankToAdd = new Item(itemId, accessToken, institutionId);
+		    	/** TODO: change attribute name from CreatedItem a list of items.
+		    	 * Eventually I will need to create a list of items and add that list.
+		    	*/ 
 		    	session.setAttribute("CreatedItem", bankToAdd);
-			    System.out.println("created bankToAdd: " + bankToAdd);
 			  
-			    // Add 'itemToAdd' to items table  
+			    // Add bank to items table  
 			    System.out.println("Adding item to database");
-			    verify = addItemToDatabase(getAllItems(), bankToAdd);
+			    verify = addItemToDatabase(bankToAdd);
 			    if (verify == 0)
 				    return "FAIL: did not add " + bankToAdd + " to database.";
-			    else
+			    else {
 				    System.out.println(bankToAdd + " was added to the database.");
+				    bankToAdd.setItemTableId(itemDAOImpl.getItemTableIdForItemId(bankToAdd.getItemId())); // until this point, itemTableId is not set
+				    System.out.println("updated bankToAdd: " + bankToAdd);
+			    }
 			    
 			    // Add created Item to users_items table
-			    verify = addItemToUsersItemsInDatabase(bankToAdd, user);
+			    verify = addItemToUsersItemsInDatabase(getAllUsersItems(user), bankToAdd, user);
 			    if (verify == 0)
-				    return "FAIL: did not add " + bankToAdd.getItemId() + " to user in database.";
+				    return "FAIL: did not add UsersItemsObject to UsersItems in database.";
 			    else
-				    System.out.println(bankToAdd + " was added to Users_Items table in database");
+				    System.out.println("UsersItemsObject was added to UsersItems table in database");
 			    
-			    System.out.println("institutionId: " + bankToAdd.getInsitutionId());
-			    // Add institution_id to users_institution_ids table
+			    // Add institutionId to users_institution_ids table
 			    verify = addInstitutionIdToUsersInstitutionIdsTableInDatabase(institutionId, user);
 			    if (verify == 0)
-				    return "FAIL: did not add " + bankToAdd.getInsitutionId() + " to table.";
+				    return "FAIL: did not add " + bankToAdd.getInstitutionId() + " to UsersInstitutions table.";
 			    else {
-				    System.out.println(bankToAdd.getInsitutionId() + " added to users_institution_ids table in database");
+				    System.out.println(bankToAdd.getInstitutionId() + " added to UsersInstitutions table in database");
 			    }
+		    } else {
+		    	bankToAdd.setItemTableId(itemDAOImpl.getItemTableIdUsingInsId(bankToAdd.getInstitutionId())); // until this point, itemTableId is not set
+			    System.out.println("updated bankToAdd: " + bankToAdd); // since bank already exists, get itemTableId and set it for this bankToAdd object
 		    }
-		    bankToAdd = itemDAOImpl.getItemFromUser(institutionId);
+//		    bankToAdd = itemDAOImpl.getItemFromUser(institutionId);
 		    // Add accounts to users profile
-		    int itemTableId = itemDAOImpl.getItemTableIdForItemId(bankToAdd.getItemId());
+//		    int itemTableId = itemDAOImpl.getItemTableIdForItemId(bankToAdd.getItemId());
 		    accountsRequestedList.forEach(account -> {
-			    account.setItemTableId(itemTableId);
+			    account.setItemTableId(bankToAdd.getItemTableId());
 		    });
 		    // Need the above lines to set item_table_id for the accounts. they all have the same item
 		    // But need to set to proper item_table_id that was set.
@@ -446,29 +479,33 @@ public class Authenticate extends HttpServlet {
 		    usersCurrentAccountsList.forEach(account -> {
 			    System.out.println(account);
 		    });
-		  
+		    System.out.println();
+		    
 		    // Create a Map of itemIds, and list of appropriate accounts
 		    @SuppressWarnings("unchecked")
 		    HashMap<String, ArrayList<com.miBudget.v1.entities.Account>> acctsAndInstitutionIdMap = 
 		  	    (HashMap<String, ArrayList<com.miBudget.v1.entities.Account>>) session.getAttribute("acctsAndInstitutionIdMap");
 		    ArrayList<com.miBudget.v1.entities.Account> newAccountsList = new ArrayList<>();
+		    newAccountsList = acctsAndInstitutionIdMap.get(institutionId);
+		    
 		    System.out.println("acctsAndInstitutionIdMap");
-		    for(String i : acctsAndInstitutionIdMap.keySet()) {
-			    System.out.println("\nkey: " + i + "\n");
-			    for (com.miBudget.v1.entities.Account acct : acctsAndInstitutionIdMap.get(i)) {
+		    for(String insId : acctsAndInstitutionIdMap.keySet()) {
+			    System.out.println("key: " + insId);
+			    for (com.miBudget.v1.entities.Account acct : acctsAndInstitutionIdMap.get(insId)) {
 				    System.out.println("\t" + acct);
-				    newAccountsList.add(acct);
 			    }
+			    System.out.println();
 		    }
+		    System.out.println("Adding " + institutionId + " and the following accounts to acctsAndInstitutionIdMap");
 		    for (com.miBudget.v1.entities.Account account : accountsRequestedList) {
 			    System.out.println("account: " + account);
 			    newAccountsList.add(account);
 		    }
 		    
-		    Object resultOfPutInMap = acctsAndInstitutionIdMap.put(bankToAdd.getInsitutionId(), newAccountsList);
+		    Object resultOfPutInMap = acctsAndInstitutionIdMap.put(institutionId, newAccountsList);
 		    System.out.println("resultOfPutInMap: " + resultOfPutInMap);
-		    if (resultOfPutInMap != null) System.out.println("Some item and its accounts were just overwritten!!");
-		    else System.out.println("Added the Integer and Accounts pairing to the acctsAndInsitutionIdMap");
+		    //if (resultOfPutInMap != null) System.out.println("Some item and its accounts were just overwritten!!");
+		    //else System.out.println("Added the Integer and Accounts pairing to the acctsAndInsitutionIdMap");
 		    session.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
 		  
 		    institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
@@ -505,11 +542,11 @@ public class Authenticate extends HttpServlet {
 					    if (err.getErrorType() == ErrorType.ITEM_ERROR) {
 						    System.out.println("There is an Item_Error");
 						    System.out.println(err.toString());
-						    errMapForItems.put(item.getInsitutionId(), true);
+						    errMapForItems.put(item.getInstitutionId(), true);
 					    } 
 				    } else {
 					    System.out.println("No error for this " + item);
-					    errMapForItems.put(item.getInsitutionId(), false);
+					    errMapForItems.put(item.getInstitutionId(), false);
 				    }
 			    } else {
 				    System.out.println("ItemGetResponse failed.");
@@ -536,21 +573,21 @@ public class Authenticate extends HttpServlet {
 			response.setStatus(HttpServletResponse.SC_OK);
 //			getServletContext().getRequestDispatcher("/Profile.jsp").forward(request, response);
 			//response.sendRedirect("Profile.jsp");
-			System.out.println("\n\n--- END ---\n\n");
+			System.out.println("--- END ---");
 			return;
 		} else {
 			System.out.println(authResponse);
 			response.setStatus(HttpServletResponse.SC_CONFLICT); // TODO: Implement as some 2xx. 4xx is for invalid requests. We don't have that, we just restrict the logic. 
 			response.setContentType("application/text");
-			System.out.println("\n\n--- END ---\n\n");
+			System.out.println("--- END ---");
 			return;
 		}
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("\n\n--- START ---\n\n");
-		System.out.println("\nInside the Profile servlet doGet().");
-		System.out.println("\n\n--- END ---\n\n");
+		System.out.println("--- START ---");
+		System.out.println("Inside the Profile doGet() servlet.");
+		System.out.println("--- END ---");
 	}
 
 }

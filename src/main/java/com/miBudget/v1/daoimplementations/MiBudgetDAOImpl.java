@@ -240,7 +240,7 @@ public class MiBudgetDAOImpl {
 	
 	// Logic for Items we create
 	
-	public int addItemToUsersItemsTable(int item_table_id, User user) {
+	public int addItemToUsersItemsTable(int itemTableId, User user) {
 		SessionFactory factory = null;
     	Session session = null;
     	Transaction t = null;
@@ -250,7 +250,7 @@ public class MiBudgetDAOImpl {
 			session = factory.openSession();
 			int user_id = user.getId();
 			t = session.beginTransaction();
-			UsersItemsObject uiObj = new UsersItemsObject(item_table_id, user_id);
+			UsersItemsObject uiObj = new UsersItemsObject(itemTableId, user_id);
 //			session.createNativeQuery("INSERT INTO users_items ('item_id', 'user_id') " +
 //									  "VALUES (" + item_id + ", " + user_id + ")").executeUpdate();
 //			session.createNativeQuery("UPDATE users " + 
@@ -259,11 +259,11 @@ public class MiBudgetDAOImpl {
 //			update users set Items = "works" where Id = 2;
 			
 //			session.saveOrUpdate(user);
-			System.out.println("item_table_id: " + item_table_id);
+			System.out.println(uiObj);
 			session.save(uiObj);
 			t.commit();
 			session.close();
-			System.out.println("item_table_id: " + item_table_id + " added to \nuser: " + user.getFirstName() + " \nId: " + user.getId());
+			System.out.println(uiObj + " added to UsersItems table for: " + user.getFirstName() + ", Id: " + user.getId());
 			return 1;
 		} catch (NullPointerException e) {
 			System.out.println("Error connecting to DB");

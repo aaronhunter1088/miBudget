@@ -160,6 +160,7 @@
 						 		<form id="delete" method="post" onsubmit="return deleteAccount('<%= name %>');" action="Delete"> 
 							      	<input type="hidden" name="delete" value="account"></input>
 							      	<input type="hidden" name="currentId" value="<%= acctsForThisInstitutionId %>"></input>
+							      	<input type="hidden" name="itemTableId" value="<%= acct.getItemTableId() %>"></input>
 							      	<input type="hidden" name="accountId" value="<%= acct.getAccountId() %>"></input>
 								    <button id="deleteAccountBtn" name="deleteAccountForm" type="submit">Delete Account</button>
 								</form>
