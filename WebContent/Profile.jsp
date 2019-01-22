@@ -10,11 +10,7 @@
 	</head>
 	<body>
 		<h1>Welcome, <i>${Firstname}</i> : ${accountsSize}</h1><br>
-		<%
-		User user = (User)session.getAttribute("user");
-		if (!user.getFirstName().equals(null)) {
-		%>
-		<h1>Welcome, <i><%= user.getFirstName() %></i> : <%= user.getAccountIds().size() %></h1><%} %><!-- <input class="button" type="button" onclick="window.location.replace('Profile.jsp')" value="Profile" /> -->
+		<% User user = (User)session.getAttribute("user"); %>
 		<br>
 		<form action="Accounts" method="get">
 			<input class="button" type="submit" value="Accounts">

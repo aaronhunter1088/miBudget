@@ -64,6 +64,7 @@ public class Accounts extends HttpServlet {
 		if (requestSession != null && (Boolean)requestSession.getAttribute("isUserLoggedIn") == true) {
 			
 			User user = (User) request.getAttribute("user");
+			System.out.println("current user: " + user);
 			HashMap<String, Boolean> errMapForItems = new HashMap<>();
 			ArrayList<String> ids = (ArrayList<String>) requestSession.getAttribute("institutionIdsList");
 			ArrayList<Item> items = new ArrayList<>();
@@ -97,7 +98,7 @@ public class Accounts extends HttpServlet {
 					System.out.println(getRes.errorBody());
 				}
 			}
-			if (errMsg.equals("") == true) requestSession.setAttribute("change", "This text will change after using the Plaid Link Initializer.");
+			if (errMsg.equals("") ) requestSession.setAttribute("change", "This text will change after using the Plaid Link Initializer.");
 			else requestSession.setAttribute("change", errMsg);
 			requestSession.setAttribute("ErrMapForItems", errMapForItems);
 			System.out.println("Redirecting to Accounts.jsp.");

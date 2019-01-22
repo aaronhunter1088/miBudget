@@ -33,7 +33,6 @@ public class User implements Serializable {
 	public User(String cellphone, String password) {
 		this.cellphone = cellphone;
 		this.password = password;
-		createAccounts();
 	}
 	
 	/**
@@ -49,6 +48,7 @@ public class User implements Serializable {
 		this.cellphone = cellphone;
 		this.password = password;
 		createAccounts();
+		createCategories();
 	}
 	
 	/**
@@ -66,6 +66,7 @@ public class User implements Serializable {
 		this.password = password;
 		this.email = email;
 		createAccounts();
+		createCategories();
 	}
 	
 	/**
@@ -84,6 +85,7 @@ public class User implements Serializable {
 		this.password = password;
 		this.email = email;
 		createAccounts();
+		createCategories();
 	}
 	
 	/**
@@ -108,7 +110,7 @@ public class User implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id", updatable = false, nullable = false)
+	@Column(name="id", updatable=false, nullable=false)
 	private int id;
 	
 	@Column(name="first_name")
@@ -130,6 +132,8 @@ public class User implements Serializable {
 	@Transient
 	private ArrayList<String> accountIds; // will become budget_ids ...
 	
+	@Transient
+	private ArrayList<Category> categories;
 	/**
 	 * 
 	 */
@@ -182,11 +186,24 @@ public class User implements Serializable {
 	private void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public ArrayList<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(ArrayList<Category> categories) {
+		if (categories == null) {
+			createCategories();
+			return;
+		}
+		this.categories = categories;
+	}
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", cellphone=" + cellphone
-				+ ", password=" + password + ", email=" + email + ", accountIds=" + accountIds + "]";
+				+ ", password=" + password + ", email=" + email + ", accountIds=" + accountIds 
+				+ ", categories=" + categories + "]";
 	}
 
 	public static List<String> getAccountIds(User user) {
@@ -209,19 +226,42 @@ public class User implements Serializable {
 	 * @param itemSpecifics
 	 */
 	public void setAccountIds(ArrayList<String> accountIds) {
-		if (accountIds.size() == 0) {
+		if (accountIds == null) {
 			createAccounts();
+			return;
 		}
 		this.accountIds = accountIds;
 	}
 		
-	public ArrayList<String> createAccounts() {
+	public void createAccounts() {
 		
-		System.out.println("accountIds is null for new user...");
-		accountIds = new ArrayList<String>();
-		System.out.println("AccountsList has been created for " + this.firstname);
-		return accountIds;
+		System.out.println("accountIds is null for this user.");
+		this.accountIds = new ArrayList<>();
+		System.out.println("AccountsList has been created for this user.");
 		
+		
+	}
+	
+	public void createCategories() {
+		
+		System.out.println("categories is null for " + this.firstname + " " + this.lastname);
+		ArrayList<Category> categoriesList = new ArrayList<>();
+		Category morgtageCat = new Category("Mortgage", "USD", 1500.00);
+		categoriesList.add(morgtageCat);
+		Category utilitiesCat = new Category("Utilities", "USD", 500.00);
+		categoriesList.add(utilitiesCat);
+		Category transportCat = new Category("Transportation", "USD", 1000.00);
+		categoriesList.add(transportCat);
+		Category insuranceCat = new Category("Insurance", "USD", 200.00);
+		categoriesList.add(insuranceCat);
+		Category foodCat = new Category("Food", "USD", 500.00);
+		categoriesList.add(foodCat);
+		Category subscriptionsCat = new Category("Subscriptions", "USD", 500.00);
+		categoriesList.add(subscriptionsCat);
+		Category billsCat = new Category("Bills", "USD", 1000.00);
+		categoriesList.add(billsCat);
+		System.out.println("default categories list created for " + this.firstname + " " + this.lastname);
+		this.categories = categoriesList;
 	}
 
 	/* (non-Javadoc)

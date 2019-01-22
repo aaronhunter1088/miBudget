@@ -1,6 +1,8 @@
 package com.miBudget.v1.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -11,11 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.MappingException;
-import org.hibernate.SessionFactory;
 
 import com.miBudget.v1.daoimplementations.MiBudgetDAOImpl;
+import com.miBudget.v1.entities.Account;
 import com.miBudget.v1.entities.User;
-import com.miBudget.v1.utilities.HibernateUtilities;
 
 /**
  * Servlet implementation class Register
@@ -23,8 +24,6 @@ import com.miBudget.v1.utilities.HibernateUtilities;
 @WebServlet("/Register")
 public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	private final SessionFactory factory = HibernateUtilities.getSessionFactory();
 	
 	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
 
@@ -51,7 +50,6 @@ public class Register extends HttpServlet {
 		}
 	}
 	
-	@SuppressWarnings("null")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("--- START ---");
 		System.out.println("Inside the Register servlet.");
@@ -121,9 +119,9 @@ public class Register extends HttpServlet {
 			
 			// Create a new user
 //			User user = new User(allUsersListByCellphone.size()+1, firstname, lastname, cellphone, password);
-			User user = new User(firstname, lastname, userProvidedCellphone, password, email);
+			User regUser = new User(firstname, lastname, userProvidedCellphone, password, email);
 			System.out.println("user created...");
-			System.out.println("user cellphone: " + userProvidedCellphone);
+			System.out.println(regUser);
 			for (String currentCellphone : allCellphonesList) {
 				if (currentCellphone.equals(userProvidedCellphone)) {
 					System.out.println("a 'new user' is attempting to create a new account but they already exists.");
@@ -160,26 +158,41 @@ public class Register extends HttpServlet {
 					.forward(request, response);
 				// TODO: Print out a message to the user from the validation results.
 			} else if (!isRegistered && validated) {
-				System.out.println("An unregistered user is attempting to Register. They have valid inputs! Redirecting to Register page.");
+				System.out.println("An unregistered user is attempting to Register. They have valid inputs! Redirecting to Profile page.");
 				// use MiBudgetDAOImpl to save user
-				int verify = miBudgetDAOImpl.addUserToDatabase(user);
-				if (verify == 1)
+				int verify = miBudgetDAOImpl.addUserToDatabase(regUser);
+				if (verify == 0)
 					System.out.println("Failed to add user to database.");
-				else
+				else {
 					System.out.println("User added to database!");
-				String accounts = Integer.toString(User.getAccountIds(user).size());
-				System.out.println("accounts: " + accounts);
+					System.out.println(regUser.getFirstName() + " default categories saved.");
+				}
 				requestSession = request.getSession(true);
 				
 				System.out.println("requestSessionId: " + requestSession.getId());
-				requestSession.setAttribute("requestSession", requestSession);
-				requestSession.setAttribute("requestSessionId", requestSession.getId());
+//				requestSession.setAttribute("requestSession", requestSession);
+//				requestSession.setAttribute("requestSessionId", requestSession.getId());
+//				requestSession.setAttribute("isUserLoggedIn", true);
+//				requestSession.setAttribute("Firstname", firstname);
+//				requestSession.setAttribute("Lastname", lastname);
+//				requestSession.setAttribute("Cellphone", userProvidedCellphone); // Don't need
+//				requestSession.setAttribute("Accounts", accounts); // Replaced with acctsAndInstitutionIdMap
+//				requestSession.setAttribute("User", user); // add user object to requestSession object
+				
+				HashMap<String, ArrayList<Account>> acctsAndInstitutionIdMap = new HashMap<>();
+				ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(regUser);
+				
+				requestSession.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
+				requestSession.setAttribute("institutionIdsList", institutionIdsList);
+				requestSession.setAttribute("institutionIdsListSize", institutionIdsList.size());
+				requestSession.setAttribute("session", requestSession); // just a check
+				requestSession.setAttribute("sessionId", requestSession.getId()); // just a check
+				requestSession.setAttribute("isUserLoggedIn", true); // just a check
+				requestSession.setAttribute("Firstname", regUser.getFirstName());
+				requestSession.setAttribute("Lastname", regUser.getLastName());
+				requestSession.setAttribute("user", regUser); 
+				requestSession.setAttribute("accountsSize", 0);
 				requestSession.setAttribute("isUserLoggedIn", true);
-				requestSession.setAttribute("Firstname", firstname);
-				requestSession.setAttribute("Lastname", lastname);
-				requestSession.setAttribute("Cellphone", userProvidedCellphone);
-				requestSession.setAttribute("Accounts", accounts);
-				requestSession.setAttribute("User", user); // add user object to requestSession object
 				
 				System.out.println("Redirecting to Profile.jsp");
 				System.out.println("--- END ---");
@@ -193,6 +206,5 @@ public class Register extends HttpServlet {
 			System.out.println(e.getMessage());
 			System.out.println(e.getStackTrace());
 		} 
-		System.out.println("--- END ---");
 	}
 }

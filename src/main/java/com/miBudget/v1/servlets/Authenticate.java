@@ -385,10 +385,10 @@ public class Authenticate extends HttpServlet {
 		System.out.println("accountsRequestedList size is now " + after);
 		System.out.println("accountIdsRequestedList size: " + accountIdsRequestedList.size());
 
-		if (duplicateAcct) {
+		if (duplicateAcct && after > 0) {
 			System.out.println("You requested " + before + " but we can only add " + after + ".");
 			// Can continue with authenticate
-		} else if (duplicateBank) {
+		} else if (duplicateBank && after == 0) {
 			System.out.println("Trying to add duplicate bank...");
 			int numberOfAccounts = accountDAOImpl.getAccountIdsFromUser(user).size();
 			request.getSession(false).setAttribute("NoOfAccts", numberOfAccounts);
@@ -396,7 +396,7 @@ public class Authenticate extends HttpServlet {
 			response.setContentType("application/text");
 			response.getWriter().append(institutionId + " has already been added. We cannot add it again.");
 			System.out.println("NOT ALLOWED: " + institutionId + " has already been added. We cannot add it again.");
-			return "FAIL: Cannot add bank or duplicate accounts.";
+			return "FAIL: Cannot add duplicate bank.";
 		} else if (duplicateBank && duplicateAcct) {
 			System.out.println("Trying to add duplicate account(s)...");
 			int numberOfAccounts = accountDAOImpl.getAccountIdsFromUser(user).size();

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 19, 2019 7:43:03 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.miBudget.v1.entities.Rule" table="rules">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="amount" type="double">
+            <column name="amount" />
+        </property>
+        <property name="names" type="java.lang.String">
+            <column name="names" />
+        </property>
+    </class>
+</hibernate-mapping>

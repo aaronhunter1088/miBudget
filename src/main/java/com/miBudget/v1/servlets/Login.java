@@ -65,6 +65,7 @@ public class Login extends HttpServlet {
 
 		allUsersList = miBudgetDAOImpl.getAllUsers();
 		User loginUser = new User(cellphone, password);
+		System.out.println("loginUser: " + loginUser);
 		
 		// Validate user
 		System.out.println("validating user credentials...");
@@ -93,6 +94,7 @@ public class Login extends HttpServlet {
 		if (loginCredentials == true) {
 			ArrayList<String> accountIdsList = (ArrayList<String>) accountDAOImpl.getAllAccountsIds(loginUser);
 			loginUser.setAccountIds(accountIdsList);
+			loginUser.createCategories();
 			ArrayList<UsersItemsObject> allUsersItemsList = itemDAOImpl.getAllUserItems(loginUser);
 			
 			// Populate accounts and institutions map
@@ -109,12 +111,14 @@ public class Login extends HttpServlet {
 				}
 			}
 			
+			//loginUser.setCategories(miBudgetDAOImpl.getAllCategories(loginUser));
+			
 			// Populate errors map
 			
 			int accounts = accountIdsList.size();
 			session = request.getSession(true);
 			if (session == null || session.isNew()) {
-				System.out.println("Session is null");
+				System.out.println("session is null. setting session");
 				System.out.println("requestSessionId: " + session.getId());
 			} else {
 				System.out.println("Session already exists... but they're just logging in so get new session");
