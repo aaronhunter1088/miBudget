@@ -15,7 +15,7 @@
 <h1>Login</h1>	
 <form id="login_form" onsubmit="return validateFields()" method="post" action="Login">
   <div class="container">
-    <input type="hidden" name="Validated" value="false"></input>
+    <input type="hidden" name="validated" value="false"></input>
     <input type="hidden" name="btnSelected" value="Cancel"></input>
     <input type="text" placeholder="Enter cellphone" tabindex="1" name="Cellphone" value="" required>
 	<br/>
@@ -96,7 +96,7 @@ function validateFields() {
 		.find('input[name=Validated]')
 		.val("true");
 	}
-	
+
 	return validate;
 };
 </script>

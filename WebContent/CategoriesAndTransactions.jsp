@@ -68,6 +68,10 @@
  -->			<button type="submit">Profile</button>
 		</form>
 		<hr/>
+		<div style="width:100%">
+			<h3 style="display:inline;width:50%;float:left;text-align:left;">Categories</h3>
+			<h3 style="display:inline;width:50%;float:right;text-align:right;">Transactions</h3>
+		</div>
 		
 			
 <!-- 			<div class="border" style="width:815px;">
@@ -76,7 +80,7 @@
 					<form id="newCategoryForm" onsubmit="" method="post" action="CAT">
 						<div style="float:left; width:260px;" id="innerCategoryDiv">
 							<div class="input-group">
-							    <span class="input-group-addon"><i id="glyphiconRemove" class="glyphicon glyphicon-remove"></i></span>
+							    <span class="input-group-addon"><i id="glyphiconRemove" onclick="clearInput('categoryName')" class="glyphicon glyphicon-remove"></i></span>
 							    <input class="form-control" id="categoryName" type="text" style="width:205px;" placeholder="Name of Category" tabindex="1" name="categoryName" required>
 	 						</div>
  							<br/>
@@ -114,8 +118,8 @@
 									<p style="float:left;">If a transactions name is like:</p>
 									<br/>
 									<div class="input-group">
-								    	<span class="input-group-addon"><i id="glyphiconRemove" class="glyphicon glyphicon-remove"></i></span>
-								    	<input id="merchantsName" class="form-control" type="text" style="width: 205px; display:block; margin-left:0px;" placeholder="Merchants Name" tabindex="7" name="merchantsName" value="" required>
+								    	<span class="input-group-addon"><i id="glyphiconRemove" onclick="clearInput('merchantsName')" class="glyphicon glyphicon-remove"></i></span>
+								    	<input id="merchantsName" class="form-control" type="text" style="width: 205px; display:block; margin-left:0px;" placeholder="ex: McDs, Target, Sonic" tabindex="7" name="merchantsName" value="" required>
 								    </div>
 								</input>
 								
@@ -123,7 +127,7 @@
 							
 								
 							<br/>
-							<button type="submit" style="width:180px; margin-left:245px;" id="saveNewCategory">Save New Category</button>>
+							<button type="submit" style="width:180px; margin-left:0px;" id="saveNewCategory">Save New Category</button>
 						</div>
 					</form>
 					
@@ -173,15 +177,16 @@
 									<p style="float:left;">If a transactions name is like:</p>
 									<br/>
 									<div class="input-group">
-								    	<span class="input-group-addon"><i id="glyphiconRemove" class="glyphicon glyphicon-remove"></i></span>
-								    	<input id="merchantsName" class="form-control" type="text" style="width: 205px; display:block; margin-left:0px;" placeholder="Merchants Name" tabindex="7" name="merchantsName" value="" required>
+								    	<span class="input-group-addon"><i id="glyphiconRemove" onclick="clearInput('merchantsName2')" class="glyphicon glyphicon-remove"></i></span>
+								    	<input id="merchantsName2" class="form-control" type="text" style="width: 205px; display:block; margin-left:0px;" placeholder="ex: McDs, Target, Sonic" tabindex="7" name="merchantsName" value="" required>
 								    </div>
 								</input>
-								
+								<br/>
+								<button type="submit" style="width:110px; white-space: nowrap;" id="deleteSavedCategory">Delete Category</button>
+								<button type="submit" style="width:120px; white-space: nowrap;" id="savedUpdatedCategory">Save Category</button>
+								<br/>
 							</div>
 							<br/>
-							
-							<button type="submit" style="width:200px; margin-left:225px;" id="savedUpdatedCategory">Save Updated Category</button>>
 						</div>
 					</form>
 					<p id="checked" style="float:right; font-size:90%;" value="New Category" name="newCategory">Click for Your Categories</p>
@@ -190,13 +195,31 @@
 					
 				</div>
 				
-			
+				<!-- Form Line Divider -->
+				
 				<!-- Transactions form area -->
 				<div class="border" style="width:49%; float:right;">
-					<form id="transactions" onsubmit="" method="post" action="CAT">
-						<div>
-						
-						</div>
+					<form id="transactions" onsubmit="return validateFields()" method="post" action="CAT">
+						<div style="width:99%; display: inline-block;">
+							<input type="hidden" name="validated" value="false"></input>
+							<input type="text" name="numberOfTrans" class="form-control" style="vertical-align:center;horizontal-align:center;width:50px; display: inline-block;" placeholder="#"/>
+							<input id="currentAccount" name="currentAccount" class="form-control" list="accounts" type="text" style="width:200px; display: inline-block;" placeholder="Choose an Account" tabindex="1" name="account" required>
+							<datalist id="accounts">
+								<% HashMap<String, ArrayList<Account>> acctsMap = (HashMap<String, ArrayList<Account>>)
+										session.getAttribute("acctsAndInstitutionIdMap");
+								   for (String insId : acctsMap.keySet()) {
+								       for (Account acct : acctsMap.get(insId)) { %>
+								           <option value="<%= acct.getNameOfAccount() %>">
+								   <% } %>
+								<% } %>
+							</datalist>
+							<button type="submit" form="transactions" class="form-control" style="width:50px; display: inline-block;">Get</button>
+<!-- Moving to inside list	<input id="showET" name="showET" type="checkbox" unchecked value="showAddedTrans">Show Existing Transactions</input>
+ -->					</div>
+					</form>
+					
+					<form id="transactionsTable" onsubmit="" method="" action="CAT">
+					
 					</form>
 				</div>
 				
@@ -204,10 +227,105 @@
  -->
  
  <script>
-	
+ 	function clearInput(input) {
+		//alert("Clearing this text box.")
+		var target = input;
+		console.log('target: ' + target);
+		
+		if (target == "categoryName") {
+			console.log('target before: ' + $("#categoryName").val());
+			$("#categoryName").val("");
+			console.log('target after: ' + $("#categoryName").val());
+			
+		} else if (target == "merchantsName") {
+			console.log('target before: ' + $("#merchantsName").val());
+			$("#merchantsName").val("");
+			console.log('target after: ' + $("#merchantsName").val());
+		} else if (target == "merchantsName2") {
+			console.log('target before: ' + $("#merchantsName2").val());
+			$("#merchantsName2").val("");
+			console.log('target after: ' + $("#merchantsName2").val());
+		}
+		
+	};
+
+	function validateFields() {
+		let validate = true;
+		
+		// Check transactions count has value
+		let count = $("#transactions")
+		.find('input[name=numberOfTrans]')
+		.val();
+
+		if (count != "") {
+			console.log("count: " + count);
+		} else
+			validate = false;
+
+		// Check that an account was chosen
+		let account = $("#transactions")
+		.find('input[id=currentAccount]')
+		.val(); 
+
+		if (account != "") {
+			console.log("account: " + account);
+		} else
+			validate = false;
+
+		let checkbox = $("#showET").prop("checked"); // true or false
+		console.log("checkbox checked?: " + checkbox);
+		// either is okay. required when submitting transactions form
+
+		if (validate) {
+			console.log("form is good to send");
+			$("#transactions").find('input[name=validated]').val("true");
+			console.log("reset form's validated field to true.");
+		}
+		
+		
+		// return validate;
+		return false;
+	};
 
 	// onReady function
 	$(function() {
+		var acctsAndInsIdMap = function () {
+			var list = [];
+			var map = new Map();
+			var acctsAndInsIdMap = new Map();
+		    $.ajax({
+		        'type': "GET",
+		        'url': "Services",
+		        'data': { 'method': 'getAcctsAndInstitutionIdMap' },
+		        'success': function (data) {
+			        console.log("successful retrieval of acctAndInstitutionIdMap");
+			        console.log(JSON.parse(data));
+					map = JSON.parse(data);
+			        var mapIter = Object.keys(JSON.parse(data));
+			        
+		            for (const key in map) {
+						console.log('key: ' + key);
+						for (const acct in map[key]) {
+							console.log(map[key][acct]);
+							list.push(map[key][acct]);
+						}
+						acctsAndInsIdMap.set(key, list);
+		            }
+		        }
+		    });
+		    return acctsAndInsIdMap;
+		}(jQuery);
+		$("#transactions").find('input[name=numberOfTrans]').on('change', function () {
+			if ($("#transactions").find('input[name=numberOfTrans]').val() == "") {
+				$("#transactions").find('input[name=validated]').val("false");
+			}
+		})
+		$("#transactions").find('input[id=currentAccount]').on('change', function () {
+			if ($("#transactions").find('input[id=currentAccount]').val() == "" || 
+				$("#transactions").find('input[id=currentAccount]').val() == "Choose an Account" )
+
+				$("#transactions").find('input[name=validated]').val("false");
+		});
 		var categoriesMap = function () {
 		    var categoriesM = new Map();
 		    $.ajax({
@@ -228,11 +346,6 @@
 
 						category = {name: _name, amount: _budgetAmt, currency: _currency};
 						categoriesM.set(_name, category);
-						/* if (i == 0)
-							categoriesL += "{\"name\": \""+name+"\"" ;
-						else
-							categoriesL += "{,\"name\": \""+name+"\"" ;
-						categoriesL += ", \"budgetAmt\": \""+budgetAmt+"\"}"; */
 		            }
 		        }
 		    });
@@ -241,6 +354,7 @@
 		console.log(categoriesMap);
 		
 		$("#currentCategoryForm").hide();
+		$("#transactionsTable").hide();
 
 		$("#checked").on("mouseover", function() {
 			 document.body.style.cursor="pointer";
@@ -299,16 +413,13 @@
 			}
 		});
 
-		$("#glyphiconRemove").on("click", function() {
-			//alert("Clearing this text box.")
-			console.log("text before: " + $("#categoryName").val());
-			$("#categoryName").val("");
-			console.log("text after: " + $("#categoryName").val());
-
-			if ($("#merchantsName").val() != "") {
-				$("#merchantsName").val("");
-			};
-		});
+		/* $('input[type="checkbox"]'). click(function(){
+		if($(this). prop("checked") == true){
+		alert("Checkbox is checked." );
+		}
+		else if($(this). prop("checked") == false){
+		alert("Checkbox is unchecked." );
+		} */
 	});
 
  </script>

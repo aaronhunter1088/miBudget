@@ -2,6 +2,9 @@ package com.miBudget.v1.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,9 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
+import com.miBudget.v1.entities.Account;
 import com.miBudget.v1.entities.Category;
 import com.miBudget.v1.entities.User;
+import com.miBudget.v1.entities.UserAccountObject;
 import com.google.gson.Gson;
 import com.miBudget.v1.daoimplementations.MiBudgetDAOImpl;
 
@@ -29,6 +33,16 @@ public class Services extends HttpServlet {
     public Services() {
         super();
         // TODO Auto-generated constructor stub
+    }
+    
+    public String changeToJsonString(Object src) {
+    	
+    	// Convert list to json string
+		Gson gson = new Gson();
+		String srcAsJson = gson.toJson(src);
+		System.out.println("\nObject as Json String");
+		System.out.println(srcAsJson);
+		return srcAsJson;
     }
 
 	/**
@@ -47,21 +61,24 @@ public class Services extends HttpServlet {
 		
 		// Lists for requests
 		ArrayList<Category> categoriesList = null;
+		HashMap<String, ArrayList<UserAccountObject>> acctsAndInstitutionIdMap = null;
+		String res = new String();
 		
 		if (method != null) {
 			System.out.println("Method: " + method);
 			switch (method) {
 				case "getAllCategories" :   categoriesList = miBudgetDAOImpl.getAllCategories(user);
-											response.setStatus(HttpServletResponse.SC_OK);
+											res = changeToJsonString(categoriesList);
 											break;
+				case "getAcctsAndInstitutionIdMap" : acctsAndInstitutionIdMap = miBudgetDAOImpl.getAcctsAndInstutionIdMap(user); 
+													res = changeToJsonString(acctsAndInstitutionIdMap);
+													break;
 			}
-			// Convert list to json string
-			Gson gson = new Gson();
-			String catListAsJson = gson.toJson(categoriesList);
-			System.out.println(catListAsJson);
+			
 			
 			// Save json string to response
-			response.getWriter().append(catListAsJson);
+			response.getWriter().append(res);
+			response.setStatus(HttpServletResponse.SC_OK);
 		}
 		System.out.println("--- END ---");
 	}

@@ -294,6 +294,38 @@ public class AccountDAOImpl {
     }
     
     @SuppressWarnings("unchecked")
+    public static ArrayList<UserAccountObject> getAllUserAccountObjectsFromUserAndItemTableId(User user, int itemTableId) {
+    	ArrayList<UserAccountObject> accounts = new ArrayList<>();
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
+    	try {
+    		System.out.println("\nAttempting to execute getAllUsersAccounts for " + user.getFirstName() + " " + user.getLastName());
+    		factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
+			t = session.beginTransaction();
+			List<UserAccountObject> userAccountsFromDB = (List<UserAccountObject>) session
+					   .createNativeQuery("SELECT * FROM users_accounts " +
+							   			  "WHERE user_id = " + user.getId() + " " +
+							   			  "AND item_table_id = " + itemTableId)
+					   .addEntity(UserAccountObject.class).getResultList();
+			System.out.println("Query executed!");
+			for (Object id : userAccountsFromDB) {
+				accounts.add((UserAccountObject) id);
+			}
+			System.out.println("Returning " + accounts.size() + " accounts for " + itemTableId);
+			session.close();	
+    	} catch (Exception e) {
+    		System.out.println("Error connecting to DB");
+			System.out.println(e.getMessage());
+			t.rollback();
+			session.close();
+    	}
+    	return accounts;
+    	
+    }
+    
+    @SuppressWarnings("unchecked")
 	public ArrayList<UserAccountObject> getAllOfUsersAccounts() {
     	ArrayList<UserAccountObject> accounts = new ArrayList<>();
     	SessionFactory factory = null;
@@ -304,6 +336,7 @@ public class AccountDAOImpl {
     		factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
+			@SuppressWarnings("unchecked")
 			List<UserAccountObject> userAccountsFromDB = session
 					   .createNativeQuery("SELECT * FROM users_accounts")
 					   .addEntity(UserAccountObject.class)
