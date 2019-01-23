@@ -19,9 +19,8 @@ public class Logout extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
-		System.out.println("\nInside Logout servlet");
+		System.out.println("-- START --");
+		System.out.println("Inside Logout servlet");
 		HttpSession requestSession = request.getSession(true);
 //		HttpSession requestSession = (HttpSession) request.getAttribute("requestSession");
 		if (requestSession.getAttribute("isUserLoggedIn") == null)
@@ -30,9 +29,11 @@ public class Logout extends HttpServlet {
 			requestSession.setAttribute("isUserLoggedIn", false);
 			System.out.println("requestSessionId: " + requestSession.getId() + " invalidated!");
 			requestSession.invalidate();
+			System.out.println("-- END --");
 			response.sendRedirect("index.html");
 		} else { // there should not be an else needed here. 
 			System.out.println("Redirecting to index.html");
+			System.out.println("-- END --");
 			response.sendRedirect("index.html");
 		}
 	}

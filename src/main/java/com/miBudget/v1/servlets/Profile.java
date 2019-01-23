@@ -21,7 +21,7 @@ public class Profile extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("--- START ---");
-		System.out.println("\nInside the Profile doGet() servlet.");
+		System.out.println("Inside the Profile doGet() servlet.");
 		HttpSession requestSession = request.getSession(false);
 		if (requestSession != null && (Boolean)requestSession.getAttribute("isUserLoggedIn") == true) {
 			System.out.println("Redirecting to Profile.jsp");

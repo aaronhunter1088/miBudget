@@ -1,6 +1,7 @@
 package com.miBudget.v1.daoimplementations;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,8 +11,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.miBudget.v1.entities.Account;
+import com.miBudget.v1.entities.Category;
 import com.miBudget.v1.entities.Item;
 import com.miBudget.v1.entities.User;
+import com.miBudget.v1.entities.UserAccountObject;
 import com.miBudget.v1.entities.UsersItemsObject;
 import com.miBudget.v1.utilities.HibernateUtilities;
 
@@ -20,9 +23,124 @@ public class MiBudgetDAOImpl {
 	
 	public MiBudgetDAOImpl() {
     }
+	
+	// TODO: implement logic to return all categories saved
+	/**
+	 * This method returns all the categories that have been saved to MiBudget
+	 * @return
+	 */
+	public ArrayList<Category> getAllCategories() {
+		return null;
+	}
+	
+	/**
+	 * This method returns all the categories saved for a particular user
+	 * @param user
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public ArrayList<Category> getAllCategories(User user) {
+		SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
+		ArrayList<Category> categoriesFromDB = new ArrayList<>();
+		try {
+			System.out.println("\nAttempting to execute getAllCategories for " + user.getFirstName() + " " + user.getLastName());
+			factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
+			t = session.beginTransaction();
+			categoriesFromDB = (ArrayList<Category>) session
+					.createNativeQuery("SELECT * FROM users_categories "
+					   				 + "WHERE user_id = " + user.getId())
+					.addEntity(Category.class).getResultList();
+			System.out.println("Query executed. categories list populated from MiBudgetDAOImpl.");
+			System.out.println("Returning " + categoriesFromDB.size() + " categories for " + user.getFirstName() + " " + user.getLastName());
+			session.getTransaction().commit();
+			session.close();
+			if (categoriesFromDB.size() > 0) {
+				for ( Object category : categoriesFromDB) {
+					System.out.println(category);
+				}
+			} else {
+				System.out.println(user.getFirstName() + " " + user.getLastName() + " hasn't saved any categories yet. Getting default list");
+				categoriesFromDB = user.getCategories();
+			}
+			return categoriesFromDB;
+		} catch (Exception e) {
+			System.out.println("Error connecting to DB");
+			System.out.println(e.getMessage());
+			t.rollback();
+			session.close();
+		} 
+		return categoriesFromDB;
+	}
+	
+	/**
+	 * This method returns the accounts and its institution id.
+	 * TODO: Note that this uses UserAccountObject. This is correct. Change implementations
+	 * elsewhere to use UserAccountObject and not the Account object.
+	 * @param user
+	 * @return
+	 */
+	public HashMap<String, ArrayList<UserAccountObject>> getAcctsAndInstutionIdMap(User user) {
+		
+		HashMap<String, ArrayList<UserAccountObject>> mapToReturn = new HashMap<>();
+		ArrayList<String> insIdsList = new ArrayList<>();
+		ArrayList<UserAccountObject> acctsList = new ArrayList<>();
+		
+		try {
+			insIdsList = getInstitutionIdsFromUser(user);
+			for (String id : insIdsList) {
+				int itemTableId = ItemDAOImpl.getItemTableIdUsingInsId(id);
+				acctsList = AccountDAOImpl.getAllUserAccountObjectsFromUserAndItemTableId(user, itemTableId);
+				mapToReturn.put(id, acctsList);
+				System.out.println("id");
+				acctsList.forEach(acct -> {
+					System.out.println(acct);
+				});
+				System.out.println();
+			}
+			
+		} catch (Exception e) {
+    		System.out.println("An exception occurred!");
+			System.out.println(e.getMessage());
+		}
+		return mapToReturn;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static ArrayList<String> getInstitutionIdsFromUser(User user) {
+		SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
+		ArrayList<String> institutionIds = new ArrayList<>();
+		try {
+			System.out.println("\nAttempting to get all the institution_ids from " + user.getFirstName() + " " + user.getLastName());
+			factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
+			t = session.beginTransaction();
+			institutionIds = (ArrayList<String>) session
+					   .createNativeQuery("SELECT institution_id FROM users_institution_ids "
+					   					+ "WHERE user_id = " + user.getId()).getResultList();
+			System.out.println("Query executed. institutionIds list populated from MiBudgetDAOImpl.");
+			System.out.println("Returning " + institutionIds.size() + " institution ids for " + user.getFirstName() + " " + user.getLastName());
+			session.getTransaction().commit();
+			session.close();
+			for ( String id : institutionIds) {
+				System.out.println("institution_id: " + id);
+			}
+			return institutionIds;
+		} catch (Exception e) {
+			System.out.println("Error connecting to DB");
+			System.out.println(e.getMessage());
+			t.rollback();
+			session.close();
+		} 
+		return institutionIds;
+	}
     
-    // get the users institutuion ids from users_institution_ids table
-    public ArrayList<String> getAllInstitutionIdsFromUser(User user) {
+    @SuppressWarnings("unchecked")
+	public ArrayList<String> getAllInstitutionIdsFromUser(User user) {
     	SessionFactory factory = null;
     	Session session = null;
     	Transaction t = null;
@@ -32,18 +150,16 @@ public class MiBudgetDAOImpl {
 			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
-			List<?> institutionIdsFromDB = session
-					   .createNativeQuery("SELECT institution_id FROM users_institution_ids").getResultList();
-			System.out.println("Query executed!");
-			t.commit();
+			institutionIds = (ArrayList<String>) session
+					   .createNativeQuery("SELECT institution_id FROM users_institution_ids "
+					   					+ "WHERE user_id = " + user.getId()).getResultList();
+			System.out.println("Query executed. institutionIds list populated from MiBudgetDAOImpl.");
+			System.out.println("Returning " + institutionIds.size() + " institution ids for " + user.getFirstName() + " " + user.getLastName());
+			session.getTransaction().commit();
 			session.close();
-			Iterator<?> iterator = institutionIdsFromDB.iterator();
-			while (iterator.hasNext()) {
-				String id = iterator.next().toString();
-				institutionIds.add(id);
+			for ( String id : institutionIds) {
 				System.out.println("institution_id: " + id);
 			}
-			System.out.println("institution_ids list populated from MiBudgetDAOImpl\n");
 			return institutionIds;
 		} catch (Exception e) {
 			System.out.println("Error connecting to DB");
@@ -51,7 +167,7 @@ public class MiBudgetDAOImpl {
 			t.rollback();
 			session.close();
 		} 
-		return null;
+		return institutionIds;
     }
 	
     // SQL Implementation
@@ -90,6 +206,11 @@ public class MiBudgetDAOImpl {
     		t = session.beginTransaction();
     		session.save(user);
     		t.commit();
+    		for (Category c : user.getCategories()) {
+    			t = session.beginTransaction();
+    			session.save(c);
+    			session.getTransaction().commit();
+    		}
     		session.close();
 			return 1; // good
 		} catch (Exception e) {
@@ -153,9 +274,11 @@ public class MiBudgetDAOImpl {
 			System.out.println("Query executed! " + usersNoAccounts.size() + " users retrieved.");
 			int size = usersNoAccounts.size();
 			AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
+			// Populate users accountId's if they have any
 			for (User user : usersNoAccounts) {
 				ArrayList<String> accountIds = (ArrayList<String>) accountDAOImpl.getAccountIdsFromUser(user);
 				user.setAccountIds(accountIds);
+				user.createCategories();
 				System.out.println("userFromDB: " + user);
 				users.add(user);
 			}

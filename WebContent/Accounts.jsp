@@ -54,7 +54,6 @@
 		<% MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl(); %>
 		<% AccountDAOImpl accountDAOImpl = new AccountDAOImpl(); %>
 		<% ItemDAOImpl itemsDAOImpl = new ItemDAOImpl(); %>
-		<h1>Accounts Page for <%= user.getFirstName() %> <%= user.getLastName() %></h1>
 	
 		<form action="Profile" method="get"> <!-- think about chaning this call to get -->
 			<button type="submit">Profile Page</button>

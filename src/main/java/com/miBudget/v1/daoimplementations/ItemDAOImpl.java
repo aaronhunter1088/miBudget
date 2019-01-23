@@ -137,7 +137,7 @@ public class ItemDAOImpl {
 		return itemsList;
     }
     
-	public int getItemTableIdUsingInsId(String insId) {
+	public static int getItemTableIdUsingInsId(String insId) {
     	SessionFactory factory = null;
     	Session session = null;
     	Transaction t = null;

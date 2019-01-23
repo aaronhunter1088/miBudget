@@ -7,6 +7,7 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.SharedSessionContract;
 import org.hibernate.Transaction;
 
 import com.miBudget.v1.entities.Account;
@@ -97,8 +98,9 @@ public class AccountDAOImpl {
 		return userAccounts;
     }
     
-    public List<String> getAccountIdsFromUser(User user) {
-    	List<String> userAccounts = new ArrayList<>();
+    @SuppressWarnings("unchecked")
+	public ArrayList<String> getAccountIdsFromUser(User user) {
+    	ArrayList<String> usersAccounts = new ArrayList<>();
     	SessionFactory factory = null;
     	Session session = null;
     	Transaction t = null;
@@ -107,32 +109,29 @@ public class AccountDAOImpl {
 			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
-			List<?> userAccountsFromDB = session
+			usersAccounts = (ArrayList<String>) session
 					   .createNativeQuery("SELECT account_id FROM users_accounts " +
 							   			  "WHERE user_id = " + user.getId() )
 					   .getResultList();
 			System.out.println("Query executed!");
-			t.commit();
+			session.getTransaction().commit();
 			session.close();
-			if (userAccountsFromDB.size() == 0) {
-				System.out.println("This user currently doesn't have any accounts added.");
-				return userAccounts;
+			if (usersAccounts.size() == 0) {
+				System.out.println(user.getFirstName() + " " + user.getLastName() + " currently doesn't have any accounts added.");
+				return usersAccounts;
 			} else {
-				Iterator<?> iterator = userAccountsFromDB.iterator();
-				while (iterator.hasNext()) { 
-					String account_id = iterator.next().toString();
-					userAccounts.add(account_id);
-					System.out.println("account_id: " + account_id);
+				for (String acctId : usersAccounts) {
+					System.out.println("accountId: " + acctId);
 				}
 				System.out.println("accountsIds list populated from AccountDAOImpl\n");
-				return userAccounts;
+				return usersAccounts;
 			}
 		} catch (Exception e) {
 			System.out.println("Error connecting to DB");
 			System.out.println(e.getMessage());
 			session.close();
 		} 
-		return userAccounts;
+		return usersAccounts;
     }
 
     public int addAccountObjectToAccountsTableDatabase(com.miBudget.v1.entities.Account account) {
@@ -295,6 +294,38 @@ public class AccountDAOImpl {
     }
     
     @SuppressWarnings("unchecked")
+    public static ArrayList<UserAccountObject> getAllUserAccountObjectsFromUserAndItemTableId(User user, int itemTableId) {
+    	ArrayList<UserAccountObject> accounts = new ArrayList<>();
+    	SessionFactory factory = null;
+    	Session session = null;
+    	Transaction t = null;
+    	try {
+    		System.out.println("\nAttempting to execute getAllUsersAccounts for " + user.getFirstName() + " " + user.getLastName());
+    		factory = HibernateUtilities.getSessionFactory();
+			session = factory.openSession();
+			t = session.beginTransaction();
+			List<UserAccountObject> userAccountsFromDB = (List<UserAccountObject>) session
+					   .createNativeQuery("SELECT * FROM users_accounts " +
+							   			  "WHERE user_id = " + user.getId() + " " +
+							   			  "AND item_table_id = " + itemTableId)
+					   .addEntity(UserAccountObject.class).getResultList();
+			System.out.println("Query executed!");
+			for (Object id : userAccountsFromDB) {
+				accounts.add((UserAccountObject) id);
+			}
+			System.out.println("Returning " + accounts.size() + " accounts for " + itemTableId);
+			session.close();	
+    	} catch (Exception e) {
+    		System.out.println("Error connecting to DB");
+			System.out.println(e.getMessage());
+			t.rollback();
+			session.close();
+    	}
+    	return accounts;
+    	
+    }
+    
+    @SuppressWarnings("unchecked")
 	public ArrayList<UserAccountObject> getAllOfUsersAccounts() {
     	ArrayList<UserAccountObject> accounts = new ArrayList<>();
     	SessionFactory factory = null;
@@ -305,6 +336,7 @@ public class AccountDAOImpl {
     		factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
+			@SuppressWarnings("unchecked")
 			List<UserAccountObject> userAccountsFromDB = session
 					   .createNativeQuery("SELECT * FROM users_accounts")
 					   .addEntity(UserAccountObject.class)

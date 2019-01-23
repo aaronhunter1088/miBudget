@@ -32,21 +32,21 @@ public class ClientTest {
 			//t.commit();
 			hibernateSession.close();
 			//t = hibernateSession.beginTransaction();
-			User me = new User(20);
-			@SuppressWarnings("unchecked")
-			ArrayList<?> ids = miBudgetDAOImpl.getAllInstitutionIdsFromUser(me);
+			//User me = new User(20);
+			//@SuppressWarnings("unchecked")
+			//ArrayList<?> ids = miBudgetDAOImpl.getAllInstitutionIdsFromUser(me);
 			//t.commit();
 			//t = hibernateSession.beginTransaction();
 			//ArrayList<Item> items = new ArrayList<>();
 			//Item item = itemDAOImpl.getItemFromUser(ids.get(0).toString());
 			//System.out.println(item);//
-			for(int i = 0; i < ids.size(); i++) {
+			//for(int i = 0; i < ids.size(); i++) {
 				//String itemTableId = (String) itemsTableIdList.get(i);
-				Item item = itemDAOImpl.getItemFromUser(ids.get(i).toString());
-				System.out.println(item);
+			//	Item item = itemDAOImpl.getItemFromUser(ids.get(i).toString());
+			//	System.out.println(item);
 				//t.commit();
 				//t = hibernateSession.beginTransaction();
-			}
+			//}
 			//t.commit();
 			
 			//HibernateUtilities.shutdown();
