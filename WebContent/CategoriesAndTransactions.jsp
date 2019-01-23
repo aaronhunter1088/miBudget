@@ -345,7 +345,7 @@
 						console.log(_currency);
 
 						category = {name: _name, amount: _budgetAmt, currency: _currency};
-						categoriesM.set(_name, category);
+						categoriesM.set(_name, category); 
 		            }
 		        }
 		    });
