@@ -200,7 +200,7 @@
 				<!-- Transactions form area -->
 				<div class="border" style="width:49%; float:right;">
 					<form id="transactions" onsubmit="return validateFields()" method="post" action="CAT">
-						<div style="width:99%; display: inline-block;">
+						<div style="width:99%;text-align:center;display: inline-block;">
 							<input type="hidden" name="validated" value="false"></input>
 							<input type="text" name="numberOfTrans" class="form-control" style="vertical-align:center;horizontal-align:center;width:50px; display: inline-block;" placeholder="#"/>
 							<input id="currentAccount" name="currentAccount" class="form-control" list="accounts" type="text" style="width:200px; display: inline-block;" placeholder="Choose an Account" tabindex="1" name="account" required>
