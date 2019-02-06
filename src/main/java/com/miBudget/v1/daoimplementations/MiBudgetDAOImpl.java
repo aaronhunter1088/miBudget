@@ -115,7 +115,7 @@ public class MiBudgetDAOImpl {
     	Transaction t = null;
 		ArrayList<String> institutionIds = new ArrayList<>();
 		try {
-			System.out.println("\nAttempting to get all the institution_ids from " + user.getFirstName() + " " + user.getLastName());
+			System.out.println("\nAttempting to get all the institution_ids for " + user.getFirstName() + " " + user.getLastName());
 			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();

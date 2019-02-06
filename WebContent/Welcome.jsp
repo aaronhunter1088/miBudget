@@ -12,7 +12,7 @@
 	<head>
 		<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
 		<link href="wallet.ico" rel="icon" type="image/x-icon">
-		<title>Welcome</title>
+		<title>NO LONGER USED</title>
 		<link href="wallet.ico" rel="icon" type="image/x-icon">
 	</head>
 	<body>

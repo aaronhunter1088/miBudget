@@ -94,7 +94,7 @@ public class Login extends HttpServlet {
 		if (loginCredentials == true) {
 			ArrayList<String> accountIdsList = (ArrayList<String>) accountDAOImpl.getAllAccountsIds(loginUser);
 			loginUser.setAccountIds(accountIdsList);
-			loginUser.createCategories();
+			if (loginUser.getCategories().size() == 0) loginUser.createCategories();
 			ArrayList<UsersItemsObject> allUsersItemsList = itemDAOImpl.getAllUserItems(loginUser);
 			
 			// Populate accounts and institutions map

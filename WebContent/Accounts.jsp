@@ -28,9 +28,13 @@
 				width : 50px;
 				height: 50px;
 				border-style : solid;
+				cursor:pointer;
 			}
 			.images {
 				display: all; /* all */
+			}
+			button {
+				cursor:pointer;
 			}
 			.updateButton {
 			}
