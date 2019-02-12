@@ -209,29 +209,31 @@
 				
 		<!-- Transactions form area -->
 		<div class="border" style="width:49%; float:right;">
-			<form id="transactions" onsubmit="return validateFields()" method="post" action="CAT">
-				<div style="width:99%; text-align:center" >
+			<!-- <form id="transactions" onsubmit="return validateFields()" method="post" action="CAT"> -->
+				<div id="transactions" style="width:99%; text-align:center;">
 					<datalist id="accounts">
 						<% HashMap<String, ArrayList<Account>> acctsMap = (HashMap<String, ArrayList<Account>>)
 										session.getAttribute("acctsAndInstitutionIdMap");
-							for (String insId : acctsMap.keySet()) {
-								for (Account acct : acctsMap.get(insId)) { %>
-								    <option value="<%= acct.getNameOfAccount() %>">
-								<% } %>
-							<% } %>
+						   for (String insId : acctsMap.keySet()) {
+						       for (Account acct : acctsMap.get(insId)) { 
+							       String name = acct.getNameOfAccount(); %>
+								   <option><%= name %></option>
+							   <% } %>
+						   <% } 
+						%>
 					</datalist>
-					<input type="hidden" name="validated" value="false"></input>
+					<input type="hidden" name="validated" value="false"/>
+					<input type="hidden" name="formId" value="transactions"/>
 					<input type="text" name="numberOfTrans" class="form-control" style="width:50px; display:inline-block;" title="Enter the number of transactions you wish to receive" placeholder="#"/>
-					<input id="currentAccount" name="currentAccount" class="form-control" list="accounts" type="text" style="width:200px; display: inline-block;" placeholder="Choose an Account" tabindex="1" name="account" required>
-					<input type="submit" form="transactions" class="form-control" style="width:130px; display:inline-block;" value="Get Transactions"/>
-							
-							
-				</div>
-			</form>
+					<input id="currentAccount" name="currentAccount" class="form-control" list="accounts" type="text" style="width:200px; display: inline-block;" placeholder="Choose an Account" tabindex="1" name="account" required/>
 					
-			<form id="transactionsTable" onsubmit="" method="" action="CAT">
+					<input type="submit" onclick="validateFields('transactions')" class="form-control" style="width:130px; display:inline-block;" value="Get Transactions"/>
+				 </div> 
+			<!-- </form> -->
 					
-			</form>
+			<div id="transactionsTable">
+					
+			</div>
 		</div>
 		<script>
 			function clearInput(input) {
@@ -256,42 +258,58 @@
 				
 			};
 	
-			function validateFields() {
+			function validateFields(name) {
 				let validate = true;
+				let formName = "#"+name; // #transactions
 				
-				// Check transactions count has value
-				let count = $("#transactions")
-				.find('input[name=numberOfTrans]')
-				.val();
-		
-				if (count != "") {
-					console.log("count: " + count);
-				} else
-					validate = false;
-		
-				// Check that an account was chosen
-				let account = $("#transactions")
-				.find('input[id=currentAccount]')
-				.val(); 
-		
-				if (account != "") {
-					console.log("account: " + account);
-				} else
-					validate = false;
-		
-				let checkbox = $("#showET").prop("checked"); // true or false
-				console.log("checkbox checked?: " + checkbox);
-				// either is okay. required when submitting transactions form
-		
-				if (validate) {
-					console.log("form is good to send");
-					$("#transactions").find('input[name=validated]').val("true");
-					console.log("reset form's validated field to true.");
+				if (formName == "#transactions") {
+					// Check transactions count has value
+					let count = $("#transactions")
+					.find('input[name=numberOfTrans]')
+					.val();
+			
+					if (count != "") {
+						console.log("count: " + count);
+					} else
+						validate = false;
+			
+					// Check that an account was chosen
+					let account = $("#transactions")
+					.find('input[id=currentAccount]')
+					.val(); 
+			
+					if (account != "") {
+						console.log("account: " + account);
+					} else
+						validate = false;
+					//let checkbox = $("#showET").prop("checked"); // true or false
+					//console.log("checkbox checked?: " + checkbox);
+					// either is okay. required when submitting transactions form
+			
+					if (validate) {
+						console.log("form is good to send");
+						//$(formName).find('input[name=validated]').val("true");
+						console.log("making post request to CAT");
+						$.ajax({
+					        'type': "POST",
+					        'url': "CAT",
+					        'data': { 
+						        'numberOfTrans': count,
+								'currentAccount': account,
+								'validated': true,
+								'formId': name
+					        },				    
+					        'success': function (data) {
+						        console.log("response from CAT");
+						        console.log(data);
+					        }
+					    });
+					}
+					
 				}
 				
-				
-				// return validate;
-				return false;
+				//return validate;
+				//return false;
 			};
 		
 			// onReady function
@@ -426,7 +444,11 @@
 						console.log("user still needs to provide a category name");
 					}
 				});
-			});
+				$("#transactions").on('submit', function() {
+					
+				});
+				// Last line of on ready function
+			}); // End on ready function
 		</script>
 	</body>
 </html>

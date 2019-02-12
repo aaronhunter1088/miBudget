@@ -80,6 +80,9 @@ public class Accounts extends HttpServlet {
 				if (getRes.isSuccessful()) {
 					ItemStatus itemStatus = getRes.body().getItem();
 					ErrorResponse err = itemStatus.getError();
+					//TODO: refactor to get the ErrorType and match it against available ErrorCodes
+					// Item_Error, code Item_Login_Required
+					// Can specify different messages by confirming the exact error
 					if (err != null) {
 						if (err.getErrorType() == ErrorType.ITEM_ERROR) {
 							System.out.print("There is an Item_Error: ");

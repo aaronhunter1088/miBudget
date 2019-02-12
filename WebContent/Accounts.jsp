@@ -509,7 +509,7 @@
 					});
 				} else if (text != 'This text will change after using the Plaid Link Initializer.') {
 					// Default
-					$("[id='changingText']").fadeOut(8000, function() {
+					$("[id='changingText']").fadeOut(20000, function() {
 						$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
 						.css({ 'font-weight' : 'bold'});
 					});
