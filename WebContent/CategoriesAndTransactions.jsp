@@ -47,6 +47,21 @@
 			p.changingText {
 				font-weight: bold;
 			}
+			h1.font1 {
+				font-family: "Times New Roman", Times, serif;
+				font-weight: bold;
+				font-size: 2em;
+				margin-block-start: 0.67em;
+				margin-block-end: 0.67em;
+				margin-inline-start: 0px;
+				margin-inline-end: 0px;
+			}
+			p.a {
+			    font-family: "Times New Roman", Times, serif;
+			}
+			p.b {
+			    font-family: Arial, Helvetica, sans-serif;
+			}
 			.outertable {}
 			.innertable {
 				visibility: hidden; /* visible */
@@ -66,17 +81,19 @@
 		</style>
 	</head>
 	<body>
-		<h1>Categories and Transactions for <i>${Firstname} ${Lastname}</i></h1>
+		<h1 class="font1">Categories and Transactions for <i>${Firstname} ${Lastname}</i></h1>
 		<br/>
 		<% User user = (User)session.getAttribute("user"); %>
 		<% MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl(); %>
 		<% AccountDAOImpl accountDAOImpl = new AccountDAOImpl(); %>
 		<% ItemDAOImpl itemsDAOImpl = new ItemDAOImpl(); %>
-		<form action="Profile" method="get"> <!-- think about chaning this call to get -->
+		<div id="profileDiv" style="float:left; margin-left:50px;">
+			<form action="Profile" method="get"> <!-- think about chaning this call to get -->
 <!-- 			<input class="button" type="submit" value="Profile">
- -->			<button type="submit" style="left:3.5%; width:60px; position:relative; text-align:center">Profile</button>
-		</form>
-		<hr/>
+ -->			<button type="submit">Profile</button>
+			</form>
+		</div>
+		<br/>
 		<div style="text-align:center;width:100%">
 			<h3 style="display:inline;width:50%;float:left;text-align:center;">Categories</h3>
 			<h3 style="display:inline;width:50%;float:right;text-align:center;">Transactions</h3>
@@ -217,7 +234,7 @@
 						   for (String insId : acctsMap.keySet()) {
 						       for (Account acct : acctsMap.get(insId)) { 
 							       String name = acct.getNameOfAccount(); %>
-								   <option><%= name %></option>
+								   <option label="Account" value="<%= name %>"/>
 							   <% } %>
 						   <% } 
 						%>
@@ -235,6 +252,7 @@
 					
 			</div>
 		</div>
+	</body>
 		<script>
 			function clearInput(input) {
 				//alert("Clearing this text box.")
@@ -450,5 +468,4 @@
 				// Last line of on ready function
 			}); // End on ready function
 		</script>
-	</body>
 </html>

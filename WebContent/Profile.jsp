@@ -12,11 +12,22 @@
 		<link href="wallet.ico" rel="icon" type="image/x-icon">
 		<title>Profile</title>
 		<style>
+			h1.font1 {
+				font-family: "Times New Roman", Times, serif;
+			}
+			p.a {
+			    font-family: "Times New Roman", Times, serif;
+			}
+			
+			p.b {
+			    font-family: Arial, Helvetica, sans-serif;
+			}
 		</style>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
 	</head>
 	<body>
-		<h1>Welcome, <i>${Firstname}</i> : ${accountsSize}</h1><br>
+		<h1 class="font1">Welcome, <i>${Firstname}</i> : ${accountsSize}</h1>
+		<br>
 		<% User user = (User)session.getAttribute("user"); %>
 		<br>
 		<form action="Accounts" method="get">
@@ -39,4 +50,9 @@
 		
 		
 	</body>
+	<script>
+		$(function() {
+			
+		});
+	</script>
 </html>
