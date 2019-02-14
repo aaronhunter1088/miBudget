@@ -36,7 +36,7 @@ public class Register extends HttpServlet {
 		String btnSelected = request.getParameter("btnSelected");
 		response.reset();
 		if (btnSelected.equals("Cancel")) {
-			System.out.println("Redirecting to Index.html.");
+			System.out.println("Redirecting to index.html.");
 			System.out.println("--- END ---");
 			getServletContext().getRequestDispatcher("/index.html").forward(request, response);
 		} else if (btnSelected.equals("Register")) {

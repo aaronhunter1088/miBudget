@@ -9,6 +9,9 @@
 	color: black;
 	font-weight: bold;
 }
+.cursor {
+	cursor:pointer;
+}
 </style>
 </head>
 <body bgcolor="#32CD32">
@@ -30,11 +33,11 @@
     <br/>
     <!-- <button type="submit">Login</button> <!-- Calls doGet --> 
     <div class="clearfix">
-      <button type="submit" tabindex="3">Login</button>
-      <input class="button" type="button" onclick="window.location.replace('index.html')" value="Cancel" /> 
+      <button class="button cursor" type="submit" tabindex="3">Login</button>
+      <input class="button cursor" type="button" onclick="window.location.replace('index.html')" value="Cancel" /> 
     </div>
    	<hr/>
-   	<input class="button" type="button" onclick="window.location.replace('ForgotPassword.jsp')" value="Forgot Password" />
+   	<input class="button cursor" type="button" onclick="window.location.replace('ForgotPassword.jsp')" value="Forgot Password" />
   </div>
 </form>
 

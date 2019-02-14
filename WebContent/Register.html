@@ -5,10 +5,13 @@
 <title>Sign Up</title>
 <link rel="icon" type="image/x-icon" href="wallet.ico">
 <style>
-::placeholder {
-	color: black;
-	font-weight: bold;
-}
+	.cursor {
+		cursor:pointer;
+	}
+	::placeholder {
+		color: black;
+		font-weight: bold;
+	}	
 </style>
 </head>
 <body bgcolor="#1E90FF">
@@ -29,6 +32,7 @@
 	<hr/>
 	
 	<input type="text" placeholder="Enter email" tabindex="4" name="Email" required/>
+	<label id="emailLabel"><b><i>This will be used as a secondary contact!</i><b></label>
 	<br/>
 	<hr/>
 	
@@ -44,11 +48,11 @@
       <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"/> Remember me
     </label>
 
-    <p>By creating an account, you agree to our <a href="#" style="color:darkblue">Terms & Privacy</a>.</p>
+    <p>By creating an account, you agree to our <a href="#" title="TODO: Create a page showing Terms & Conditions!" style="color:darkblue">Terms & Conditions</a>.</p>
 
-    <div class="clearfix">
-      <input class="button" type="button" onclick="window.location.replace('index.html')" value="Cancel" />
-      <button type="submit" class="button" tabindex="6" value="SignUp">Sign Up</button>
+    <div>
+      <input class="button cursor" type="button" onclick="window.location.replace('index.html')" value="Cancel" />
+      <button type="submit" class="cursor" tabindex="6" value="SignUp">Sign Up</button>
     </div>
 </form>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>

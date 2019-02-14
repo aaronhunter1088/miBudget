@@ -1,343 +1,351 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>miBudget</groupId>
-  <artifactId>miBudget</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
-  <packaging>war</packaging>
-  <name>miBudget</name>
-  <dependencies>
-    <!-- https://mvnrepository.com/artifact/com.plaid/plaid-java -->
-	<dependency>
-	    <groupId>com.plaid</groupId>
-	    <artifactId>plaid-java</artifactId>
-	    <version>3.0.5</version>
-	</dependency>
-  	<!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
-	<dependency>
-	    <groupId>com.mchange</groupId>
-	    <artifactId>c3p0</artifactId>
-	    <version>0.9.5.2</version>
-	</dependency>
-  	<!-- https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy -->
-	<dependency>
-	    <groupId>net.bytebuddy</groupId>
-	    <artifactId>byte-buddy</artifactId>
-	    <version>1.9.5</version>
-	</dependency> 
-	<!-- https://mvnrepository.com/artifact/com.fasterxml/classmate -->
-	<dependency>
-	    <groupId>com.fasterxml</groupId>
-	    <artifactId>classmate</artifactId>
-	    <version>1.4.0</version>
-	</dependency>
-	<dependency>
-	    <groupId>org.geolatte</groupId>
-	    <artifactId>geolatte-geom</artifactId>
-	    <version>1.4.0</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-c3p0 -->
-	<dependency>
-	    <groupId>org.hibernate</groupId>
-	    <artifactId>hibernate-c3p0</artifactId>
-	    <version>5.4.0.CR2</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.hibernate.common/hibernate-commons-annotations -->
-	<dependency>
-	    <groupId>org.hibernate.common</groupId>
-	    <artifactId>hibernate-commons-annotations</artifactId>
-	    <version>5.1.0.Final</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
-	<dependency>
-	    <groupId>org.hibernate</groupId>
-	    <artifactId>hibernate-core</artifactId>
-	    <version>5.4.0.CR2</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-envers -->
-	<dependency>
-	    <groupId>org.hibernate</groupId>
-	    <artifactId>hibernate-envers</artifactId>
-	    <version>5.4.0.CR2</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-jpamodelgen -->
-	<dependency>
-	    <groupId>org.hibernate</groupId>
-	    <artifactId>hibernate-jpamodelgen</artifactId>
-	    <version>5.4.0.CR2</version>
-	    <scope>provided</scope>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-osgi -->
-	<dependency>
-	    <groupId>org.hibernate</groupId>
-	    <artifactId>hibernate-osgi</artifactId>
-	    <version>5.4.0.CR2</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-proxool -->
-	<dependency>
-	    <groupId>org.hibernate</groupId>
-	    <artifactId>hibernate-proxool</artifactId>
-	    <version>5.4.0.CR2</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-spatial -->
-	<dependency>
-	    <groupId>org.hibernate</groupId>
-	    <artifactId>hibernate-spatial</artifactId>
-	    <version>5.4.0.CR2</version>
-	</dependency>
-	<dependency>
-	    <groupId>org.jboss</groupId>
-	    <artifactId>jandex</artifactId>
-	    <version>2.0.5.Final</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
-	<dependency>
-	    <groupId>org.javassist</groupId>
-	    <artifactId>javassist</artifactId>
-	    <version>3.24.0-GA</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/javax.interceptor/javax.interceptor-api -->
-	<dependency>
-	    <groupId>javax.interceptor</groupId>
-	    <artifactId>javax.interceptor-api</artifactId>
-	    <version>1.2.2</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api -->
-	<dependency>
-	    <groupId>javax.persistence</groupId>
-	    <artifactId>javax.persistence-api</artifactId>
-	    <version>2.2</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.jboss.spec.javax.transaction/jboss-transaction-api_1.2_spec -->
-	<dependency>
-	    <groupId>org.jboss.spec.javax.transaction</groupId>
-	    <artifactId>jboss-transaction-api_1.2_spec</artifactId>
-	    <version>1.1.1.Final</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
-	<dependency>
-	    <groupId>org.apache.commons</groupId>
-	    <artifactId>commons-lang3</artifactId>
-	    <version>3.8.1</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
-	<dependency>
-	    <groupId>com.googlecode.json-simple</groupId>
-	    <artifactId>json-simple</artifactId>
-	    <version>1.1.1</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.antlr/antlr4 -->
-	<dependency>
-	    <groupId>org.antlr</groupId>
-	    <artifactId>antlr4</artifactId>
-	    <version>4.7.1</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-	<dependency>
-	    <groupId>mysql</groupId>
-	    <artifactId>mysql-connector-java</artifactId>
-	    <version>8.0.13</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.osgi/org.osgi.compendium -->
-	<dependency>
-	    <groupId>org.osgi</groupId>
-	    <artifactId>org.osgi.compendium</artifactId>
-	    <version>5.0.0</version>
-	    <scope>provided</scope>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.osgi/osgi.core -->
-	<dependency>
-	    <groupId>org.osgi</groupId>
-	    <artifactId>osgi.core</artifactId>
-	    <version>6.0.0</version>
-	    <scope>provided</scope>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
-	<dependency>
-	    <groupId>org.junit.jupiter</groupId>
-	    <artifactId>junit-jupiter-api</artifactId>
-	    <version>5.3.2</version>
-	    <scope>test</scope>
-	</dependency>
-    <!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-annotations-api -->
-	<dependency>
-	    <groupId>org.apache.tomcat</groupId>
-	    <artifactId>tomcat-annotations-api</artifactId>
-	    <version>9.0.13</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-catalina-ant -->
-	<dependency>
-	    <groupId>org.apache.tomcat</groupId>
-	    <artifactId>tomcat-catalina-ant</artifactId>
-	    <version>9.0.13</version>
-	    <scope>runtime</scope>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-catalina-ha -->
-	<dependency>
-	    <groupId>org.apache.tomcat</groupId>
-	    <artifactId>tomcat-catalina-ha</artifactId>
-	    <version>9.0.13</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-tribes -->
-	<dependency>
-	    <groupId>org.apache.tomcat</groupId>
-	    <artifactId>tomcat-tribes</artifactId>
-	    <version>9.0.13</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-catalina -->
-	<dependency>
-	    <groupId>org.apache.tomcat</groupId>
-	    <artifactId>tomcat-catalina</artifactId>
-	    <version>9.0.13</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.eclipse.jdt/ecj -->
-	<dependency>
-	    <groupId>org.eclipse.jdt</groupId>
-	    <artifactId>ecj</artifactId>
-	    <version>3.15.1</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-el-api -->
-	<dependency>
-	    <groupId>org.apache.tomcat</groupId>
-	    <artifactId>tomcat-el-api</artifactId>
-	    <version>9.0.13</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jasper-el -->
-	<dependency>
-	    <groupId>org.apache.tomcat</groupId>
-	    <artifactId>tomcat-jasper-el</artifactId>
-	    <version>9.0.13</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jasper -->
-	<dependency>
-	    <groupId>org.apache.tomcat</groupId>
-	    <artifactId>tomcat-jasper</artifactId>
-	    <version>9.0.13</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jaspic-api -->
-	<dependency>
-	    <groupId>org.apache.tomcat</groupId>
-	    <artifactId>tomcat-jaspic-api</artifactId>
-	    <version>9.0.13</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jsp-api -->
-	<dependency>
-	    <groupId>org.apache.tomcat</groupId>
-	    <artifactId>tomcat-jsp-api</artifactId>
-	    <version>9.0.13</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-servlet-api -->
-	<dependency>
-	    <groupId>org.apache.tomcat</groupId>
-	    <artifactId>tomcat-servlet-api</artifactId>
-	    <version>9.0.13</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-api -->
-	<dependency>
-	    <groupId>org.apache.tomcat</groupId>
-	    <artifactId>tomcat-api</artifactId>
-	    <version>9.0.13</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-coyote -->
-	<dependency>
-	    <groupId>org.apache.tomcat</groupId>
-	    <artifactId>tomcat-coyote</artifactId>
-	    <version>9.0.13</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-dbcp -->
-	<dependency>
-	    <groupId>org.apache.tomcat</groupId>
-	    <artifactId>tomcat-dbcp</artifactId>
-	    <version>9.0.13</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-i18n-es -->
-	<dependency>
-	    <groupId>org.apache.tomcat</groupId>
-	    <artifactId>tomcat-i18n-es</artifactId>
-	    <version>9.0.13</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-i18n-fr -->
-	<dependency>
-	    <groupId>org.apache.tomcat</groupId>
-	    <artifactId>tomcat-i18n-fr</artifactId>
-	    <version>9.0.13</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-i18n-ja -->
-	<dependency>
-	    <groupId>org.apache.tomcat</groupId>
-	    <artifactId>tomcat-i18n-ja</artifactId>
-	    <version>9.0.13</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jdbc -->
-	<dependency>
-	    <groupId>org.apache.tomcat</groupId>
-	    <artifactId>tomcat-jdbc</artifactId>
-	    <version>9.0.13</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jni -->
-	<dependency>
-	    <groupId>org.apache.tomcat</groupId>
-	    <artifactId>tomcat-jni</artifactId>
-	    <version>9.0.13</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-util-scan -->
-	<dependency>
-	    <groupId>org.apache.tomcat</groupId>
-	    <artifactId>tomcat-util-scan</artifactId>
-	    <version>9.0.13</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-util -->
-	<dependency>
-	    <groupId>org.apache.tomcat</groupId>
-	    <artifactId>tomcat-util</artifactId>
-	    <version>9.0.13</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-websocket -->
-	<dependency>
-	    <groupId>org.apache.tomcat</groupId>
-	    <artifactId>tomcat-websocket</artifactId>
-	    <version>9.0.13</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-websocket-api -->
-	<dependency>
-	    <groupId>org.apache.tomcat</groupId>
-	    <artifactId>tomcat-websocket-api</artifactId>
-	    <version>9.0.13</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/com.sun.xml.fastinfoset/FastInfoset -->
-	<dependency>
-	    <groupId>com.sun.xml.fastinfoset</groupId>
-	    <artifactId>FastInfoset</artifactId>
-	    <version>1.2.15</version>
-	</dependency>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+  
+    <groupId>miBudget</groupId>
+    <artifactId>miBudget</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>miBudget</name>
+  
+  	<properties>
+  		
+  	</properties>
+  	
+    <dependencies>
+	    <!-- https://mvnrepository.com/artifact/com.plaid/plaid-java -->
+		<dependency>
+		    <groupId>com.plaid</groupId>
+		    <artifactId>plaid-java</artifactId>
+		    <version>3.0.5</version>
+		</dependency>
+	  	<!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
+		<dependency>
+		    <groupId>com.mchange</groupId>
+		    <artifactId>c3p0</artifactId>
+		    <version>0.9.5.2</version>
+		</dependency>
+	  	<!-- https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy -->
+		<dependency>
+		    <groupId>net.bytebuddy</groupId>
+		    <artifactId>byte-buddy</artifactId>
+		    <version>1.9.5</version>
+		</dependency> 
+		<!-- https://mvnrepository.com/artifact/com.fasterxml/classmate -->
+		<dependency>
+		    <groupId>com.fasterxml</groupId>
+		    <artifactId>classmate</artifactId>
+		    <version>1.4.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.geolatte</groupId>
+		    <artifactId>geolatte-geom</artifactId>
+		    <version>1.4.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-c3p0 -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-c3p0</artifactId>
+		    <version>5.4.0.CR2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.hibernate.common/hibernate-commons-annotations -->
+		<dependency>
+		    <groupId>org.hibernate.common</groupId>
+		    <artifactId>hibernate-commons-annotations</artifactId>
+		    <version>5.1.0.Final</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-core</artifactId>
+		    <version>5.4.0.CR2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-envers -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-envers</artifactId>
+		    <version>5.4.0.CR2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-jpamodelgen -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-jpamodelgen</artifactId>
+		    <version>5.4.0.CR2</version>
+		    <scope>provided</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-osgi -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-osgi</artifactId>
+		    <version>5.4.0.CR2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-proxool -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-proxool</artifactId>
+		    <version>5.4.0.CR2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-spatial -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-spatial</artifactId>
+		    <version>5.4.0.CR2</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.jboss</groupId>
+		    <artifactId>jandex</artifactId>
+		    <version>2.0.5.Final</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
+		<dependency>
+		    <groupId>org.javassist</groupId>
+		    <artifactId>javassist</artifactId>
+		    <version>3.24.0-GA</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.interceptor/javax.interceptor-api -->
+		<dependency>
+		    <groupId>javax.interceptor</groupId>
+		    <artifactId>javax.interceptor-api</artifactId>
+		    <version>1.2.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api -->
+		<dependency>
+		    <groupId>javax.persistence</groupId>
+		    <artifactId>javax.persistence-api</artifactId>
+		    <version>2.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.jboss.spec.javax.transaction/jboss-transaction-api_1.2_spec -->
+		<dependency>
+		    <groupId>org.jboss.spec.javax.transaction</groupId>
+		    <artifactId>jboss-transaction-api_1.2_spec</artifactId>
+		    <version>1.1.1.Final</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.8.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+		<dependency>
+		    <groupId>com.googlecode.json-simple</groupId>
+		    <artifactId>json-simple</artifactId>
+		    <version>1.1.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.antlr/antlr4 -->
+		<dependency>
+		    <groupId>org.antlr</groupId>
+		    <artifactId>antlr4</artifactId>
+		    <version>4.7.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>8.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.osgi/org.osgi.compendium -->
+		<dependency>
+		    <groupId>org.osgi</groupId>
+		    <artifactId>org.osgi.compendium</artifactId>
+		    <version>5.0.0</version>
+		    <scope>provided</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.osgi/osgi.core -->
+		<dependency>
+		    <groupId>org.osgi</groupId>
+		    <artifactId>osgi.core</artifactId>
+		    <version>6.0.0</version>
+		    <scope>provided</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+		<dependency>
+		    <groupId>org.junit.jupiter</groupId>
+		    <artifactId>junit-jupiter-api</artifactId>
+		    <version>5.3.2</version>
+		    <scope>test</scope>
+		</dependency>
+	    <!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-annotations-api -->
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-annotations-api</artifactId>
+		    <version>9.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-catalina-ant -->
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-catalina-ant</artifactId>
+		    <version>9.0.13</version>
+		    <scope>runtime</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-catalina-ha -->
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-catalina-ha</artifactId>
+		    <version>9.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-tribes -->
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-tribes</artifactId>
+		    <version>9.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-catalina -->
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-catalina</artifactId>
+		    <version>9.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.eclipse.jdt/ecj -->
+		<dependency>
+		    <groupId>org.eclipse.jdt</groupId>
+		    <artifactId>ecj</artifactId>
+		    <version>3.15.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-el-api -->
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-el-api</artifactId>
+		    <version>9.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jasper-el -->
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-jasper-el</artifactId>
+		    <version>9.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jasper -->
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-jasper</artifactId>
+		    <version>9.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jaspic-api -->
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-jaspic-api</artifactId>
+		    <version>9.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jsp-api -->
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-jsp-api</artifactId>
+		    <version>9.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-servlet-api -->
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-servlet-api</artifactId>
+		    <version>9.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-api -->
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-api</artifactId>
+		    <version>9.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-coyote -->
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-coyote</artifactId>
+		    <version>9.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-dbcp -->
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-dbcp</artifactId>
+		    <version>9.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-i18n-es -->
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-i18n-es</artifactId>
+		    <version>9.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-i18n-fr -->
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-i18n-fr</artifactId>
+		    <version>9.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-i18n-ja -->
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-i18n-ja</artifactId>
+		    <version>9.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jdbc -->
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-jdbc</artifactId>
+		    <version>9.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jni -->
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-jni</artifactId>
+		    <version>9.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-util-scan -->
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-util-scan</artifactId>
+		    <version>9.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-util -->
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-util</artifactId>
+		    <version>9.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-websocket -->
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-websocket</artifactId>
+		    <version>9.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-websocket-api -->
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-websocket-api</artifactId>
+		    <version>9.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.sun.xml.fastinfoset/FastInfoset -->
+		<dependency>
+		    <groupId>com.sun.xml.fastinfoset</groupId>
+		    <artifactId>FastInfoset</artifactId>
+		    <version>1.2.15</version>
+		</dependency>
 	
   </dependencies>
   
   <build>
-    <sourceDirectory>src</sourceDirectory>
-    <resources>
-      <resource>
-        <directory>src</directory>
-        <includes>
-        	<include>**/*.java</include>
-        </includes>
-      </resource>
-    </resources>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.0</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>3.0.0</version>
-        <configuration>
-          <warSourceDirectory>WebContent</warSourceDirectory>
-        </configuration>
-      </plugin>
-    </plugins>
+  
+      <sourceDirectory>src/main/java</sourceDirectory>
+      
+      <testSourceDirectory>src/test/java</testSourceDirectory>
+      
+      <plugins>
+      	  <plugin>
+        	  <artifactId>maven-compiler-plugin</artifactId>
+        	  <version>3.8.0</version>
+        	  <configuration>
+          		  <source>1.8</source>
+          		  <target>1.8</target>
+        	  </configuration>
+      	  </plugin>
+          
+          <plugin>
+              <artifactId>maven-war-plugin</artifactId>
+              <version>3.0.0</version>
+              <configuration>
+                  <warSourceDirectory>WebContent</warSourceDirectory>
+              </configuration>
+           </plugin>
+           
+      </plugins>
+      
   </build>
+  
 </project>
