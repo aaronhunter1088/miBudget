@@ -96,17 +96,17 @@
 			</form>
 		</div>
 		<br/>
-		<div style="width:100%;">
+		<div style="text-align:center;width:100%;">
 			<h3 style="display:inline;width:50%;float:left;text-align:center;">Categories</h3>
 			<h3 style="display:inline;width:50%;float:right;text-align:center;">Transactions</h3>
-		
+		</div>
 			
-			<div id="categoriesDiv" class="border" style="width:49%; float:left;"> <!-- 425px -->
-				<p id="checked" style="float:right; font-size:90%;" value="New Category" name="newCategory">Click for Your Categories</p>
-				<br/>
+		<div id="categoryForms" class="border" style="width:49%; float:left;"> <!-- 425px -->
+			<p id="checked" style="float:right; font-size:90%;" value="New Category" name="newCategory">Click for Your Categories</p>
+			<br/>
+			<form id="newCategoryForm" onsubmit="" method="post" action="CAT">
 				
-				<!-- <form id="newCategoryForm" onsubmit="" method="post" action="CAT"> -->
-				<div id="newCategoryDiv" style="width:99%;">
+				<div style="width:99%;" id="innerCategoryDiv">
 					<div class="input-group" style="width:99%;">
 						<span class="input-group-addon">
 							<i id="glyphiconRemove" onclick="clearInput('categoryName')" class="glyphicon glyphicon-remove"></i>
@@ -114,7 +114,7 @@
 						<input class="form-control" id="categoryName" type="text" placeholder="Name of Category" tabindex="1" name="categoryName" required>
 	 				</div>
  					<br/>
-					<div style="width:99%;">
+					<div id="currencyBlock" style="width:99%;">
 						<input list="currencies" style="width:100px; display:inline-block; margin-left:50px;" placeholder="Currency" tabindex="2" name="currency" />
 						<!-- TODO: Once one is selected, list disappears basically. Figure out how to keep entire list. -->
 							<datalist id="currencies">
@@ -136,7 +136,7 @@
 						
 						<br/>
 						<div id="currencyBlock">
-							<input list="currencies" style="width:100px; display:block; float:left;" placeholder="Currency" tabindex="2" name="currency" />
+						<input id="currentCurrency" list="currencies" style="width:100px; display:block; float:left;" placeholder="Currency" tabindex="2" name="currency" />
 							<!-- TODO: Once one is selected, list disappears basically. Figure out how to keep entire list. -->
 							<datalist id="currencies">
 								<option value="USD">
@@ -144,7 +144,7 @@
 								<option value="Euro">
 								<option value="Mex$">
 							</datalist>
-							<input type="text" style="direction:RTL; width: 144px; display:block; margin-left:100px;" placeholder="Transaction Amount" tabindex="3" name="categoryAmt" value="" required>
+							<input id="budgetedAmt" type="text" style="direction:RTL; width: 144px; display:block; margin-left:100px;" placeholder="Transaction Amount" tabindex="3" name="categoryAmt" value="" required>
 						</div>	
 						<input id="transactionPrecendence" name="group1" value="precedenceName" style="float:right;" type="radio"/>
 						<p style="float:left;">If a transactions name is like:</p>
@@ -158,22 +158,15 @@
 					</div>
 					<br/>
 					<br/>
-					<div id="currentRules" style="width:99%;">
-						<p>This div should be scrollable</p>
-						<p>It will dynamically list the rules the user has added to a new category.</p>
-						<p>Once rule is saved, user should have the freedom to edit any value right there. When category is saved the last
-						value inside each rule will be used as the ultimate decision for the rule. Also, all inputs for rules will be cleared.</p>
-					</div>
-					<br/>
-					<br/>
 					<button type="submit" style="float:left; left:19%; width:180px; white-space: nowrap;" tabindex="7" id="saveRuleToCategory">Add Rule(s) to Category</button>
 					<button type="submit" style="float:left; left:70%; width:150px; white-space: nowrap;" tabindex="8" id="saveNewCategory">Save New Category</button>
 					<br/>
 					<br/>
 				</div>
-						
-				<!-- <form id="currentCategoryForm" onsubmit="" method="post" action="CAT"> -->
-				<div id="currentCategoryDiv" style="width:99%;">
+			</form>
+					
+			<form id="currentCategoryForm" onsubmit="" method="post" action="CAT">
+				<div style="width:99%; id="innerCategoryDiv">
 					<div class="input-control">
 						<input id="currentCategory"  class="form-control" list="categories" type="text" style="width:244px; width:99%;" placeholder="Choose a Category" tabindex="1" name="categoryName" required/>
 							<datalist id="categories">
@@ -185,7 +178,7 @@
 					</div>
 					<br/>
 					<div id="currencyBlock" style="width:99%;">
-						<input id="currentCurrency" list="currencies" style="width:100px; display:inline-block; margin-left:50px;" placeholder="Currency" tabindex="2" name="currency" />
+						<input list="currencies" style="width:100px; display:inline-block; margin-left:50px;" placeholder="Currency" tabindex="2" name="currency" />
 						<!-- TODO: Once one is selected, list disappears basically. Figure out how to keep entire list. -->
 							<datalist id="currencies">
 								<option value="USD">
@@ -193,7 +186,7 @@
 								<option value="Euro">
 								<option value="Mex$">
 							</datalist>
-						<input id="budgetedAmt" type="text" style="direction:RTL; width: 144px; display:inline-block; margin-left:75px;" placeholder="Budgeted Amount" tabindex="3" name="categoryAmt" value="" required>
+						<input type="text" style="direction:RTL; width: 144px; display:inline-block; margin-left:75px;" placeholder="Budgeted Amount" tabindex="3" name="categoryAmt" value="" required>
 					</div>
 					<br/>
 					<p style="text-align:center;">Rules</p>
@@ -214,7 +207,7 @@
 								<option value="Euro">
 								<option value="Mex$">
 							</datalist>
-							<input type="text" style="direction:RTL; width: 144px; display:block; margin-left:100px;" placeholder="Transaction Amount" tabindex="3" name="categoryAmt" value="" required>
+							<input id="budgetedAmt" type="text" style="direction:RTL; width: 144px; display:block; margin-left:100px;" placeholder="Transaction Amount" tabindex="3" name="categoryAmt" value="" required>
 						</div>	
 						<input id="transactionPrecendence" name="group2" value="precedenceName" style="float:right;" type="radio"/>
 						<p style="float:left;">If a transactions name is like:</p>
@@ -228,25 +221,20 @@
 					</div>
 					<br/>
 					<br/>
-					<div id="currentRules" style="width:99%;">
-						<p>This div should be scrollable</p>
-						<p>Rule 1</p>
-						<p>Rule 2</p>
-					</div>
-					<br/>
-					<br/>
 					<button type="submit" style="float:left; left:19%; width:130px; white-space: nowrap;" id="deleteCategory">Delete Category</button>
 					<button type="submit" style="float:left; left:70%; width:130px; white-space: nowrap;" id="updateCategory">Update Category</button>
 					<br/>
 					<br/>
 				</div>
-						
-			</div> <!-- Ends New Categories Div -->
+			</form>
 					
-			<!-- Form Line Divider -->
-					
-			<div id="transactionsDiv" class="border" style="width:49%; float:right;"> <!-- Start Transactions Div -->
-				<div id="getTransactionsDiv" style="width:99%; text-align:center;">
+		</div>
+				
+		<!-- Form Line Divider -->
+				
+		<div class="border" style="width:49%; float:right;">
+			<!-- <form id="transactions" onsubmit="return validateFields()" method="post" action="CAT"> -->
+				<div id="transactions" style="width:99%; text-align:center;">
 					<datalist id="accounts">
 						<% HashMap<String, ArrayList<Account>> acctsMap = (HashMap<String, ArrayList<Account>>)
 										session.getAttribute("acctsAndInstitutionIdMap");
@@ -263,14 +251,13 @@
 					<input type="text" name="numberOfTrans" class="form-control" style="width:50px; display:inline-block;" title="Enter the number of transactions you wish to receive" placeholder="#"/>
 					<input id="currentAccount" name="currentAccount" class="form-control" list="accounts" type="text" style="width:200px; display: inline-block;" placeholder="Choose an Account" tabindex="1" name="account" required/>
 					
-					<input id="getTransactions" type="submit" onclick="validateFields('transactions')" class="form-control" style="width:130px; display:inline-block;" value="Get Transactions"/>
+					<input type="submit" onclick="validateFields('transactions')" class="form-control" style="width:130px; display:inline-block;" value="Get Transactions"/>
 				 </div> 
-						
-				<div id="transactionsTable">
-						
-				</div>
+			<!-- </form> -->
+					
+			<div id="transactionsTable">
+					
 			</div>
-			
 		</div>
 		<script>
 			function clearInput(input) {
@@ -311,12 +298,12 @@
 						validate = false;
 			
 					// Check that an account was chosen
-					let accountName = $("#transactions")
+					let account = $("#transactions")
 					.find('input[id=currentAccount]')
 					.val(); 
 			
-					if (accountName != "") {
-						console.log("accountName: " + accountName);
+					if (account != "") {
+						console.log("account: " + account);
 					} else
 						validate = false;
 					//let checkbox = $("#showET").prop("checked"); // true or false
@@ -332,14 +319,13 @@
 					        'url': "CAT",
 					        'data': { 
 						        'numberOfTrans': count,
-								'currentAccount': accountName,
+								'currentAccount': account,
 								'validated': true,
 								'formId': name
 					        },				    
 					        'success': function (data) {
 						        console.log("response from CAT");
 						        console.log(data);
-						        console.log("eventually, hide this #transactions form/div and show  transactionsTable.");
 					        }
 					    });
 					}
@@ -420,7 +406,7 @@
 				console.log('categoriesMap');
 				console.log(categoriesMap);
 				
-				$("#currentCategoryDiv").hide();
+				$("#currentCategoryForm").hide();
 				$("#transactionsTable").hide();
 		
 				$("#checked").on("mouseover", function() {
@@ -432,14 +418,14 @@
 				$("#checked").on("click", function() {
 					if ($("#checked").text() == "Click for Your Categories")  {
 						console.log("activating current categories list...");
-						$("#newCategoryDiv").hide();
-						$("#currentCategoryDiv").show();
+						$("#newCategoryForm").hide();
+						$("#currentCategoryForm").show();
 						$("#checked").text("Click for New Categories");
 						
 					} else {
 						console.log("activating new categories view...");
-						$("#currentCategoryDiv").hide();
-						$("#newCategoryDiv").show();
+						$("#currentCategoryForm").hide();
+						$("#newCategoryForm").show();
 						$("#checked").text("Click for Your Categories");
 					}
 				});
@@ -458,13 +444,13 @@
 						var budgetText = category.amount;
 						var currency = category.currency;
 						switch (text) {
-							case "Mortgage" : $("#budgetedAmt").val(budgetText); $('[id="currentCurrency"]').val(currency); break;
-							case "Utilities" : $("#budgetedAmt").val(budgetText); $('[id="currentCurrency"]').val(currency); break;
-							case "Transportation" : $("#budgetedAmt").val(budgetText); $('[id="currentCurrency"]').val(currency); break;
-							case "Insurance" : $("#budgetedAmt").val(budgetText); $('[id="currentCurrency"]').val(currency); break;
-							case "Food" : $("#budgetedAmt").val(budgetText); $('[id="currentCurrency"]').val(currency); break;
-							case "Subscriptions" : $("#budgetedAmt").val(budgetText); $('[id="currentCurrency"]').val(currency); break;
-							case "Bills" : $("#budgetedAmt").val(budgetText); $('[id="currentCurrency"]').val(currency); break;
+							case "Mortgage" : $("#budgetedAmt").val(budgetText); $("#currentCurrency").val(currency); break;
+							case "Utilities" : $("#budgetedAmt").val(budgetText); $("#currentCurrency").val(currency); break;
+							case "Transportation" : $("#budgetedAmt").val(budgetText); $("#currentCurrency").val(currency); break;
+							case "Insurance" : $("#budgetedAmt").val(budgetText); $("#currentCurrency").val(currency); break;
+							case "Food" : $("#budgetedAmt").val(budgetText); $("#currentCurrency").val(currency); break;
+							case "Subscriptions" : $("#budgetedAmt").val(budgetText); $("#currentCurrency").val(currency); break;
+							case "Bills" : $("#budgetedAmt").val(budgetText); $("#currentCurrency").val(currency); break;
 						}		
 					} else {
 						$("#budgetedAmt").val("");
@@ -482,7 +468,9 @@
 						console.log("user still needs to provide a category name");
 					}
 				});
-				
+				$("#transactions").on('submit', function() {
+					
+				});
 				// Last line of on ready function
 			}); // End on ready function
 		</script>

@@ -5,6 +5,7 @@
     <%@ page import="java.util.List" %>
     <%@ page import="java.util.Arrays" %>
     <%@ page import="java.util.ArrayList" %>
+    <%@ page import="java.time.*" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -21,6 +22,16 @@
 			
 			p.b {
 			    font-family: Arial, Helvetica, sans-serif;
+			}
+			.footer {
+			    position: fixed;
+			    left: 0;
+			    bottom: 0;
+			    width: 100%;
+			    background-color: white;
+			    color: black;
+			    text-align: center;
+			    text-size: 30%;
 			}
 		</style>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
@@ -47,6 +58,9 @@
 		</form>
 		<hr>
 		<p>Session object user firstname='${Firstname}' lastname='${Lastname}'</p>
+		<br/>
+		<br/>
+		<p id="date" class="footer" style="text-align:center">${instantNow}</p>
 		
 		
 	</body>

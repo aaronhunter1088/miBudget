@@ -18,7 +18,6 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<link rel="icon" type="image/x-icon" href="wallet.ico">
 		<title>Accounts</title>
 		<link rel="icon" type="image/x-icon" href="wallet.ico">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
@@ -44,6 +43,15 @@
 			p.changingText {
 				font-weight: bold;
 			}
+			h1.font1 {
+				font-family: "Times New Roman", Times, serif;
+				font-weight: bold;
+				font-size: 2em;
+				margin-block-start: 0.67em;
+				margin-block-end: 0.67em;
+				margin-inline-start: 0px;
+				margin-inline-end: 0px;
+			}
 			.outertable {}
 			.innertable {
 				visibility: hidden; /* visible */
@@ -52,7 +60,7 @@
 		</style>
 	</head>
 	<body>
-		<h1>Accounts Page for ${Firstname} ${Lastname}</h1>
+		<h1 class="font1">Accounts Page for <i>${Firstname} ${Lastname}</i></h1>
 		<br/>
 		<% User user = (User)session.getAttribute("user"); %>
 		<% MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl(); %>

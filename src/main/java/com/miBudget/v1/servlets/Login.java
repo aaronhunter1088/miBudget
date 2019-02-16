@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.time.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -62,6 +63,7 @@ public class Login extends HttpServlet {
 		boolean loginCredentials = false;
 		List<User> allUsersList = null;
 		HttpSession session = request.getSession(false);
+		Instant instantNow = Instant.now();
 
 		allUsersList = miBudgetDAOImpl.getAllUsers();
 		User loginUser = new User(cellphone, password);
@@ -137,59 +139,8 @@ public class Login extends HttpServlet {
 			session.setAttribute("user", loginUser); 
 			session.setAttribute("accountsSize", accounts);
 			session.setAttribute("isUserLoggedIn", true);
-		}
-		
-		
-//			for (User user : allUsersList) {
-//			System.out.println("user from allUsersList: " + user.getCellphone() + ", " + user.getPassword());
-//			// if a registered user's cellphone and password are equal to the user's input
-//			if (user.getCellphone().equals(cellphone) && user.getPassword().equals(password)) {
-//				// registered user
-//				System.out.println("Registered user. Logging in");
-//				ArrayList<String> accountIdsList = (ArrayList<String>) accountDAOImpl.getAllAccountsIds(user);
-//				user.setAccountIds(accountIdsList);
-//				int accounts = accountIdsList.size();
-//				loginCredentials = true;
-//				session = request.getSession(true);
-//				if (session == null || session.isNew()) {
-//					System.out.println("Session is null");
-//					System.out.println("requestSessionId: " + session.getId());
-////					requestSession.setMaxInactiveInterval(0);
-////					requestSession.setAttribute("requestSession", request.getSession(true));
-//					ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
-//					session.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
-//					session.setAttribute("institutionIdsList", institutionIdsList);
-//					session.setAttribute("institutionIdsListSize", institutionIdsList.size());
-//					session.setAttribute("sessionId", session.getId());
-//					session.setAttribute("session", session); // just a check
-//					session.setAttribute("isUserLoggedIn", true);
-//					session.setAttribute("Firstname", user.getFirstName());
-//					session.setAttribute("Lastname", user.getLastName());
-//					session.setAttribute("user", user); // user.toJsonArray()
-//					session.setAttribute("accountsSize", accounts);
-//					for(String account_id : User.getAccountIds(user)) {
-//						System.out.println("accounts when logging in: " + account_id);
-//					}
-//				} else {
-//					System.out.println("Session already exists... but they're just logging in so get new session");
-//					session = request.getSession(true);
-////					requestSession.setMaxInactiveInterval(0); // just a check
-//					ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
-//					session.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
-//					session.setAttribute("institutionIdsList", institutionIdsList);
-//					session.setAttribute("institutionIdsListSize", institutionIdsList.size());
-//					session.setAttribute("session", session); // just a check
-//					session.setAttribute("sessionId", session.getId()); // just a check
-//					session.setAttribute("isUserLoggedIn", true); // just a check
-//					session.setAttribute("Firstname", user.getFirstName());
-//					session.setAttribute("Lastname", user.getLastName());
-//					session.setAttribute("user", user); 
-//					session.setAttribute("accountsSize", accounts);
-//				}
-//			} 
-//		} // end for all
-		
-		if (loginCredentials == true) {
+			session.setAttribute("instantNow", instantNow);
+		    
 			System.out.println("Redirecting to Profile.jsp");
 			System.out.println("--- END ---");
 			response.sendRedirect("Profile.jsp");

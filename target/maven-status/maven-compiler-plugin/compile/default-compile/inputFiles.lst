@@ -1,4 +1,3 @@
-/Users/michaelball/git/miBudget/src/test/java/com/miBudget/v1/utilities/test/TestLog4jServlet.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/MiBudget.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/Delete.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/utilities/HibernateUtilities.java
@@ -18,7 +17,6 @@
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/Accounts.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/entities/UsersInstitutionIdsObject.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/CAT.java
-/Users/michaelball/git/miBudget/src/test/java/com/miBudget/v1/database/test/DatabaseConnectionTest.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/services/UserServices.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/entities/Rule.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/utilities/ContextListener.java
@@ -27,7 +25,6 @@
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/main/Main.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/entities/Item.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/daoimplementations/ItemDAOImpl.java
-/Users/michaelball/git/miBudget/src/test/java/com/miBudget/v1/servlets/test/LoginTest.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/ForgotPassword.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/Test.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/entities/ItemAccountObject.java

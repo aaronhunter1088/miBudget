@@ -1,6 +1,7 @@
 package com.miBudget.v1.servlets;
 
 import java.io.IOException;
+import java.time.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,13 +23,15 @@ public class Profile extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("--- START ---");
 		System.out.println("Inside the Profile doGet() servlet.");
-		HttpSession requestSession = request.getSession(false);
-		if (requestSession != null && (Boolean)requestSession.getAttribute("isUserLoggedIn") == true) {
+		HttpSession session = request.getSession(false);
+		if (session != null && (Boolean)session.getAttribute("isUserLoggedIn") == true) {
 			System.out.println("Redirecting to Profile.jsp");
 			System.out.println("--- END ---");
+			// Update time
+			session.setAttribute("instantNow", Instant.now());
 			response.sendRedirect("Profile.jsp");
 		} else {
-			// User is not logged in or the requestSession is null
+			// User is not logged in or the session is null
 			System.out.println("Redirecting to Login.html");
 			System.out.println("--- END ---");
 			response.sendRedirect("Login.html");
@@ -47,6 +50,8 @@ public class Profile extends HttpServlet {
         	System.out.println("NumberOfAccounts: " + (Integer) session.getAttribute("accountsSize"));
         	System.out.println("Redirecting to Profile.jsp");
         	System.out.println("--- END ---");
+        	// Update time
+        	session.setAttribute("instantNow", Instant.now());
         	getServletContext().getRequestDispatcher("/Profile.jsp").forward(request, response);
         }  
         else { 
