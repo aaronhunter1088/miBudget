@@ -54,7 +54,7 @@ public class HibernateUtilities {
 	            		.addAnnotatedClass(com.miBudget.v1.entities.Category.class)
 						.addAnnotatedClass(com.miBudget.v1.entities.Rule.class);
 				sessionFactory = new Configuration(sources)
-	            		.configure()
+	            		.configure("hibernate.cfg.xml")
 	            		.buildSessionFactory();
 				newSessionFactory = true;
 	         }

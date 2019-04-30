@@ -4,7 +4,7 @@
 <hibernate-configuration>
  <session-factory>
   <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-  <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/mibudget?useSSL=false</property>
+  <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/mibudget?useSSL=false&amp;serverTimezone=UTC</property>
   <property name="hibernate.connection.username">michaelball</property>
   <property name="hibernate.connection.password">rootpassword</property>
   <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
@@ -36,9 +36,6 @@
   <mapping class="com.miBudget.v1.entities.ItemAccountObject" resource="com/miBudget/v1/entities/ItemAccountObject.hbm.xml"/>
   <mapping class="com.miBudget.v1.entities.UsersInstitutionIdsObject" resource="com/miBudget/v1/entities/UsersInstitutionIdsObject.hbm.xml"/>
   <mapping class="com.miBudget.v1.entities.UsersItemsObject" resource="com/miBudget/v1/entities/UsersItemsObject.hbm.xml"/>
-  <mapping class="com.miBudget.v1.entities.Category" resource="com/miBudget/v1/entities/Category.hbm.xml"/>
-  <mapping class="com.miBudget.v1.entities.Rule" resource="com/miBudget/v1/entities/Rule.hbm.xml" />
-  <!-- <mapping class="com.miBudget.v1" resource="com/miBudget/v1" /> -->
   <!-- Related to the mapping end -->
  </session-factory>
 </hibernate-configuration>
