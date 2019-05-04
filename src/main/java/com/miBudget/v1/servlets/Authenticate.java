@@ -1,10 +1,8 @@
 package com.miBudget.v1.servlets;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -15,12 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import com.google.gson.Gson;
 import com.miBudget.v1.daoimplementations.AccountDAOImpl;
 import com.miBudget.v1.daoimplementations.ItemDAOImpl;
 import com.miBudget.v1.daoimplementations.MiBudgetDAOImpl;
@@ -54,8 +53,14 @@ public class Authenticate extends HttpServlet {
 	private ItemDAOImpl itemDAOImpl = new ItemDAOImpl();
 	
 	private final String client_id = "5ae66fb478f5440010e414ae";
-	private final String secret = "0e580ef72b47a2e4a7723e8abc7df5";
+	//private final String secret = "0e580ef72b47a2e4a7723e8abc7df5";
 	private final String secretD = "c7d7ddb79d5b92aec57170440f7304";
+	
+	private static Logger LOGGER = null;
+	static {
+		System.setProperty("appName", "miBudget");
+		LOGGER = LogManager.getLogger(Authenticate.class);
+	}
 	
 	public PlaidClient client() {
 		// Use builder to create a client
@@ -134,13 +139,13 @@ public class Authenticate extends HttpServlet {
     			return 0;
     		return 1; // good
     	} catch (HibernateException e) {
-    		System.out.println("\nFailed to start SQL Session\n");
-    		System.out.println(e.getMessage());
-    		System.out.println(e.getStackTrace());
+    		LOGGER.error("\nFailed to start SQL Session\n");
+    		LOGGER.error(e.getMessage());
+    		LOGGER.error(e.getStackTrace());
     	} catch (IllegalStateException e) {
-    		System.out.println("\nSession/Entity Manager is closed.\n");
-    		System.out.println(e.getMessage());
-    		System.out.println(e.getStackTrace());
+    		LOGGER.error("\nSession/Entity Manager is closed.\n");
+    		LOGGER.error(e.getMessage());
+    		LOGGER.error(e.getStackTrace());
     	}
     	return 0; // 0 == bad
     }
@@ -177,21 +182,21 @@ public class Authenticate extends HttpServlet {
     		// This logic does not make sense anymore. 
 //    		for (Item i : allItems) {
 //        		if (i.getItemTableId() == item.getItemTableId()) {
-//        			System.out.println("next item: " + i);
-//        			System.out.println("Item already added to database!");
+//        			LOGGER.info("next item: " + i);
+//        			LOGGER.info("Item already added to database!");
 //        			return 0; // bad
 //        		}
 //        	}
-    		System.out.println("before save...");
+    		LOGGER.info("before save...");
         	int verify = itemDAOImpl.addItemToDatabase(item);
         	if (verify == 0)
         		return 0;
         	return 1;
     	} catch (HibernateException e) {
-    		System.out.println("\nFailed to start SQL Session\n");
+    		LOGGER.error("\nFailed to start SQL Session\n");
     		e.printStackTrace(System.out);
     	} catch (IllegalStateException e) {
-    		System.out.println("\nSession/Entity Manager is closed.\n");
+    		LOGGER.error("\nSession/Entity Manager is closed.\n");
     		e.printStackTrace(System.out);
     	}
     	return 0; // 0 == bad
@@ -218,31 +223,31 @@ public class Authenticate extends HttpServlet {
      */
 	private String authenticate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, NullPointerException {
 		// TODO Auto-generated method stub
-		System.out.println("\nInside authenticate()...");	
+		LOGGER.info("\nInside authenticate()...");	
 		HttpSession session = request.getSession(false);
 		if (session.getId() != session.getAttribute("sessionId")) {
-			System.out.println("not the same session");
+			LOGGER.info("not the same session");
 			session = request.getSession();
 			return "FAIL: this is not the same session...";
 		} else {
-			System.out.println("valid active session");
+			LOGGER.info("valid active session");
 		}
 		
 		// Public token exchange request and response
 		String public_token = request.getParameter("public_token");
-		System.out.println("public_token: " + public_token);
+		LOGGER.info("public_token: " + public_token);
 		ItemPublicTokenExchangeRequest publicTokenExchangeRequest = new ItemPublicTokenExchangeRequest(public_token);
 		Response<ItemPublicTokenExchangeResponse> publicTokenExchangeResponse =
 				client().service().itemPublicTokenExchange(publicTokenExchangeRequest).execute();
-		/**System.out.println("publicTokenExchangeResponseBody: " + publicTokenExchangeResponse.body().toString());
+		/**LOGGER.info("publicTokenExchangeResponseBody: " + publicTokenExchangeResponse.body().toString());
 		// access token notes: An access_token is used to access product data for an Item
-		System.out.println("publicTokenExchangeResponseAccessToken: " + publicTokenExchangeResponse.body().getAccessToken());
-		System.out.println("accessTokenLength: " + publicTokenExchangeResponse.body().getAccessToken().length());
+		LOGGER.info("publicTokenExchangeResponseAccessToken: " + publicTokenExchangeResponse.body().getAccessToken());
+		LOGGER.info("accessTokenLength: " + publicTokenExchangeResponse.body().getAccessToken().length());
 		// item_id notes: An item_id is used to identify an Item in a webhook.
-		System.out.println("publicTokenExchangeResponseItemId: " + publicTokenExchangeResponse.body().getItemId());
-		System.out.println("itemIdLength: " + publicTokenExchangeResponse.body().getItemId().length());
+		LOGGER.info("publicTokenExchangeResponseItemId: " + publicTokenExchangeResponse.body().getItemId());
+		LOGGER.info("itemIdLength: " + publicTokenExchangeResponse.body().getItemId().length());
 		// request_id notes: used to keep track of user's session and what they did (i believe)
-		System.out.println("publicTokenExchangeResponseRequestId: " + publicTokenExchangeResponse.body().getRequestId()); */
+		LOGGER.info("publicTokenExchangeResponseRequestId: " + publicTokenExchangeResponse.body().getRequestId()); */
 		
 		// Get itemId and accessToken
 		String accessToken = "";
@@ -258,17 +263,17 @@ public class Authenticate extends HttpServlet {
 		String institutionName = request.getParameter("institution_name");
 		String linkSessionId = request.getParameter("link_session_id");
 		
-		System.out.println("accountsRequested: " + accountsRequested);
-		System.out.println("institutionId: " + institutionId);
-		System.out.println("instutionName: " + institutionName);
-		System.out.println("linkSessionId: " + linkSessionId);
+		LOGGER.info("accountsRequested: " + accountsRequested);
+		LOGGER.info("institutionId: " + institutionId);
+		LOGGER.info("instutionName: " + institutionName);
+		LOGGER.info("linkSessionId: " + linkSessionId);
 		
 		// Parse accountsRequested; store in accountIdsRequestedList
 		JSONParser jsonParser = new JSONParser();
 		JSONArray accountsRequestedJsonArray = null;
 		try { accountsRequestedJsonArray = (JSONArray) jsonParser.parse(accountsRequested); }
 		catch (Exception e) { e.printStackTrace(System.out); }
-		System.out.println("number of accounts requested: " + accountsRequestedJsonArray.size());
+		LOGGER.info("number of accounts requested: " + accountsRequestedJsonArray.size());
 		ArrayList<com.miBudget.v1.entities.Account> accountsRequestedList = new ArrayList<>();
 		ArrayList<String> accountIdsRequestedList = new ArrayList<>();
 		JSONObject jsonObject = null;
@@ -281,7 +286,7 @@ public class Authenticate extends HttpServlet {
 			}
 		}
 		accountIdsRequestedList.forEach(id -> {
-			System.out.println(id);
+			LOGGER.info(id);
 		});
 		
 		// Make call to AccountsGetResponse to receive additional information about the requested accounts
@@ -291,32 +296,32 @@ public class Authenticate extends HttpServlet {
 		acctsGetReq.withAccountIds(accountIdsRequestedList);
 		Response<AccountsGetResponse> acctsGetRes = 
 				client().service().accountsGet(acctsGetReq).execute(); //.withAccountIds(accountIdsList)
-		System.out.println("acctsGetRes body: " + acctsGetRes.body().toString());
-		System.out.println("acctsGetRes code: " + acctsGetRes.code());
-		System.out.println("acctsGetRes msg: " + acctsGetRes.message());
-		System.out.println("acctsGetRes raw : " + acctsGetRes.raw());
-		System.out.println("acctsGetRes err: " + acctsGetRes.errorBody());
+		LOGGER.info("acctsGetRes body: " + acctsGetRes.body().toString());
+		LOGGER.info("acctsGetRes code: " + acctsGetRes.code());
+		LOGGER.info("acctsGetRes msg: " + acctsGetRes.message());
+		LOGGER.info("acctsGetRes raw : " + acctsGetRes.raw());
+		LOGGER.info("acctsGetRes err: " + acctsGetRes.errorBody());
 		if (acctsGetRes.message().equals("Bad Request") || acctsGetRes.body().getAccounts().size() != accountsRequestedJsonArray.size() ) {
-			System.out.println("acctsGetRes errString: " + acctsGetRes.errorBody().string());
+			LOGGER.info("acctsGetRes errString: " + acctsGetRes.errorBody().string());
 			System.out.printf("/accounts/get endpoint retrieved %d accounts\n", acctsGetRes.body().getAccounts().size());
 			acctsGetRes.body().getAccounts().forEach(acct -> {
-				System.out.println(acct);
+				LOGGER.info(acct);
 			});
 			return "FAIL: " + acctsGetRes.errorBody().toString();
 		}
 		if (acctsGetRes.isSuccessful()) {
-			System.out.println("AccountsGetResponse : " + acctsGetRes.code());
+			LOGGER.info("AccountsGetResponse : " + acctsGetRes.code());
 			List<Account> accountsFromRes = acctsGetRes.body().getAccounts();
 			accountsFromRes.forEach(acct -> {
-				System.out.println("acctsGetRes account: " + ((Account)acct));
+				LOGGER.info("acctsGetRes account: " + ((Account)acct));
 			});
 
 			for (String id : accountIdsRequestedList) {
 				for (Account getResA : accountsFromRes) {
 					if (id.equals(getResA.getAccountId()) ) {
 						com.miBudget.v1.entities.Account acctObj = new com.miBudget.v1.entities.Account();
-						//System.out.println("Id's matched!");
-						System.out.println(id + " == " + getResA.getAccountId());
+						//LOGGER.info("Id's matched!");
+						LOGGER.info(id + " == " + getResA.getAccountId());
 						acctObj.setAccountId(getResA.getAccountId());
 						acctObj.setAvailableBalance(getResA.getBalances().getAvailable() != null ? getResA.getBalances().getAvailable() : 0.00);
 						acctObj.setCurrentBalance(getResA.getBalances().getCurrent() != null ? getResA.getBalances().getCurrent() : 0.00);
@@ -327,7 +332,7 @@ public class Authenticate extends HttpServlet {
 						acctObj.setOfficialName(getResA.getOfficialName() != null ? getResA.getOfficialName() : "");
 						acctObj.setType(getResA.getType());
 						acctObj.setSubType(getResA.getSubtype());
-						System.out.println("Adding acctObj to accountsList...");
+						LOGGER.info("Adding acctObj to accountsList...");
 						accountsRequestedList.add(acctObj);
 					} 
 				} // end for each getResA
@@ -339,9 +344,9 @@ public class Authenticate extends HttpServlet {
 		
 		// Print each account in full
 		AtomicInteger an = new AtomicInteger(1);
-		System.out.println("miBudget accounts, accounts requested after parsing...");
+		LOGGER.info("miBudget accounts, accounts requested after parsing...");
 		accountsRequestedList.forEach(account -> {
-			System.out.println(an.getAndAdd(1) + ") " + account.toString());
+			LOGGER.info(an.getAndAdd(1) + ") " + account.toString());
 		});
 		
 		// Check to see if user is attempting to re-add a bank or
@@ -355,22 +360,22 @@ public class Authenticate extends HttpServlet {
 		ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
 		for(String id : institutionIdsList) {
 			if (id.equals(institutionId)) {
-				System.out.println(institutionId + " has already been added. We cannot add it again. Checking"
+				LOGGER.info(institutionId + " has already been added. We cannot add it again. Checking"
 						+ "\nto see if the user is adding accounts back.");
 				duplicateBank = true;
 				break;
 			} else
-				System.out.println(id + " does not match with " + institutionId);
+				LOGGER.info(id + " does not match with " + institutionId);
 		}
 		int before = accountsRequestedList.size();
-		System.out.println("accountsRequestedList size before possible removal is " + before);
+		LOGGER.info("accountsRequestedList size before possible removal is " + before);
 		ArrayList<com.miBudget.v1.entities.Account> acctsToRemove = new ArrayList<>();
 		req:
 		for(com.miBudget.v1.entities.Account reqA : accountsRequestedList) {
 			for (com.miBudget.v1.entities.Account addedA : usersCurrentAccountsList) {
 				if (reqA.getMask().equals(addedA.getMask()) ) {
 					String name = reqA.getNameOfAccount();
-					System.out.println(name + " has already been added. We cannot add it again. ");
+					LOGGER.info(name + " has already been added. We cannot add it again. ");
 					duplicateAcct = true;
 					acctsToRemove.add(reqA);
 					continue req;
@@ -382,35 +387,35 @@ public class Authenticate extends HttpServlet {
 			accountIdsRequestedList.remove(a.getAccountId());
 		}
 		int after = accountsRequestedList.size();
-		System.out.println("accountsRequestedList size is now " + after);
-		System.out.println("accountIdsRequestedList size: " + accountIdsRequestedList.size());
+		LOGGER.info("accountsRequestedList size is now " + after);
+		LOGGER.info("accountIdsRequestedList size: " + accountIdsRequestedList.size());
 
 		if (duplicateAcct && after > 0) {
-			System.out.println("You requested " + before + " but we can only add " + after + ".");
+			LOGGER.info("You requested " + before + " but we can only add " + after + ".");
 			// Can continue with authenticate
 		} else if (duplicateBank && after == 0) {
-			System.out.println("Trying to add duplicate bank...");
+			LOGGER.info("Trying to add duplicate bank...");
 			int numberOfAccounts = accountDAOImpl.getAccountIdsFromUser(user).size();
 			request.getSession(false).setAttribute("NoOfAccts", numberOfAccounts);
 			response.setStatus(HttpServletResponse.SC_CONFLICT); // TODO: Implement as some 2xx. 4xx is for invalid requests. We don't have that, we just restrict the logic. 
 			response.setContentType("application/text");
 			response.getWriter().append(institutionId + " has already been added. We cannot add it again.");
-			System.out.println("NOT ALLOWED: " + institutionId + " has already been added. We cannot add it again.");
+			LOGGER.info("NOT ALLOWED: " + institutionId + " has already been added. We cannot add it again.");
 			return "FAIL: Cannot add duplicate bank.";
 		} else if (duplicateBank && duplicateAcct) {
-			System.out.println("Trying to add duplicate account(s)...");
+			LOGGER.info("Trying to add duplicate account(s)...");
 			int numberOfAccounts = accountDAOImpl.getAccountIdsFromUser(user).size();
 			request.getSession(false).setAttribute("NoOfAccts", numberOfAccounts);
 			response.setStatus(HttpServletResponse.SC_CONFLICT); // TODO: Implement as some 2xx. 4xx is for invalid requests. We don't have that, we just restrict the logic. 
 			response.setContentType("application/text");
 			response.getWriter().append(institutionId + " has already been added. We cannot add it again.");
-			System.out.println("NOT ALLOWED: " + institutionId + " has already been added. We cannot add it again.");
+			LOGGER.info("NOT ALLOWED: " + institutionId + " has already been added. We cannot add it again.");
 			return "FAIL: Cannot add bank or duplicate accounts.";
 		}
 		// If both the call to exchange the public token for an access token AND
 		// If the call to get accounts information is Successful
 		if (publicTokenExchangeResponse.isSuccessful() && acctsGetRes.isSuccessful()) {
-			System.out.println("Responses code:\n\tPublic Token Exchange: " + publicTokenExchangeResponse.code() + "\n\tAccountsGet: " + acctsGetRes.code());
+			LOGGER.info("Responses code:\n\tPublic Token Exchange: " + publicTokenExchangeResponse.code() + "\n\tAccountsGet: " + acctsGetRes.code());
 			try {
 			    if (user.getFirstName().equals(null)) {}
 		    } catch (NullPointerException e) {
@@ -419,7 +424,7 @@ public class Authenticate extends HttpServlet {
 			
 			// Create bank object
 		    Item bankToAdd = new Item(itemId, accessToken, institutionId);
-		    System.out.println("created bankToAdd: " + bankToAdd);
+		    LOGGER.info("created bankToAdd: " + bankToAdd);
 		    
 		    int verify = 0;
 		    if (!duplicateBank) {
@@ -430,14 +435,14 @@ public class Authenticate extends HttpServlet {
 		    	session.setAttribute("CreatedItem", bankToAdd);
 			  
 			    // Add bank to items table  
-			    System.out.println("Adding item to database");
+			    LOGGER.info("Adding item to database");
 			    verify = addItemToDatabase(bankToAdd);
 			    if (verify == 0)
 				    return "FAIL: did not add " + bankToAdd + " to database.";
 			    else {
-				    System.out.println(bankToAdd + " was added to the database.");
+				    LOGGER.info(bankToAdd + " was added to the database.");
 				    bankToAdd.setItemTableId(itemDAOImpl.getItemTableIdForItemId(bankToAdd.getItemId())); // until this point, itemTableId is not set
-				    System.out.println("updated bankToAdd: " + bankToAdd);
+				    LOGGER.info("updated bankToAdd: " + bankToAdd);
 			    }
 			    
 			    // Add created Item to users_items table
@@ -445,18 +450,18 @@ public class Authenticate extends HttpServlet {
 			    if (verify == 0)
 				    return "FAIL: did not add UsersItemsObject to UsersItems in database.";
 			    else
-				    System.out.println("UsersItemsObject was added to UsersItems table in database");
+				    LOGGER.info("UsersItemsObject was added to UsersItems table in database");
 			    
 			    // Add institutionId to users_institution_ids table
 			    verify = addInstitutionIdToUsersInstitutionIdsTableInDatabase(institutionId, user);
 			    if (verify == 0)
 				    return "FAIL: did not add " + bankToAdd.getInstitutionId() + " to UsersInstitutions table.";
 			    else {
-				    System.out.println(bankToAdd.getInstitutionId() + " added to UsersInstitutions table in database");
+				    LOGGER.info(bankToAdd.getInstitutionId() + " added to UsersInstitutions table in database");
 			    }
 		    } else {
-		    	bankToAdd.setItemTableId(itemDAOImpl.getItemTableIdUsingInsId(bankToAdd.getInstitutionId())); // until this point, itemTableId is not set
-			    System.out.println("updated bankToAdd: " + bankToAdd); // since bank already exists, get itemTableId and set it for this bankToAdd object
+		    	bankToAdd.setItemTableId(ItemDAOImpl.getItemTableIdUsingInsId(bankToAdd.getInstitutionId())); // until this point, itemTableId is not set
+			    LOGGER.info("updated bankToAdd: " + bankToAdd); // since bank already exists, get itemTableId and set it for this bankToAdd object
 		    }
 //		    bankToAdd = itemDAOImpl.getItemFromUser(institutionId);
 		    // Add accounts to users profile
@@ -470,16 +475,15 @@ public class Authenticate extends HttpServlet {
 		    if (verify == 0)
 			    return "FAIL: did not add accounts to user's profile.";
 		    else
-			    System.out.println("Accounts added to user's profile.");
+			    LOGGER.info("Accounts added to user's profile.");
 		    
 		    
 		    // Add accountsList to requestSession
 		    user.setAccountIds( (ArrayList<String>)accountDAOImpl.getAllAccountsIds(user)); // update accountIds
 		    usersCurrentAccountsList = (ArrayList<com.miBudget.v1.entities.Account>) accountDAOImpl.getAllAccounts(user.getAccountIds());
 		    usersCurrentAccountsList.forEach(account -> {
-			    System.out.println(account);
+			    LOGGER.info(account);
 		    });
-		    System.out.println();
 		    
 		    // Create a Map of itemIds, and list of appropriate accounts
 		    @SuppressWarnings("unchecked")
@@ -488,24 +492,23 @@ public class Authenticate extends HttpServlet {
 		    ArrayList<com.miBudget.v1.entities.Account> newAccountsList = new ArrayList<>();
 		    newAccountsList = acctsAndInstitutionIdMap.get(institutionId);
 		    
-		    System.out.println("acctsAndInstitutionIdMap");
+		    LOGGER.info("acctsAndInstitutionIdMap");
 		    for(String insId : acctsAndInstitutionIdMap.keySet()) {
-			    System.out.println("key: " + insId);
+			    LOGGER.info("key: " + insId);
 			    for (com.miBudget.v1.entities.Account acct : acctsAndInstitutionIdMap.get(insId)) {
-				    System.out.println("\t" + acct);
+				    LOGGER.info("\t" + acct);
 			    }
-			    System.out.println();
 		    }
-		    System.out.println("Adding " + institutionId + " and the following accounts to acctsAndInstitutionIdMap");
+		    LOGGER.info("Adding " + institutionId + " and the following accounts to acctsAndInstitutionIdMap");
 		    for (com.miBudget.v1.entities.Account account : accountsRequestedList) {
-			    System.out.println("account: " + account);
+			    LOGGER.info("account: " + account);
 			    newAccountsList.add(account);
 		    }
 		    
 		    Object resultOfPutInMap = acctsAndInstitutionIdMap.put(institutionId, newAccountsList);
-		    System.out.println("resultOfPutInMap: " + resultOfPutInMap);
-		    //if (resultOfPutInMap != null) System.out.println("Some item and its accounts were just overwritten!!");
-		    //else System.out.println("Added the Integer and Accounts pairing to the acctsAndInsitutionIdMap");
+		    LOGGER.info("resultOfPutInMap: " + resultOfPutInMap);
+		    //if (resultOfPutInMap != null) LOGGER.info("Some item and its accounts were just overwritten!!");
+		    //else LOGGER.info("Added the Integer and Accounts pairing to the acctsAndInsitutionIdMap");
 		    session.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
 		  
 		    institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
@@ -526,7 +529,7 @@ public class Authenticate extends HttpServlet {
 		    ArrayList<Item> items = new ArrayList<>();
 		    for (String id : institutionIdsList) {
 		    	Item item = itemDAOImpl.getItemFromUser(id);
-			    System.out.println(item);
+			    LOGGER.info(item);
 			    items.add(item);
 		    }
 		    
@@ -540,17 +543,17 @@ public class Authenticate extends HttpServlet {
 				    ErrorResponse err = itemStatus.getError();
 				    if (err != null) {
 					    if (err.getErrorType() == ErrorType.ITEM_ERROR) {
-						    System.out.println("There is an Item_Error");
-						    System.out.println(err.toString());
+						    LOGGER.info("There is an Item_Error");
+						    LOGGER.info(err.toString());
 						    errMapForItems.put(item.getInstitutionId(), true);
 					    } 
 				    } else {
-					    System.out.println("No error for this " + item);
+					    LOGGER.info("No error for this " + item);
 					    errMapForItems.put(item.getInstitutionId(), false);
 				    }
 			    } else {
-				    System.out.println("ItemGetResponse failed.");
-				    System.out.println(getRes.errorBody());
+				    LOGGER.info("ItemGetResponse failed.");
+				    LOGGER.info(getRes.errorBody());
 			    }
 		    }
 		    session.setAttribute("ErrMapForItems", errMapForItems);
@@ -562,10 +565,10 @@ public class Authenticate extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("--- START ---");
-		System.out.println("\nInside Authenticate servlet doPost.");		
+		LOGGER.info("--- START ---");
+		LOGGER.info("\nInside Authenticate servlet doPost.");		
 		String authResponse = authenticate(request, response);
-		System.out.println("Authenticate response: " + authResponse);
+		LOGGER.info("Authenticate response: " + authResponse);
 		
 		if (authResponse.equals("SUCCESS")) {
 			// add session back to response obj
@@ -573,21 +576,21 @@ public class Authenticate extends HttpServlet {
 			response.setStatus(HttpServletResponse.SC_OK);
 //			getServletContext().getRequestDispatcher("/Profile.jsp").forward(request, response);
 			//response.sendRedirect("Profile.jsp");
-			System.out.println("--- END ---");
+			LOGGER.info("--- END ---");
 			return;
 		} else {
-			System.out.println(authResponse);
+			LOGGER.info(authResponse);
 			response.setStatus(HttpServletResponse.SC_CONFLICT); // TODO: Implement as some 2xx. 4xx is for invalid requests. We don't have that, we just restrict the logic. 
 			response.setContentType("application/text");
-			System.out.println("--- END ---");
+			LOGGER.info("--- END ---");
 			return;
 		}
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("--- START ---");
-		System.out.println("Inside the Profile doGet() servlet.");
-		System.out.println("--- END ---");
+		LOGGER.info("--- START ---");
+		LOGGER.info("Inside the Profile doGet() servlet.");
+		LOGGER.info("--- END ---");
 	}
 
 }

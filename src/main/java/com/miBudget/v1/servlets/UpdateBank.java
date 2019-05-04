@@ -10,9 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.miBudget.v1.daoimplementations.ItemDAOImpl;
-import com.miBudget.v1.daoimplementations.MiBudgetDAOImpl;
-import com.miBudget.v1.entities.User;
 import com.plaid.client.PlaidClient;
 import com.plaid.client.request.ItemGetRequest;
 import com.plaid.client.request.ItemPublicTokenCreateRequest;
@@ -28,10 +29,16 @@ import retrofit2.Response;
 @WebServlet("/updatebank")
 public class UpdateBank extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
 	private ItemDAOImpl itemDAOImpl = new ItemDAOImpl();
 	private final String clientId = "5ae66fb478f5440010e414ae";
-	private final String secret = "0e580ef72b47a2e4a7723e8abc7df5"; 
+	//private final String secret = "0e580ef72b47a2e4a7723e8abc7df5"; 
+	private final String secretD = "c7d7ddb79d5b92aec57170440f7304";
+	
+	private static Logger LOGGER = null;
+	static {
+		System.setProperty("appName", "miBudget");
+		LOGGER = LogManager.getLogger(UpdateBank.class);
+	}
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -43,9 +50,9 @@ public class UpdateBank extends HttpServlet {
     public PlaidClient client() {
 		// Use builder to create a client
 		PlaidClient client = PlaidClient.newBuilder()
-				  .clientIdAndSecret(clientId, secret)
+				  .clientIdAndSecret(clientId, secretD)
 				  .publicKey("") // optional. only needed to call endpoints that require a public key
-				  .sandboxBaseUrl() // or equivalent, depending on which environment you're calling into
+				  .developmentBaseUrl() // or equivalent, depending on which environment you're calling into
 				  .build();
 		return client;
 	}
@@ -55,17 +62,17 @@ public class UpdateBank extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("\nInside UpdateBank doGet()...");
+		LOGGER.info("Inside UpdateBank doGet()...");
 		HttpSession session = request.getSession(false);
-		System.out.println("Updating ErrMapForItems...");
+		LOGGER.info("Updating ErrMapForItems...");
 		String institutionId = request.getParameter("institutionId");
 		// update ErrMapForItems
 	    @SuppressWarnings("unchecked")
 		HashMap<String, Boolean> errMapForItems = (HashMap<String, Boolean>) session.getAttribute("ErrMapForItems");
 	    errMapForItems.put(institutionId, false);
 	    session.setAttribute("ErrMapForItems", errMapForItems);
-		System.out.println("Returning to Profile.jsp");
-		System.out.println("UpdateBank Response: Good");
+		LOGGER.info("Returning to Profile.jsp");
+		LOGGER.info("UpdateBank Response: Good");
 		response.setStatus(HttpServletResponse.SC_OK);
 	}
 
@@ -73,9 +80,9 @@ public class UpdateBank extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("\nInside UpdateBank doPost()...");
+		LOGGER.info("Inside UpdateBank doPost()...");
 		HttpSession session = null;
-		System.out.println("Retrieving public token...");
+		LOGGER.info("Retrieving public token...");
 		String institutionId = request.getParameter("institutionId");
 		String accessToken = itemDAOImpl.getAccessToken(institutionId);
 		ItemGetRequest itemReq = new ItemGetRequest(accessToken);
@@ -83,6 +90,7 @@ public class UpdateBank extends HttpServlet {
 		ItemStatus itemStatus = null;
 		if (itemRes.isSuccessful()) {
 			itemStatus = itemRes.body().getItem();
+			LOGGER.info("itemStatus: " + itemStatus);
 		}
 		//SandboxPublicTokenCreateRequest req = new SandboxPublicTokenCreateRequest(accessToken, Arrays.asList(Product.TRANSACTIONS));
 		ItemPublicTokenCreateRequest req = new ItemPublicTokenCreateRequest(accessToken);
@@ -90,8 +98,7 @@ public class UpdateBank extends HttpServlet {
 		if (res.isSuccessful()) {
 			session = request.getSession(false);
 			// Might need to add logic to update ErrMapForItems
-			User user = (User) session.getAttribute("user");
-			
+			//User user = (User) session.getAttribute("user");
 			
 			// update ErrMapForItems
 		    @SuppressWarnings("unchecked")
@@ -99,9 +106,9 @@ public class UpdateBank extends HttpServlet {
 		    errMapForItems.put(institutionId, false);
 		    session.setAttribute("ErrMapForItems", errMapForItems);
 		    session.setAttribute("change", "You successfully re-authorized your bank! It's good to go.");
-		    System.out.println("public_token: " + res.body().getPublicToken());
-			System.out.println("Public token retrieved. Returning to Profile.jsp");
-			System.out.println("UpdateBank Response: Good");
+		    LOGGER.info("public_token: " + res.body().getPublicToken());
+			LOGGER.info("Public token retrieved. Returning to Profile.jsp");
+			LOGGER.info("UpdateBank Response: Good");
 			response.setStatus(HttpServletResponse.SC_OK);
 			response.setContentType("application/text");
 			response.getWriter().append(res.body().getPublicToken().trim());

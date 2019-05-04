@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Servlet implementation class ForgotPassword
  */
@@ -19,11 +22,16 @@ import javax.servlet.http.HttpServletResponse;
 public class ForgotPassword extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	private static Logger LOGGER = null;
+	static {
+		System.setProperty("appName", "miBudget");
+		LOGGER = LogManager.getLogger(ForgotPassword.class);
+	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		// TODO Implement logic
 		String inputSelection = request.getParameter("InputSelection");
 		if (!inputSelection.equals(null)) {
 			try {
@@ -39,7 +47,7 @@ public class ForgotPassword extends HttpServlet {
 					} 
 				} 
 			} catch (Exception e) {
-				System.out.println(e.getMessage());
+				LOGGER.error(e.getMessage());
 				response.sendRedirect("index.jsp");
 			}
 		}

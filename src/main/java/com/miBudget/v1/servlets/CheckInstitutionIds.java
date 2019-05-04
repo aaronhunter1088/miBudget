@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.miBudget.v1.daoimplementations.MiBudgetDAOImpl;
 import com.miBudget.v1.entities.User;
 
@@ -22,6 +25,12 @@ public class CheckInstitutionIds extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
+	
+	private static Logger LOGGER = null;
+	static  {
+		System.setProperty("appName", "miBudget");
+		LOGGER = LogManager.getLogger(CheckInstitutionIds.class);
+	}
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -44,16 +53,16 @@ public class CheckInstitutionIds extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		System.out.println("\nInside CheckInstitutionIds doPost");
+		LOGGER.info("\nInside CheckInstitutionIds doPost");
 		boolean exit = checkInstitutionIds(request, (User)request.getSession(false).getAttribute("User") );
 		if (exit) {
-			System.out.println("Finished with CheckInstitutionIds doPost");
-			System.out.println("Institution check failed.");
+			LOGGER.info("Finished with CheckInstitutionIds doPost");
+			LOGGER.info("Institution check failed.");
 			// set response
 			return;
 		} else {
-			System.out.println("Finished with CheckInstitutionIds doPost");
-			System.out.println("Institution check passed.");
+			LOGGER.info("Finished with CheckInstitutionIds doPost");
+			LOGGER.info("Institution check passed.");
 			// set response
 		}
 	}
@@ -66,11 +75,11 @@ public class CheckInstitutionIds extends HttpServlet {
 		while (iter.hasNext()) {
 			String id = iter.next();
 			if (id.equals(institution_idIncoming)) {
-				System.out.println(institution_idIncoming + " has already been added. We cannot add it again.");
+				LOGGER.info(institution_idIncoming + " has already been added. We cannot add it again.");
 				// exit = true;
 				return exit = true;
 			}
-			System.out.println(id + " - This id did not match the one selected.");
+			LOGGER.info(id + " - This id did not match the one selected.");
 		}
 		return exit;
 	}

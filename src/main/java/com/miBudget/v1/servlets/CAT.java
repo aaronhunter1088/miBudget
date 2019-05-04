@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.miBudget.v1.entities.Account;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 /**
  * Servlet implementation class CAT
@@ -16,6 +18,12 @@ import com.miBudget.v1.entities.Account;
 @WebServlet("/CAT")
 public class CAT extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	private static Logger LOGGER = null;
+	static  {
+		System.setProperty("appName", "miBudget");
+		LOGGER = LogManager.getLogger(CAT.class);
+	}
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -41,8 +49,8 @@ public class CAT extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("--- START ---");
-		System.out.println("Inside the Categories and Transactions or, CAT doPost() servlet.");
+		LOGGER.info("--- START ---");
+		LOGGER.info("Inside the Categories and Transactions or, CAT doPost() servlet.");
 		HttpSession session = request.getSession(false);
 		
 		String acctName = null;
@@ -52,15 +60,15 @@ public class CAT extends HttpServlet {
 			if (request.getParameter("formId").equals("transactions")) {
 				acctName = request.getParameter("currentAccount");
 				transactionsRequested = Integer.valueOf(request.getParameter("numberOfTrans"));
-				System.out.println("acctName: " + acctName);
-				System.out.println("transactions requested: " + transactionsRequested);
-				System.out.println("--- END ---");
+				LOGGER.info("acctName: " + acctName);
+				LOGGER.info("transactions requested: " + transactionsRequested);
+				LOGGER.info("--- END ---");
 				response.setStatus(HttpServletResponse.SC_OK);
 				response.getWriter().append("\naccountName: " + acctName + "\ntransactionsReq: " + transactionsRequested);
 			}
 		}
 		else {
-			System.out.println("--- END ---");
+			LOGGER.info("--- END ---");
 			response.setStatus(HttpServletResponse.SC_ACCEPTED);
 			response.getWriter().append("No response set");
 		}

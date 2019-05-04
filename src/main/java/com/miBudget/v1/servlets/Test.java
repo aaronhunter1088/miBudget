@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Servlet implementation class Test
  */
@@ -14,6 +17,11 @@ import javax.servlet.http.HttpServletResponse;
 public class Test extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+	private static Logger LOGGER = null;
+	static {
+		System.setProperty("appName", "miBudget");
+		LOGGER = LogManager.getLogger(Test.class);
+	}
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -38,8 +46,15 @@ public class Test extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	protected String test(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		return "test works!";
+	/**
+	 * Logs a message confirming the functionality is working.
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	protected void test(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		LOGGER.info("test works!");
 	}
 
 }

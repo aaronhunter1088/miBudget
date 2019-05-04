@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.miBudget.v1.daoimplementations.AccountDAOImpl;
 import com.miBudget.v1.daoimplementations.ItemDAOImpl;
 import com.miBudget.v1.daoimplementations.MiBudgetDAOImpl;
@@ -32,21 +35,27 @@ public class Login extends HttpServlet {
 	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
 	private AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
 	private ItemDAOImpl itemDAOImpl = new ItemDAOImpl();
+	
+	private static Logger LOGGER = null;
+	static {
+		System.setProperty("appName", "miBudget");
+		LOGGER = LogManager.getLogger(Login.class);
+	}
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("--- START ---");
-		System.out.println("Inside the Login doGet() servlet.");
+		LOGGER.info("--- START ---");
+		LOGGER.info("Inside the Login doGet() servlet.");
 		String btnSelected = request.getParameter("btnSelected");
-		System.out.println("btnSelected: " + btnSelected);
+		LOGGER.info("btnSelected: " + btnSelected);
 		if (btnSelected != null) {
 			if (btnSelected.equals("Cancel")) {
-				System.out.println("Redirecting to index.html.");
-				System.out.println("--- END ---");
+				LOGGER.info("Redirecting to index.html.");
+				LOGGER.info("--- END ---");
 				getServletContext().getRequestDispatcher("/index.html").forward(request, response);
 			}
 		} else {
-			System.out.println("Redirecting to Login.html.");
-			System.out.println("--- END ---");
+			LOGGER.info("Redirecting to Login.html.");
+			LOGGER.info("--- END ---");
 			response.setStatus(HttpServletResponse.SC_OK);
 		}
 	}
@@ -56,8 +65,8 @@ public class Login extends HttpServlet {
 	 */
 	//@SuppressWarnings("null")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("--- START ---");
-		System.out.println("Inside Login doPost() servlet.");
+		LOGGER.info("--- START ---");
+		LOGGER.info("Inside Login doPost() servlet.");
 		String cellphone = request.getParameter("Cellphone");
 		String password = request.getParameter("Password");
 		boolean loginCredentials = false;
@@ -67,28 +76,28 @@ public class Login extends HttpServlet {
 
 		allUsersList = miBudgetDAOImpl.getAllUsers();
 		User loginUser = new User(cellphone, password);
-		System.out.println("loginUser: " + loginUser);
+		LOGGER.info("loginUser: " + loginUser);
 		
 		// Validate user
-		System.out.println("validating user credentials...");
-		System.out.println("cellphone: " + cellphone);
-		System.out.println("password: " + password);
+		LOGGER.info("validating user credentials...");
+		LOGGER.info("cellphone: " + cellphone);
+		LOGGER.info("password: " + password);
 		// for every user in the list
 		
 		for (User user : allUsersList) {
 			if (loginUser.equals(user)) {
-				System.out.println(loginUser + " matches " + user);
-				System.out.println("Registered user. Logging in");
+				LOGGER.info(loginUser + " matches " + user);
+				LOGGER.info("Registered user. Logging in");
 				loginUser = user;
 				loginCredentials = true;
 			} else if (loginUser.getCellphone().equals(user.getCellphone()) &&
 					   loginUser.getPassword().equals(user.getPassword()) ) {
-				System.out.println(loginUser + " matches " + user);
-				System.out.println("Registered user. Logging in");
+				LOGGER.info(loginUser + " matches " + user);
+				LOGGER.info("Registered user. Logging in");
 				loginUser = user;
 				loginCredentials = true;
 			} else {
-				System.out.println(loginUser + " is not a match to " + user);
+				LOGGER.info(loginUser + " is not a match to " + user);
 			}
 		}
 		// if logInUser does not have a first name, then they are a new user
@@ -105,11 +114,11 @@ public class Login extends HttpServlet {
 				Item item = itemDAOImpl.getItem(uiObj.getItemTableId() );
 				acctsAndInstitutionIdMap.put(item.getInstitutionId(), accountDAOImpl.getAllAccountsForItem(uiObj.getItemTableId()) );
 			}
-			System.out.println("acctsAndInstitutionIdMap");
+			LOGGER.info("acctsAndInstitutionIdMap");
 			for(String id : acctsAndInstitutionIdMap.keySet()) {
-				System.out.println("key: " + id);
+				LOGGER.info("key: " + id);
 				for (Account a : acctsAndInstitutionIdMap.get(id)) {
-					System.out.println("value: " + a);
+					LOGGER.info("value: " + a);
 				}
 			}
 			
@@ -120,10 +129,10 @@ public class Login extends HttpServlet {
 			int accounts = accountIdsList.size();
 			session = request.getSession(true);
 			if (session == null || session.isNew()) {
-				System.out.println("session is null. setting session");
-				System.out.println("requestSessionId: " + session.getId());
+				LOGGER.info("session is null. setting session");
+				LOGGER.info("requestSessionId: " + session.getId());
 			} else {
-				System.out.println("Session already exists... but they're just logging in so get new session");
+				LOGGER.info("Session already exists... but they're just logging in so get new session");
 				session.invalidate();
 				session = request.getSession(true);
 			}
@@ -141,12 +150,12 @@ public class Login extends HttpServlet {
 			session.setAttribute("isUserLoggedIn", true);
 			session.setAttribute("instantNow", instantNow);
 		    
-			System.out.println("Redirecting to Profile.jsp");
-			System.out.println("--- END ---");
+			LOGGER.info("Redirecting to Profile.jsp");
+			LOGGER.info("--- END ---");
 			response.sendRedirect("Profile.jsp");
 		} else {
-			System.out.println("Redirecting to Register.jsp");
-			System.out.println("--- END ---");
+			LOGGER.info("Redirecting to Register.jsp");
+			LOGGER.info("--- END ---");
 			response.sendRedirect("Register.jsp");
 		}
 	}

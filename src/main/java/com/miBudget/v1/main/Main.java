@@ -2,6 +2,9 @@ package com.miBudget.v1.main;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.miBudget.v1.daoimplementations.AccountDAOImpl;
 import com.miBudget.v1.daoimplementations.ItemDAOImpl;
 import com.miBudget.v1.daoimplementations.MiBudgetDAOImpl;
@@ -10,9 +13,14 @@ import com.miBudget.v1.entities.User;
 public class Main {
 
 	private static MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
-	private static AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
-	private static ItemDAOImpl itemDAOImpl = new ItemDAOImpl();
+	//private static AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
+	//private static ItemDAOImpl itemDAOImpl = new ItemDAOImpl();
     
+	private static Logger LOGGER = null;
+	static {
+		System.setProperty("appName", "miBudget");
+		LOGGER = LogManager.getLogger(Main.class);
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
@@ -23,20 +31,21 @@ public class Main {
 		
 		for (User user : allUsersList) {
 			if (loginUser.equals(user)) {
-				System.out.println(loginUser + " matches " + user);
-				System.out.println("Registered user. Logging in");
+				LOGGER.info("loginUser matches " + user.getFirstName());
+				LOGGER.info(user.getFirstName() + " is a registered user. Logging user in...");
 				loginUser = user;
+				break;
 			} else if (loginUser.getCellphone().equals(user.getCellphone()) &&
 					   loginUser.getPassword().equals(user.getPassword()) ) {
-				System.out.println(loginUser + " matches " + user);
-				System.out.println("Registered user. Logging in");
+				LOGGER.info("loginUser matches " + user.getFirstName());
+				LOGGER.info(user.getFirstName() + " is a registered user. Logging user in...");
 				loginUser = user;
+				break;
 			} else {
-				System.out.println(loginUser + " is not a match to " + user);
+				LOGGER.info("loginUser is not a match to " + user.getFirstName());
 			}
 		}
-		System.out.println(loginUser);
-		
+		LOGGER.info(loginUser);
 	}
 
 }

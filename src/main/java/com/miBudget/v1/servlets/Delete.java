@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.miBudget.v1.daoimplementations.AccountDAOImpl;
 import com.miBudget.v1.daoimplementations.ItemDAOImpl;
 import com.miBudget.v1.daoimplementations.MiBudgetDAOImpl;
@@ -34,8 +37,14 @@ public class Delete extends HttpServlet {
 	private AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
 	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
 	private final String clientId = "5ae66fb478f5440010e414ae";
-	private final String secret = "0e580ef72b47a2e4a7723e8abc7df5"; 
+	//private final String secret = "0e580ef72b47a2e4a7723e8abc7df5"; 
 	private final String secretD = "c7d7ddb79d5b92aec57170440f7304";
+	
+	private static Logger LOGGER = null;
+	static {
+		System.setProperty("appName", "miBudget");
+		LOGGER = LogManager.getLogger(Delete.class);
+	}
 	
     public final PlaidClient client() {
 		// Use builder to create a client
@@ -59,10 +68,10 @@ public class Delete extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("--- START ---");
+		LOGGER.info("--- START ---");
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		System.out.println("--- END ---");
+		LOGGER.info("--- END ---");
 	}
 
 	
@@ -71,8 +80,8 @@ public class Delete extends HttpServlet {
 		ArrayList<String> list = new ArrayList<>();
 		list.add(accountId);
 		Account account = accountDAOImpl.getAllAccounts(list).get(0);
-		if (!account.getAccountId().equals(accountId)) System.out.println("Wrong account received!!");
-		System.out.println("\nAttempting to delete: " + account);
+		if (!account.getAccountId().equals(accountId)) LOGGER.info("Wrong account received!!");
+		LOGGER.info("\nAttempting to delete: " + account);
 		HttpSession session = request.getSession(false);  
 		HashMap<String, Object> deleteResponse = new HashMap<String, Object>();
 		
@@ -80,10 +89,10 @@ public class Delete extends HttpServlet {
 		User user = (User)session.getAttribute("user"); 
 		Item item = itemDAOImpl.getItem(Integer.parseInt(request.getParameter("itemTableId")));
 		ArrayList<String> accountIdsList = (ArrayList<String>)accountDAOImpl.getAccountIdsFromUser(item);
-		System.out.println("accountIdsList size: " + accountIdsList.size());
+		LOGGER.info("accountIdsList size: " + accountIdsList.size());
 		accountIdsList.remove(accountId);
 		user.setAccountIds(accountIdsList);
-		System.out.println("accountIdsList size: " + accountIdsList.size());
+		LOGGER.info("accountIdsList size: " + accountIdsList.size());
 		
 		boolean usersInstitutionIdsResult = false;
 		boolean usersItemsResult = false;
@@ -96,10 +105,10 @@ public class Delete extends HttpServlet {
 		}
 		boolean usersAccountsResult = accountDAOImpl.deleteAccountFromUsersAccounts(accountId, item, user);
 		boolean itemsAccountsResult = accountDAOImpl.deleteFromItemsAccounts(item, accountId);
-		System.out.println("usersInstitutionIdsResult: " + usersInstitutionIdsResult);
-		System.out.println("usersItemsResult: " + usersItemsResult);
-		System.out.println("usersAccountsResult: " + usersAccountsResult);
-		System.out.println("itemsAccountsResult: " + itemsAccountsResult);
+		LOGGER.info("usersInstitutionIdsResult: " + usersInstitutionIdsResult);
+		LOGGER.info("usersItemsResult: " + usersItemsResult);
+		LOGGER.info("usersAccountsResult: " + usersAccountsResult);
+		LOGGER.info("itemsAccountsResult: " + itemsAccountsResult);
 		
 		// Main Tables
 		boolean accountsResult = accountDAOImpl.deleteAccountFromDatabase(account);
@@ -121,7 +130,7 @@ public class Delete extends HttpServlet {
 	public String deleteBank(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		HttpSession session = request.getSession(false);  
 		String institutionId = request.getParameter("currentId");
-		System.out.println("Attempting to delete bank: " + institutionId);
+		LOGGER.info("Attempting to delete bank: " + institutionId);
 		Item item = itemDAOImpl.getItemFromUser(institutionId);
 		//Item item = itemDAOImpl.createItemFromInstitutionId(institutionId);
 		if (item == null) {
@@ -142,7 +151,7 @@ public class Delete extends HttpServlet {
 		verify = itemDAOImpl.deleteItemFromDatabase(item);
 		if (verify == 0) {
 			return "FAIL: did not delete the item from the items table.";
-		} else { System.out.println("The item was successfully deleted."); }
+		} else { LOGGER.info("The item was successfully deleted."); }
 		if (verify == 1) {
 			Response<ItemRemoveResponse> itemRemoveRes =  client().service()
 					.itemRemove(new ItemRemoveRequest(item.getAccessToken()))
@@ -152,10 +161,10 @@ public class Delete extends HttpServlet {
 			if (itemRemoveRes.isSuccessful()) {
 				isRemoved = itemRemoveRes.body().getRemoved();
 			} else {
-				System.out.println(itemRemoveRes.errorBody().string());
+				LOGGER.info(itemRemoveRes.errorBody().string());
 				return "FAIL: item's access token was not invalidated. Request failed.";
 			}
-			System.out.println(item.getAccessToken() + " was invalidated?: " + isRemoved);
+			LOGGER.info(item.getAccessToken() + " was invalidated?: " + isRemoved);
 			if (isRemoved == true) {
 				//ArrayList<UsersItemsObject> usersItemsList = itemDAOImpl.getAllUserItems((User)session.getAttribute("user"));
 				@SuppressWarnings("unchecked")
@@ -186,10 +195,10 @@ public class Delete extends HttpServlet {
 	@SuppressWarnings({ "unlikely-arg-type", "unchecked" })
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("--- START ---");
-		System.out.println("Inside the Delete doPost method");
-		System.out.println("currentId: " + request.getParameter("currentId"));
-		System.out.println("requesting to delete: " + request.getParameter("delete"));
+		LOGGER.info("--- START ---");
+		LOGGER.info("Inside the Delete doPost method");
+		LOGGER.info("currentId: " + request.getParameter("currentId"));
+		LOGGER.info("requesting to delete: " + request.getParameter("delete"));
 		HttpSession session = request.getSession(false);
 		User user = (User)session.getAttribute("user"); 
 		String institutionId = request.getParameter("currentId");
@@ -198,12 +207,12 @@ public class Delete extends HttpServlet {
 		// Perform the following logic:
 		if (request.getParameter("delete").equals("bank")) {
 			String deleteResponse = deleteBank(request, response);
-			System.out.println("deleteResponse: " + deleteResponse);
+			LOGGER.info("deleteResponse: " + deleteResponse);
 			HashMap<String, Boolean> errMapForItems = new HashMap<>();
 			ArrayList<String> ids = (ArrayList<String>) session.getAttribute("institutionIdsList");
 			ArrayList<Item> items = new ArrayList<>();
 			for(int i = 0; i < ids.size(); i++) {
-				System.out.println(item);
+				LOGGER.info(item);
 				items.add(item);
 			}
 			if (deleteResponse.contains("SUCCESS")) {
@@ -232,25 +241,25 @@ public class Delete extends HttpServlet {
 			newAcctList = acctsAndInstitutionIdMap.get(institutionId);
 			newAcctList.remove(account);
 			acctsAndInstitutionIdMap.put(institutionId, newAcctList);
-			System.out.println("newAcctList size: " + newAcctList.size());
+			LOGGER.info("newAcctList size: " + newAcctList.size());
 			
-			System.out.println("\nUpdated acctsAndInstitutionIdMap");
+			LOGGER.info("\nUpdated acctsAndInstitutionIdMap");
 			for (String key : acctsAndInstitutionIdMap.keySet()) {
-				System.out.println("key: " + key);
+				LOGGER.info("key: " + key);
 				for (Account a : acctsAndInstitutionIdMap.get(key)) {
-					System.out.println("\t" + a);
+					LOGGER.info("\t" + a);
 				}
 			}
 			
 			if (deleteResponse.get("usersInstitutionIdsResult") == Boolean.TRUE) {
-				System.out.println("Boolean result is true");
+				LOGGER.info("Boolean result is true");
 				ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
 				session.setAttribute("institutionIdsList", institutionIdsList);
 				session.setAttribute("institutionIdsListSize", institutionIdsList.size());
 						
 				acctsAndInstitutionIdMap.remove(item.getItemTableId());
 			} else {
-				System.out.println("Boolean result is true ELSE");
+				LOGGER.info("Boolean result is true ELSE");
 				ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
 				session.setAttribute("institutionIdsList", institutionIdsList);
 				session.setAttribute("institutionIdsListSize", institutionIdsList.size());
@@ -266,13 +275,13 @@ public class Delete extends HttpServlet {
 			session.setAttribute("accountsSize", (Integer)session.getAttribute("accountsSize")-1);
 			
 //			for (String key : acctsAndInstitutionIdMap.keySet()) {
-//				System.out.println("key: " + key);
+//				LOGGER.info("key: " + key);
 //				for (Account a : acctsAndInstitutionIdMap.get(key)) {
-//					System.out.println("\t" + a);
+//					LOGGER.info("\t" + a);
 //				}
 //			}
 			
-			System.out.println("--- END ---");
+			LOGGER.info("--- END ---");
 			response.setContentType("application/html");
 			response.setStatus(HttpServletResponse.SC_OK);
 			response.sendRedirect("Accounts.jsp");

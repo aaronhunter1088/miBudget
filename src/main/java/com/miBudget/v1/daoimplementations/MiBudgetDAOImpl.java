@@ -5,12 +5,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import com.miBudget.v1.entities.Account;
 import com.miBudget.v1.entities.Category;
 import com.miBudget.v1.entities.Item;
 import com.miBudget.v1.entities.User;
@@ -21,6 +22,11 @@ import com.miBudget.v1.utilities.HibernateUtilities;
 
 public class MiBudgetDAOImpl {
 	
+	private static Logger LOGGER = null;
+	static {
+		System.setProperty("appName", "miBudget");
+		LOGGER = LogManager.getLogger(MiBudgetDAOImpl.class);
+	}
 	public MiBudgetDAOImpl() {
     }
 	
@@ -45,7 +51,7 @@ public class MiBudgetDAOImpl {
     	Transaction t = null;
 		ArrayList<Category> categoriesFromDB = new ArrayList<>();
 		try {
-			System.out.println("\nAttempting to execute getAllCategories for " + user.getFirstName() + " " + user.getLastName());
+			LOGGER.info("Attempting to execute getAllCategories for " + user.getFirstName() + " " + user.getLastName());
 			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
@@ -53,22 +59,22 @@ public class MiBudgetDAOImpl {
 					.createNativeQuery("SELECT * FROM users_categories "
 					   				 + "WHERE user_id = " + user.getId())
 					.addEntity(Category.class).getResultList();
-			System.out.println("Query executed. categories list populated from MiBudgetDAOImpl.");
-			System.out.println("Returning " + categoriesFromDB.size() + " categories for " + user.getFirstName() + " " + user.getLastName());
+			LOGGER.info("Query executed. categories list populated from MiBudgetDAOImpl.");
+			LOGGER.info("Returning " + categoriesFromDB.size() + " categories for " + user.getFirstName() + " " + user.getLastName());
 			session.getTransaction().commit();
 			session.close();
 			if (categoriesFromDB.size() > 0) {
 				for ( Object category : categoriesFromDB) {
-					System.out.println(category);
+					LOGGER.info(category);
 				}
 			} else {
-				System.out.println(user.getFirstName() + " " + user.getLastName() + " hasn't saved any categories yet. Getting default list");
+				LOGGER.info(user.getFirstName() + " " + user.getLastName() + " hasn't saved any categories yet. Getting default list");
 				categoriesFromDB = user.getCategories();
 			}
 			return categoriesFromDB;
 		} catch (Exception e) {
-			System.out.println("Error connecting to DB");
-			System.out.println(e.getMessage());
+			LOGGER.error("Error connecting to DB");
+			LOGGER.error(e.getMessage());
 			t.rollback();
 			session.close();
 		} 
@@ -94,16 +100,16 @@ public class MiBudgetDAOImpl {
 				int itemTableId = ItemDAOImpl.getItemTableIdUsingInsId(id);
 				acctsList = AccountDAOImpl.getAllUserAccountObjectsFromUserAndItemTableId(user, itemTableId);
 				mapToReturn.put(id, acctsList);
-				System.out.println("id");
+				LOGGER.info("id");
 				acctsList.forEach(acct -> {
-					System.out.println(acct);
+					LOGGER.info(acct);
 				});
-				System.out.println();
+				LOGGER.info("");
 			}
 			
 		} catch (Exception e) {
-    		System.out.println("An exception occurred!");
-			System.out.println(e.getMessage());
+    		LOGGER.error("An exception occurred!");
+			LOGGER.error(e.getMessage());
 		}
 		return mapToReturn;
 	}
@@ -115,24 +121,24 @@ public class MiBudgetDAOImpl {
     	Transaction t = null;
 		ArrayList<String> institutionIds = new ArrayList<>();
 		try {
-			System.out.println("\nAttempting to get all the institution_ids for " + user.getFirstName() + " " + user.getLastName());
+			LOGGER.info("Attempting to get all the institution_ids for " + user.getFirstName() + " " + user.getLastName());
 			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
 			institutionIds = (ArrayList<String>) session
 					   .createNativeQuery("SELECT institution_id FROM users_institution_ids "
 					   					+ "WHERE user_id = " + user.getId()).getResultList();
-			System.out.println("Query executed. institutionIds list populated from MiBudgetDAOImpl.");
-			System.out.println("Returning " + institutionIds.size() + " institution ids for " + user.getFirstName() + " " + user.getLastName());
+			LOGGER.info("Query executed. institutionIds list populated from MiBudgetDAOImpl.");
+			LOGGER.info("Returning " + institutionIds.size() + " institution ids for " + user.getFirstName() + " " + user.getLastName());
 			session.getTransaction().commit();
 			session.close();
 			for ( String id : institutionIds) {
-				System.out.println("institution_id: " + id);
+				LOGGER.info("institution_id: " + id);
 			}
 			return institutionIds;
 		} catch (Exception e) {
-			System.out.println("Error connecting to DB");
-			System.out.println(e.getMessage());
+			LOGGER.error("Error connecting to DB");
+			LOGGER.error(e.getMessage());
 			t.rollback();
 			session.close();
 		} 
@@ -146,24 +152,24 @@ public class MiBudgetDAOImpl {
     	Transaction t = null;
 		ArrayList<String> institutionIds = new ArrayList<>();
 		try {
-			System.out.println("\nAttempting to execute getAllInstitutionIds query...");
+			LOGGER.info("Attempting to execute getAllInstitutionIds query...");
 			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
 			institutionIds = (ArrayList<String>) session
 					   .createNativeQuery("SELECT institution_id FROM users_institution_ids "
 					   					+ "WHERE user_id = " + user.getId()).getResultList();
-			System.out.println("Query executed. institutionIds list populated from MiBudgetDAOImpl.");
-			System.out.println("Returning " + institutionIds.size() + " institution ids for " + user.getFirstName() + " " + user.getLastName());
+			LOGGER.info("Query executed. institutionIds list populated from MiBudgetDAOImpl.");
+			LOGGER.info("Returning " + institutionIds.size() + " institution ids for " + user.getFirstName() + " " + user.getLastName());
 			session.getTransaction().commit();
 			session.close();
 			for ( String id : institutionIds) {
-				System.out.println("institution_id: " + id);
+				LOGGER.info("institution_id: " + id);
 			}
 			return institutionIds;
 		} catch (Exception e) {
-			System.out.println("Error connecting to DB");
-			System.out.println(e.getMessage());
+			LOGGER.error("Error connecting to DB");
+			LOGGER.error(e.getMessage());
 			t.rollback();
 			session.close();
 		} 
@@ -176,19 +182,19 @@ public class MiBudgetDAOImpl {
     	Session session = null;
     	Transaction t = null;
     	try {
-			System.out.println("\nAttempting to execute insert institution_id query...");
+			LOGGER.info("Attempting to execute insert institution_id query...");
 			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
 			session.createNativeQuery("INSERT INTO users_institution_ids (institution_id, user_id) " +
 									  "VALUES ('" + ins_id + "', " + user.getId() + ")").executeUpdate(); // recall Strings need quotes around them. numbers don't
 			t.commit();
-			System.out.println("Institution saved"); // "Institution save using session.save(item)"
+			LOGGER.info("Institution saved"); // "Institution save using session.save(item)"
 			session.close();
 			return 1; // good
 		} catch (Exception e) {
-			System.out.println("Error connecting to DB");
-			System.out.println(e.getMessage());
+			LOGGER.error("Error connecting to DB");
+			LOGGER.error(e.getMessage());
 			t.rollback();
 			session.close();
 		}
@@ -214,8 +220,8 @@ public class MiBudgetDAOImpl {
     		session.close();
 			return 1; // good
 		} catch (Exception e) {
-			System.out.println("Error connecting to DB");
-			System.out.println(e.getMessage());
+			LOGGER.error("Error connecting to DB");
+			LOGGER.error(e.getMessage());
 			t.rollback();
 			session.close();
 		}
@@ -228,27 +234,27 @@ public class MiBudgetDAOImpl {
     	Session session = null;
     	Transaction t = null;
 		try {
-			System.out.println("\nAttempting to execute query...");
+			LOGGER.info("Attempting to execute query...");
 			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> cellphonesFromDB = session
 					   .createNativeQuery("SELECT Cellphone FROM Users")
 					   .getResultList();
-			System.out.println("Query executed!");
+			LOGGER.info("Query executed!");
 			t.commit();
 			session.close();
 			Iterator<?> iterator = cellphonesFromDB.iterator();
 			while (iterator.hasNext()) {
 				String cell = iterator.next().toString();
 				cellphones.add(cell);
-				System.out.println("cellphone: " + cell);
+				LOGGER.info("cellphone: " + cell);
 			}
-			System.out.println("cellphones list populated from MiBudgetDAOImpl\n");
+			LOGGER.info("cellphones list populated from MiBudgetDAOImpl");
 			return cellphones;
 		} catch (Exception e) {
-			System.out.println("Error connecting to DB");
-			System.out.println(e.getMessage());
+			LOGGER.error("Error connecting to DB");
+			LOGGER.error(e.getMessage());
 			t.rollback();
 			session.close();
 		}
@@ -263,7 +269,7 @@ public class MiBudgetDAOImpl {
 		Session session = null;
     	Transaction t = null;
     	try {
-    		System.out.println("\nAttempting to execute getAllUsers query...");
+    		LOGGER.info("Attempting to execute getAllUsers query...");
     		factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
@@ -271,21 +277,20 @@ public class MiBudgetDAOImpl {
 										.addEntity(User.class).getResultList();
 			session.getTransaction().commit();
 			session.close();
-			System.out.println("Query executed! " + usersNoAccounts.size() + " users retrieved.");
-			int size = usersNoAccounts.size();
+			LOGGER.info("Query executed! " + usersNoAccounts.size() + " users retrieved.");
 			AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
 			// Populate users accountId's if they have any
 			for (User user : usersNoAccounts) {
 				ArrayList<String> accountIds = (ArrayList<String>) accountDAOImpl.getAccountIdsFromUser(user);
 				user.setAccountIds(accountIds);
 				user.createCategories();
-				System.out.println("userFromDB: " + user);
+				LOGGER.info("userFromDB: " + user);
 				users.add(user);
 			}
 		} catch (HibernateException e) {
-    		System.out.println("Error during retrieval of next account or adding account to accounts list.");
-			System.out.println(e.getMessage());
-			System.out.println(e.getCause());
+    		LOGGER.error("Error during retrieval of next account or adding account to accounts list.");
+			LOGGER.error(e.getMessage());
+			LOGGER.error(e.getCause());
 			t.rollback();
 			session.close();
     	} 
@@ -368,7 +373,7 @@ public class MiBudgetDAOImpl {
     	Session session = null;
     	Transaction t = null;
 		try {
-			System.out.println("\nAttempting to execute addItemToUsersItemsTable query...");
+			LOGGER.info("Attempting to execute addItemToUsersItemsTable query...");
 			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			int user_id = user.getId();
@@ -382,15 +387,15 @@ public class MiBudgetDAOImpl {
 //			update users set Items = "works" where Id = 2;
 			
 //			session.saveOrUpdate(user);
-			System.out.println(uiObj);
+			LOGGER.info(uiObj);
 			session.save(uiObj);
 			t.commit();
 			session.close();
-			System.out.println(uiObj + " added to UsersItems table for: " + user.getFirstName() + ", Id: " + user.getId());
+			LOGGER.info(uiObj + " added to UsersItems table for: " + user.getFirstName() + ", Id: " + user.getId());
 			return 1;
 		} catch (NullPointerException e) {
-			System.out.println("Error connecting to DB");
-			System.out.println(e.getMessage());
+			LOGGER.error("Error connecting to DB");
+			LOGGER.error(e.getMessage());
 			t.rollback();
 			session.close();
 		}
@@ -403,7 +408,7 @@ public class MiBudgetDAOImpl {
     	Session session = null;
     	Transaction t = null;
 		try {
-			System.out.println("\nAttempting to execute query...");
+			LOGGER.info("Attempting to execute query...");
 			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
@@ -417,21 +422,21 @@ public class MiBudgetDAOImpl {
 									.createNativeQuery("SELECT access_token FROM items")
 									.getResultList();
 			
-			System.out.println("3 Queries executed!");
+			LOGGER.info("3 Queries executed!");
 			t.commit();
 			session.close();
 			int size = idsFromDB.size();
 			for (int i = 0; i < size; i++) {
 				Item item = new Item(idsFromDB.get(i).toString(), accessTokensFromDB.get(i).toString(), institutionIdsFromDB.get(i).toString());
-				System.out.println("item: " + item);
+				LOGGER.info("item: " + item);
 				items.add(item);
 			}
 			
-			System.out.println("all items from MiBudgetDAOImpl");
+			LOGGER.info("all items from MiBudgetDAOImpl");
 			return items;
 		} catch (Exception e) {
-			System.out.println("Error connecting to DB");
-			System.out.println(e.getMessage());
+			LOGGER.error("Error connecting to DB");
+			LOGGER.error(e.getMessage());
 			t.rollback();
 			session.close();
 		}
@@ -444,7 +449,7 @@ public class MiBudgetDAOImpl {
     	Session session = null;
     	Transaction t = null;
 		try {
-			System.out.println("\nAttempting to execute query getAllItemsFromUser...");
+			LOGGER.info("Attempting to execute query getAllItemsFromUser...");
 			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
@@ -452,12 +457,12 @@ public class MiBudgetDAOImpl {
 					   .createNativeQuery("SELECT item_id FROM users_items " +
 							   			  "WHERE user_id = " + user.getId())
 					   .getResultList();
-			System.out.println("Query executed!");
+			LOGGER.info("Query executed!");
 			t.commit();
 			session.close();
 			//System.out.println("the results string: " + item_idsFromDB);
 			if (item_idsFromDB.size() == 0) {
-				System.out.println("no item_ids for this user yet...");
+				LOGGER.info("no item_ids for this user yet...");
 				return itemIds;
 			}
 			if (item_idsFromDB.size() > 0 || !item_idsFromDB.equals(null)) {
@@ -466,7 +471,7 @@ public class MiBudgetDAOImpl {
 				while (iterator.hasNext()) {
 					String itemID = iterator.next().toString();
 					itemIds.add(itemID);
-					System.out.println("item_id: " + itemID);
+					LOGGER.info("item_id: " + itemID);
 				}
 //				String[] item_idsFromDBArr = item_idsFromDB.split(",");
 //				for(String s : item_idsFromDBArr) {
@@ -474,14 +479,14 @@ public class MiBudgetDAOImpl {
 //					itemIds.add(itemID);
 //					System.out.println("item_id: " + itemID);
 //				}
-				System.out.println("item_ids list populated from MiBudgetDAOImpl");
+				LOGGER.info("item_ids list populated from MiBudgetDAOImpl");
 				return itemIds;
 			} 
 		} catch (NullPointerException e) {
-			System.out.println("Error connecting to DB");
-			System.out.println(e);
-			System.out.println(e.getStackTrace());
-			System.out.println(e.getMessage());
+			LOGGER.error("Error connecting to DB");
+			LOGGER.error(e);
+			LOGGER.error(e.getStackTrace());
+			LOGGER.error(e.getMessage());
 			t.rollback();
 			session.close();
 		}
@@ -497,7 +502,7 @@ public class MiBudgetDAOImpl {
 	 * @return
 	 */
 	public Item getItemFromDatabase(String institution_id) {
-		System.out.println("\nAttempting to getItemFromDatabase using institutionId query...");
+		LOGGER.info("Attempting to getItemFromDatabase using institutionId query...");
 		Item item = null;
 		SessionFactory factory = null;
     	Session session = null;
@@ -519,12 +524,12 @@ public class MiBudgetDAOImpl {
 //												  "WHERE ")
 			item = new Item(Integer.parseInt(itemTableId.get(0).toString()), itemId.get(0).toString(), 
 					accessToken.get(0).toString(), institution_id);
-			System.out.println("retrieving item: " + item);
+			LOGGER.info("retrieving item: " + item);
 			t.commit();
 			session.close();
 			return item;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			LOGGER.error(e.getMessage());
 			t.rollback();
 			session.close();
 		}

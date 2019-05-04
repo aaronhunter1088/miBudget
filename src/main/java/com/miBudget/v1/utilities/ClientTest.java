@@ -18,10 +18,10 @@ public class ClientTest {
 	public static ItemDAOImpl itemDAOImpl = new ItemDAOImpl();
 	public static MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
 	
-	private static Logger logger = null;
+	private static Logger LOGGER = null;
 	static {
 		System.setProperty("appName", "miBudget");
-	    logger = LogManager.getLogger(ClientTest.class);
+	    LOGGER = LogManager.getLogger(ClientTest.class);
 	}
 	public static void main(String[] args) {
 		try {
@@ -30,10 +30,10 @@ public class ClientTest {
 			Transaction t = hibernateSession.beginTransaction();
 			String SQL = "SELECT version()";
 			String result = hibernateSession.createNativeQuery(SQL).getResultList().get(0).toString();
-			logger.info("MySQL version is {}\n", result);
+			LOGGER.info("MySQL version is {}\n", result);
 			//t.commit();
 			hibernateSession.close();
-			logger.info("End client test.");
+			LOGGER.info("End client test.");
 			//t = hibernateSession.beginTransaction();
 			//User me = new User(20);
 			//@SuppressWarnings("unchecked")
@@ -54,15 +54,15 @@ public class ClientTest {
 			
 			//HibernateUtilities.shutdown();
 		} catch (NullPointerException | HibernateException e) {
-			logger.error("Error making a connection to the database");
+			LOGGER.error("Error making a connection to the database");
 			StackTraceElement[] ste = e.getStackTrace();
 			StringBuilder err = new StringBuilder();
 			for (int i = 0; i < ste.length; i++) {
 				err.append(ste[i] + "\n");
 			}
-			logger.error(err);
+			LOGGER.error(err);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			LOGGER.error(e.getMessage());
 		}
 	}
 

@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.MappingException;
 
 import com.miBudget.v1.daoimplementations.MiBudgetDAOImpl;
@@ -26,33 +28,39 @@ public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
+	
+	private static Logger LOGGER = null;
+	static {
+		System.setProperty("appName", "miBudget");
+		LOGGER = LogManager.getLogger(Register.class);
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("--- START ---");
-		System.out.println("Inside the Register doGet() servlet.");
+		LOGGER.info("--- START ---");
+		LOGGER.info("Inside the Register doGet() servlet.");
 		String btnSelected = request.getParameter("btnSelected");
 		response.reset();
 		if (btnSelected.equals("Cancel")) {
-			System.out.println("Redirecting to index.html.");
-			System.out.println("--- END ---");
+			LOGGER.info("Redirecting to index.html.");
+			LOGGER.info("--- END ---");
 			getServletContext().getRequestDispatcher("/index.html").forward(request, response);
 		} else if (btnSelected.equals("Register")) {
-			System.out.println("Redirecting to Register.html.");
-			System.out.println("--- END ---");
+			LOGGER.info("Redirecting to Register.html.");
+			LOGGER.info("--- END ---");
 			getServletContext().getRequestDispatcher("/Register.html").forward(request, response);
 		} else {
-			System.out.println("Redirecting to Login.html.");
-			System.out.println("--- END ---");
+			LOGGER.info("Redirecting to Login.html.");
+			LOGGER.info("--- END ---");
 			getServletContext().getRequestDispatcher("/Login.html").forward(request, response);
 		}
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("--- START ---");
-		System.out.println("Inside the Register servlet.");
+		LOGGER.info("--- START ---");
+		LOGGER.info("Inside the Register servlet.");
 		
 		
 		
@@ -66,7 +74,7 @@ public class Register extends HttpServlet {
 		String passwordRepeat = request.getParameter("Password-repeat");
 		// New
 		boolean validated = Boolean.parseBoolean(request.getParameter("Validated")); // used to do server side validation if user turned off JavaScript
-		System.out.println("validated: " + validated);
+		LOGGER.info("validated: " + validated);
 		boolean isRegistered = false;
 		HttpSession requestSession = null;
 		int count = 0;
@@ -77,31 +85,31 @@ public class Register extends HttpServlet {
 		if (!validated) {
 			// JavaScript may be off on user's browser
 			// Need to validate fields
-			System.out.println("Performing server-side validation");
+			LOGGER.info("Performing server-side validation");
 			
 			// Firstname
-			if (firstname.equals("")) { System.out.println("First name is not valid. Please check its value.");
+			if (firstname.equals("")) { LOGGER.info("First name is not valid. Please check its value.");
 			} else { count++; } // 1
 			
 			// Lastname
-			if (lastname.equals("")) { System.out.println("Last name is not valid. Please check its value.");
+			if (lastname.equals("")) { LOGGER.info("Last name is not valid. Please check its value.");
 			} else { count++; } // 2
 			
 			// Cellphone
 			if (userProvidedCellphone.equals("") || userProvidedCellphone.length() != 10 || (!((Long)Long.parseLong(userProvidedCellphone) instanceof Long))    ){
 				// if cellphone is blank, is not 10 digits or if it's not an Integer
-				System.out.println("Cellphone is not valid. Please check its value.");
+				LOGGER.info("Cellphone is not valid. Please check its value.");
 			} else { count++; } // 3
 			
 			// Email
-			if (email.indexOf("@") <= -1 || email.indexOf(".") <= -1) { System.out.println("Email is not valid. Please check its value.");
+			if (email.indexOf("@") <= -1 || email.indexOf(".") <= -1) { LOGGER.info("Email is not valid. Please check its value.");
 			} else { count++; } // 4
 			
 			// Password
 			// Password-repeat
 			if ((password.equals("") || passwordRepeat.equals("")) && !password.equals(passwordRepeat)) {
 				// if password or passwordRepeat are blank AND if they don't equal eachother
-				System.out.println("Password or PasswordRepeat are blank or do not match. Please check the values.");
+				LOGGER.info("Password or PasswordRepeat are blank or do not match. Please check the values.");
 			} else { count++; } // 5
 			
 			// Check count
@@ -113,25 +121,25 @@ public class Register extends HttpServlet {
 			// check if user is not in list of current users
 			// Create a service to get all users in DB
 			// Create a list object to save new service call to retrieve all users
-			System.out.println("Before list is populated...");
+			LOGGER.info("Before list is populated...");
 //			session.beginTransaction();
 			List<String> allCellphonesList = miBudgetDAOImpl.getAllCellphones();
 			
 			// Create a new user
 //			User user = new User(allUsersListByCellphone.size()+1, firstname, lastname, cellphone, password);
 			User regUser = new User(firstname, lastname, userProvidedCellphone, password, email);
-			System.out.println("user created...");
-			System.out.println(regUser);
+			LOGGER.info("user created...");
+			LOGGER.info(regUser);
 			for (String currentCellphone : allCellphonesList) {
 				if (currentCellphone.equals(userProvidedCellphone)) {
-					System.out.println("a 'new user' is attempting to create a new account but they already exists.");
+					LOGGER.info("a 'new user' is attempting to create a new account but they already exists.");
 					isRegistered = true;
 				}
 			}
-			System.out.println("isRegistered: " + isRegistered);
+			LOGGER.info("isRegistered: " + isRegistered);
 			if (isRegistered && validated) {
-				System.out.println("A registered user tried to re-Register with valid inputs. Redirecting to Login page.");
-				System.out.println("isRegistered: " + isRegistered);
+				LOGGER.info("A registered user tried to re-Register with valid inputs. Redirecting to Login page.");
+				LOGGER.info("isRegistered: " + isRegistered);
 				request.setAttribute("Cellphone", userProvidedCellphone);
 				request.setAttribute("Password", password);
 //				response.sendRedirect("Login.html");
@@ -140,14 +148,14 @@ public class Register extends HttpServlet {
 //				response.sendRedirect(request.getContextPath() + "/Login.jsp");
 				// TODO: Eventually change this logic to instead of redirecting, to straight logging in and redirecting to Welcome.jsp
 			}  else if (isRegistered && !validated) {
-				System.out.println("A registered user tried to re-Register with invalid inputs! Redirecting to Login page.");
+				LOGGER.info("A registered user tried to re-Register with invalid inputs! Redirecting to Login page.");
 				request.setAttribute("Cellphone", userProvidedCellphone);
 				request.setAttribute("Password", password);
 				getServletContext().getRequestDispatcher("/Login.jsp")
 					.forward(request, response);
 				// TODO: Display message to user before or after informing them of the validation results.
 			} else if (!isRegistered && !validated) {
-				System.out.println("An unregistered user tried to Register but provided invalid inputs! Redirecting to Register page.");
+				LOGGER.info("An unregistered user tried to Register but provided invalid inputs! Redirecting to Register page.");
 				request.setAttribute("Firstname", firstname);
 				request.setAttribute("Lastname", lastname);
 				request.setAttribute("Cellphone", userProvidedCellphone);
@@ -158,18 +166,18 @@ public class Register extends HttpServlet {
 					.forward(request, response);
 				// TODO: Print out a message to the user from the validation results.
 			} else if (!isRegistered && validated) {
-				System.out.println("An unregistered user is attempting to Register. They have valid inputs! Redirecting to Profile page.");
+				LOGGER.info("An unregistered user is attempting to Register. They have valid inputs! Redirecting to Profile page.");
 				// use MiBudgetDAOImpl to save user
 				int verify = miBudgetDAOImpl.addUserToDatabase(regUser);
 				if (verify == 0)
-					System.out.println("Failed to add user to database.");
+					LOGGER.info("Failed to add user to database.");
 				else {
-					System.out.println("User added to database!");
-					System.out.println(regUser.getFirstName() + " default categories saved.");
+					LOGGER.info("User added to database!");
+					LOGGER.info(regUser.getFirstName() + " default categories saved.");
 				}
 				requestSession = request.getSession(true);
 				
-				System.out.println("requestSessionId: " + requestSession.getId());
+				LOGGER.info("requestSessionId: " + requestSession.getId());
 //				requestSession.setAttribute("requestSession", requestSession);
 //				requestSession.setAttribute("requestSessionId", requestSession.getId());
 //				requestSession.setAttribute("isUserLoggedIn", true);
@@ -194,17 +202,17 @@ public class Register extends HttpServlet {
 				requestSession.setAttribute("accountsSize", 0);
 				requestSession.setAttribute("isUserLoggedIn", true);
 				
-				System.out.println("Redirecting to Profile.jsp");
-				System.out.println("--- END ---");
+				LOGGER.info("Redirecting to Profile.jsp");
+				LOGGER.info("--- END ---");
 				getServletContext().getRequestDispatcher("/Profile.jsp")
 					.forward(request, response);
 				//response.sendRedirect("Welcome.jsp");
 			}
 		} catch (MappingException e) {
-			System.out.println("Failed to redirect user...");
-			System.out.println(e);
-			System.out.println(e.getMessage());
-			System.out.println(e.getStackTrace());
+			LOGGER.error("Failed to redirect user...");
+			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
+			LOGGER.error(e.getStackTrace());
 		} 
 	}
 }

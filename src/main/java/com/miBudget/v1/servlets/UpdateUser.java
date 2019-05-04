@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Servlet implementation class UpdateUser
  */
@@ -17,6 +20,11 @@ import javax.servlet.http.HttpServletResponse;
 public class UpdateUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+	private static Logger LOGGER = null;
+	static {
+		System.setProperty("appName", "miBudget");
+		LOGGER = LogManager.getLogger(UpdateUser.class);
+	}
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -28,7 +36,7 @@ public class UpdateUser extends HttpServlet {
     
     
     private List<String> getInstitutionIds() {
-    	System.out.println("Returning all institution ids from db for this user.");
+    	LOGGER.info("Returning all institution ids from db for this user.");
 		ArrayList<String> testList = new ArrayList<>();
 		testList.add("testId1");
 		testList.add("testId2");
@@ -47,10 +55,10 @@ public class UpdateUser extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("Working. Store institution_id in a list and store in db for user");
-		System.out.println("posting to UpdateUser");
-		System.out.println("selected institution_id: " + request.getParameter("institution_id"));
-		System.out.println("selected institution_name: " + request.getParameter("institution_name"));
+		LOGGER.info("Working. Store institution_id in a list and store in db for user");
+		LOGGER.info("posting to UpdateUser");
+		LOGGER.info("selected institution_id: " + request.getParameter("institution_id"));
+		LOGGER.info("selected institution_name: " + request.getParameter("institution_name"));
 		
 	}
 

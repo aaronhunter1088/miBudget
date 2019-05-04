@@ -1,5 +1,7 @@
 package com.miBudget.v1.utilities;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -15,11 +17,16 @@ public class HibernateUtilities {
 	public static StandardServiceRegistryBuilder standardServiceRegistryBuilder = new StandardServiceRegistryBuilder();
 	public static StandardServiceRegistry serviceRegistry = standardServiceRegistryBuilder.build();
 	private static boolean newSessionFactory = false;
+	private static Logger LOGGER = null;
+	static {
+		System.setProperty("appName", "miBudget");
+		LOGGER = LogManager.getLogger(HibernateUtilities.class);
+	}
 	
 	public static void destroyServiceRegistry() {
        if (serviceRegistry != null) {
           StandardServiceRegistryBuilder.destroy(serviceRegistry);
-          System.out.println("serviceRegistry destroyed.");
+          LOGGER.info("serviceRegistry destroyed.");
        }
     }
 	
@@ -32,11 +39,11 @@ public class HibernateUtilities {
 	public static void shutdown() {
 		if (sessionFactory.isOpen()) {
 			sessionFactory.close();
-			System.out.println("sessionFactory closed.");
+			LOGGER.info("sessionFactory closed.");
 		}  
 		if (serviceRegistry != null) {
 			StandardServiceRegistryBuilder.destroy(serviceRegistry);
-			System.out.println("serviceRegistry destroyed.");
+			LOGGER.info("serviceRegistry destroyed.");
 		}
 	}
 	
@@ -59,19 +66,19 @@ public class HibernateUtilities {
 				newSessionFactory = true;
 	         }
 		} catch (HibernateException e) {
-			System.out.println("Hibernate threw an error.");
-			System.out.println(e.getMessage());
+			LOGGER.error("Hibernate threw an error.");
+			LOGGER.error(e.getMessage());
 			StackTraceElement[] ste = e.getStackTrace();
 			for (int i = 0; i < ste.length; i++) {
-				System.out.println(ste[i]);
+				LOGGER.error(ste[i]);
 			}
 			//newSessionFactory = false;
 		} catch (Exception e) {
-			System.out.println("Error trying to create sessionFactory");
-			System.out.println(e.getMessage());
+			LOGGER.error("Error trying to create sessionFactory");
+			LOGGER.error(e.getMessage());
 			StackTraceElement[] ste = e.getStackTrace();
 			for (int i = 0; i < ste.length; i++) {
-				System.out.println(ste[i]);
+				LOGGER.error(ste[i]);
 			}
 			//newSessionFactory = false;
 		} finally {
@@ -79,12 +86,12 @@ public class HibernateUtilities {
 				StandardServiceRegistryBuilder.destroy(serviceRegistry);
 			}
 			if (newSessionFactory) 
-				System.out.println("Returning new sessionFactory...");
+				LOGGER.info("Returning new sessionFactory...");
 			else if (!newSessionFactory || sessionFactory != null) {
-				System.out.println("sessionFactory was not created due to an error.");
+				LOGGER.error("sessionFactory was not created due to an error.");
 				return null;
 			} else
-				System.out.println("sessionFactory already created.");
+				LOGGER.debug("sessionFactory already created.");
 		}
 		
 		return sessionFactory;

@@ -1,6 +1,5 @@
 package com.miBudget.v1.serviceimplementations;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.hibernate.Session;
