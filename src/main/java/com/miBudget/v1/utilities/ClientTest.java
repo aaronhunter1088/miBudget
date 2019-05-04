@@ -1,7 +1,7 @@
 package com.miBudget.v1.utilities;
 
-import java.util.ArrayList;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,9 +10,6 @@ import org.hibernate.Transaction;
 import com.miBudget.v1.daoimplementations.AccountDAOImpl;
 import com.miBudget.v1.daoimplementations.ItemDAOImpl;
 import com.miBudget.v1.daoimplementations.MiBudgetDAOImpl;
-import com.miBudget.v1.entities.Item;
-import com.miBudget.v1.entities.User;
-
 
 
 public class ClientTest {
@@ -21,6 +18,11 @@ public class ClientTest {
 	public static ItemDAOImpl itemDAOImpl = new ItemDAOImpl();
 	public static MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
 	
+	private static Logger logger = null;
+	static {
+		System.setProperty("appName", "miBudget");
+	    logger = LogManager.getLogger(ClientTest.class);
+	}
 	public static void main(String[] args) {
 		try {
 			SessionFactory factory = HibernateUtilities.getSessionFactory();
@@ -28,9 +30,10 @@ public class ClientTest {
 			Transaction t = hibernateSession.beginTransaction();
 			String SQL = "SELECT version()";
 			String result = hibernateSession.createNativeQuery(SQL).getResultList().get(0).toString();
-			System.out.format("MySQL version is %s\n", result);
+			logger.info("MySQL version is {}\n", result);
 			//t.commit();
 			hibernateSession.close();
+			logger.info("End client test.");
 			//t = hibernateSession.beginTransaction();
 			//User me = new User(20);
 			//@SuppressWarnings("unchecked")
@@ -51,13 +54,15 @@ public class ClientTest {
 			
 			//HibernateUtilities.shutdown();
 		} catch (NullPointerException | HibernateException e) {
-			System.out.println("Error making a connection to the database...\n");
+			logger.error("Error making a connection to the database");
 			StackTraceElement[] ste = e.getStackTrace();
+			StringBuilder err = new StringBuilder();
 			for (int i = 0; i < ste.length; i++) {
-				System.out.println(ste[i]);
+				err.append(ste[i] + "\n");
 			}
+			logger.error(err);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			logger.error(e.getMessage());
 		}
 	}
 
