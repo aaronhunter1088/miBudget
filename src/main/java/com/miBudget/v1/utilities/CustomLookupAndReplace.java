@@ -47,7 +47,7 @@ public class CustomLookupAndReplace implements StrLookup {
 			try {
 				numOfLogs = new File(path).list().length;
  			} catch (NullPointerException e) {
- 				LOGGER.error("There was an exception: couldn't find the file using the path: " + path);
+ 				LOGGER.error("There was an exception: couldn't find the number of logs using the path: " + path);
  				printException(e);
  			}
 		}
@@ -70,13 +70,13 @@ public class CustomLookupAndReplace implements StrLookup {
 			dateOfMonth = cal.get(Calendar.DAY_OF_MONTH);
 			year = cal.get(Calendar.YEAR);
 			if (month <= 9) monthStr = "0" + month;
-			if (dateOfMonth <= 9) dateOfMonthStr = "0" + month;
+			if (dateOfMonth <= 9) dateOfMonthStr = "0" + dateOfMonth;
 		} catch (Exception e) {
 			printException(e);
 		}
-		if (month <= 9) {
+		if (month <= 9 && dateOfMonth > 9) {
 			return monthStr + "-"+Integer.toString(dateOfMonth)+"-"+Integer.toString(year);
-		} else if (dateOfMonth <= 9) {
+		} else if (dateOfMonth <= 9 && month > 9) {
 			return Integer.toString(month)+"-"+ dateOfMonthStr+"-"+Integer.toString(year);
 		} else if (month <= 9 && dateOfMonth <= 9 ) {
 			return monthStr + "-" + dateOfMonthStr + "-" + Integer.toString(year);
