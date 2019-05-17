@@ -1,107 +1,100 @@
-<!DOCTYPE html>
+<!DOCTYPE>
 <html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Login</title>
-<link rel="icon" type="image/x-icon" href="wallet.ico">
-<style>
-	::placeholder {
-	color: black;
-	font-weight: bold;
-}
-.cursor {
-	cursor:pointer;
-}
-</style>
-</head>
-<body bgcolor="#32CD32">
-<h1>Login</h1>	
-<form id="login_form" onsubmit="return validateFields()" method="post" action="Login">
-  <div class="container">
-    <input type="hidden" name="validated" value="false"></input>
-    <input type="hidden" name="btnSelected" value="Cancel"></input>
-    <input type="text" placeholder="Enter cellphone" tabindex="1" name="Cellphone" value="" required>
-	<br/>
-	<hr/>
-    <input type="password" placeholder="Enter Password" tabindex="2" name="Password" value="" required>
-	<br/>
-	<hr/>
-	<label>
-      <input type="checkbox" checked="checked" name="remember"> Remember me </input>
-    </label>
-    <br/>
-    <br/>
-    <!-- <button type="submit">Login</button> <!-- Calls doGet --> 
-    <div class="clearfix">
-      <button class="button cursor" type="submit" tabindex="3">Login</button>
-      <input class="button cursor" type="button" onclick="window.location.replace('index.html')" value="Cancel" /> 
-    </div>
-   	<hr/>
-   	<input class="button cursor" type="button" onclick="window.location.replace('ForgotPassword.jsp')" value="Forgot Password" />
-  </div>
-</form>
-
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
-<script>
-$(function() {
-	$('.button').removeAttr('disabled');
-});
-</script>
-<script>
-function setBlankFields() {
-	$('#login_form')
-	.find('input[name=Cellphone]')
-	.val(" ");
-	$('#login_form')
-	.find('input[name=Password]')
-	.val(" ");
-	return true;
-};
-function validateFields() {
-	let validate = false;
-	let count = 0;
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Login</title>
+		<link href="wallet.ico" rel="icon" type="image/x-icon">
+		<style>
+		    ::placeholder {
+		   		color: black;
+		   		font-weight: bold;
+		   		text-align: center;
+			}
+			.cursor {
+			   cursor:pointer;
+			}
+		</style>
+	</head>
+	<body bgcolor="#32CD32">
+		
+		<form action="Login" id="login_form" method="post" name="login_form" onsubmit="return validateFields()">
+			<div class="container" style="text-align: center; display: block; justify-content: space-between; width: 15%">
+				<h1>Login</h1>
+				<input name="validated" type="hidden" value="false"> <input name="btnSelected" type="hidden" value="Cancel"> <input name="Cellphone" placeholder="Enter cellphone" required="" tabindex="1" type="text" value=""><br>
+				<hr>
+				<input name="Password" placeholder="Enter Password" required="" tabindex="2" type="password" value=""><br>
+				<hr>
+				<label><input checked="checked" name="remember" type="checkbox"> Remember me</label> <br>
+				<br>
+				<!-- <button type="submit">Login</button> <!== Calls doGet -->
+				<div class="clearfix" style="text-align: center; display: block; justify-content: space-between;">
+					<button class="button cursor" tabindex="3" type="submit">Login</button> 
+					<input class="button cursor" onclick="window.location.replace('index.html')" type="button" value="Cancel">
+					<hr>
+					<input class="button cursor" onclick="window.location.replace('ForgotPassword.jsp')" type="button" value="Forgot Password">
+				</div>
+			</div>
+		</form>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js">
+		</script> 
+		<script>
+		$(function() {
+		   $('.button').removeAttr('disabled');
+		});
+		</script> 
+		<script>
+		function setBlankFields() {
+		   $('#login_form')
+		   .find('input[name=Cellphone]')
+		   .val(" ");
+		   $('#login_form')
+		   .find('input[name=Password]')
+		   .val(" ");
+		   return true;
+		};
+		function validateFields() {
+		   let validate = false;
+		   let count = 0;
+		   
+		   // Check cellphone
+		   let cellphone = $('#login_form')
+		   .find('input[name=Cellphone]')
+		   .val();
+		   if (cellphone === "") {
+		       alert("Cellphone cannot be blank.");
+		       return validate;
+		   }
+		   else if (cellphone.length != 10) {
+		       alert("Invalid cellphone format. Please provide 10 digits.");
+		       return validate;
+		   }
+		   else if (isNaN(cellphone)) {
+		       alert("Invalid cellphone format. Cellphones cannot include letters.");
+		       return validate;
+		   } else {
+		       count++; // 1
+		   }
+		   
+		   // Check password
+		   let password = $('#login_form')
+		   .find('input[name=Password]')
+		   .val();
+		   if (password === "") {
+		       alert("Password cannot be blank.");
+		       return validate;
+		   } else {
+		       count++; // 2
+		   }
+		   
+		   if (count == 2) {
+		       validate = true;
+		       $('#login_form')
+		       .find('input[name=Validated]')
+		       .val("true");
+		   }
 	
-	// Check cellphone
-	let cellphone = $('#login_form')
-	.find('input[name=Cellphone]')
-	.val();
-	if (cellphone === "") {
-		alert("Cellphone cannot be blank.");
-		return validate;
-	}
-	else if (cellphone.length != 10) {
-		alert("Invalid cellphone format. Please provide 10 digits.");
-		return validate;
-	}
-	else if (isNaN(cellphone)) {
-		alert("Invalid cellphone format. Cellphones cannot include letters.");
-		return validate;
-	} else {
-		count++; // 1
-	}
-	
-	// Check password
-	let password = $('#login_form')
-	.find('input[name=Password]')
-	.val();
-	if (password === "") {
-		alert("Password cannot be blank.");
-		return validate;
-	} else {
-		count++; // 2
-	}
-	
-	if (count == 2) {
-		validate = true;
-		$('#login_form')
-		.find('input[name=Validated]')
-		.val("true");
-	}
-
-	return validate;
-};
-</script>
-</body>
+		   return validate;
+		};
+		</script>
+	</body>
 </html>
