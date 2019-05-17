@@ -2,6 +2,7 @@ package com.miBudget.v1.servlets.test;
 
 import junit.framework.Test;
 import junit.framework.TestResult;
+import org.junit.*;
 
 public class LoginTest implements Test {
 
@@ -16,7 +17,5 @@ public class LoginTest implements Test {
 		// TODO Auto-generated method stub
 
 	}
-	
-	
 
 }

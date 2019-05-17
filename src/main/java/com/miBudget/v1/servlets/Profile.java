@@ -2,6 +2,8 @@ package com.miBudget.v1.servlets;
 
 import java.io.IOException;
 import java.time.*;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +14,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.miBudget.v1.utilities.DateAndTimeUtility;
 
 /**
  * Servlet implementation class Welcome
@@ -34,7 +38,10 @@ public class Profile extends HttpServlet {
 			LOGGER.info("Redirecting to Profile.jsp");
 			LOGGER.info("--- END ---");
 			// Update time
-			session.setAttribute("instantNow", Instant.now());
+			Calendar cal = Calendar.getInstance();
+			Date now = new Date();
+			cal.setTime(now);
+			session.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr(cal));
 			response.sendRedirect("Profile.jsp");
 		} else {
 			// User is not logged in or the session is null
@@ -57,7 +64,10 @@ public class Profile extends HttpServlet {
         	LOGGER.info("Redirecting to Profile.jsp");
         	LOGGER.info("--- END ---");
         	// Update time
-        	session.setAttribute("instantNow", Instant.now());
+        	Calendar cal = Calendar.getInstance();
+        	Date now = new Date();
+        	cal.setTime(now);
+        	session.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr(cal));
         	getServletContext().getRequestDispatcher("/Profile.jsp").forward(request, response);
         }  
         else { 
@@ -67,4 +77,6 @@ public class Profile extends HttpServlet {
             response.sendRedirect("Login.html");
         }
 	}
+	
+	
 }

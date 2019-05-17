@@ -60,7 +60,7 @@
 		<p>Session object user firstname='${Firstname}' lastname='${Lastname}'</p>
 		<br/>
 		<br/>
-		<p id="date" class="footer" style="text-align:center">${instantNow}</p>
+		<p id="date" class="footer" style="text-align:center">${dateAndTime}</p>
 		
 		
 	</body>

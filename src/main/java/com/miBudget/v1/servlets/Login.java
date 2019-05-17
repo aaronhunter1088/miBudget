@@ -2,6 +2,8 @@ package com.miBudget.v1.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.time.*;
@@ -23,6 +25,7 @@ import com.miBudget.v1.entities.Account;
 import com.miBudget.v1.entities.Item;
 import com.miBudget.v1.entities.User;
 import com.miBudget.v1.entities.UsersItemsObject;
+import com.miBudget.v1.utilities.DateAndTimeUtility;
 
 
 /**
@@ -45,19 +48,9 @@ public class Login extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LOGGER.info("--- START ---");
 		LOGGER.info("Inside the Login doGet() servlet.");
-		String btnSelected = request.getParameter("btnSelected");
-		LOGGER.info("btnSelected: " + btnSelected);
-		if (btnSelected != null) {
-			if (btnSelected.equals("Cancel")) {
-				LOGGER.info("Redirecting to index.html.");
-				LOGGER.info("--- END ---");
-				getServletContext().getRequestDispatcher("/index.html").forward(request, response);
-			}
-		} else {
-			LOGGER.info("Redirecting to Login.html.");
-			LOGGER.info("--- END ---");
-			response.setStatus(HttpServletResponse.SC_OK);
-		}
+		LOGGER.info("Redirecting to Login.html.");
+		LOGGER.info("--- END ---");
+		response.setStatus(HttpServletResponse.SC_OK);
 	}
 	
 	/**
@@ -136,6 +129,10 @@ public class Login extends HttpServlet {
 				session.invalidate();
 				session = request.getSession(true);
 			}
+			// Update time
+        	Calendar cal = Calendar.getInstance();
+        	Date now = new Date();
+        	cal.setTime(now);
 			ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(loginUser);
 			session.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
 			session.setAttribute("institutionIdsList", institutionIdsList);
@@ -148,7 +145,7 @@ public class Login extends HttpServlet {
 			session.setAttribute("user", loginUser); 
 			session.setAttribute("accountsSize", accounts);
 			session.setAttribute("isUserLoggedIn", true);
-			session.setAttribute("instantNow", instantNow);
+			session.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr(cal));
 		    
 			LOGGER.info("Redirecting to Profile.jsp");
 			LOGGER.info("--- END ---");

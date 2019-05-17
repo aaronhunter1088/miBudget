@@ -16,9 +16,12 @@
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/entities/Category.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/Accounts.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/entities/UsersInstitutionIdsObject.java
+/Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/impls/LoggerImpl.java
+/Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/utilities/CustomLookupAndReplace.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/CAT.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/services/UserServices.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/entities/Rule.java
+/Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/utilities/DateAndTimeUtility.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/utilities/ContextListener.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/Profile.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/entities/Account.java
