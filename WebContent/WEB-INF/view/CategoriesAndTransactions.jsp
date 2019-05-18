@@ -15,11 +15,14 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<link rel="icon" type="image/x-icon" href="wallet.ico">
+		<link rel="icon" type="image/x-icon" href="images/wallet.ico">
 		<title>Categories and Transactions</title>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<style>
 			img {
 				width : 50px;
@@ -90,6 +93,7 @@
 			    text-align: center;
 			    text-size: 30%;
 			}
+			
 		</style>
 	</head>
 	<body style="margin:8px; overflow: auto;" class="fonta">
@@ -138,6 +142,8 @@
 					<br/>
 					<p style="text-align:center;">Rules</p>
 					<p>Rules takes precedence when new transactions come in and will affect this Category! You can define both types of rules but you must choose which one will take precedence.</p>
+					<button type="submit" style="right; left:71%; width:130px; white-space: nowrap;" id="saveRule">Save Rule</button>
+					
 					<br/>
 							
 					<div id="group1">
@@ -168,15 +174,21 @@
 					</div>
 					<br/>
 					<br/>
-					<div id="currentRules" style="width:99%;">
+					<div id="currentRules" style="height: 90px; width:99%; overflow: scroll;">
 						<p>This div should be scrollable</p>
 						<p>It will dynamically list the rules the user has added to a new category.</p>
 						<p>Once rule is saved, user should have the freedom to edit any value right there. When category is saved the last
 						value inside each rule will be used as the ultimate decision for the rule. Also, all inputs for rules will be cleared.</p>
+						<p>Once rule is saved, user should have the freedom to edit any value right there. When category is saved the last
+						value inside each rule will be used as the ultimate decision for the rule. Also, all inputs for rules will be cleared.</p>
+						
+						<p>Once rule is saved, user should have the freedom to edit any value right there. When category is saved the last
+						value inside each rule will be used as the ultimate decision for the rule. Also, all inputs for rules will be cleared.</p>
+					
 					</div>
 					<br/>
 					<br/>
-					<button type="submit" style="float:left; left:19%; width:180px; white-space: nowrap;" tabindex="7" id="saveRuleToCategory">Add Rule(s) to Category</button>
+					<button type="submit" style="float:left; left:19%; width:180px; white-space: nowrap;" tabindex="7" id="deleteCategory">Wipe Category Form</button>
 					<button type="submit" style="float:left; left:70%; width:150px; white-space: nowrap;" tabindex="8" id="saveNewCategory">Save New Category</button>
 					<br/>
 					<br/>
@@ -208,6 +220,8 @@
 					<br/>
 					<p style="text-align:center;">Rules</p>
 					<p>Rules takes precedence when new transactions come in and will affect this Category! You can define both types of rules but you must choose which one will take precedence.</p>
+					<button type="submit" style="right; left:71%; width:130px; white-space: nowrap;" id="saveRule">Save Rule</button>
+					
 					<br/>
 							
 					<div id="group2">
@@ -238,8 +252,20 @@
 					</div>
 					<br/>
 					<br/>
-					<div id="currentRules" style="width:99%;">
-						<p>This div should be scrollable</p>
+					<div id="currentRules" style="height: 90px; width:99%; overflow: scroll;">
+						<p>Rules will appear here</p>
+						<p>Rule 1</p>
+						<p>Rule 2</p>
+						<p>Rule 1</p>
+						<p>Rule 2</p>
+						<p>Rule 1</p>
+						<p>Rule 2</p>
+						<p>Rule 1</p>
+						<p>Rule 2</p>
+						<p>Rule 1</p>
+						<p>Rule 2</p>
+						<p>Rule 1</p>
+						<p>Rule 2</p>
 						<p>Rule 1</p>
 						<p>Rule 2</p>
 					</div>
@@ -257,6 +283,10 @@
 					
 			<div id="transactionsDiv" class="border" style="width:49%; float:right;"> <!-- Start Transactions Div -->
 				<div id="getTransactionsDiv" style="width:99%; text-align:center;">
+					<div style="margin: auto; text-align: center; display: flex; flex-direction: row;">
+						<input style="display: block;" title="The From Date is not required" class="form-control" id="datepicker" name="FromDate" placeholder="From" required="" tabindex="#" type="text" value=""><br>
+						<input style="display: block;" title="The To Date is not required" class="form-control" id="datepicker2" name="ToDate" placeholder="To" required="" tabindex="#" type="text" value=""><br>
+				    </div>
 					<datalist id="accounts">
 						<% HashMap<String, ArrayList<Account>> acctsMap = (HashMap<String, ArrayList<Account>>)
 										session.getAttribute("acctsAndInstitutionIdMap");
@@ -270,10 +300,13 @@
 					</datalist>
 					<input type="hidden" name="validated" value="false"/>
 					<input type="hidden" name="formId" value="transactions"/>
-					<input type="text" name="numberOfTrans" class="form-control" style="width:50px; display:inline-block;" title="Enter the number of transactions you wish to receive" placeholder="#"/>
-					<input id="currentAccount" name="currentAccount" class="form-control" list="accounts" type="text" style="width:200px; display: inline-block;" placeholder="Choose an Account" tabindex="1" name="account" required/>
+					<div style="margin: auto; text-align: right; display: flex; flex-direction: row;">
+						<input type="text" name="numberOfTrans" class="form-control" style="width:50px; display: block;" title="Enter the number of transactions <=50 you wish to receive" placeholder="#"/>
+						<input id="currentAccount" onchange="updateHiddenValue(this)" name="currentAccount" title="Choose an Account to pull transactions from" class="form-control" list="accounts" type="text" style="display: block;" placeholder="Choose an Account" tabindex="1" name="account" required/>
+						<input type="hidden" id="currentAccountHidden" name="currentAccountHidden"/> 
+						<input id="getTransactions" type="submit" title="Get Transactions" onclick="validateFields('transactions')" class="form-control" style="width:130px; display: block;" value="Get Transactions"/>
+					</div>
 					
-					<input id="getTransactions" type="submit" onclick="validateFields('transactions')" class="form-control" style="width:130px; display:inline-block;" value="Get Transactions"/>
 				 </div> 
 						
 				<div id="transactionsTable">
@@ -281,11 +314,17 @@
 				</div>
 			</div>
 			
+			
 		</div>
 		<br/>
 		<br/>
 		<p id="date" class="footer" style="text-align:center">${dateAndTime}</p>
 		<script>
+			function updateHiddenValue() {
+				$("#transactions")
+				.find('input[name=currentAccountHidden]')
+				.val(this.value);
+			};
 			function clearInput(input) {
 				//alert("Clearing this text box.")
 				var target = input;
@@ -307,35 +346,48 @@
 				}
 				
 			};
-	
 			function validateFields(name) {
-				let validate = true;
+				let validate = false;
 				let formName = "#"+name; // #transactions
 				
 				if (formName == "#transactions") {
+					let fromDate = $("#transactions")
+					.find('input[name=FromDate]')
+					.val();
+					let toDate = $("#transactions")
+					.find('input[name=ToDate]')
+					.val();
+
+					console.log("fromDate: " + fromDate + "\ntoDate: " + toDate);
+					
 					// Check transactions count has value
 					let count = $("#transactions")
 					.find('input[name=numberOfTrans]')
 					.val();
 			
-					if (count != "") {
+					if (count === "undefined") {
 						console.log("count: " + count);
-					} else
-						validate = false;
+					} else {
+						count = 0
+						console.log("count: " + count);
+					}
 			
 					// Check that an account was chosen
 					let accountName = $("#transactions")
-					.find('input[id=currentAccount]')
+					.find('input[name=currentAccountHidden]')
 					.val(); 
 			
-					if (accountName != "") {
-						console.log("accountName: " + accountName);
-					} else
+					if (accountName === "undefined" || accountName == "") {
+						console.log("null accountName: " + accountName);
 						validate = false;
-					//let checkbox = $("#showET").prop("checked"); // true or false
-					//console.log("checkbox checked?: " + checkbox);
-					// either is okay. required when submitting transactions form
-			
+					} else {
+						console.log("accountName: " + accountName);
+						$("#transactions")
+						.find('input[name=validated]')
+						.val(true);
+						validate = true;
+					}
+					
 					if (validate) {
 						console.log("form is good to send");
 						//$(formName).find('input[name=validated]').val("true");
@@ -353,10 +405,16 @@
 						        console.log("response from CAT");
 						        console.log(data);
 						        console.log("eventually, hide this #transactions form/div and show  transactionsTable.");
-					        }
+					        },
+					        'fail': function(response) {
+								console.log("failed to perform Post to CAT");
+								console.log(response);
+						    }
 					    });
 					}
-					
+					else if (!validate) {
+						console.log("Unable to post to CAT");
+					}
 				}
 				
 				//return validate;
@@ -365,7 +423,9 @@
 		
 			// onReady function
 			$(function() {
-				var acctsAndInsIdMap = function () {
+				$( "#datepicker" ).datepicker();
+				$( "#datepicker2" ).datepicker();
+			    var acctsAndInsIdMap = function () {
 					var list = [];
 					var map = new Map();
 					var acctsAndInsIdMap = new Map();

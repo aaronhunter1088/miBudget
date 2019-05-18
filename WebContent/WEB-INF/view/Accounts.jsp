@@ -19,7 +19,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title>Accounts</title>
-		<link rel="icon" type="image/x-icon" href="wallet.ico">
+		<link rel="icon" type="image/x-icon" href="images/wallet.ico">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
 		<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
 	    <style>

@@ -10,7 +10,7 @@
 <html>
 	<head>
 		<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-		<link href="wallet.ico" rel="icon" type="image/x-icon">
+		<link href="images/wallet.ico" rel="icon" type="image/x-icon">
 		<title>Profile</title>
 		<style>
 			h1.font1 {
