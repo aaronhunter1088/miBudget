@@ -1,6 +1,8 @@
 package com.miBudget.v1.servlets;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,7 +42,8 @@ public class CAT extends HttpServlet {
 		// TODO Auto-generated method stub
 		HttpSession requestSession = request.getSession(false);
 		if (requestSession != null && (Boolean)requestSession.getAttribute("isUserLoggedIn") == true) {
-			response.sendRedirect("CategoriesAndTransactions.jsp");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/CategoriesAndTransactions.jsp" );
+			dispatcher.forward( request, response );
 		}
 	}
 

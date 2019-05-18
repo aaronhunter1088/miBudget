@@ -6,7 +6,7 @@
     <%@ page import="java.util.Arrays" %>
     <%@ page import="java.util.ArrayList" %>
     <%@ page import="java.time.*" %>
-<!DOCTYPE html>
+<!DOCTYPE>
 <html>
 	<head>
 		<meta content="text/html; charset=utf-8" http-equiv="Content-Type">

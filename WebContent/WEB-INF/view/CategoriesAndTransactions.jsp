@@ -80,9 +80,19 @@
 			::list {
 				position: left;
 			}
+			.footer {
+			    position: fixed;
+			    left: 0;
+			    bottom: 0;
+			    width: 100%;
+			    background-color: white;
+			    color: black;
+			    text-align: center;
+			    text-size: 30%;
+			}
 		</style>
 	</head>
-	<body style="margin:8px;" class="fonta">
+	<body style="margin:8px; overflow: auto;" class="fonta">
 		<h1 class="font1">Categories and Transactions for <i>${Firstname} ${Lastname}</i></h1>
 		<br/>
 		<% User user = (User)session.getAttribute("user"); %>
@@ -96,7 +106,7 @@
 			</form>
 		</div>
 		<br/>
-		<div style="width:100%;">
+		<div style="width:100%; overflow: auto;">
 			<h3 style="display:inline;width:50%;float:left;text-align:center;">Categories</h3>
 			<h3 style="display:inline;width:50%;float:right;text-align:center;">Transactions</h3>
 		
@@ -272,6 +282,9 @@
 			</div>
 			
 		</div>
+		<br/>
+		<br/>
+		<p id="date" class="footer" style="text-align:center">${dateAndTime}</p>
 		<script>
 			function clearInput(input) {
 				//alert("Clearing this text box.")

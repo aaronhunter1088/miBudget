@@ -57,6 +57,16 @@
 				visibility: hidden; /* visible */
 			}
 			.acct {}
+			.footer {
+			    position: fixed;
+			    left: 0;
+			    bottom: 0;
+			    width: 100%;
+			    background-color: white;
+			    color: black;
+			    text-align: center;
+			    text-size: 30%;
+			}
 		</style>
 	</head>
 	<body>
@@ -67,7 +77,7 @@
 		<% AccountDAOImpl accountDAOImpl = new AccountDAOImpl(); %>
 		<% ItemDAOImpl itemsDAOImpl = new ItemDAOImpl(); %>
 	
-		<form action="Profile" method="get"> <!-- think about chaning this call to get -->
+		<form action="Profile" method="get"> <!-- think about changing this call to get -->
 			<button type="submit">Profile Page</button>
 		</form>
 		<hr/>
@@ -75,6 +85,7 @@
 		<hr/>
 		<button id="testButton" onclick="reloadPage()">Update Table</button>
 		<hr/>
+		<!-- TODO: Implement changingText on every page -->
 		<p id="changingText" class="changingText"><b>${change}</b></p>
 		<br/>
 		<p id="institutions">Banks : ${institutionIdsListSize}
@@ -84,7 +95,8 @@
 		<!-- Update updates the Item -->
 		<!-- Delete deletes the Item -->
 		<% List institutionsIdsList = (ArrayList<String>)session.getAttribute("institutionIdsList"); 
-		int idCopy; %>
+		   int idCopy; 
+		%>
 		<div class="mainTable" id="accountsTable">
 			<table class="outerTable" id="outerTable">
 				<% 
@@ -180,7 +192,11 @@
 				<% }
 		    } %> 
 			</table>
+			
 		</div>
+		<br/>
+		<br/>
+		<p id="date" class="footer" style="text-align:center">${dateAndTime}</p>
 		
 		<script>
 			$("img").on("click", function() {
@@ -247,43 +263,43 @@
 					else { col2.hide(); }
 					
 					switch (institutionId) {
-						case "ins_1"  : $(this).find('td:nth-child(1)').html('<img src="bankofamerica.jpg" alt="Bank_of_America"/>'); 
+						case "ins_1"  : $(this).find('td:nth-child(1)').html('<img src="images/bankofamerica.jpg" alt="Bank_of_America"/>'); 
 										break;
-						case "ins_2"  : $(this).find('td:nth-child(1)').html('<img src="bb&t.jpg" alt="BB&T"/>');
+						case "ins_2"  : $(this).find('td:nth-child(1)').html('<img src="images/bb&t.jpg" alt="BB&T"/>');
 										break;
-						case "ins_3"  : col1.html('<img src="chase.jpg" alt="Chase"/>');
+						case "ins_3"  : col1.html('<img src="images/chase.jpg" alt="Chase"/>');
 										break;
-						case "ins_4"  : $(this).find('td:nth-child(1)').html('<img src="wellsfargo.jpg" alt="Wells_Fargo"/>'); 
+						case "ins_4"  : $(this).find('td:nth-child(1)').html('<img src="images/wellsfargo.jpg" alt="Wells_Fargo"/>'); 
 										break;
 						case "ins_5"  : row.attr('name', 'Citi');
-										col1.html('<img src="citi.jpg" alt="Citi"/>');
+										col1.html('<img src="images/citi.jpg" alt="Citi"/>');
 										console.log('row name: ' + row.attr('name'));
 										break;
-						case "ins_6"  : $(this).find('td:nth-child(1)').html('<img src="usbank.jpg" alt="US Bank"/>');
+						case "ins_6"  : $(this).find('td:nth-child(1)').html('<img src="images/usbank.jpg" alt="US Bank"/>');
 										break;
-						case "ins_7"  : $(this).find('td:nth-child(1)').html('<img src="usaa.jpg" alt="USAA"/>');
+						case "ins_7"  : $(this).find('td:nth-child(1)').html('<img src="images/usaa.jpg" alt="USAA"/>');
 										break;
-						case "ins_9"  : $(this).find('td:nth-child(1)').html('<img src="capitalone.jpg" alt="Capital_One"/>');
+						case "ins_9"  : $(this).find('td:nth-child(1)').html('<img src="images/capitalone.jpg" alt="Capital_One"/>');
 										break;
-						case "ins_10" : $(this).find('td:nth-child(1)').html('<img src="amex.jpg" alt="American_Express"/>');
+						case "ins_10" : $(this).find('td:nth-child(1)').html('<img src="images/amex.jpg" alt="American_Express"/>');
 										break;
-						case "ins_11" : $(this).find('td:nth-child(1)').html('<img src="charlesschwab.jpg" alt="Charles_Schwab"/>');
+						case "ins_11" : $(this).find('td:nth-child(1)').html('<img src="images/charlesschwab.jpg" alt="Charles_Schwab"/>');
 										break;
-						case "ins_12" : $(this).find('td:nth-child(1)').html('<img src="fidelity.jpg" alt="Fidelity"/>');
+						case "ins_12" : $(this).find('td:nth-child(1)').html('<img src="images/fidelity.jpg" alt="Fidelity"/>');
 										break;
-						case "ins_13" : $(this).find('td:nth-child(1)').html('<img src="pnc.jpg" alt="PNC"/>');
+						case "ins_13" : $(this).find('td:nth-child(1)').html('<img src="images/pnc.jpg" alt="PNC"/>');
 										break;
-						case "ins_14" : $(this).find('td:nth-child(1)').html('<img src="tdbank.jpg" alt="TD_Bank"/>');
+						case "ins_14" : $(this).find('td:nth-child(1)').html('<img src="images/tdbank.jpg" alt="TD_Bank"/>');
 										break;
-						case "ins_15" : $(this).find('td:nth-child(1)').html('<img src="navyfederal.jpg" alt="Navy_Federal"/>');
+						case "ins_15" : $(this).find('td:nth-child(1)').html('<img src="images/navyfederal.jpg" alt="Navy_Federal"/>');
 										break;
-						case "ins_16" : $(this).find('td:nth-child(1)').html('<img src="suntrust.jpg" alt="Sun_Trust"/>');
+						case "ins_16" : $(this).find('td:nth-child(1)').html('<img src="images/suntrust.jpg" alt="Sun_Trust"/>');
 										break;
-						case "ins_19" : $(this).find('td:nth-child(1)').html('<img src="regions.jpg" alt="Regions"/>');
+						case "ins_19" : $(this).find('td:nth-child(1)').html('<img src="images/regions.jpg" alt="Regions"/>');
 										break;
-						case "ins_20" : $(this).find('td:nth-child(1)').html('<img src="citizensbank.jpg" alt="Citizens_Bank"/>');
+						case "ins_20" : $(this).find('td:nth-child(1)').html('<img src="images/citizensbank.jpg" alt="Citizens_Bank"/>');
 										break;
-						case "ins_21" : $(this).find('td:nth-child(1)').html('<img src="huntington.jpg" alt="Huntington"/>');
+						case "ins_21" : $(this).find('td:nth-child(1)').html('<img src="images/huntington.jpg" alt="Huntington"/>');
 										break;
 						default  : console.log('unknown institution.');
 										break;

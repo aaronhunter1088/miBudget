@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.time.*;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -149,11 +150,14 @@ public class Login extends HttpServlet {
 		    
 			LOGGER.info("Redirecting to Profile.jsp");
 			LOGGER.info("--- END ---");
-			response.sendRedirect("Profile.jsp");
+			//response.sendRedirect("/WEB-INF/view/Profile.jsp");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/Profile.jsp" );
+			dispatcher.forward( request, response );
 		} else {
 			LOGGER.info("Redirecting to Register.jsp");
 			LOGGER.info("--- END ---");
-			response.sendRedirect("Register.jsp");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/Register.jsp" );
+			dispatcher.forward( request, response );
 		}
 	}
 }

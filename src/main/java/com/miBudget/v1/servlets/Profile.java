@@ -5,6 +5,7 @@ import java.time.*;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -42,12 +43,14 @@ public class Profile extends HttpServlet {
 			Date now = new Date();
 			cal.setTime(now);
 			session.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr(cal));
-			response.sendRedirect("Profile.jsp");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/Profile.jsp" );
+			dispatcher.forward( request, response );
 		} else {
 			// User is not logged in or the session is null
 			LOGGER.info("Redirecting to Login.html");
 			LOGGER.info("--- END ---");
-			response.sendRedirect("Login.html");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "index.html" );
+			dispatcher.forward( request, response );
 		}
 	}
 	

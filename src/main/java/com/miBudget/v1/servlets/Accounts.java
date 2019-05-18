@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -115,13 +116,15 @@ public class Accounts extends HttpServlet {
 			requestSession.setAttribute("ErrMapForItems", errMapForItems);
 			LOGGER.info("Redirecting to Accounts.jsp.");
 			LOGGER.info("--- END ---");
-			response.sendRedirect("Accounts.jsp");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/Accounts.jsp" );
+			dispatcher.forward( request, response );
 		} else {
 			LOGGER.info("requestSession: " + requestSession );
 			LOGGER.info("isUserLoggedIn: " + requestSession.getAttribute("isUserLoggedIn") );
 			LOGGER.info("Redirecting to Login.html");
 			LOGGER.info("--- END ---");
-			response.sendRedirect("Login.html");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "index.html" );
+			dispatcher.forward( request, response );
 		}
 		
 		//doPost(request, response);
