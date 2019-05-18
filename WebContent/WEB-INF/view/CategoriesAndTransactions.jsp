@@ -284,8 +284,8 @@
 			<div id="transactionsDiv" class="border" style="width:49%; float:right;"> <!-- Start Transactions Div -->
 				<div id="getTransactionsDiv" style="width:99%; text-align:center;">
 					<div style="margin: auto; text-align: center; display: flex; flex-direction: row;">
-						<input style="display: block;" title="The From Date is not required" class="form-control" id="datepicker" name="FromDate" placeholder="From" required="" tabindex="#" type="text" value=""><br>
-						<input style="display: block;" title="The To Date is not required" class="form-control" id="datepicker2" name="ToDate" placeholder="To" required="" tabindex="#" type="text" value=""><br>
+						<input style="display: block;" title="The From Date is not required" class="form-control" id="FromDate" name="FromDate" placeholder="From" required="" tabindex="#" type="text" value=""><br>
+						<input style="display: block;" title="The To Date is not required" class="form-control" id="ToDate" name="ToDate" placeholder="To" required="" tabindex="#" type="text" value=""><br>
 				    </div>
 					<datalist id="accounts">
 						<% HashMap<String, ArrayList<Account>> acctsMap = (HashMap<String, ArrayList<Account>>)
@@ -301,10 +301,10 @@
 					<input type="hidden" name="validated" value="false"/>
 					<input type="hidden" name="formId" value="transactions"/>
 					<div style="margin: auto; text-align: right; display: flex; flex-direction: row;">
-						<input type="text" name="numberOfTrans" class="form-control" style="width:50px; display: block;" title="Enter the number of transactions <=50 you wish to receive" placeholder="#"/>
-						<input id="currentAccount" onchange="updateHiddenValue(this)" name="currentAccount" title="Choose an Account to pull transactions from" class="form-control" list="accounts" type="text" style="display: block;" placeholder="Choose an Account" tabindex="1" name="account" required/>
-						<input type="hidden" id="currentAccountHidden" name="currentAccountHidden"/> 
-						<input id="getTransactions" type="submit" title="Get Transactions" onclick="validateFields('transactions')" class="form-control" style="width:130px; display: block;" value="Get Transactions"/>
+						<input type="text" id="numberOfTrans" name="numberOfTrans" class="form-control" style="width:50px; display: block;" title="Enter the number of transactions <=50 you wish to receive" placeholder="#"/>
+						<input id="currentAccount" name="currentAccount" value="" title="Choose an Account to pull transactions from" class="form-control" list="accounts" type="text" style="display: block;" placeholder="Choose an Account" tabindex="1" required/>
+						<input type="hidden" id="currentAccountHidden" name="currentAccountHidden" value=""/> 
+						<input id="getTransactions" type="submit" title="Get Transactions" onclick="validateFields('get transactions')" class="form-control" style="width:130px; display: block;" value="Get Transactions"/>
 					</div>
 					
 				 </div> 
@@ -320,11 +320,6 @@
 		<br/>
 		<p id="date" class="footer" style="text-align:center">${dateAndTime}</p>
 		<script>
-			function updateHiddenValue() {
-				$("#transactions")
-				.find('input[name=currentAccountHidden]')
-				.val(this.value);
-			};
 			function clearInput(input) {
 				//alert("Clearing this text box.")
 				var target = input;
@@ -348,22 +343,17 @@
 			};
 			function validateFields(name) {
 				let validate = false;
-				let formName = "#"+name; // #transactions
+				let methodName = name;
+				let formName = name.split(' ')[1];
 				
-				if (formName == "#transactions") {
-					let fromDate = $("#transactions")
-					.find('input[name=FromDate]')
-					.val();
-					let toDate = $("#transactions")
-					.find('input[name=ToDate]')
-					.val();
+				if (formName == "transactions") {
+					let fromDate = $("#FromDate").val();
+					let toDate = $("#ToDate").val();
 
 					console.log("fromDate: " + fromDate + "\ntoDate: " + toDate);
 					
 					// Check transactions count has value
-					let count = $("#transactions")
-					.find('input[name=numberOfTrans]')
-					.val();
+					let count = $("#numberOfTrans").val();
 			
 					if (count === "undefined") {
 						console.log("count: " + count);
@@ -373,12 +363,10 @@
 					}
 			
 					// Check that an account was chosen
-					let accountName = $("#transactions")
-					.find('input[name=currentAccountHidden]')
-					.val(); 
+					let accountName = $('#currentAccountHidden').val() 
 			
-					if (accountName === "undefined" || accountName == "") {
-						console.log("null accountName: " + accountName);
+					if (accountName === "undefined" || accountName === "" || accountName == null) {
+						console.log("accountName: " + null);
 						validate = false;
 					} else {
 						console.log("accountName: " + accountName);
@@ -399,7 +387,8 @@
 						        'numberOfTrans': count,
 								'currentAccount': accountName,
 								'validated': true,
-								'formId': name
+								'formName': formName,
+								'methodName': methodName
 					        },				    
 					        'success': function (data) {
 						        console.log("response from CAT");
@@ -416,15 +405,20 @@
 						console.log("Unable to post to CAT");
 					}
 				}
-				
-				//return validate;
-				//return false;
-			};
+			}; //validate fields
 		
 			// onReady function
 			$(function() {
-				$( "#datepicker" ).datepicker();
-				$( "#datepicker2" ).datepicker();
+				$('#currentAccount').on('input',function() {
+				    var opt = $('option[value="'+$(this).val()+'"]');
+				    var acct = opt.attr('value');
+				    $('#currentAccountHidden').val(acct);
+				    //console.log('input value: ' + opt.attr('value'));
+				    console.log('currentAccountHidden value: ' + $('#currentAccountHidden').val());
+				    //alert(opt.length ? opt.attr('value') : 'NO OPTION');
+				  });
+				$( "#FromDate" ).datepicker();
+				$( "#ToDate" ).datepicker();
 			    var acctsAndInsIdMap = function () {
 					var list = [];
 					var map = new Map();

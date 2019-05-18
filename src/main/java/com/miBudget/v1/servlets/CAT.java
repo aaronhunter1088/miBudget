@@ -62,10 +62,16 @@ public class CAT extends HttpServlet {
 		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String acctName = null;
 		int transactionsRequested = 0;
+		String methodName = null;
 				
 		if (session != null && (Boolean)session.getAttribute("isUserLoggedIn") == true) {
+			// Save a new Category: methodName = Save Category
+			// Update an existing Category: methodName = Update Category
+			// Delete an existing Category: methodName = Delete Category
+			// Get Transactions: methodName = get transactions
+			
 			// A valid user is requesting transactions
-			if (request.getParameter("formId").equals("transactions")) {
+			if (request.getParameter("formName").equals("transactions")) {
 				Date fromDate = null, toDate = null;
 				try {
 					fromDate = sdf.parse(request.getParameter("FromDate"));
@@ -79,12 +85,14 @@ public class CAT extends HttpServlet {
 				transactionsRequested = 
 						StringUtils.isNotBlank(request.getParameter("numberOfTrans")) ?
 						Integer.valueOf(request.getParameter("numberOfTrans")) : 50; // 50 is default for now
-				
-				LOGGER.info("acctName: " + acctName);
-				LOGGER.info("transactions requested: " + transactionsRequested);
+				methodName = request.getParameter("methodName");
+						
+				LOGGER.info("acctName: {}", acctName);
+				LOGGER.info("transactions requested: {}", transactionsRequested);
+				LOGGER.info("methodName: {}", methodName);
 				LOGGER.info("--- END ---");
 				response.setStatus(HttpServletResponse.SC_OK);
-				response.getWriter().append("\naccountName: " + acctName + "\ntransactionsReq: " + transactionsRequested);
+				response.getWriter().append("\naccountName: " + acctName + "\ntransactionsReq: " + transactionsRequested + "\nmethodName: " + methodName);
 			}
 		}
 		else {
