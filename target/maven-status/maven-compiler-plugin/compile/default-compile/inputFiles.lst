@@ -1,3 +1,4 @@
+/Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/entities/Location.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/MiBudget.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/Delete.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/utilities/HibernateUtilities.java
@@ -18,8 +19,11 @@
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/entities/UsersInstitutionIdsObject.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/impls/LoggerImpl.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/utilities/CustomLookupAndReplace.java
+/Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/processors/TransactionsProcessor.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/servlets/CAT.java
+/Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/utilities/ResponseParser.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/services/UserServices.java
+/Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/entities/Transaction.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/entities/Rule.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/utilities/DateAndTimeUtility.java
 /Users/michaelball/git/miBudget/src/main/java/com/miBudget/v1/utilities/ContextListener.java

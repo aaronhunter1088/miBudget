@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.HibernateError;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -96,15 +97,19 @@ public class MiBudgetDAOImpl {
 		
 		try {
 			insIdsList = getInstitutionIdsFromUser(user);
-			for (String id : insIdsList) {
-				int itemTableId = ItemDAOImpl.getItemTableIdUsingInsId(id);
-				acctsList = AccountDAOImpl.getAllUserAccountObjectsFromUserAndItemTableId(user, itemTableId);
-				mapToReturn.put(id, acctsList);
-				LOGGER.info("id");
-				acctsList.forEach(acct -> {
-					LOGGER.info(acct);
-				});
-				LOGGER.info("");
+			if (insIdsList.size() != 0) {
+				for (String id : insIdsList) {
+					int itemTableId = ItemDAOImpl.getItemTableIdUsingInsId(id);
+					acctsList = AccountDAOImpl.getAllUserAccountObjectsFromUserAndItemTableId(user, itemTableId);
+					mapToReturn.put(id, acctsList);
+					LOGGER.info("id");
+					acctsList.forEach(acct -> {
+						LOGGER.info(acct);
+					});
+					LOGGER.info("");
+				}
+			} else {
+				return mapToReturn; // empty
 			}
 			
 		} catch (Exception e) {
@@ -127,15 +132,21 @@ public class MiBudgetDAOImpl {
 			t = session.beginTransaction();
 			institutionIds = (ArrayList<String>) session
 					   .createNativeQuery("SELECT institution_id FROM users_institution_ids "
-					   					+ "WHERE user_id = " + user.getId()).getResultList();
-			LOGGER.info("Query executed. institutionIds list populated from MiBudgetDAOImpl.");
-			LOGGER.info("Returning " + institutionIds.size() + " institution ids for " + user.getFirstName() + " " + user.getLastName());
+					   					+ "WHERE user_id = " + user.getId())
+					   .getResultList();
+			LOGGER.info("Query executed.");
+			LOGGER.info(institutionIds.size() + " institution ids for " + user.getFirstName() + " " + user.getLastName());
 			session.getTransaction().commit();
 			session.close();
-			for ( String id : institutionIds) {
-				LOGGER.info("institution_id: " + id);
+			if (institutionIds.size() != 0) {
+				for ( String id : institutionIds) {
+					LOGGER.info("institution_id: " + id);
+				}
+			} else {
+				LOGGER.info("Returning an empty list.");
+				return new ArrayList<String>();
 			}
-			return institutionIds;
+			return institutionIds; // TODO: possibly return an empty list.
 		} catch (Exception e) {
 			LOGGER.error("Error connecting to DB");
 			LOGGER.error(e.getMessage());
@@ -192,7 +203,12 @@ public class MiBudgetDAOImpl {
 			LOGGER.info("Institution saved"); // "Institution save using session.save(item)"
 			session.close();
 			return 1; // good
-		} catch (Exception e) {
+		} catch (HibernateError e) {
+			LOGGER.error("There was a specific Hibernate Error");
+			LOGGER.error(e.getMessage());
+			t.rollback();
+			session.close();
+        } catch (Exception e) {
 			LOGGER.error("Error connecting to DB");
 			LOGGER.error(e.getMessage());
 			t.rollback();
@@ -238,6 +254,7 @@ public class MiBudgetDAOImpl {
 			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
+			// TODO: Check query. Appears to not be working
 			List<?> cellphonesFromDB = session
 					   .createNativeQuery("SELECT Cellphone FROM Users")
 					   .getResultList();
@@ -245,10 +262,14 @@ public class MiBudgetDAOImpl {
 			t.commit();
 			session.close();
 			Iterator<?> iterator = cellphonesFromDB.iterator();
-			while (iterator.hasNext()) {
-				String cell = iterator.next().toString();
-				cellphones.add(cell);
-				LOGGER.info("cellphone: " + cell);
+			if (iterator.hasNext()) {
+				while (iterator.hasNext()) {
+					String cell = iterator.next().toString();
+					cellphones.add(cell);
+					LOGGER.info("cellphone: " + cell);
+				}
+			} else {
+				LOGGER.info("Size of cellphones from DB is : " + cellphonesFromDB.size());
 			}
 			LOGGER.info("cellphones list populated from MiBudgetDAOImpl");
 			return cellphones;

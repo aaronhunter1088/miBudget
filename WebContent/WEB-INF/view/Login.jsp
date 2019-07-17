@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Login</title>
+<title>Login - NO LONGER USED</title>
 </head>
 <body bgcolor="#32CD32">
 <h1>Login</h1>	
@@ -22,6 +22,7 @@
     <br/>
     <br/>
     <button type="submit">Login</button>
+    <!-- Divider -->
     <input class="button" type="button" onclick="window.location.replace('index.html')" value="Cancel" />
    	<br/>
    	<hr/>

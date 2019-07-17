@@ -83,7 +83,7 @@
 		<hr/>
 		<button id="link-button">Link Account</button>
 		<hr/>
-		<button id="testButton" onclick="reloadPage()">Update Table</button>
+		<button id="testButton" onclick="reloadPage()">Update Page</button>
 		<hr/>
 		<!-- TODO: Implement changingText on every page -->
 		<p id="changingText" class="changingText"><b>${change}</b></p>
@@ -221,7 +221,7 @@
 				ans = prompt('WARNING! You are about to delete your \'' + bankName + '\' bank. Are you sure you want to continue? Enter: \'Yes\' to confirm.', '');
 				console.log('answer: ' + ans);
 
-				if (ans == 'Yes'.toLowerCase()) {
+				if (ans.toLowerCase() == 'yes') {
 					console.log('Making a post request to Delete to delete this single ' + bankName + ' account.');
 					return true;
 				}
@@ -486,14 +486,16 @@
 		    	
 		    }
 			function reloadPage() {
+				console.log('running reloadPage()')
 			    $.when(reload()).done(function() {
-			    	location.reload(true);
+			    	location.reload(true);;
 				});
 			    function reload() { 
+				    console.log('running reload()');
 			    	return $.get("Profile",
-					function(data) {
-
-					});
+						function(data) {
+	
+						});
 				};
 			}
 			$(function() {

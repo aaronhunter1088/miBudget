@@ -12,6 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.miBudget.v1.daoimplementations.AccountDAOImpl;
 
 
@@ -284,8 +287,6 @@ public class User implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return Objects.equals(accountIds, other.accountIds) && Objects.equals(cellphone, other.cellphone)
-				&& Objects.equals(email, other.email) && Objects.equals(firstname, other.firstname) && id == other.id
-				&& Objects.equals(lastname, other.lastname) && Objects.equals(password, other.password);
+		return StringUtils.equals(other.getCellphone(), this.getCellphone()) && StringUtils.equals(other.getPassword(), this.getPassword());
 	}
 }

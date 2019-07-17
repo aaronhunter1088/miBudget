@@ -68,11 +68,12 @@ public class ItemDAOImpl {
 			t = session.beginTransaction();
 			itemsList = (ArrayList<UsersItemsObject>) session
 					.createNativeQuery("SELECT * FROM users_items WHERE user_id = " + user.getId())
-					.addEntity(UsersItemsObject.class).getResultList();
+					.addEntity(UsersItemsObject.class)
+					.getResultList();
 			t.commit();
 			session.close();
 			LOGGER.info("Returning " + itemsList.size() + " UsersItemsObjects.");
-			return itemsList;
+			return itemsList; // TODO: if itemsList is empty, return an empty list
     	} catch (HibernateException e) {
     		LOGGER.error(e.getMessage());
     	}

@@ -491,7 +491,7 @@ public class Authenticate extends HttpServlet {
 		  	    (HashMap<String, ArrayList<com.miBudget.v1.entities.Account>>) session.getAttribute("acctsAndInstitutionIdMap");
 		    ArrayList<com.miBudget.v1.entities.Account> newAccountsList = new ArrayList<>();
 		    newAccountsList = acctsAndInstitutionIdMap.get(institutionId);
-		    
+		    if (newAccountsList == null) newAccountsList = new ArrayList<com.miBudget.v1.entities.Account>();
 		    LOGGER.info("acctsAndInstitutionIdMap");
 		    for(String insId : acctsAndInstitutionIdMap.keySet()) {
 			    LOGGER.info("key: " + insId);
@@ -499,6 +499,9 @@ public class Authenticate extends HttpServlet {
 				    LOGGER.info("\t" + acct);
 			    }
 		    }
+		    accountsRequestedList.forEach(account -> {
+				LOGGER.info(an.getAndAdd(1) + ") " + account.toString());
+			});
 		    LOGGER.info("Adding " + institutionId + " and the following accounts to acctsAndInstitutionIdMap");
 		    for (com.miBudget.v1.entities.Account account : accountsRequestedList) {
 			    LOGGER.info("account: " + account);

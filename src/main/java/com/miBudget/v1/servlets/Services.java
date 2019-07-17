@@ -45,8 +45,12 @@ public class Services extends HttpServlet {
     	// Convert list to json string
 		Gson gson = new Gson();
 		String srcAsJson = gson.toJson(src);
-		LOGGER.info("\nObject as Json String");
+		LOGGER.info("Object as Json String");
 		LOGGER.info(srcAsJson);
+		if (srcAsJson.equals("{}")) {
+			// empty map. return blank string
+			return "";
+		}
 		return srcAsJson;
     }
 
@@ -70,7 +74,7 @@ public class Services extends HttpServlet {
 		String res = new String();
 		
 		if (method != null) {
-			LOGGER.info("Method: " + method);
+			LOGGER.info("Method: {}", method);
 			switch (method) {
 				case "getAllCategories" :   categoriesList = miBudgetDAOImpl.getAllCategories(user);
 											res = changeToJsonString(categoriesList);

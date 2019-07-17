@@ -37,7 +37,7 @@ public class Delete extends HttpServlet {
 	private AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
 	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
 	private final String clientId = "5ae66fb478f5440010e414ae";
-	//private final String secret = "0e580ef72b47a2e4a7723e8abc7df5"; 
+	private final String secret = "0e580ef72b47a2e4a7723e8abc7df5"; 
 	private final String secretD = "c7d7ddb79d5b92aec57170440f7304";
 	
 	private static Logger LOGGER = null;
@@ -202,8 +202,8 @@ public class Delete extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		User user = (User)session.getAttribute("user"); 
 		String institutionId = request.getParameter("currentId");
-		int itemTableId = Integer.parseInt(request.getParameter("itemTableId"));
-		Item item = itemDAOImpl.getItem(itemTableId);
+		int itemTableId = 0;
+		Item item = null;
 		// Perform the following logic:
 		if (request.getParameter("delete").equals("bank")) {
 			String deleteResponse = deleteBank(request, response);
@@ -220,15 +220,17 @@ public class Delete extends HttpServlet {
 				session.setAttribute("ErrMapForItems", errMapForItems);
 				response.setContentType("application/html");
 				response.setStatus(HttpServletResponse.SC_OK);
-				response.sendRedirect("Profile.jsp");
+				response.sendRedirect("/WEB-INF/view/Accounts.jsp");
 			} else {
 				session.setAttribute("change", "There was an issue deleting your bank: " + deleteResponse);
 				response.setContentType("applicaiton/html");
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-				response.sendRedirect("Profile.jsp");
+				response.sendRedirect("/WEB-INF/view/Accounts.jsp");
 			}
 			
 		} else if (request.getParameter("delete").equals("account")) {
+			itemTableId = Integer.parseInt(request.getParameter("itemTableId"));
+			item = itemDAOImpl.getItem(itemTableId);
 			String accountId = request.getParameter("accountId");
 			ArrayList<String> acctIdToDeleteList = new ArrayList<>();
 			acctIdToDeleteList.add(accountId);
@@ -284,7 +286,7 @@ public class Delete extends HttpServlet {
 			LOGGER.info("--- END ---");
 			response.setContentType("application/html");
 			response.setStatus(HttpServletResponse.SC_OK);
-			response.sendRedirect("Accounts.jsp");
+			response.sendRedirect("/WEB-INF/view/Accounts.jsp");
 		}
 		
 	}

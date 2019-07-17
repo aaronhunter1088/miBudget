@@ -111,7 +111,7 @@ public class AccountDAOImpl {
     	Session session = null;
     	Transaction t = null;
 		try {
-			LOGGER.info("Attempting to execute getAccountIdsFromUser query...");
+			LOGGER.info("Attempting to execute getAccountIdsForUser + " + user.getFirstName() + " " + user.getLastName() + "...");
 			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
@@ -124,7 +124,7 @@ public class AccountDAOImpl {
 			session.close();
 			if (usersAccounts.size() == 0) {
 				LOGGER.info(user.getFirstName() + " " + user.getLastName() + " currently doesn't have any accounts added.");
-				return usersAccounts;
+				return usersAccounts; // TODO: maybe return an empty list...
 			} else {
 				for (String acctId : usersAccounts) {
 					LOGGER.info("accountId: " + acctId);
@@ -306,16 +306,24 @@ public class AccountDAOImpl {
     		factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
-			List<UserAccountObject> userAccountsFromDB = (List<UserAccountObject>) session
-					   .createNativeQuery("SELECT * FROM users_accounts " +
-							   			  "WHERE user_id = " + user.getId() + " " +
-							   			  "AND item_table_id = " + itemTableId)
-					   .addEntity(UserAccountObject.class).getResultList();
+			List<UserAccountObject> userAccountsFromDB = null;
+			if (itemTableId == 0) {
+				userAccountsFromDB = (List<UserAccountObject>) session
+						.createNativeQuery("SELECT * FROM users_accounts " +
+						   		   		   "WHERE user_id = " + user.getId())
+						.addEntity(UserAccountObject.class).getResultList();
+			} else {
+				userAccountsFromDB = (List<UserAccountObject>) session
+						.createNativeQuery("SELECT * FROM users_accounts " +
+								   		   "WHERE user_id = " + user.getId() + " " +
+								   		   "AND item_table_id = " + itemTableId)
+						.addEntity(UserAccountObject.class).getResultList();
+			}
 			LOGGER.info("Query executed!");
 			for (Object id : userAccountsFromDB) {
 				accounts.add((UserAccountObject) id);
 			}
-			LOGGER.info("Returning " + accounts.size() + " accounts for " + itemTableId);
+			LOGGER.info("Returning " + accounts.size() + " accounts for {}", itemTableId != 0 ? itemTableId : user.getFirstName());
 			session.close();	
     	} catch (Exception e) {
     		LOGGER.info("Error connecting to DB: " + e.getMessage());
@@ -454,15 +462,15 @@ public class AccountDAOImpl {
     		factory = HibernateUtilities.getSessionFactory();
     		session = factory.openSession();
     		
-    		StringBuilder allAccountIdsString = new StringBuilder();
-    		allAccountIdsString.append("'");
-    		accounts.forEach(acct -> {
-    			allAccountIdsString.append(acct.getAccountId() + "', ");
-    		});
-    		allAccountIdsString.deleteCharAt(allAccountIdsString.length()-1); // removes last space
-    		allAccountIdsString.deleteCharAt(allAccountIdsString.length()-1); // removes last comma
-    		session.createQuery("DELETE FROM account " + 
-    							"WHERE account_id IN " + allAccountIdsString + "");
+    		//StringBuilder allAccountIdsString = new StringBuilder();
+    		//allAccountIdsString.append("'");
+    		//accounts.forEach(acct -> {
+    		//	allAccountIdsString.append(acct.getAccountId() + "', ");
+    		//});
+    		//allAccountIdsString.deleteCharAt(allAccountIdsString.length()-1); // removes last space
+    		//allAccountIdsString.deleteCharAt(allAccountIdsString.length()-1); // removes last comma
+    		//session.createQuery("DELETE FROM account " + 
+    		//					"WHERE account_id IN (" + allAccountIdsString + ")");
     		for(int i = 0; i < accounts.size(); i++) {
     			String delAcct = accounts.get(i).getNameOfAccount();
     			t = session.beginTransaction();

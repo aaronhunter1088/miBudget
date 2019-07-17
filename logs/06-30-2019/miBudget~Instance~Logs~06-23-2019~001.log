@@ -1,0 +1,253 @@
+[DEBUG] 06-23-2019 22:27:01.668 [main] org.jboss.logging:logProvider:158 - Logging Provider: org.jboss.logging.Log4j2LoggerProvider
+[DEBUG] 06-23-2019 22:27:01.690 [main] org.hibernate.integrator.internal.IntegratorServiceImpl:addIntegrator:46 - Adding Integrator [org.hibernate.cfg.beanvalidation.BeanValidationIntegrator].
+[DEBUG] 06-23-2019 22:27:01.691 [main] org.hibernate.integrator.internal.IntegratorServiceImpl:addIntegrator:46 - Adding Integrator [org.hibernate.secure.spi.JaccIntegrator].
+[DEBUG] 06-23-2019 22:27:01.694 [main] org.hibernate.integrator.internal.IntegratorServiceImpl:addIntegrator:46 - Adding Integrator [org.hibernate.cache.internal.CollectionCacheInvalidator].
+[DEBUG] 06-23-2019 22:27:01.697 [main] org.hibernate.integrator.internal.IntegratorServiceImpl:addIntegrator:46 - Adding Integrator [org.hibernate.envers.boot.internal.EnversIntegrator].
+[INFO ] 06-23-2019 22:27:01.778 [main] org.hibernate.Version:logVersion:46 - HHH000412: Hibernate Core {5.4.0.CR2}
+[INFO ] 06-23-2019 22:27:01.780 [main] org.hibernate.cfg.Environment:<clinit>:199 - HHH000206: hibernate.properties not found
+[INFO ] 06-23-2019 22:27:01.888 [main] org.hibernate.spatial.integration.SpatialService:<init>:42 - HHH80000001: hibernate-spatial integration enabled : true
+[DEBUG] 06-23-2019 22:27:01.897 [main] org.hibernate.service.spi.ServiceBinding:setService:68 - Overriding existing service binding [org.hibernate.secure.spi.JaccService]
+[DEBUG] 06-23-2019 22:27:01.898 [main] org.hibernate.service.spi.ServiceBinding:setService:68 - Overriding existing service binding [org.hibernate.spatial.integration.SpatialService]
+[DEBUG] 06-23-2019 22:27:01.935 [main] org.hibernate.boot.jaxb.internal.stax.LocalXmlResourceResolver:resolveEntity:57 - Interpreting public/system identifier : [-//Hibernate/Hibernate Configuration DTD 3.0//EN] - [http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd]
+[DEBUG] 06-23-2019 22:27:01.936 [main] org.hibernate.boot.jaxb.internal.stax.LocalXmlResourceResolver:resolveEntity:85 - Recognized hibernate-configuration identifier; attempting to resolve on classpath under org/hibernate/
+[DEBUG] 06-23-2019 22:27:01.941 [main] org.hibernate.boot.cfgxml.internal.JaxbCfgProcessor:unmarshal:116 - cfg.xml document did not define namespaces; wrapping in custom event reader to introduce namespace information
+[DEBUG] 06-23-2019 22:27:02.223 [main] org.hibernate.cfg.Configuration:buildSessionFactory:722 - Building session factory using internal StandardServiceRegistryBuilder
+[INFO ] 06-23-2019 22:27:02.224 [main] org.hibernate.spatial.integration.SpatialService:<init>:42 - HHH80000001: hibernate-spatial integration enabled : true
+[DEBUG] 06-23-2019 22:27:02.224 [main] org.hibernate.service.spi.ServiceBinding:setService:68 - Overriding existing service binding [org.hibernate.secure.spi.JaccService]
+[DEBUG] 06-23-2019 22:27:02.225 [main] org.hibernate.service.spi.ServiceBinding:setService:68 - Overriding existing service binding [org.hibernate.spatial.integration.SpatialService]
+[DEBUG] 06-23-2019 22:27:02.225 [main] org.hibernate.cfg.Configuration:buildSessionFactory:652 - Building session factory using provided StandardServiceRegistry
+[DEBUG] 06-23-2019 22:27:02.233 [main] org.hibernate.cache.internal.RegionFactoryInitiator:resolveRegionFactory:118 - Cannot default RegionFactory based on registered strategies as `[]` RegionFactory strategies were registered
+[DEBUG] 06-23-2019 22:27:02.234 [main] org.hibernate.cache.internal.RegionFactoryInitiator:initiateService:49 - Cache region factory : org.hibernate.cache.internal.NoCachingRegionFactory
+[INFO ] 06-23-2019 22:27:02.251 [main] org.hibernate.annotations.common.Version:<clinit>:49 - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+[DEBUG] 06-23-2019 22:27:02.284 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration boolean -> org.hibernate.type.BooleanType@54e7df6a
+[DEBUG] 06-23-2019 22:27:02.284 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration boolean -> org.hibernate.type.BooleanType@54e7df6a
+[DEBUG] 06-23-2019 22:27:02.285 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.lang.Boolean -> org.hibernate.type.BooleanType@54e7df6a
+[DEBUG] 06-23-2019 22:27:02.287 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration numeric_boolean -> org.hibernate.type.NumericBooleanType@58326051
+[DEBUG] 06-23-2019 22:27:02.288 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration true_false -> org.hibernate.type.TrueFalseType@764faa6
+[DEBUG] 06-23-2019 22:27:02.290 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration yes_no -> org.hibernate.type.YesNoType@5a755cc1
+[DEBUG] 06-23-2019 22:27:02.292 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration byte -> org.hibernate.type.ByteType@63fbfaeb
+[DEBUG] 06-23-2019 22:27:02.292 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration byte -> org.hibernate.type.ByteType@63fbfaeb
+[DEBUG] 06-23-2019 22:27:02.292 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.lang.Byte -> org.hibernate.type.ByteType@63fbfaeb
+[DEBUG] 06-23-2019 22:27:02.293 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration character -> org.hibernate.type.CharacterType@22f31dec
+[DEBUG] 06-23-2019 22:27:02.294 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration char -> org.hibernate.type.CharacterType@22f31dec
+[DEBUG] 06-23-2019 22:27:02.294 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.lang.Character -> org.hibernate.type.CharacterType@22f31dec
+[DEBUG] 06-23-2019 22:27:02.295 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration short -> org.hibernate.type.ShortType@2c4d1ac
+[DEBUG] 06-23-2019 22:27:02.296 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration short -> org.hibernate.type.ShortType@2c4d1ac
+[DEBUG] 06-23-2019 22:27:02.296 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.lang.Short -> org.hibernate.type.ShortType@2c4d1ac
+[DEBUG] 06-23-2019 22:27:02.298 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration integer -> org.hibernate.type.IntegerType@41e68d87
+[DEBUG] 06-23-2019 22:27:02.299 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration int -> org.hibernate.type.IntegerType@41e68d87
+[DEBUG] 06-23-2019 22:27:02.299 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.lang.Integer -> org.hibernate.type.IntegerType@41e68d87
+[DEBUG] 06-23-2019 22:27:02.300 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration long -> org.hibernate.type.LongType@45312be2
+[DEBUG] 06-23-2019 22:27:02.301 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration long -> org.hibernate.type.LongType@45312be2
+[DEBUG] 06-23-2019 22:27:02.301 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.lang.Long -> org.hibernate.type.LongType@45312be2
+[DEBUG] 06-23-2019 22:27:02.303 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration float -> org.hibernate.type.FloatType@ab7395e
+[DEBUG] 06-23-2019 22:27:02.303 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration float -> org.hibernate.type.FloatType@ab7395e
+[DEBUG] 06-23-2019 22:27:02.303 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.lang.Float -> org.hibernate.type.FloatType@ab7395e
+[DEBUG] 06-23-2019 22:27:02.304 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration double -> org.hibernate.type.DoubleType@64a40280
+[DEBUG] 06-23-2019 22:27:02.305 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration double -> org.hibernate.type.DoubleType@64a40280
+[DEBUG] 06-23-2019 22:27:02.305 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.lang.Double -> org.hibernate.type.DoubleType@64a40280
+[DEBUG] 06-23-2019 22:27:02.306 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration big_decimal -> org.hibernate.type.BigDecimalType@528c868
+[DEBUG] 06-23-2019 22:27:02.307 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.math.BigDecimal -> org.hibernate.type.BigDecimalType@528c868
+[DEBUG] 06-23-2019 22:27:02.308 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration big_integer -> org.hibernate.type.BigIntegerType@31c7528f
+[DEBUG] 06-23-2019 22:27:02.308 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.math.BigInteger -> org.hibernate.type.BigIntegerType@31c7528f
+[DEBUG] 06-23-2019 22:27:02.309 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration string -> org.hibernate.type.StringType@38aa816f
+[DEBUG] 06-23-2019 22:27:02.310 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.lang.String -> org.hibernate.type.StringType@38aa816f
+[DEBUG] 06-23-2019 22:27:02.310 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration nstring -> org.hibernate.type.StringNVarcharType@1b84f475
+[DEBUG] 06-23-2019 22:27:02.311 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration ncharacter -> org.hibernate.type.CharacterNCharType@539d019
+[DEBUG] 06-23-2019 22:27:02.312 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration url -> org.hibernate.type.UrlType@6f63b475
+[DEBUG] 06-23-2019 22:27:02.312 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.net.URL -> org.hibernate.type.UrlType@6f63b475
+[DEBUG] 06-23-2019 22:27:02.313 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration Duration -> org.hibernate.type.DurationType@b2c5e07
+[DEBUG] 06-23-2019 22:27:02.313 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.time.Duration -> org.hibernate.type.DurationType@b2c5e07
+[DEBUG] 06-23-2019 22:27:02.332 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration Instant -> org.hibernate.type.InstantType@676cf48
+[DEBUG] 06-23-2019 22:27:02.332 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.time.Instant -> org.hibernate.type.InstantType@676cf48
+[DEBUG] 06-23-2019 22:27:02.334 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration LocalDateTime -> org.hibernate.type.LocalDateTimeType@73194df
+[DEBUG] 06-23-2019 22:27:02.334 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.time.LocalDateTime -> org.hibernate.type.LocalDateTimeType@73194df
+[DEBUG] 06-23-2019 22:27:02.337 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration LocalDate -> org.hibernate.type.LocalDateType@4ed5eb72
+[DEBUG] 06-23-2019 22:27:02.337 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.time.LocalDate -> org.hibernate.type.LocalDateType@4ed5eb72
+[DEBUG] 06-23-2019 22:27:02.339 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration LocalTime -> org.hibernate.type.LocalTimeType@40db2a24
+[DEBUG] 06-23-2019 22:27:02.339 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.time.LocalTime -> org.hibernate.type.LocalTimeType@40db2a24
+[DEBUG] 06-23-2019 22:27:02.341 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration OffsetDateTime -> org.hibernate.type.OffsetDateTimeType@7f132176
+[DEBUG] 06-23-2019 22:27:02.341 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.time.OffsetDateTime -> org.hibernate.type.OffsetDateTimeType@7f132176
+[DEBUG] 06-23-2019 22:27:02.342 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration OffsetTime -> org.hibernate.type.OffsetTimeType@30af5b6b
+[DEBUG] 06-23-2019 22:27:02.342 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.time.OffsetTime -> org.hibernate.type.OffsetTimeType@30af5b6b
+[DEBUG] 06-23-2019 22:27:02.346 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration ZonedDateTime -> org.hibernate.type.ZonedDateTimeType@3d1848cc
+[DEBUG] 06-23-2019 22:27:02.347 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.time.ZonedDateTime -> org.hibernate.type.ZonedDateTimeType@3d1848cc
+[DEBUG] 06-23-2019 22:27:02.348 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration date -> org.hibernate.type.DateType@648c94da
+[DEBUG] 06-23-2019 22:27:02.349 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.sql.Date -> org.hibernate.type.DateType@648c94da
+[DEBUG] 06-23-2019 22:27:02.350 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration time -> org.hibernate.type.TimeType@6c0d9d86
+[DEBUG] 06-23-2019 22:27:02.351 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.sql.Time -> org.hibernate.type.TimeType@6c0d9d86
+[DEBUG] 06-23-2019 22:27:02.352 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration timestamp -> org.hibernate.type.TimestampType@5dcb4f5f
+[DEBUG] 06-23-2019 22:27:02.353 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.sql.Timestamp -> org.hibernate.type.TimestampType@5dcb4f5f
+[DEBUG] 06-23-2019 22:27:02.353 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.util.Date -> org.hibernate.type.TimestampType@5dcb4f5f
+[DEBUG] 06-23-2019 22:27:02.355 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration dbtimestamp -> org.hibernate.type.DbTimestampType@7b94089b
+[DEBUG] 06-23-2019 22:27:02.356 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration calendar -> org.hibernate.type.CalendarType@561868a0
+[DEBUG] 06-23-2019 22:27:02.356 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.util.Calendar -> org.hibernate.type.CalendarType@561868a0
+[DEBUG] 06-23-2019 22:27:02.356 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.util.GregorianCalendar -> org.hibernate.type.CalendarType@561868a0
+[DEBUG] 06-23-2019 22:27:02.357 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration calendar_date -> org.hibernate.type.CalendarDateType@2dcd168a
+[DEBUG] 06-23-2019 22:27:02.358 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration locale -> org.hibernate.type.LocaleType@531f4093
+[DEBUG] 06-23-2019 22:27:02.358 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.util.Locale -> org.hibernate.type.LocaleType@531f4093
+[DEBUG] 06-23-2019 22:27:02.359 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration currency -> org.hibernate.type.CurrencyType@74f5ce22
+[DEBUG] 06-23-2019 22:27:02.359 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.util.Currency -> org.hibernate.type.CurrencyType@74f5ce22
+[DEBUG] 06-23-2019 22:27:02.360 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration timezone -> org.hibernate.type.TimeZoneType@7776ab
+[DEBUG] 06-23-2019 22:27:02.360 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.util.TimeZone -> org.hibernate.type.TimeZoneType@7776ab
+[DEBUG] 06-23-2019 22:27:02.361 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration class -> org.hibernate.type.ClassType@2f1de2d6
+[DEBUG] 06-23-2019 22:27:02.361 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.lang.Class -> org.hibernate.type.ClassType@2f1de2d6
+[DEBUG] 06-23-2019 22:27:02.377 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration uuid-binary -> org.hibernate.type.UUIDBinaryType@289710d9
+[DEBUG] 06-23-2019 22:27:02.377 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.util.UUID -> org.hibernate.type.UUIDBinaryType@289710d9
+[DEBUG] 06-23-2019 22:27:02.377 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration uuid-char -> org.hibernate.type.UUIDCharType@403f0a22
+[DEBUG] 06-23-2019 22:27:02.378 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration binary -> org.hibernate.type.BinaryType@77825085
+[DEBUG] 06-23-2019 22:27:02.379 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration byte[] -> org.hibernate.type.BinaryType@77825085
+[DEBUG] 06-23-2019 22:27:02.379 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration [B -> org.hibernate.type.BinaryType@77825085
+[DEBUG] 06-23-2019 22:27:02.380 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration wrapper-binary -> org.hibernate.type.WrapperBinaryType@294a6b8e
+[DEBUG] 06-23-2019 22:27:02.380 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration Byte[] -> org.hibernate.type.WrapperBinaryType@294a6b8e
+[DEBUG] 06-23-2019 22:27:02.380 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration [Ljava.lang.Byte; -> org.hibernate.type.WrapperBinaryType@294a6b8e
+[DEBUG] 06-23-2019 22:27:02.381 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration row_version -> org.hibernate.type.RowVersionType@6fb365ed
+[DEBUG] 06-23-2019 22:27:02.382 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration image -> org.hibernate.type.ImageType@74bada02
+[DEBUG] 06-23-2019 22:27:02.384 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration characters -> org.hibernate.type.CharArrayType@6ad3381f
+[DEBUG] 06-23-2019 22:27:02.384 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration char[] -> org.hibernate.type.CharArrayType@6ad3381f
+[DEBUG] 06-23-2019 22:27:02.384 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration [C -> org.hibernate.type.CharArrayType@6ad3381f
+[DEBUG] 06-23-2019 22:27:02.385 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration wrapper-characters -> org.hibernate.type.CharacterArrayType@4b14918a
+[DEBUG] 06-23-2019 22:27:02.386 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration [Ljava.lang.Character; -> org.hibernate.type.CharacterArrayType@4b14918a
+[DEBUG] 06-23-2019 22:27:02.386 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration Character[] -> org.hibernate.type.CharacterArrayType@4b14918a
+[DEBUG] 06-23-2019 22:27:02.387 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration text -> org.hibernate.type.TextType@18a136ac
+[DEBUG] 06-23-2019 22:27:02.387 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration ntext -> org.hibernate.type.NTextType@176b3f44
+[DEBUG] 06-23-2019 22:27:02.424 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration blob -> org.hibernate.type.BlobType@31bcf236
+[DEBUG] 06-23-2019 22:27:02.424 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.sql.Blob -> org.hibernate.type.BlobType@31bcf236
+[DEBUG] 06-23-2019 22:27:02.425 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration materialized_blob -> org.hibernate.type.MaterializedBlobType@517d4a0d
+[DEBUG] 06-23-2019 22:27:02.426 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration clob -> org.hibernate.type.ClobType@2c1156a7
+[DEBUG] 06-23-2019 22:27:02.426 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.sql.Clob -> org.hibernate.type.ClobType@2c1156a7
+[DEBUG] 06-23-2019 22:27:02.428 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration nclob -> org.hibernate.type.NClobType@71529963
+[DEBUG] 06-23-2019 22:27:02.428 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.sql.NClob -> org.hibernate.type.NClobType@71529963
+[DEBUG] 06-23-2019 22:27:02.428 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration materialized_clob -> org.hibernate.type.MaterializedClobType@5adb0db3
+[DEBUG] 06-23-2019 22:27:02.429 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration materialized_nclob -> org.hibernate.type.MaterializedNClobType@7241a47d
+[DEBUG] 06-23-2019 22:27:02.430 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration serializable -> org.hibernate.type.SerializableType@142269f2
+[DEBUG] 06-23-2019 22:27:02.433 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration object -> org.hibernate.type.ObjectType@487db668
+[DEBUG] 06-23-2019 22:27:02.433 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration java.lang.Object -> org.hibernate.type.ObjectType@487db668
+[DEBUG] 06-23-2019 22:27:02.434 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration imm_date -> org.hibernate.type.AdaptedImmutableType@63798ca7
+[DEBUG] 06-23-2019 22:27:02.434 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration imm_time -> org.hibernate.type.AdaptedImmutableType@4612b856
+[DEBUG] 06-23-2019 22:27:02.434 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration imm_timestamp -> org.hibernate.type.AdaptedImmutableType@22875539
+[DEBUG] 06-23-2019 22:27:02.435 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration imm_dbtimestamp -> org.hibernate.type.AdaptedImmutableType@5674e1f2
+[DEBUG] 06-23-2019 22:27:02.435 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration imm_calendar -> org.hibernate.type.AdaptedImmutableType@79c7532f
+[DEBUG] 06-23-2019 22:27:02.436 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration imm_calendar_date -> org.hibernate.type.AdaptedImmutableType@2a448449
+[DEBUG] 06-23-2019 22:27:02.436 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration imm_binary -> org.hibernate.type.AdaptedImmutableType@32f232a5
+[DEBUG] 06-23-2019 22:27:02.436 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration imm_serializable -> org.hibernate.type.AdaptedImmutableType@43f82e78
+[DEBUG] 06-23-2019 22:27:02.458 [main] org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory:register:81 - Registering IdentifierGenerator strategy [uuid2] -> [org.hibernate.id.UUIDGenerator]
+[DEBUG] 06-23-2019 22:27:02.459 [main] org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory:register:81 - Registering IdentifierGenerator strategy [guid] -> [org.hibernate.id.GUIDGenerator]
+[DEBUG] 06-23-2019 22:27:02.459 [main] org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory:register:81 - Registering IdentifierGenerator strategy [uuid] -> [org.hibernate.id.UUIDHexGenerator]
+[DEBUG] 06-23-2019 22:27:02.460 [main] org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory:register:81 - Registering IdentifierGenerator strategy [uuid.hex] -> [org.hibernate.id.UUIDHexGenerator]
+[DEBUG] 06-23-2019 22:27:02.460 [main] org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory:register:81 - Registering IdentifierGenerator strategy [assigned] -> [org.hibernate.id.Assigned]
+[DEBUG] 06-23-2019 22:27:02.461 [main] org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory:register:81 - Registering IdentifierGenerator strategy [identity] -> [org.hibernate.id.IdentityGenerator]
+[DEBUG] 06-23-2019 22:27:02.461 [main] org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory:register:81 - Registering IdentifierGenerator strategy [select] -> [org.hibernate.id.SelectGenerator]
+[DEBUG] 06-23-2019 22:27:02.462 [main] org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory:register:81 - Registering IdentifierGenerator strategy [sequence] -> [org.hibernate.id.enhanced.SequenceStyleGenerator]
+[DEBUG] 06-23-2019 22:27:02.463 [main] org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory:register:81 - Registering IdentifierGenerator strategy [seqhilo] -> [org.hibernate.id.SequenceHiLoGenerator]
+[DEBUG] 06-23-2019 22:27:02.463 [main] org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory:register:81 - Registering IdentifierGenerator strategy [increment] -> [org.hibernate.id.IncrementGenerator]
+[DEBUG] 06-23-2019 22:27:02.464 [main] org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory:register:81 - Registering IdentifierGenerator strategy [foreign] -> [org.hibernate.id.ForeignGenerator]
+[DEBUG] 06-23-2019 22:27:02.464 [main] org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory:register:81 - Registering IdentifierGenerator strategy [sequence-identity] -> [org.hibernate.id.SequenceIdentityGenerator]
+[DEBUG] 06-23-2019 22:27:02.464 [main] org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory:register:81 - Registering IdentifierGenerator strategy [enhanced-sequence] -> [org.hibernate.id.enhanced.SequenceStyleGenerator]
+[DEBUG] 06-23-2019 22:27:02.465 [main] org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory:register:81 - Registering IdentifierGenerator strategy [enhanced-table] -> [org.hibernate.id.enhanced.TableGenerator]
+[WARN ] 06-23-2019 22:27:02.469 [main] org.hibernate.orm.connections.pooling:configure:72 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+[INFO ] 06-23-2019 22:27:02.480 [main] org.hibernate.orm.connections.pooling:buildCreator:115 - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/mibudget?useSSL=false&serverTimezone=UTC]
+[INFO ] 06-23-2019 22:27:02.481 [main] org.hibernate.orm.connections.pooling:buildCreator:121 - HHH10001001: Connection properties: {user=michaelball, password=rootpassword}
+[INFO ] 06-23-2019 22:27:02.481 [main] org.hibernate.orm.connections.pooling:buildCreator:129 - HHH10001003: Autocommit mode: false
+[DEBUG] 06-23-2019 22:27:02.485 [main] org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl:debugf:384 - Initializing Connection pool with 1 Connections
+[INFO ] 06-23-2019 22:27:02.486 [main] org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl:<init>:239 - HHH000115: Hibernate connection pool size: 100 (min=1)
+[WARN ] 06-23-2019 22:27:02.658 [main] org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator:initiateService:132 - HHH000342: Could not obtain connection to query metadata : null
+[INFO ] 06-23-2019 22:27:02.668 [main] org.hibernate.dialect.Dialect:<init>:158 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+[DEBUG] 06-23-2019 22:27:02.680 [main] org.hibernate.engine.jdbc.env.spi.IdentifierHelperBuilder:build:191 - IdentifierCaseStrategy for both quoted and unquoted identifiers was set to the same strategy [MIXED]; that will likely lead to problems in schema update and validation if using quoted identifiers
+[INFO ] 06-23-2019 22:27:02.683 [main] org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl:makeLobCreatorBuilder:65 - HHH000422: Disabling contextual LOB creation as connection was null
+[DEBUG] 06-23-2019 22:27:02.685 [main] org.hibernate.engine.jdbc.spi.SqlExceptionHelper:logExceptions:126 - Error calling Driver#connect [null]
+com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:174) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:64) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:835) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:455) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:240) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:207) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at org.hibernate.engine.jdbc.connections.internal.DriverConnectionCreator.makeConnection(DriverConnectionCreator.java:38) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.engine.jdbc.connections.internal.BasicConnectionCreator.createConnection(BasicConnectionCreator.java:58) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections.addConnections(DriverManagerConnectionProviderImpl.java:321) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections.<init>(DriverManagerConnectionProviderImpl.java:240) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections.<init>(DriverManagerConnectionProviderImpl.java:218) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections$Builder.build(DriverManagerConnectionProviderImpl.java:359) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl.buildPool(DriverManagerConnectionProviderImpl.java:98) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl.configure(DriverManagerConnectionProviderImpl.java:73) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.configureService(StandardServiceRegistryImpl.java:100) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:246) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.buildJdbcConnectionAccess(JdbcEnvironmentInitiator.java:145) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:66) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:35) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:94) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:152) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:175) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:119) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build(MetadataBuildingProcess.java:84) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:474) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:85) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:689) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:724) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
+	at com.miBudget.v1.utilities.HibernateUtilities.getSessionFactory(HibernateUtilities.java:65) [classes/:?]
+	at com.miBudget.v1.utilities.ClientTest.main(ClientTest.java:28) [classes/:?]
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:1.8.0_191]
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) ~[?:1.8.0_191]
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:1.8.0_191]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423) ~[?:1.8.0_191]
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:61) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:105) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:151) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:167) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:91) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.NativeSession.connect(NativeSession.java:152) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:955) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:825) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	... 34 more
+Caused by: java.net.ConnectException: Connection refused (Connection refused)
+	at java.net.PlainSocketImpl.socketConnect(Native Method) ~[?:1.8.0_191]
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350) ~[?:1.8.0_191]
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206) ~[?:1.8.0_191]
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188) ~[?:1.8.0_191]
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392) ~[?:1.8.0_191]
+	at java.net.Socket.connect(Socket.java:589) ~[?:1.8.0_191]
+	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:155) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:65) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.NativeSession.connect(NativeSession.java:152) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:955) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:825) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	... 34 more
+[WARN ] 06-23-2019 22:27:02.692 [main] org.hibernate.engine.jdbc.spi.SqlExceptionHelper:logExceptions:137 - SQL Error: 0, SQLState: 08S01
+[ERROR] 06-23-2019 22:27:02.692 [main] org.hibernate.engine.jdbc.spi.SqlExceptionHelper:logExceptions:142 - Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+[ERROR] 06-23-2019 22:27:02.693 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:69 - Hibernate threw an error.
+[ERROR] 06-23-2019 22:27:02.694 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:70 - Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment]
+[ERROR] 06-23-2019 22:27:02.695 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:275)
+[ERROR] 06-23-2019 22:27:02.695 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
+[ERROR] 06-23-2019 22:27:02.695 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+[ERROR] 06-23-2019 22:27:02.695 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:152)
+[ERROR] 06-23-2019 22:27:02.696 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
+[ERROR] 06-23-2019 22:27:02.696 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
+[ERROR] 06-23-2019 22:27:02.696 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+[ERROR] 06-23-2019 22:27:02.696 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:175)
+[ERROR] 06-23-2019 22:27:02.696 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:119)
+[ERROR] 06-23-2019 22:27:02.697 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build(MetadataBuildingProcess.java:84)
+[ERROR] 06-23-2019 22:27:02.697 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:474)
+[ERROR] 06-23-2019 22:27:02.697 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:85)
+[ERROR] 06-23-2019 22:27:02.697 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:689)
+[ERROR] 06-23-2019 22:27:02.698 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:724)
+[ERROR] 06-23-2019 22:27:02.698 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - com.miBudget.v1.utilities.HibernateUtilities.getSessionFactory(HibernateUtilities.java:65)
+[ERROR] 06-23-2019 22:27:02.698 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - com.miBudget.v1.utilities.ClientTest.main(ClientTest.java:28)
+[ERROR] 06-23-2019 22:27:02.699 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:91 - sessionFactory was not created due to an error.
+[ERROR] 06-23-2019 22:27:02.699 [main] com.miBudget.v1.utilities.ClientTest:main:57 - Error making a connection to the database
+[ERROR] 06-23-2019 22:27:02.699 [main] com.miBudget.v1.utilities.ClientTest:main:63 - com.miBudget.v1.utilities.ClientTest.main(ClientTest.java:29)
+

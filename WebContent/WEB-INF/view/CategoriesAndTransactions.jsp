@@ -104,7 +104,7 @@
 		<% AccountDAOImpl accountDAOImpl = new AccountDAOImpl(); %>
 		<% ItemDAOImpl itemsDAOImpl = new ItemDAOImpl(); %>
 		<div id="profileDiv" style="float:left; margin-left:50px;">
-			<form action="Profile" method="get"> <!-- think about chaning this call to get -->
+			<form action="Profile" method="get"> <!-- think about changing this call to get -->
 <!-- 			<input class="button" type="submit" value="Profile">
  -->			<button type="submit">Profile</button>
 			</form>
@@ -309,7 +309,7 @@
 					
 				 </div> 
 						
-				<div id="transactionsTable">
+				<div id="transactionsTable" class="mainTable">
 						
 				</div>
 			</div>
@@ -356,9 +356,9 @@
 					let count = $("#numberOfTrans").val();
 			
 					if (count === "undefined") {
+						count = 0
 						console.log("count: " + count);
 					} else {
-						count = 0
 						console.log("count: " + count);
 					}
 			
@@ -434,7 +434,6 @@
 					        var mapIter = Object.keys(JSON.parse(data));
 					        
 				            for (const key in map) {
-								console.log('key: ' + key);
 								for (const acct in map[key]) {
 									console.log(map[key][acct]);
 									list.push(map[key][acct]);
@@ -445,6 +444,17 @@
 				    });
 				    return acctsAndInsIdMap;
 				}(jQuery);
+				console.log('acctsAndInsIdMap');
+				if (acctsAndInsIdMap.size != 0) {
+					for (const key in map) {
+						console.log('key: ' + key);
+						for (const acct in map[key]) {
+							console.log('acct: ' + acct);
+						}
+		            }
+				} else {
+					console.log('acctsAndInsIdMap is empty. Size is ' + acctAndInsIdMap.size);
+				}
 				
 				$("#transactions").find('input[name=numberOfTrans]').on('change', function () {
 					if ($("#transactions").find('input[name=numberOfTrans]').val() == "") {
@@ -483,7 +493,7 @@
 				        }
 				    });
 				    return categoriesM;
-				}(jQuery);
+				} /**(jQuery); */
 				console.log('categoriesMap');
 				console.log(categoriesMap);
 				

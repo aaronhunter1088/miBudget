@@ -1,5 +1,3 @@
-<%@ page language="fuck" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -11,7 +9,7 @@
 <style>
 </style>
 </head>
-<body background-image:url("background.jpg") >
+<body background-image:url("/miBudget/WebContent/images/background.jpg") >
 <h1>Welcome to miBudget!!</h1>
 <br/>
 <input class="button" type="button" onclick="window.location.replace('Login.jsp')" value="Login" />

@@ -1,0 +1,169 @@
+[INFO ] 06-23-2019 17:24:11.742 [main] org.hibernate.Version:logVersion:46 - HHH000412: Hibernate Core {5.4.0.CR2}
+[INFO ] 06-23-2019 17:24:11.747 [main] org.hibernate.cfg.Environment:<clinit>:199 - HHH000206: hibernate.properties not found
+[INFO ] 06-23-2019 17:24:11.871 [main] org.hibernate.spatial.integration.SpatialService:<init>:42 - HHH80000001: hibernate-spatial integration enabled : true
+[INFO ] 06-23-2019 17:24:12.183 [main] org.hibernate.spatial.integration.SpatialService:<init>:42 - HHH80000001: hibernate-spatial integration enabled : true
+[INFO ] 06-23-2019 17:24:12.213 [main] org.hibernate.annotations.common.Version:<clinit>:49 - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+[WARN ] 06-23-2019 17:24:12.441 [main] org.hibernate.orm.connections.pooling:configure:72 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+[INFO ] 06-23-2019 17:24:12.451 [main] org.hibernate.orm.connections.pooling:buildCreator:115 - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/mibudget?useSSL=false&serverTimezone=UTC]
+[INFO ] 06-23-2019 17:24:12.452 [main] org.hibernate.orm.connections.pooling:buildCreator:121 - HHH10001001: Connection properties: {user=michaelball, password=rootpassword}
+[INFO ] 06-23-2019 17:24:12.454 [main] org.hibernate.orm.connections.pooling:buildCreator:129 - HHH10001003: Autocommit mode: false
+[INFO ] 06-23-2019 17:24:12.457 [main] org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl:<init>:239 - HHH000115: Hibernate connection pool size: 100 (min=1)
+[WARN ] 06-23-2019 17:24:12.599 [main] org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator:initiateService:132 - HHH000342: Could not obtain connection to query metadata : null
+[INFO ] 06-23-2019 17:24:12.613 [main] org.hibernate.dialect.Dialect:<init>:158 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+[INFO ] 06-23-2019 17:24:12.628 [main] org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl:makeLobCreatorBuilder:65 - HHH000422: Disabling contextual LOB creation as connection was null
+[WARN ] 06-23-2019 17:24:12.638 [main] org.hibernate.engine.jdbc.spi.SqlExceptionHelper:logExceptions:137 - SQL Error: 0, SQLState: 08S01
+[ERROR] 06-23-2019 17:24:12.639 [main] org.hibernate.engine.jdbc.spi.SqlExceptionHelper:logExceptions:142 - Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+[ERROR] 06-23-2019 17:24:12.640 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:69 - Hibernate threw an error.
+[ERROR] 06-23-2019 17:24:12.641 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:70 - Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment]
+[ERROR] 06-23-2019 17:24:12.642 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:275)
+[ERROR] 06-23-2019 17:24:12.642 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
+[ERROR] 06-23-2019 17:24:12.642 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+[ERROR] 06-23-2019 17:24:12.643 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:152)
+[ERROR] 06-23-2019 17:24:12.643 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
+[ERROR] 06-23-2019 17:24:12.643 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
+[ERROR] 06-23-2019 17:24:12.643 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+[ERROR] 06-23-2019 17:24:12.644 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:175)
+[ERROR] 06-23-2019 17:24:12.644 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:119)
+[ERROR] 06-23-2019 17:24:12.644 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build(MetadataBuildingProcess.java:84)
+[ERROR] 06-23-2019 17:24:12.644 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:474)
+[ERROR] 06-23-2019 17:24:12.645 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:85)
+[ERROR] 06-23-2019 17:24:12.645 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:689)
+[ERROR] 06-23-2019 17:24:12.645 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:724)
+[ERROR] 06-23-2019 17:24:12.645 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - com.miBudget.v1.utilities.HibernateUtilities.getSessionFactory(HibernateUtilities.java:65)
+[ERROR] 06-23-2019 17:24:12.646 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - com.miBudget.v1.utilities.ClientTest.main(ClientTest.java:28)
+[ERROR] 06-23-2019 17:24:12.646 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:91 - sessionFactory was not created due to an error.
+[ERROR] 06-23-2019 17:24:12.647 [main] com.miBudget.v1.utilities.ClientTest:main:57 - Error making a connection to the database
+[ERROR] 06-23-2019 17:24:12.647 [main] com.miBudget.v1.utilities.ClientTest:main:63 - com.miBudget.v1.utilities.ClientTest.main(ClientTest.java:29)
+
+[INFO ] 06-23-2019 22:27:01.778 [main] org.hibernate.Version:logVersion:46 - HHH000412: Hibernate Core {5.4.0.CR2}
+[INFO ] 06-23-2019 22:27:01.780 [main] org.hibernate.cfg.Environment:<clinit>:199 - HHH000206: hibernate.properties not found
+[INFO ] 06-23-2019 22:27:01.888 [main] org.hibernate.spatial.integration.SpatialService:<init>:42 - HHH80000001: hibernate-spatial integration enabled : true
+[INFO ] 06-23-2019 22:27:02.224 [main] org.hibernate.spatial.integration.SpatialService:<init>:42 - HHH80000001: hibernate-spatial integration enabled : true
+[INFO ] 06-23-2019 22:27:02.251 [main] org.hibernate.annotations.common.Version:<clinit>:49 - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+[WARN ] 06-23-2019 22:27:02.469 [main] org.hibernate.orm.connections.pooling:configure:72 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+[INFO ] 06-23-2019 22:27:02.480 [main] org.hibernate.orm.connections.pooling:buildCreator:115 - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/mibudget?useSSL=false&serverTimezone=UTC]
+[INFO ] 06-23-2019 22:27:02.481 [main] org.hibernate.orm.connections.pooling:buildCreator:121 - HHH10001001: Connection properties: {user=michaelball, password=rootpassword}
+[INFO ] 06-23-2019 22:27:02.481 [main] org.hibernate.orm.connections.pooling:buildCreator:129 - HHH10001003: Autocommit mode: false
+[INFO ] 06-23-2019 22:27:02.486 [main] org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl:<init>:239 - HHH000115: Hibernate connection pool size: 100 (min=1)
+[WARN ] 06-23-2019 22:27:02.658 [main] org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator:initiateService:132 - HHH000342: Could not obtain connection to query metadata : null
+[INFO ] 06-23-2019 22:27:02.668 [main] org.hibernate.dialect.Dialect:<init>:158 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+[INFO ] 06-23-2019 22:27:02.683 [main] org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl:makeLobCreatorBuilder:65 - HHH000422: Disabling contextual LOB creation as connection was null
+[WARN ] 06-23-2019 22:27:02.692 [main] org.hibernate.engine.jdbc.spi.SqlExceptionHelper:logExceptions:137 - SQL Error: 0, SQLState: 08S01
+[ERROR] 06-23-2019 22:27:02.692 [main] org.hibernate.engine.jdbc.spi.SqlExceptionHelper:logExceptions:142 - Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+[ERROR] 06-23-2019 22:27:02.693 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:69 - Hibernate threw an error.
+[ERROR] 06-23-2019 22:27:02.694 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:70 - Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment]
+[ERROR] 06-23-2019 22:27:02.695 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:275)
+[ERROR] 06-23-2019 22:27:02.695 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
+[ERROR] 06-23-2019 22:27:02.695 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+[ERROR] 06-23-2019 22:27:02.695 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:152)
+[ERROR] 06-23-2019 22:27:02.696 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
+[ERROR] 06-23-2019 22:27:02.696 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
+[ERROR] 06-23-2019 22:27:02.696 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+[ERROR] 06-23-2019 22:27:02.696 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:175)
+[ERROR] 06-23-2019 22:27:02.696 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:119)
+[ERROR] 06-23-2019 22:27:02.697 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build(MetadataBuildingProcess.java:84)
+[ERROR] 06-23-2019 22:27:02.697 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:474)
+[ERROR] 06-23-2019 22:27:02.697 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:85)
+[ERROR] 06-23-2019 22:27:02.697 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:689)
+[ERROR] 06-23-2019 22:27:02.698 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:724)
+[ERROR] 06-23-2019 22:27:02.698 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - com.miBudget.v1.utilities.HibernateUtilities.getSessionFactory(HibernateUtilities.java:65)
+[ERROR] 06-23-2019 22:27:02.698 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - com.miBudget.v1.utilities.ClientTest.main(ClientTest.java:28)
+[ERROR] 06-23-2019 22:27:02.699 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:91 - sessionFactory was not created due to an error.
+[ERROR] 06-23-2019 22:27:02.699 [main] com.miBudget.v1.utilities.ClientTest:main:57 - Error making a connection to the database
+[ERROR] 06-23-2019 22:27:02.699 [main] com.miBudget.v1.utilities.ClientTest:main:63 - com.miBudget.v1.utilities.ClientTest.main(ClientTest.java:29)
+
+[INFO ] 06-30-2019 18:05:34.401 [main] org.hibernate.Version:logVersion:46 - HHH000412: Hibernate Core {5.4.0.CR2}
+[INFO ] 06-30-2019 18:05:34.404 [main] org.hibernate.cfg.Environment:<clinit>:199 - HHH000206: hibernate.properties not found
+[INFO ] 06-30-2019 18:05:34.574 [main] org.hibernate.spatial.integration.SpatialService:<init>:42 - HHH80000001: hibernate-spatial integration enabled : true
+[INFO ] 06-30-2019 18:05:35.124 [main] org.hibernate.spatial.integration.SpatialService:<init>:42 - HHH80000001: hibernate-spatial integration enabled : true
+[INFO ] 06-30-2019 18:05:35.195 [main] org.hibernate.annotations.common.Version:<clinit>:49 - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+[WARN ] 06-30-2019 18:05:35.634 [main] org.hibernate.orm.connections.pooling:configure:72 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+[INFO ] 06-30-2019 18:05:35.659 [main] org.hibernate.orm.connections.pooling:buildCreator:115 - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/mibudget?useSSL=false&serverTimezone=UTC]
+[INFO ] 06-30-2019 18:05:35.660 [main] org.hibernate.orm.connections.pooling:buildCreator:121 - HHH10001001: Connection properties: {user=michaelball, password=rootpassword}
+[INFO ] 06-30-2019 18:05:35.661 [main] org.hibernate.orm.connections.pooling:buildCreator:129 - HHH10001003: Autocommit mode: false
+[INFO ] 06-30-2019 18:05:35.666 [main] org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl:<init>:239 - HHH000115: Hibernate connection pool size: 100 (min=1)
+[WARN ] 06-30-2019 18:05:35.980 [main] org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator:initiateService:132 - HHH000342: Could not obtain connection to query metadata : null
+[INFO ] 06-30-2019 18:05:36.007 [main] org.hibernate.dialect.Dialect:<init>:158 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+[INFO ] 06-30-2019 18:05:36.033 [main] org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl:makeLobCreatorBuilder:65 - HHH000422: Disabling contextual LOB creation as connection was null
+[WARN ] 06-30-2019 18:05:36.049 [main] org.hibernate.engine.jdbc.spi.SqlExceptionHelper:logExceptions:137 - SQL Error: 0, SQLState: 08001
+[ERROR] 06-30-2019 18:05:36.049 [main] org.hibernate.engine.jdbc.spi.SqlExceptionHelper:logExceptions:142 - Public Key Retrieval is not allowed
+[ERROR] 06-30-2019 18:05:36.052 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:69 - Hibernate threw an error.
+[ERROR] 06-30-2019 18:05:36.053 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:70 - Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment]
+[ERROR] 06-30-2019 18:05:36.053 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:275)
+[ERROR] 06-30-2019 18:05:36.054 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
+[ERROR] 06-30-2019 18:05:36.054 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+[ERROR] 06-30-2019 18:05:36.055 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:152)
+[ERROR] 06-30-2019 18:05:36.055 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
+[ERROR] 06-30-2019 18:05:36.055 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
+[ERROR] 06-30-2019 18:05:36.056 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+[ERROR] 06-30-2019 18:05:36.057 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:175)
+[ERROR] 06-30-2019 18:05:36.057 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:119)
+[ERROR] 06-30-2019 18:05:36.058 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build(MetadataBuildingProcess.java:84)
+[ERROR] 06-30-2019 18:05:36.059 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:474)
+[ERROR] 06-30-2019 18:05:36.060 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:85)
+[ERROR] 06-30-2019 18:05:36.061 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:689)
+[ERROR] 06-30-2019 18:05:36.061 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:724)
+[ERROR] 06-30-2019 18:05:36.061 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - com.miBudget.v1.utilities.HibernateUtilities.getSessionFactory(HibernateUtilities.java:65)
+[ERROR] 06-30-2019 18:05:36.062 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - com.miBudget.v1.utilities.ClientTest.main(ClientTest.java:28)
+[ERROR] 06-30-2019 18:05:36.063 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:91 - sessionFactory was not created due to an error.
+[ERROR] 06-30-2019 18:05:36.064 [main] com.miBudget.v1.utilities.ClientTest:main:57 - Error making a connection to the database
+[ERROR] 06-30-2019 18:05:36.066 [main] com.miBudget.v1.utilities.ClientTest:main:63 - com.miBudget.v1.utilities.ClientTest.main(ClientTest.java:29)
+
+[INFO ] 07-01-2019 20:54:57.638 [main] org.hibernate.Version:logVersion:46 - HHH000412: Hibernate Core {5.4.0.CR2}
+[INFO ] 07-01-2019 20:54:57.641 [main] org.hibernate.cfg.Environment:<clinit>:199 - HHH000206: hibernate.properties not found
+[INFO ] 07-01-2019 20:54:57.794 [main] org.hibernate.spatial.integration.SpatialService:<init>:42 - HHH80000001: hibernate-spatial integration enabled : true
+[INFO ] 07-01-2019 20:54:58.243 [main] org.hibernate.spatial.integration.SpatialService:<init>:42 - HHH80000001: hibernate-spatial integration enabled : true
+[INFO ] 07-01-2019 20:54:58.291 [main] org.hibernate.annotations.common.Version:<clinit>:49 - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+[WARN ] 07-01-2019 20:54:58.554 [main] org.hibernate.orm.connections.pooling:configure:72 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+[INFO ] 07-01-2019 20:54:58.578 [main] org.hibernate.orm.connections.pooling:buildCreator:115 - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/mibudget?useSSL=false&serverTimezone=UTC]
+[INFO ] 07-01-2019 20:54:58.579 [main] org.hibernate.orm.connections.pooling:buildCreator:121 - HHH10001001: Connection properties: {user=michaelball, password=Hunter1088$}
+[INFO ] 07-01-2019 20:54:58.582 [main] org.hibernate.orm.connections.pooling:buildCreator:129 - HHH10001003: Autocommit mode: false
+[INFO ] 07-01-2019 20:54:58.587 [main] org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl:<init>:239 - HHH000115: Hibernate connection pool size: 100 (min=1)
+[INFO ] 07-01-2019 20:54:58.922 [main] org.hibernate.dialect.Dialect:<init>:158 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+[INFO ] 07-01-2019 20:54:59.041 [main] org.hibernate.envers.boot.internal.EnversServiceImpl:configure:90 - Envers integration enabled? : true
+[INFO ] 07-01-2019 20:55:00.399 [main] org.hibernate.orm.connections.access:getIsolatedConnection:47 - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@ebd06a9] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 07-01-2019 20:55:00.541 [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:initiateService:52 - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 07-01-2019 20:55:00.554 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:89 - Returning new sessionFactory...
+[INFO ] 07-01-2019 20:55:00.786 [main] com.miBudget.v1.utilities.ClientTest:main:33 - MySQL version is 8.0.16
+
+[INFO ] 07-01-2019 20:55:00.788 [main] com.miBudget.v1.utilities.ClientTest:main:36 - End client test.
+[INFO ] 07-01-2019 20:57:01.437 [main] org.hibernate.Version:logVersion:46 - HHH000412: Hibernate Core {5.4.0.CR2}
+[INFO ] 07-01-2019 20:57:01.439 [main] org.hibernate.cfg.Environment:<clinit>:199 - HHH000206: hibernate.properties not found
+[INFO ] 07-01-2019 20:57:01.560 [main] org.hibernate.spatial.integration.SpatialService:<init>:42 - HHH80000001: hibernate-spatial integration enabled : true
+[INFO ] 07-01-2019 20:57:01.840 [main] org.hibernate.spatial.integration.SpatialService:<init>:42 - HHH80000001: hibernate-spatial integration enabled : true
+[INFO ] 07-01-2019 20:57:01.865 [main] org.hibernate.annotations.common.Version:<clinit>:49 - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+[WARN ] 07-01-2019 20:57:02.083 [main] org.hibernate.orm.connections.pooling:configure:72 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+[INFO ] 07-01-2019 20:57:02.094 [main] org.hibernate.orm.connections.pooling:buildCreator:115 - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/mibudget?useSSL=false&serverTimezone=UTC]
+[INFO ] 07-01-2019 20:57:02.097 [main] org.hibernate.orm.connections.pooling:buildCreator:121 - HHH10001001: Connection properties: {user=michaelball, password=Hunter1088$}
+[INFO ] 07-01-2019 20:57:02.098 [main] org.hibernate.orm.connections.pooling:buildCreator:129 - HHH10001003: Autocommit mode: false
+[INFO ] 07-01-2019 20:57:02.106 [main] org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl:<init>:239 - HHH000115: Hibernate connection pool size: 100 (min=1)
+[INFO ] 07-01-2019 20:57:02.322 [main] org.hibernate.dialect.Dialect:<init>:158 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+[INFO ] 07-01-2019 20:57:02.389 [main] org.hibernate.envers.boot.internal.EnversServiceImpl:configure:90 - Envers integration enabled? : true
+[INFO ] 07-01-2019 20:57:03.527 [main] org.hibernate.orm.connections.access:getIsolatedConnection:47 - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@1bc776b7] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 07-01-2019 20:57:03.561 [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:initiateService:52 - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 07-01-2019 20:57:03.567 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:89 - Returning new sessionFactory...
+[INFO ] 07-01-2019 20:57:03.803 [main] com.miBudget.v1.utilities.ClientTest:main:33 - MySQL version is 8.0.16
+
+[INFO ] 07-01-2019 20:57:03.808 [main] com.miBudget.v1.utilities.ClientTest:main:36 - End client test.
+[INFO ] 07-01-2019 21:00:54.873 [main] org.hibernate.Version:logVersion:46 - HHH000412: Hibernate Core {5.4.0.CR2}
+[INFO ] 07-01-2019 21:00:54.877 [main] org.hibernate.cfg.Environment:<clinit>:199 - HHH000206: hibernate.properties not found
+[INFO ] 07-01-2019 21:00:55.020 [main] org.hibernate.spatial.integration.SpatialService:<init>:42 - HHH80000001: hibernate-spatial integration enabled : true
+[INFO ] 07-01-2019 21:00:55.276 [main] org.hibernate.spatial.integration.SpatialService:<init>:42 - HHH80000001: hibernate-spatial integration enabled : true
+[INFO ] 07-01-2019 21:00:55.305 [main] org.hibernate.annotations.common.Version:<clinit>:49 - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+[WARN ] 07-01-2019 21:00:55.541 [main] org.hibernate.orm.connections.pooling:configure:72 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+[INFO ] 07-01-2019 21:00:55.553 [main] org.hibernate.orm.connections.pooling:buildCreator:115 - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/test?useSSL=false&serverTimezone=UTC]
+[INFO ] 07-01-2019 21:00:55.554 [main] org.hibernate.orm.connections.pooling:buildCreator:121 - HHH10001001: Connection properties: {user=michaelball, password=Hunter1088$}
+[INFO ] 07-01-2019 21:00:55.555 [main] org.hibernate.orm.connections.pooling:buildCreator:129 - HHH10001003: Autocommit mode: false
+[INFO ] 07-01-2019 21:00:55.563 [main] org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl:<init>:239 - HHH000115: Hibernate connection pool size: 100 (min=1)
+[INFO ] 07-01-2019 21:00:55.788 [main] org.hibernate.dialect.Dialect:<init>:158 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+[INFO ] 07-01-2019 21:00:55.878 [main] org.hibernate.envers.boot.internal.EnversServiceImpl:configure:90 - Envers integration enabled? : true
+[INFO ] 07-01-2019 21:00:56.964 [main] org.hibernate.orm.connections.access:getIsolatedConnection:47 - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@1bc776b7] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 07-01-2019 21:00:57.175 [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:initiateService:52 - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 07-01-2019 21:00:57.183 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:89 - Returning new sessionFactory...
+[INFO ] 07-01-2019 21:00:57.484 [main] com.miBudget.v1.utilities.ClientTest:main:33 - MySQL version is 8.0.16
+
+[INFO ] 07-01-2019 21:00:57.487 [main] com.miBudget.v1.utilities.ClientTest:main:36 - End client test.

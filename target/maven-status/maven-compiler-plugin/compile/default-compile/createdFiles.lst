@@ -1,6 +1,7 @@
 com/miBudget/v1/entities/UsersInstitutionIdsObject.class
 com/miBudget/v1/entities/UserAccountObject_.class
 com/miBudget/v1/entities/Category.class
+com/miBudget/v1/entities/Transaction.class
 com/miBudget/v1/servlets/CheckInstitutionIds.class
 com/miBudget/v1/services/UserServices.class
 com/miBudget/v1/daoimplementations/AccountDAOImpl.class
@@ -9,6 +10,7 @@ com/miBudget/v1/servlets/UpdateBank.class
 com/miBudget/v1/utilities/DateAndTimeUtility.class
 com/miBudget/v1/entities/UsersItemsObject_.class
 com/miBudget/v1/servlets/Test.class
+com/miBudget/v1/utilities/ResponseParser.class
 com/miBudget/v1/servlets/Delete.class
 com/miBudget/v1/entities/Item.class
 com/miBudget/v1/entities/ItemAccountObject.class
@@ -24,6 +26,7 @@ com/miBudget/v1/entities/UsersInstitutionIdsObject_.class
 com/miBudget/v1/servlets/MiBudget.class
 META-INF/org/apache/logging/log4j/core/config/plugins/Log4j2Plugins.dat
 com/miBudget/v1/servlets/Accounts.class
+com/miBudget/v1/entities/Location.class
 com/miBudget/v1/entities/Rule_.class
 com/miBudget/v1/servlets/ForgotPassword.class
 com/miBudget/v1/daoimplementations/ItemDAOImpl.class
@@ -32,6 +35,7 @@ com/miBudget/v1/servlets/UpdateUser.class
 com/miBudget/v1/entities/Category_.class
 com/miBudget/v1/dao/MiBudgetDAO.class
 com/miBudget/v1/main/Main.class
+com/miBudget/v1/processors/TransactionsProcessor.class
 com/miBudget/v1/entities/User.class
 com/miBudget/v1/entities/User_.class
 com/miBudget/v1/serviceimplementations/UserServiceImpl.class

@@ -66,7 +66,7 @@ public class Login extends HttpServlet {
 		boolean loginCredentials = false;
 		List<User> allUsersList = null;
 		HttpSession session = request.getSession(false);
-		Instant instantNow = Instant.now();
+		//Instant instantNow = Instant.now();
 
 		allUsersList = miBudgetDAOImpl.getAllUsers();
 		User loginUser = new User(cellphone, password);
@@ -78,20 +78,22 @@ public class Login extends HttpServlet {
 		LOGGER.info("password: " + password);
 		// for every user in the list
 		
-		for (User user : allUsersList) {
-			if (loginUser.equals(user)) {
-				LOGGER.info(loginUser + " matches " + user);
+		for (User activeUser : allUsersList) {
+			if (loginUser.equals(activeUser)) {
+				LOGGER.info(loginUser + " matches " + activeUser);
 				LOGGER.info("Registered user. Logging in");
-				loginUser = user;
+				loginUser = activeUser;
 				loginCredentials = true;
-			} else if (loginUser.getCellphone().equals(user.getCellphone()) &&
-					   loginUser.getPassword().equals(user.getPassword()) ) {
-				LOGGER.info(loginUser + " matches " + user);
+				break;
+			} else if (loginUser.getCellphone().equals(activeUser.getCellphone()) &&
+					   loginUser.getPassword().equals(activeUser.getPassword()) ) {
+				LOGGER.info("loginUser matches " + activeUser);
 				LOGGER.info("Registered user. Logging in");
-				loginUser = user;
+				loginUser = activeUser;
 				loginCredentials = true;
+				break;
 			} else {
-				LOGGER.info(loginUser + " is not a match to " + user);
+				LOGGER.info(loginUser + " is not a match to " + activeUser);
 			}
 		}
 		// if logInUser does not have a first name, then they are a new user
@@ -108,11 +110,13 @@ public class Login extends HttpServlet {
 				Item item = itemDAOImpl.getItem(uiObj.getItemTableId() );
 				acctsAndInstitutionIdMap.put(item.getInstitutionId(), accountDAOImpl.getAllAccountsForItem(uiObj.getItemTableId()) );
 			}
+			int accountsTotal = 0;
 			LOGGER.info("acctsAndInstitutionIdMap");
 			for(String id : acctsAndInstitutionIdMap.keySet()) {
 				LOGGER.info("key: " + id);
 				for (Account a : acctsAndInstitutionIdMap.get(id)) {
 					LOGGER.info("value: " + a);
+					accountsTotal++;
 				}
 			}
 			
@@ -120,7 +124,8 @@ public class Login extends HttpServlet {
 			
 			// Populate errors map
 			
-			int accounts = accountIdsList.size();
+			LOGGER.info("acctsAndInstitutionIdMap size: " + acctsAndInstitutionIdMap.size());
+			if (accountsTotal == 0) acctsAndInstitutionIdMap = new HashMap<String, ArrayList<Account>>();
 			session = request.getSession(true);
 			if (session == null || session.isNew()) {
 				LOGGER.info("session is null. setting session");
@@ -144,7 +149,7 @@ public class Login extends HttpServlet {
 			session.setAttribute("Firstname", loginUser.getFirstName());
 			session.setAttribute("Lastname", loginUser.getLastName());
 			session.setAttribute("user", loginUser); 
-			session.setAttribute("accountsSize", accounts);
+			session.setAttribute("accountsSize", accountsTotal);
 			session.setAttribute("isUserLoggedIn", true);
 			session.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr(cal));
 		    

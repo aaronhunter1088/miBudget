@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -173,7 +174,7 @@ public class Register extends HttpServlet {
 					LOGGER.info("Failed to add user to database.");
 				else {
 					LOGGER.info("User added to database!");
-					LOGGER.info(regUser.getFirstName() + " default categories saved.");
+					//LOGGER.info(regUser.getFirstName() + " default categories saved.");
 				}
 				requestSession = request.getSession(true);
 				
@@ -204,8 +205,10 @@ public class Register extends HttpServlet {
 				
 				LOGGER.info("Redirecting to Profile.jsp");
 				LOGGER.info("--- END ---");
-				getServletContext().getRequestDispatcher("/Profile.jsp")
-					.forward(request, response);
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/Profile.jsp" );
+				dispatcher.forward( request, response );
+				//getServletContext().getRequestDispatcher("/Profile.jsp")
+				//	.forward(request, response);
 				//response.sendRedirect("Welcome.jsp");
 			}
 		} catch (MappingException e) {
