@@ -3,15 +3,24 @@ package com.miBudget.v1.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Location implements Serializable, Comparable {
+public class Location implements Serializable, Comparable<Location> {
 
+	public Location() {}
+	
+	public Location(String address, String city, String state, String zipcode) {
+		setAddress(address);
+		setCity(city);
+		setState(state);
+		setZipcode(zipcode);
+	}
+	
 	private String address;
 	
 	private String city;
 	
 	private String state;
 	
-	private int zipcode;
+	private String zipcode;
 	
 	private static final long serialVersionUID = 1L;
 
@@ -39,7 +48,7 @@ public class Location implements Serializable, Comparable {
 	/**
 	 * @return the zipcode
 	 */
-	public int getZipcode() {
+	public String getZipcode() {
 		return zipcode;
 	}
 
@@ -73,9 +82,17 @@ public class Location implements Serializable, Comparable {
 
 	/**
 	 * @param zipcode the zipcode to set
+	 * 
+	 * @throws NumberFormatException, for when zipcode is null
 	 */
-	private void setZipcode(int zipcode) {
-		this.zipcode = zipcode;
+	private void setZipcode(String zipcode) {
+		try {
+			if (zipcode != null) {
+				this.zipcode = zipcode;
+			} else throw new NumberFormatException(); 
+		} catch (NumberFormatException e) {
+			this.zipcode = "00000";
+		}
 	}
 
 	/* (non-Javadoc)
@@ -111,7 +128,7 @@ public class Location implements Serializable, Comparable {
 	}
 
 	@Override
-	public int compareTo(Object o) {
+	public int compareTo(Location o) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

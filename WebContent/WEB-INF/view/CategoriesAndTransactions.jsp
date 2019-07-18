@@ -392,7 +392,13 @@
 					        },				    
 					        'success': function (data) {
 						        console.log("response from CAT");
+						        console.log(JSON.stringify(data));
+								console.log();
 						        console.log(data);
+								// PARSE TRANSACTIONS
+								
+								//POSSIBLY: location.reload();
+						        
 						        console.log("eventually, hide this #transactions form/div and show  transactionsTable.");
 					        },
 					        'fail': function(response) {

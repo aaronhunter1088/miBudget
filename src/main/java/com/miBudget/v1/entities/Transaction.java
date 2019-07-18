@@ -7,6 +7,9 @@ public class Transaction implements Serializable {
 
 	private String accountId;
 	
+	/**
+	 * the name of where the transaction took place
+	 */
 	private String name;
 	
 	private double amount;
@@ -14,13 +17,15 @@ public class Transaction implements Serializable {
 	private Location location;
 	
 	private List<String> categories;
+	
 	private static final long serialVersionUID = 1L;
+	
 	public Transaction() {}
 	
 	/**
 	 * 
 	 * @param accountId
-	 * @param name
+	 * @param name, where the transaction took place
 	 * @param amount
 	 * @param location
 	 * @param categories
@@ -152,6 +157,15 @@ public class Transaction implements Serializable {
 	 */
 	private void setCategories(List<String> categories) {
 		this.categories = categories;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Transaction [accountId=" + accountId + ", name=" + name + ", amount=" + amount + ", location="
+				+ location + ", categories=" + categories + "]";
 	}
 	
 	

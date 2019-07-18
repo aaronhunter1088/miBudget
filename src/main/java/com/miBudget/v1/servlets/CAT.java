@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,14 +27,16 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.miBudget.v1.daoimplementations.AccountDAOImpl;
 import com.miBudget.v1.daoimplementations.ItemDAOImpl;
 import com.miBudget.v1.daoimplementations.MiBudgetDAOImpl;
 import com.miBudget.v1.entities.Account;
 import com.miBudget.v1.entities.Item;
+import com.miBudget.v1.entities.Location;
+import com.miBudget.v1.entities.Transaction;
 import com.miBudget.v1.entities.User;
 import com.miBudget.v1.entities.UserAccountObject;
 import com.miBudget.v1.processors.TransactionsProcessor;
@@ -99,6 +102,7 @@ public class CAT extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LOGGER.info("--- START ---");
 		LOGGER.info("Inside the Categories and Transactions or, CAT doPost() servlet.");
@@ -139,7 +143,7 @@ public class CAT extends HttpServlet {
 				if (transactionsRequested > 50) transactionsRequested = 50;
 				
 				String accessToken = itemDAOImpl.getItem(itemTableId).getAccessToken();
-				Response<TransactionsGetResponse> getRes = null;
+				Response<TransactionsGetResponse> transactionsGetResponse = null;
 				try {
 					startDate = (java.sql.Date) sdf.parse(request.getParameter("FromDate"));
 					endDate = (java.sql.Date) sdf.parse(request.getParameter("ToDate"));
@@ -149,7 +153,7 @@ public class CAT extends HttpServlet {
 					LOGGER.warn("Failed to read in FromDate or ToDate. Will set default dates...");
 				} 
 				
-				getRes = transactionsProcessor.getTransactions(accessToken, acctId, transactionsRequested);
+				transactionsGetResponse = transactionsProcessor.getTransactions(accessToken, acctId, transactionsRequested);
 				if (startDate == null && endDate == null) {
 					endDate = transactionsProcessor.getEndDate();
 					startDate = transactionsProcessor.getStartDate();
@@ -162,27 +166,40 @@ public class CAT extends HttpServlet {
 				LOGGER.info("end_date: {}", endDate);
 				LOGGER.info("start_date: {}", startDate);
 				
-				
-				if (getRes.isSuccessful()) {
+				List<com.miBudget.v1.entities.Transaction> finalTransactionsList = new ArrayList<>();
+				List<String> finalTransactionsListAsStrings = new ArrayList<>();
+				StringBuilder customTextForResponse = new StringBuilder();
+				if (transactionsGetResponse.isSuccessful()) {
 					LOGGER.info("get transactions was successful");
-					JSONParser jsonParser = new JSONParser();
-					JSONArray transactionsRequestedJsonArray = null;
-					try { transactionsRequestedJsonArray = (JSONArray) jsonParser.parse(getRes.body().getTransactions().toString()); }
-					catch (Exception e) { 
-						LOGGER.error(e);
-						LOGGER.error(getRes.body().getTransactions().toString());
-						// TODO: fix the array
-						transactionsRequestedJsonArray = new JSONArray();
+					List<TransactionsGetResponse.Transaction> plaidTransactions = transactionsGetResponse.body().getTransactions();
+					
+					for (TransactionsGetResponse.Transaction t : plaidTransactions) {
+						// Make a new miBudget location from object
+						TransactionsGetResponse.Transaction.Location loc = t.getLocation();
+						Location miBudgetLocationObj = new Location(
+							loc.getAddress(), loc.getCity(), 
+							loc.getState(), loc.getZip()
+						);
+						Transaction transaction = new Transaction(
+							t.getAccountId(),
+							t.getName(),
+							t.getAmount(),
+							miBudgetLocationObj,
+							(List<String>) t.getCategory()
+						);
+						finalTransactionsList.add(transaction);
+						//finalTransactionsListAsStrings.add(transaction.toString());
+						customTextForResponse.append(transaction.toString());
 					}
-					LOGGER.info("number of accounts requested: " + transactionsRequestedJsonArray.size());
+					
+					session.setAttribute("transactionsList", finalTransactionsList);
+					
 					response.setStatus(HttpServletResponse.SC_OK);
-					StringBuilder sb = new StringBuilder();
-					sb.append(getRes.body().getTransactions().toString());
-					response.getWriter().append(sb);
+					response.getWriter().append(customTextForResponse);
 				} else {
-					LOGGER.error("raw: {}", getRes.raw());
-					LOGGER.error("error body: {}", getRes.errorBody());
-					LOGGER.error("code: {}", getRes.code());
+					LOGGER.error("raw: {}", transactionsGetResponse.raw());
+					LOGGER.error("error body: {}", transactionsGetResponse.errorBody());
+					LOGGER.error("code: {}", transactionsGetResponse.code());
 				}
 				LOGGER.info("--- END ---");
 				//response.getWriter().append("\naccountName: " + acctName + "\ntransactionsReq: " + transactionsRequested + "\nmethodName: " + methodName);
