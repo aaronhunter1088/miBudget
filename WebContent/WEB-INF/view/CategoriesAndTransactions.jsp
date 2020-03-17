@@ -458,9 +458,7 @@
 							console.log('acct: ' + acct);
 						}
 		            }
-				} else {
-					console.log('acctsAndInsIdMap is empty. Size is ' + acctAndInsIdMap.size);
-				}
+				} 
 				
 				$("#transactions").find('input[name=numberOfTrans]').on('change', function () {
 					if ($("#transactions").find('input[name=numberOfTrans]').val() == "") {
