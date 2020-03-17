@@ -121,6 +121,12 @@ public class CustomLookupAndReplace implements StrLookup {
 				else
 					instanceCountStr = Integer.toString(instanceCount+1);
 				newFile = new File(path + sdf.format(instanceLogDate) + File.separator + appName + "~Instance~Logs~" + sdf.format(instanceLogDate) + instanceCountStr);
+				
+				// here?
+				//${basepath}/${date}/${instanceName}~${rollOverDaily}
+				// miBudget~Instance~Logs~05-03-2019_hour_instance.log BEFORE
+				// miBudget~Instance~Logs~05-03-2019_instance.log      DAILY rollover
+				
 				LOGGER.info("newFile name: " + newFile.getName());
 				LOGGER.info("newFile path: " + newFile.getPath());
 				try {

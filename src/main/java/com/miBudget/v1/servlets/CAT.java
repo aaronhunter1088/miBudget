@@ -171,6 +171,9 @@ public class CAT extends HttpServlet {
 				StringBuilder customTextForResponse = new StringBuilder();
 				if (transactionsGetResponse.isSuccessful()) {
 					LOGGER.info("get transactions was successful");
+					LOGGER.info("raw: {}", ((TransactionsGetResponse)transactionsGetResponse.body()).toString());
+					LOGGER.info("count: {}", transactionsGetResponse.body().getTotalTransactions());
+					LOGGER.info("transactions: {}", transactionsGetResponse.body().getTransactions().toString());
 					List<TransactionsGetResponse.Transaction> plaidTransactions = transactionsGetResponse.body().getTransactions();
 					
 					for (TransactionsGetResponse.Transaction t : plaidTransactions) {

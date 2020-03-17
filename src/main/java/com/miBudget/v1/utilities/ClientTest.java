@@ -1,5 +1,7 @@
 package com.miBudget.v1.utilities;
 
+import java.io.IOException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -10,6 +12,10 @@ import org.hibernate.Transaction;
 import com.miBudget.v1.daoimplementations.AccountDAOImpl;
 import com.miBudget.v1.daoimplementations.ItemDAOImpl;
 import com.miBudget.v1.daoimplementations.MiBudgetDAOImpl;
+import com.miBudget.v1.processors.TransactionsProcessor;
+import com.plaid.client.response.TransactionsGetResponse;
+
+import retrofit2.Response;
 
 
 public class ClientTest {
@@ -24,6 +30,32 @@ public class ClientTest {
 	    LOGGER = LogManager.getLogger(ClientTest.class);
 	}
 	public static void main(String[] args) {
+		// Test MySql connection
+		//testMySql();
+		
+		// Test TransactionsProcessor
+		testTransactionsProcessor();
+	}
+	
+	public static void testTransactionsProcessor() {
+		TransactionsProcessor transactionsProcessor = new TransactionsProcessor();
+		//public Response<TransactionsGetResponse> getTransactions(String accessToken, String accountId, int transactionsCount)
+		try {
+			Response<TransactionsGetResponse> response = transactionsProcessor.getTransactions("access-development-7e2ed5ce-8d7e-471d-bc24-af1a4156774f", 
+					"zJAKN9ak3jsKYPqew3nwuZPgaeNVgzFO6LxkR", 5);
+			if (response.isSuccessful()) {
+				LOGGER.info("transactionsProcessor was successful");
+				LOGGER.info("raw: {}", ((TransactionsGetResponse)response.body()).toString());
+				LOGGER.info("count: {}", response.body().getTotalTransactions());
+				LOGGER.info("transactions: {}", response.body().getTransactions().toString());
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			LOGGER.error(e);
+		}
+	}
+	
+	public static void testMySql() {
 		try {
 			SessionFactory factory = HibernateUtilities.getSessionFactory();
 			Session hibernateSession = factory.openSession();
