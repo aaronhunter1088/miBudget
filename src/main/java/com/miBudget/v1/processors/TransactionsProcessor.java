@@ -7,6 +7,10 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.miBudget.v1.servlets.CAT;
 import com.plaid.client.*;
 import com.plaid.client.request.TransactionsGetRequest;
 import com.plaid.client.response.TransactionsGetResponse;
@@ -28,6 +32,12 @@ public class TransactionsProcessor {
 
 	public TransactionsProcessor() {};
 	
+	private static Logger LOGGER = null;
+	static  {
+		System.setProperty("appName", "miBudget");
+		LOGGER = LogManager.getLogger(TransactionsProcessor.class);
+	}
+	
 	public Response<TransactionsGetResponse> getTransactions(String accessToken, String accountId, int transactionsCount) throws IOException {
 		
 		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -35,47 +45,47 @@ public class TransactionsProcessor {
 		Date end = new Date();
 		calendar.setTime(end);
 		String monthStr = null, dateStr = null;
-		int month = calendar.get(Calendar.MONTH) + 1; // could be 1-9
-		int date = calendar.get(Calendar.DAY_OF_MONTH); // could be 1-9
+		int month = calendar.get(Calendar.MONTH) + 1;
+		int date = calendar.get(Calendar.DAY_OF_MONTH);
 		int year = calendar.get(Calendar.YEAR);
 		if (month <= 9) monthStr = "0" + month;
 		else monthStr = String.valueOf(month);
 		if (date <= 9) dateStr = "0" + date;
 		else dateStr = String.valueOf(date);
 		String endDateStr = year+"-"+monthStr+"-"+dateStr;
-		System.out.println("endDateStr: " + endDateStr);
+		//System.out.println("endDateStr: " + endDateStr);
 		java.sql.Date endDate = java.sql.Date.valueOf(endDateStr);
 		
 		calendar.add(Calendar.MONTH, -1); // go back one month
-		month = calendar.get(Calendar.MONTH) + 1; // could be 1-9
-		date = calendar.get(Calendar.DAY_OF_MONTH); // could be 1-9
+		month = calendar.get(Calendar.MONTH) + 1; 
+		date = calendar.get(Calendar.DAY_OF_MONTH);
 		year = calendar.get(Calendar.YEAR);
 		if (month <= 9) monthStr = "0" + month;
 		else monthStr = String.valueOf(month);
 		if (date <= 9) dateStr = "0" + date;
 		else dateStr = String.valueOf(date);
 		String startDateStr = year+"-"+monthStr+"-"+dateStr;
-		System.out.println("startDateStr: " + startDateStr);
+		//System.out.println("startDateStr: " + startDateStr);
 		java.sql.Date startDate = java.sql.Date.valueOf(startDateStr);
 		
-		System.out.println("end_date: " + endDate);
-		System.out.println("start_date: " + startDate);
+		LOGGER.info("start_date: " + startDate);
+		LOGGER.info("end_date: " + endDate);
 		
-		TransactionsGetRequest getReq = new TransactionsGetRequest(accessToken, startDate, endDate);
-		getReq.withAccountIds(Arrays.asList(accountId)).withCount(transactionsCount);
+		TransactionsGetRequest getReq = new TransactionsGetRequest(accessToken, startDate, endDate)
+				.withAccountIds(Arrays.asList(accountId)).withCount(transactionsCount);
+		LOGGER.info("getReq is asking for {} transactions", transactionsCount);
 		Response<TransactionsGetResponse> getRes = client().service().transactionsGet(getReq).execute();
 		
 		if (getRes.isSuccessful()) {
-			System.out.println("successful");
-			System.out.println(getRes.body().getTotalTransactions());
-			System.out.println(getRes.body().getTransactions());
+			LOGGER.info("successful");
+			LOGGER.info(getRes.body().getTransactions());
 			setEndDate(endDate);
 			setStartDate(startDate);
 			return getRes;
 		} else {
-			System.out.println("raw: " + getRes.raw());
-			System.out.println("error body: " + getRes.errorBody());
-			System.out.println("code: " + getRes.code());
+			LOGGER.error("raw: " + getRes.raw());
+			LOGGER.error("error body: " + getRes.errorBody());
+			LOGGER.error("code: " + getRes.code());
 			return null;
 		}
 		
