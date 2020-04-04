@@ -108,7 +108,7 @@
 				    String currentId = (String)institutionIdsIter.next();
 				    //idCopy = Integer.parseInt(currentId);
 				%> 
-				<!-- [Bank Logo | Update | Delete] --> 
+				<!-- [Bank Logo | Update | Delete] --> <!-- var firstRowText = $("[id='bank']").attr('id'); -->
 				<tr id="bank" name="<%= currentId %>">
 					<td id="logo" name="<%= currentId %>">
 					 	<%= currentId %> <!-- change to Logo -->  

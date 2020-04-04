@@ -1,6 +1,10 @@
 package com.miBudget.v1.utilities;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,9 +13,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.miBudget.v1.daoimplementations.AccountDAOImpl;
 import com.miBudget.v1.daoimplementations.ItemDAOImpl;
 import com.miBudget.v1.daoimplementations.MiBudgetDAOImpl;
+import com.miBudget.v1.entities.Location;
 import com.miBudget.v1.processors.TransactionsProcessor;
 import com.plaid.client.response.TransactionsGetResponse;
 
@@ -29,7 +36,7 @@ public class ClientTest {
 		System.setProperty("appName", "miBudget");
 	    LOGGER = LogManager.getLogger(ClientTest.class);
 	}
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 		// Test MySql connection
 		//testMySql();
 		
@@ -37,7 +44,7 @@ public class ClientTest {
 		testTransactionsProcessor();
 	}
 	
-	public static void testTransactionsProcessor() {
+	public static void testTransactionsProcessor() throws ParseException {
 		TransactionsProcessor transactionsProcessor = new TransactionsProcessor();
 		//public Response<TransactionsGetResponse> getTransactions(String accessToken, String accountId, int transactionsCount)
 		try {
@@ -46,13 +53,54 @@ public class ClientTest {
 			if (response.isSuccessful()) {
 				LOGGER.info("transactionsProcessor was successful");
 				LOGGER.info("raw: {}", ((TransactionsGetResponse)response.body()).toString());
-				LOGGER.info("count: {}", response.body().getTotalTransactions());
+				LOGGER.info("count: {}", response.body().getTransactions().size());
 				LOGGER.info("transactions: {}", response.body().getTransactions().toString());
+				List<com.miBudget.v1.entities.Transaction> transactions = convertTransactions(response);
+				for(com.miBudget.v1.entities.Transaction transaction : transactions) {
+					LOGGER.info("transactions after conversion: {}", transaction);
+				}
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error(e);
 		}
+	}
+	
+	public static List<com.miBudget.v1.entities.Transaction> convertTransactions(Response<TransactionsGetResponse> response) throws ParseException {
+		List<com.miBudget.v1.entities.Transaction> listOfConvertedTransactions = new ArrayList<com.miBudget.v1.entities.Transaction>();
+		int i = 1;
+		for(TransactionsGetResponse.Transaction transaction : response.body().getTransactions()) {
+//			LOGGER.info("\ntransaction number {}", i++);
+//			LOGGER.info("transaction accountId: {}", transaction.getAccountId());
+//			LOGGER.info("transaction transactionId: {}", transaction.getTransactionId());
+//			LOGGER.info("transaction name: {}", transaction.getName());
+//			LOGGER.info("transaction amount: {}", transaction.getAmount());
+//			LOGGER.info("transaction location: {}", convertLocation(transaction.getLocation()));
+//			LOGGER.info("transaction categories: {}", transaction.getCategory());
+//			LOGGER.info("transaction date: {}", transaction.getDate());
+			com.miBudget.v1.entities.Transaction newTransaction = 
+				new com.miBudget.v1.entities.Transaction(
+					transaction.getTransactionId(), 
+					transaction.getAccountId(),
+					transaction.getName(), 
+					transaction.getAmount(), 
+					convertLocation(transaction.getLocation()), 
+					transaction.getCategory(), 
+					new SimpleDateFormat("yyyy-dd-MM").parse(transaction.getDate())
+				);
+			listOfConvertedTransactions.add(newTransaction);
+		}
+		return listOfConvertedTransactions;
+	}
+	
+	public static Location convertLocation(TransactionsGetResponse.Transaction.Location location) {
+		Location loc = new Location(
+			location.getAddress(),
+			location.getCity(),
+			location.getState(),
+			location.getZip()
+		);
+		return loc;
 	}
 	
 	public static void testMySql() {

@@ -29,6 +29,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import com.miBudget.v1.daoimplementations.AccountDAOImpl;
 import com.miBudget.v1.daoimplementations.ItemDAOImpl;
@@ -107,6 +108,12 @@ public class CAT extends HttpServlet {
 		LOGGER.info("--- START ---");
 		LOGGER.info("Inside the Categories and Transactions or, CAT doPost() servlet.");
 		HttpSession session = request.getSession(false);
+		if (session.getId() != session.getAttribute("sessionId")) {
+			LOGGER.info("not the same session");
+			session = request.getSession();
+		} else {
+			LOGGER.info("valid active session");
+		}
 		
 		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		User user = (User) session.getAttribute("user");
@@ -149,56 +156,62 @@ public class CAT extends HttpServlet {
 					endDate = (java.sql.Date) sdf.parse(request.getParameter("ToDate"));
 					LOGGER.info("StartDate: " + startDate);
 					LOGGER.info("EndDate: " + startDate);
+					transactionsGetResponse = transactionsProcessor.getTransactions(accessToken, acctId, transactionsRequested);
 				} catch ( ParseException | NullPointerException e) {
 					LOGGER.warn("Failed to read in FromDate or ToDate. Will set default dates...");
 				} 
-				
-				transactionsGetResponse = transactionsProcessor.getTransactions(accessToken, acctId, transactionsRequested);
 				if (startDate == null && endDate == null) {
-					endDate = transactionsProcessor.getEndDate();
-					startDate = transactionsProcessor.getStartDate();
+					endDate = transactionsProcessor.createSqlEndDate();
+					startDate = transactionsProcessor.createSqlStartDate();
+					try {
+						transactionsGetResponse = transactionsProcessor.getTransactions(accessToken, acctId, transactionsRequested);
+					} catch (ParseException e) {
+						LOGGER.warn("Failed to get transactions because: {}", e.getMessage());
+					}
 				}
 				methodName = request.getParameter("methodName");
 				LOGGER.info("accessToken: {}", accessToken);
 				LOGGER.info("acctName: {}", acctName);
 				LOGGER.info("transactions requested: {}", transactionsRequested);
 				LOGGER.info("methodName: {}", methodName);
-				LOGGER.info("end_date: {}", endDate);
-				LOGGER.info("start_date: {}", startDate);
+				LOGGER.info("endDate: {}", endDate);
+				LOGGER.info("startDate: {}", startDate);
 				
 				List<com.miBudget.v1.entities.Transaction> finalTransactionsList = new ArrayList<>();
-				List<String> finalTransactionsListAsStrings = new ArrayList<>();
 				StringBuilder customTextForResponse = new StringBuilder();
 				if (transactionsGetResponse.isSuccessful()) {
 					LOGGER.info("get transactions was successful");
 					LOGGER.info("raw: {}", ((TransactionsGetResponse)transactionsGetResponse.body()).toString());
-					LOGGER.info("count: {}", transactionsGetResponse.body().getTotalTransactions());
-					LOGGER.info("transactions: {}", transactionsGetResponse.body().getTransactions().toString());
+					LOGGER.info("count: {}", transactionsGetResponse.body().getTransactions().size());
 					List<TransactionsGetResponse.Transaction> plaidTransactions = transactionsGetResponse.body().getTransactions();
 					
-					for (TransactionsGetResponse.Transaction t : plaidTransactions) {
+					for (TransactionsGetResponse.Transaction transaction : plaidTransactions) {
 						// Make a new miBudget location from object
-						TransactionsGetResponse.Transaction.Location loc = t.getLocation();
-						Location miBudgetLocationObj = new Location(
-							loc.getAddress(), loc.getCity(), 
-							loc.getState(), loc.getZip()
+						Location miBudgetLocation = convertLocation(transaction.getLocation());
+						Date transactionDate = null;
+						try {
+							transactionDate = sdf.parse(transaction.getDate());
+						} catch (ParseException pe) { LOGGER.error("Failed to parse transactionDate"); }
+						com.miBudget.v1.entities.Transaction newTransaction = new com.miBudget.v1.entities.Transaction(
+							transaction.getTransactionId(), 
+							transaction.getAccountId(),
+							transaction.getName(), 
+							transaction.getAmount(), 
+							miBudgetLocation, 
+							transaction.getCategory(), 
+							transactionDate
 						);
-						Transaction transaction = new Transaction(
-							t.getAccountId(),
-							t.getName(),
-							t.getAmount(),
-							miBudgetLocationObj,
-							(List<String>) t.getCategory()
-						);
-						finalTransactionsList.add(transaction);
-						//finalTransactionsListAsStrings.add(transaction.toString());
-						customTextForResponse.append(transaction.toString());
+						finalTransactionsList.add(newTransaction);
 					}
-					
+					// Return to UI a JsonObject with one property, Transactions, which is a List of Transaction objects
+					JSONObject jsonObject = new JSONObject().put("Transactions", finalTransactionsList);
+					session.setAttribute("getTransactions", jsonObject);
+					customTextForResponse.append(jsonObject);
 					session.setAttribute("transactionsList", finalTransactionsList);
-					
 					response.setStatus(HttpServletResponse.SC_OK);
 					response.getWriter().append(customTextForResponse);
+					LOGGER.info("finalTransactionsList: {}", jsonObject.toString());
+					
 				} else {
 					LOGGER.error("raw: {}", transactionsGetResponse.raw());
 					LOGGER.error("error body: {}", transactionsGetResponse.errorBody());
@@ -213,5 +226,15 @@ public class CAT extends HttpServlet {
 			response.setStatus(HttpServletResponse.SC_ACCEPTED);
 			response.getWriter().append("No response set");
 		}
+	}
+	
+	public Location convertLocation(TransactionsGetResponse.Transaction.Location location) {
+		Location loc = new Location(
+			location.getAddress(),
+			location.getCity(),
+			location.getState(),
+			location.getZip()
+		);
+		return loc;
 	}
 }

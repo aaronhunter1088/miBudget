@@ -11,6 +11,7 @@
 	<%@ page import="com.miBudget.v1.daoimplementations.ItemDAOImpl" %>
 	<%@ page import="com.miBudget.v1.entities.*" %>
 	<%@ page import="java.util.HashMap" %>
+	<%@ page import="org.json.*" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -48,6 +49,10 @@
 			}
 			.mainTable, th, td {
 				border: 1px solid black;
+				visibility: show;
+			}
+			.innertable {
+				visibility: hidden; /* visible */
 			}
 			p.changingText {
 				font-weight: bold;
@@ -110,6 +115,7 @@
 			</form>
 		</div>
 		<br/>
+		<!-- Start of Main Div -->
 		<div style="width:100%; overflow: auto;">
 			<h3 style="display:inline;width:50%;float:left;text-align:center;">Categories</h3>
 			<h3 style="display:inline;width:50%;float:right;text-align:center;">Transactions</h3>
@@ -280,8 +286,9 @@
 			</div> <!-- Ends New Categories Div -->
 					
 			<!-- Form Line Divider -->
-					
-			<div id="transactionsDiv" class="border" style="width:49%; float:right;"> <!-- Start Transactions Div -->
+			
+			<!-- Start Transactions Div -->		
+			<div id="transactionsDiv" class="border" style="width:49%; float:right;"> 
 				<div id="getTransactionsDiv" style="width:99%; text-align:center;">
 					<div style="margin: auto; text-align: center; display: flex; flex-direction: row;">
 						<input style="display: block;" title="The From Date is not required" class="form-control" id="FromDate" name="FromDate" placeholder="From" required="" tabindex="#" type="text" value=""><br>
@@ -307,15 +314,20 @@
 						<input id="getTransactions" type="submit" title="Get Transactions" onclick="validateFields('get transactions')" class="form-control" style="width:130px; display: block;" value="Get Transactions"/>
 					</div>
 					
-				 </div> 
+				 </div> <!-- end getTransactionsDiv -->
 						
-				<div id="transactionsTable" class="mainTable">
-						
-				</div>
-			</div>
+				<div id="transactionsList" class="mainTable" overflow: scroll;">
+				 	<table id="transactionsTable" class="innerTable" name="transactionsTable">
+					 	<tr id="transaction">
+					    </tr>
+					</table> <!-- end transactionsTable -->
+					
+				 </div> <!-- end transactionsList -->
+				
+			</div> <!-- end transactionsDiv -->
 			
-			
-		</div>
+		</div> <!-- end MainDiv -->
+		
 		<br/>
 		<br/>
 		<p id="date" class="footer" style="text-align:center">${dateAndTime}</p>
@@ -391,15 +403,15 @@
 								'methodName': methodName
 					        },				    
 					        'success': function (data) {
-						        console.log("response from CAT");
-						        console.log(JSON.stringify(data));
-								console.log();
-						        console.log(data);
-								// PARSE TRANSACTIONS
-								
-								//POSSIBLY: location.reload();
-						        
-						        console.log("eventually, hide this #transactions form/div and show  transactionsTable.");
+						        console.log("call to CAT was successful.");
+						        //console.log(JSON.stringify(data));
+						        //console.log(data);
+								// grab the getTransactions div
+								// append to it the data and how i want it to look
+								// reload location and make sure the parameters
+								// the user gave to get transactions stays in form
+								updateTransactionsTable(data);
+								//reloadPage();
 					        },
 					        'fail': function(response) {
 								console.log("failed to perform Post to CAT");
@@ -411,7 +423,30 @@
 						console.log("Unable to post to CAT");
 					}
 				}
-			}; //validate fields
+			}; //validate fields 
+			function updateTransactionsTable(data) {
+				console.log("Now to simple build the table with: " + data);
+				var object = JSON.parse(data);
+				var transactions = object.Transactions;
+				var count = object.Transactions.length;
+				var i;
+				var accountId;
+				for (i=0; i<count; i++) {
+					var transactionRow = $("[id='transaction']").attr('id');
+					console.log(transactionRow == 'transaction' ? 'ROW ATTAINED!' : 'DO NOT HAVE ROW');
+					// add to transactionRow
+					
+				}
+			};
+			function reloadPage() {
+				console.log('running reloadPage()')
+			    $.when(reload()).done(function() {
+			    	location.reload(true);;
+				});
+			    function reload() { 
+				    console.log('running reload()');
+				};
+			}
 		
 			// onReady function
 			$(function() {

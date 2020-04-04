@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.miBudget.v1.entities.Category;
+import com.miBudget.v1.entities.Transaction;
 import com.miBudget.v1.entities.User;
 import com.miBudget.v1.entities.UserAccountObject;
 import com.google.gson.Gson;
@@ -70,6 +71,7 @@ public class Services extends HttpServlet {
 		
 		// Lists for requests
 		ArrayList<Category> categoriesList = null;
+		ArrayList<Transaction> transactionsList = null;
 		HashMap<String, ArrayList<UserAccountObject>> acctsAndInstitutionIdMap = null;
 		String res = new String();
 		
@@ -82,6 +84,9 @@ public class Services extends HttpServlet {
 				case "getAcctsAndInstitutionIdMap" : acctsAndInstitutionIdMap = miBudgetDAOImpl.getAcctsAndInstutionIdMap(user); 
 													 res = changeToJsonString(acctsAndInstitutionIdMap);
 													 break;
+				case "getTransactions" : transactionsList = miBudgetDAOImpl.getTransactions(request);
+										 res = changeToJsonString(transactionsList);
+										 break;
 			}
 			
 			

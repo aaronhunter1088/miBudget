@@ -2,6 +2,7 @@ package com.miBudget.v1.processors;
 
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -38,38 +39,47 @@ public class TransactionsProcessor {
 		LOGGER = LogManager.getLogger(TransactionsProcessor.class);
 	}
 	
-	public Response<TransactionsGetResponse> getTransactions(String accessToken, String accountId, int transactionsCount) throws IOException {
+	public Response<TransactionsGetResponse> getTransactions(String accessToken, String accountId, int transactionsCount) throws ParseException, IOException {
 		
-		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Calendar calendar = Calendar.getInstance();
-		Date end = new Date();
-		calendar.setTime(end);
-		String monthStr = null, dateStr = null;
-		int month = calendar.get(Calendar.MONTH) + 1;
-		int date = calendar.get(Calendar.DAY_OF_MONTH);
-		int year = calendar.get(Calendar.YEAR);
-		if (month <= 9) monthStr = "0" + month;
-		else monthStr = String.valueOf(month);
-		if (date <= 9) dateStr = "0" + date;
-		else dateStr = String.valueOf(date);
-		String endDateStr = year+"-"+monthStr+"-"+dateStr;
-		//System.out.println("endDateStr: " + endDateStr);
-		java.sql.Date endDate = java.sql.Date.valueOf(endDateStr);
+		Response<TransactionsGetResponse> response = tryWithSqlDate(accessToken, accountId, transactionsCount);
+		//Response<TransactionsGetResponse> response = tryWithDate(accessToken, accountId, transactionsCount);
+		// i prefer sql date because the date is much easier to read and it still works
 		
-		calendar.add(Calendar.MONTH, -1); // go back one month
-		month = calendar.get(Calendar.MONTH) + 1; 
-		date = calendar.get(Calendar.DAY_OF_MONTH);
-		year = calendar.get(Calendar.YEAR);
-		if (month <= 9) monthStr = "0" + month;
-		else monthStr = String.valueOf(month);
-		if (date <= 9) dateStr = "0" + date;
-		else dateStr = String.valueOf(date);
-		String startDateStr = year+"-"+monthStr+"-"+dateStr;
-		//System.out.println("startDateStr: " + startDateStr);
-		java.sql.Date startDate = java.sql.Date.valueOf(startDateStr);
+		return response;
+	}
+	
+	public Response<TransactionsGetResponse> tryWithDate(String accessToken, String accountId, int transactionsCount) throws ParseException, IOException {
+		LOGGER.info("method: tryWithDate");
+		Date endDate = createEndDate();
+		Date startDate = createStartDate();
+		LOGGER.info("startDate: " + startDate);
+		LOGGER.info("endDate: " + endDate);
 		
-		LOGGER.info("start_date: " + startDate);
-		LOGGER.info("end_date: " + endDate);
+		TransactionsGetRequest getReq = new TransactionsGetRequest(accessToken, startDate, endDate)
+				.withAccountIds(Arrays.asList(accountId)).withCount(transactionsCount);
+		LOGGER.info("getReq is asking for {} transactions", transactionsCount);
+		Response<TransactionsGetResponse> getRes = client().service().transactionsGet(getReq).execute();
+		
+		if (getRes.isSuccessful()) {
+			LOGGER.info("successful");
+			LOGGER.info(getRes.body().getTransactions());
+			//setEndDate(endDate);
+			//setStartDate(startDate);
+			return getRes;
+		} else {
+			LOGGER.error("raw: " + getRes.raw());
+			LOGGER.error("error body: " + getRes.errorBody());
+			LOGGER.error("code: " + getRes.code());
+			return null;
+		}
+	}
+	
+	public Response<TransactionsGetResponse> tryWithSqlDate(String accessToken, String accountId, int transactionsCount) throws IOException {
+		LOGGER.info("method: tryWithSqlDate");
+		java.sql.Date endDate = createSqlEndDate();
+		java.sql.Date startDate = createSqlStartDate();
+		LOGGER.info("startDate: " + startDate);
+		LOGGER.info("endDate: " + endDate);
 		
 		TransactionsGetRequest getReq = new TransactionsGetRequest(accessToken, startDate, endDate)
 				.withAccountIds(Arrays.asList(accountId)).withCount(transactionsCount);
@@ -88,7 +98,6 @@ public class TransactionsProcessor {
 			LOGGER.error("code: " + getRes.code());
 			return null;
 		}
-		
 	}
 	
 	public static final PlaidClient client() {
@@ -100,5 +109,80 @@ public class TransactionsProcessor {
 				  .build();
 		return client;
 	}
+	
+	public Date createEndDate() throws ParseException {
+		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar calendar = Calendar.getInstance();
+		Date end = new Date();
+		calendar.setTime(end);
+		String monthStr = null, dateStr = null;
+		int month = calendar.get(Calendar.MONTH) + 1;
+		int date = calendar.get(Calendar.DAY_OF_MONTH);
+		int year = calendar.get(Calendar.YEAR);
+		if (month <= 9) monthStr = "0" + month;
+		else monthStr = String.valueOf(month);
+		if (date <= 9) dateStr = "0" + date;
+		else dateStr = String.valueOf(date);
+		String endDateStr = year+"-"+monthStr+"-"+dateStr;
+		calendar.setTime(sdf.parse(endDateStr));
+		//System.out.println("endDateStr: " + endDateStr);
+		return calendar.getTime();
+	}
+	
+	public Date createStartDate() throws ParseException {
+		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar calendar = Calendar.getInstance();
+		Date start = new Date();
+		calendar.setTime(start);
+		calendar.add(Calendar.MONTH, -1); // go back one month
+		String monthStr = null, dateStr = null;
+		int month = calendar.get(Calendar.MONTH) + 1;
+		int date = calendar.get(Calendar.DAY_OF_MONTH);
+		int year = calendar.get(Calendar.YEAR);
+		if (month <= 9) monthStr = "0" + month;
+		else monthStr = String.valueOf(month);
+		if (date <= 9) dateStr = "0" + date;
+		else dateStr = String.valueOf(date);
+		String startDateStr = year+"-"+monthStr+"-"+dateStr;
+		calendar.setTime(sdf.parse(startDateStr));
+		//System.out.println("endDateStr: " + endDateStr);
+		return calendar.getTime();
+	}
+	
+	public java.sql.Date createSqlEndDate() {
+		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar calendar = Calendar.getInstance();
+		Date end = new Date();
+		calendar.setTime(end);
+		String monthStr = null, dateStr = null;
+		int month = calendar.get(Calendar.MONTH) + 1;
+		int date = calendar.get(Calendar.DAY_OF_MONTH);
+		int year = calendar.get(Calendar.YEAR);
+		if (month <= 9) monthStr = "0" + month;
+		else monthStr = String.valueOf(month);
+		if (date <= 9) dateStr = "0" + date;
+		else dateStr = String.valueOf(date);
+		String endDateStr = year+"-"+monthStr+"-"+dateStr;
+		//System.out.println("endDateStr: " + endDateStr);
+		return java.sql.Date.valueOf(endDateStr);
+	}
 
+	public java.sql.Date createSqlStartDate() {
+		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar calendar = Calendar.getInstance();
+		Date start = new Date();
+		calendar.setTime(start);
+		calendar.add(Calendar.MONTH, -1); // go back one month
+		String monthStr = null, dateStr = null;
+		int month = calendar.get(Calendar.MONTH) + 1; 
+		int date = calendar.get(Calendar.DAY_OF_MONTH);
+		int year = calendar.get(Calendar.YEAR);
+		if (month <= 9) monthStr = "0" + month;
+		else monthStr = String.valueOf(month);
+		if (date <= 9) dateStr = "0" + date;
+		else dateStr = String.valueOf(date);
+		String startDateStr = year+"-"+monthStr+"-"+dateStr;
+		//System.out.println("startDateStr: " + startDateStr);
+		return java.sql.Date.valueOf(startDateStr);
+	}
 }

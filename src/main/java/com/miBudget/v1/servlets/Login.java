@@ -18,12 +18,14 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 
 import com.miBudget.v1.daoimplementations.AccountDAOImpl;
 import com.miBudget.v1.daoimplementations.ItemDAOImpl;
 import com.miBudget.v1.daoimplementations.MiBudgetDAOImpl;
 import com.miBudget.v1.entities.Account;
 import com.miBudget.v1.entities.Item;
+import com.miBudget.v1.entities.Transaction;
 import com.miBudget.v1.entities.User;
 import com.miBudget.v1.entities.UsersItemsObject;
 import com.miBudget.v1.utilities.DateAndTimeUtility;
@@ -152,6 +154,7 @@ public class Login extends HttpServlet {
 			session.setAttribute("accountsSize", accountsTotal);
 			session.setAttribute("isUserLoggedIn", true);
 			session.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr(cal));
+			session.setAttribute("getTransactions", new JSONObject());
 		    
 			LOGGER.info("Redirecting to Profile.jsp");
 			LOGGER.info("--- END ---");

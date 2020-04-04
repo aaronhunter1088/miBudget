@@ -1,10 +1,58 @@
 package com.miBudget.v1.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
+
+/**
+ * Notes
+ * @author michaelball
+ * 
+ * This is what a Plaid Transaction is/has:
+ * {
+      "account_id": "zJAKN9ak3jsKYPqew3nwuZPgaeNVgzFO6LxkR", check
+      "account_owner": null,   not needed
+      "amount": 483.48, check   
+      "authorized_date": null,  not needed
+      "category": [   check
+        "Service",
+        "Financial"
+      ],
+      "category_id": "18020000",   not needed
+      "date": "2020-03-12",   check
+      "location": {  check
+        "address": null,
+        "city": null,
+        "lat": null,
+        "lon": null,
+        "state": null,
+        "store_number": null,
+        "zip": null
+      },
+      "name": "TALLY TECH TALLY WEB ID: 2473932324", check 
+      "payment_channel": "online",    not needed
+      "payment_meta": {   not needed
+        "by_order_of": null,
+        "payee": null,
+        "payer": null,
+        "payment_method": null,
+        "payment_processor": null,
+        "ppd_id": null,
+        "reason": null,
+        "reference_number": null
+      },
+      "pending": false,    not needed
+      "pending_transaction_id": "yxkyNg4KBoSyYPjgdB7XfYdBzY389JtO8zJD7",    not needed
+      "transaction_id": "kPXYBzyJV0s8nDgAZ6EbFddoXXjgx5fRQAwz0",      check
+      "transaction_type": "place"   not needed
+    }
+ *
+ */
 
 public class Transaction implements Serializable {
 
+	private String transactionId;
+	
 	private String accountId;
 	
 	/**
@@ -16,11 +64,23 @@ public class Transaction implements Serializable {
 	
 	private Location location;
 	
-	private List<String> categories;
+	private List<String> defaultCategories; // TODO: rename defaultCategories
+	
+	private Date date;
 	
 	private static final long serialVersionUID = 1L;
 	
 	public Transaction() {}
+	
+	public Transaction(String transactionId, String accountId, String name, double amount, com.miBudget.v1.entities.Location location, List<String> defaultCategories, Date date) {
+		setTransactionId(transactionId);
+		setAccountId(accountId);
+		setName(name);
+		setAmount(amount);
+		setLocation(location);
+		setCategories(defaultCategories);
+		setDate(date);
+	}
 	
 	/**
 	 * 
@@ -30,12 +90,12 @@ public class Transaction implements Serializable {
 	 * @param location
 	 * @param categories
 	 */
-	public Transaction(String accountId, String name, double amount, Location location, List<String> categories) {
+	public Transaction(String accountId, String name, double amount, com.miBudget.v1.entities.Location location, List<String> defaultCategories) {
 		setAccountId(accountId);
 		setName(name);
 		setAmount(amount);
 		setLocation(location);
-		setCategories(categories);
+		setCategories(defaultCategories);
 	}
 	
 	/**
@@ -45,7 +105,7 @@ public class Transaction implements Serializable {
 	 * @param amount
 	 * @param location
 	 */
-	public Transaction(String accountId, String name, double amount, Location location) {
+	public Transaction(String accountId, String name, double amount, com.miBudget.v1.entities.Location location) {
 		setAccountId(accountId);
 		setName(name);
 		setAmount(amount);
@@ -60,12 +120,12 @@ public class Transaction implements Serializable {
 	 * @param amount
 	 * @param categories
 	 */
-	public Transaction(String accountId, String name, double amount, List<String> categories) {
+	public Transaction(String accountId, String name, double amount, List<String> defaultCategories) {
 		setAccountId(accountId);
 		setName(name);
 		setAmount(amount);
 		setLocation(null);
-		setCategories(categories);
+		setCategories(defaultCategories);
 	}
 	
 	/**
@@ -80,6 +140,13 @@ public class Transaction implements Serializable {
 		setAmount(amount);
 		setLocation(null);
 		setCategories(null);
+	}
+	
+	/**
+	 * return the transactionId
+	 */
+	public String getTransactionId() {
+		return transactionId;
 	}
 
 	/**
@@ -113,8 +180,8 @@ public class Transaction implements Serializable {
 	/**
 	 * @return the categories
 	 */
-	public List<String> getCategories() {
-		return categories;
+	public List<String> getDefaultCategories() {
+		return defaultCategories;
 	}
 
 	/**
@@ -123,7 +190,23 @@ public class Transaction implements Serializable {
 	private static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	/**
+	 * @return the date of the transaction
+	 */
+	private Date getDate() {
+		return date;
+	}
+	
+	/* ***************** SETTERS ******************** */
 
+	/**
+	 * @param transactionId the transactionId to set
+	 */
+	private void setTransactionId(String transactionId) {
+		this.transactionId = transactionId;
+	}
+	
 	/**
 	 * @param accountId the accountId to set
 	 */
@@ -155,8 +238,15 @@ public class Transaction implements Serializable {
 	/**
 	 * @param categories the categories to set
 	 */
-	private void setCategories(List<String> categories) {
-		this.categories = categories;
+	private void setCategories(List<String> defaultCategories) {
+		this.defaultCategories = defaultCategories;
+	}
+
+	/**
+	 * @param date the Date to set
+	 */
+	private void setDate(Date date) {
+		this.date = date;
 	}
 
 	/* (non-Javadoc)
@@ -164,26 +254,8 @@ public class Transaction implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "Transaction [accountId=" + accountId + ", name=" + name + ", amount=" + amount + ", location="
-				+ location + ", categories=" + categories + "]";
+		return "Transaction [transactionId=" + transactionId + ", accountId=" + accountId + ", name=" + name
+				+ ", amount=" + amount + ", location=" + location + ", defaultCategories=" + defaultCategories
+				+ ", date=" + date + "]";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

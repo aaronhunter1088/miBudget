@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateError;
@@ -318,77 +320,7 @@ public class MiBudgetDAOImpl {
     	return users;
 	}
 
-//	public List<User> getAllUsers() {
-//		List<User> users = new ArrayList<>();
-//		SessionFactory factory = null;
-//    	Session session = null;
-//    	Transaction t = null;
-//    	AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
-//		try {
-//			System.out.println("\nAttempting to execute getAllUsers query...");
-//			factory = HibernateUtilities.getSessionFactory();
-//			session = factory.openSession();
-//			t = session.beginTransaction();
-//			List<?> idsFromDB = session
-//					   				.createNativeQuery("SELECT id FROM users")
-//					   				.getResultList();
-//			List<?> firstnamesFromDB = session
-//											.createNativeQuery("SELECT first_name FROM users")
-//											.getResultList();
-//			List<?> lastnamesFromDB = session
-//										   .createNativeQuery("SELECT last_name FROM users")
-//										   .getResultList();
-//			List<?> cellphonesFromDB = session
-//									  .createNativeQuery("SELECT cellphone FROM users")
-//									  .getResultList();
-//			List<?> passwordsFromDB = session
-//					  					   .createNativeQuery("SELECT password FROM users")
-//					  					   .getResultList();
-//			List<?> emailsFromDB = session
-//										.createNativeQuery("SELECT email FROM users")
-//										.getResultList();
-//			System.out.println("6 Queries executed!");
-//			session.getTransaction().commit();
-//			int size = idsFromDB.size();
-//			for (int i = 0; i < size; i++) {
-//				ArrayList<String> accountIds = (ArrayList<String>) accountDAOImpl.getAccountIdsFromUser((Integer)idsFromDB.get(i));
-//				User user = new User((Integer)idsFromDB.get(i),
-//									 firstnamesFromDB.get(i).toString(),
-//									 lastnamesFromDB.get(i).toString(),
-//									 cellphonesFromDB.get(i).toString(),
-//									 passwordsFromDB.get(i).toString(),
-//									 emailsFromDB.get(i).toString(),
-//									 accountIds );
-//				System.out.println("userFromDB: " + user);
-//				users.add(user);
-//			}
-//			
-//			System.out.println("all users from miBudget retrieved.");
-//			session.close();
-//		} catch (HibernateException e) { 
-//			System.out.println("Error opening a session using the factory.");
-//			System.out.println(e.getMessage());
-//			StackTraceElement[] ste = e.getStackTrace();
-//			for (int i=0; i<ste.length; i++) { System.out.println(ste[i]); }
-//			System.out.println("Returning null.");
-//			t.rollback();
-//			session.close();
-//		} catch (Exception e) {
-//			System.out.println("Error connecting to DB");
-//			System.out.println(e.getMessage());
-//			StackTraceElement[] ste = e.getStackTrace();
-//			for (int i=0; i<ste.length; i++) { System.out.println(ste[i]); }
-//			System.out.println("Returning null.");
-//			t.rollback();
-//			session.close();
-//		}
-//		return users;
-//	}
-
-	
-	
 	// Logic for Items we create
-	
 	public int addItemToUsersItemsTable(int itemTableId, User user) {
 		SessionFactory factory = null;
     	Session session = null;
@@ -557,4 +489,8 @@ public class MiBudgetDAOImpl {
 		return item;
 	}
 
+	public ArrayList<com.miBudget.v1.entities.Transaction> getTransactions(HttpServletRequest request) {
+		// TODO: Implement if needed
+		return new ArrayList<com.miBudget.v1.entities.Transaction>();
+	}
 }
