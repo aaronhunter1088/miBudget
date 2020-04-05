@@ -319,6 +319,22 @@
 				<div id="transactionsList" class="mainTable" overflow: scroll;">
 				 	<table id="transactionsTable" class="innerTable" name="transactionsTable">
 					 	<tr id="transaction">
+					 		<td>
+					 			<form action="TransactionsMap.jsp" method="post">
+							    	<div class="container" name="formForTransaction">
+							    		<!-- Transaction -->
+										<!-- Merchant Name \t Price -->
+							    		<label type="text" value="Merchant Name: "></label>
+										<label type="text" value="\tPrice: "></label>
+										</br>
+										<!-- Category: <dropdown> -->
+										<label type="text" value="Category: List"></label>
+										</br>
+										<!-- Btn:Ignore \t Btn: Save -->
+										<label>Btn:Ignore \tBtn:Save</label>
+									</div>
+								</form>
+					 		</td>
 					    </tr>
 					</table> <!-- end transactionsTable -->
 					
@@ -428,14 +444,13 @@
 				console.log("Now to simple build the table with: " + data);
 				var object = JSON.parse(data);
 				var transactions = object.Transactions;
-				var count = object.Transactions.length;
+				var count = transactions.length;
 				var i;
 				var accountId;
 				for (i=0; i<count; i++) {
-					var transactionRow = $("[id='transaction']").attr('id');
-					console.log(transactionRow == 'transaction' ? 'ROW ATTAINED!' : 'DO NOT HAVE ROW');
+					var transactionRow = $("[name='formForTransaction']").attr('name');
+					console.log(transactionRow == 'formForTransaction' ? 'FORM ATTAINED!' : 'DO NOT HAVE FORM');
 					// add to transactionRow
-					
 				}
 			};
 			function reloadPage() {
