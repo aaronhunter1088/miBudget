@@ -3,7 +3,7 @@
 
 
 .classpath
-.DS_Store*
+.DS_Store
 compiler.xml
 .idea/*
 miBudget.iml
