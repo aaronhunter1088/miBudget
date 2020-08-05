@@ -12,6 +12,8 @@
 	<%@ page import="com.miBudget.v1.entities.*" %>
 	<%@ page import="java.util.HashMap" %>
 	<%@ page import="org.json.*" %>
+<%@ page import="org.json.simple.parser.JSONParser" %>
+<%@ page import="static com.miBudget.v1.servlets.CAT.LOGGER" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -108,6 +110,14 @@
 		<% MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl(); %>
 		<% AccountDAOImpl accountDAOImpl = new AccountDAOImpl(); %>
 		<% ItemDAOImpl itemsDAOImpl = new ItemDAOImpl(); %>
+		<%
+			response.setHeader("Cache-Control","no-cache"); //HTTP 1.1
+			response.setHeader("Pragma","no-cache"); //HTTP 1.0
+			response.setDateHeader ("Expires", 0);
+			//response.setIntHeader("Refresh", 1);
+            //prevents caching at the proxy server
+		%>
+
 		<div id="profileDiv" style="float:left; margin-left:50px;">
 			<form action="Profile" method="get"> <!-- think about changing this call to get -->
 <!-- 			<input class="button" type="submit" value="Profile">
@@ -118,13 +128,12 @@
 		<!-- Start of Main Div -->
 		<div style="width:100%; overflow: auto;">
 			<h3 style="display:inline;width:50%;float:left;text-align:center;">Categories</h3>
-			<h3 style="display:inline;width:50%;float:right;text-align:center;">Transactions</h3>
-		
-			
+			<h3 style="display:inline;width:50%;float:right;text-align:center;">Transactions!</h3>
+
 			<div id="categoriesDiv" class="border" style="width:49%; float:left;"> <!-- 425px -->
 				<p id="checked" style="float:right; font-size:90%;" value="New Category" name="newCategory">Click for Your Categories</p>
 				<br/>
-				
+
 				<!-- <form id="newCategoryForm" onsubmit="" method="post" action="CAT"> -->
 				<div id="newCategoryDiv" style="width:99%;">
 					<div class="input-group" style="width:99%;">
@@ -132,30 +141,30 @@
 							<i id="glyphiconRemove" onclick="clearInput('categoryName')" class="glyphicon glyphicon-remove"></i>
 						</span>
 						<input class="form-control" id="categoryName" type="text" placeholder="Name of Category" tabindex="1" name="categoryName" required>
-	 				</div>
- 					<br/>
+					</div>
+					<br/>
 					<div style="width:99%;">
 						<input list="currencies" style="width:100px; display:inline-block; margin-left:50px;" placeholder="Currency" tabindex="2" name="currency" />
 						<!-- TODO: Once one is selected, list disappears basically. Figure out how to keep entire list. -->
-							<datalist id="currencies">
-								<option value="USD">
-								<option value="CAD">
-								<option value="Euro">
-								<option value="Mex$">
-							</datalist>
+						<datalist id="currencies">
+							<option value="USD">
+							<option value="CAD">
+							<option value="Euro">
+							<option value="Mex$">
+						</datalist>
 						<input type="text" style="direction:RTL; width: 144px; display:inline-block; margin-left:75px;" placeholder="Budgeted Amount" tabindex="3" name="categoryAmt" value="" required>
 					</div>
 					<br/>
 					<p style="text-align:center;">Rules</p>
 					<p>Rules takes precedence when new transactions come in and will affect this Category! You can define both types of rules but you must choose which one will take precedence.</p>
 					<button type="submit" style="right; left:71%; width:130px; white-space: nowrap;" id="saveRule">Save Rule</button>
-					
+
 					<br/>
-							
+
 					<div id="group1">
 						<p style="float:left;">If a transactions amount is:</p>
 						<input id="transactionPrecendence" name="group1" value="precedenceAmount" style="float:right;" type="radio">
-						
+
 						<br/>
 						<div id="currencyBlock">
 							<input list="currencies" style="width:100px; display:block; float:left;" placeholder="Currency" tabindex="2" name="currency" />
@@ -167,7 +176,7 @@
 								<option value="Mex$">
 							</datalist>
 							<input type="text" style="direction:RTL; width: 144px; display:block; margin-left:100px;" placeholder="Transaction Amount" tabindex="3" name="categoryAmt" value="" required>
-						</div>	
+						</div>
 						<input id="transactionPrecendence" name="group1" value="precedenceName" style="float:right;" type="radio"/>
 						<p style="float:left;">If a transactions name is like:</p>
 						<br/>
@@ -175,7 +184,7 @@
 							 <span class="input-group-addon">
 							 	<i id="glyphiconRemove" onclick="clearInput('merchantsName2')" class="glyphicon glyphicon-remove"></i>
 							 </span>
-							 <input id="merchantsName2" class="form-control" type="text" style="width: 205px; display:block; left:0px;" placeholder="ex: McDs, Target, Sonic" tabindex="7" name="merchantsName" value="" required/>
+							<input id="merchantsName2" class="form-control" type="text" style="width: 205px; display:block; left:0px;" placeholder="ex: McDs, Target, Sonic" tabindex="7" name="merchantsName" value="" required/>
 						</div>
 					</div>
 					<br/>
@@ -184,13 +193,13 @@
 						<p>This div should be scrollable</p>
 						<p>It will dynamically list the rules the user has added to a new category.</p>
 						<p>Once rule is saved, user should have the freedom to edit any value right there. When category is saved the last
-						value inside each rule will be used as the ultimate decision for the rule. Also, all inputs for rules will be cleared.</p>
+							value inside each rule will be used as the ultimate decision for the rule. Also, all inputs for rules will be cleared.</p>
 						<p>Once rule is saved, user should have the freedom to edit any value right there. When category is saved the last
-						value inside each rule will be used as the ultimate decision for the rule. Also, all inputs for rules will be cleared.</p>
-						
+							value inside each rule will be used as the ultimate decision for the rule. Also, all inputs for rules will be cleared.</p>
+
 						<p>Once rule is saved, user should have the freedom to edit any value right there. When category is saved the last
-						value inside each rule will be used as the ultimate decision for the rule. Also, all inputs for rules will be cleared.</p>
-					
+							value inside each rule will be used as the ultimate decision for the rule. Also, all inputs for rules will be cleared.</p>
+
 					</div>
 					<br/>
 					<br/>
@@ -199,44 +208,44 @@
 					<br/>
 					<br/>
 				</div>
-						
+
 				<!-- <form id="currentCategoryForm" onsubmit="" method="post" action="CAT"> -->
 				<div id="currentCategoryDiv" style="width:99%;">
 					<div class="input-control">
 						<input id="currentCategory"  class="form-control" list="categories" type="text" style="width:244px; width:99%;" placeholder="Choose a Category" tabindex="1" name="categoryName" required/>
-							<datalist id="categories">
-								<% ArrayList<Category> categoriesList = miBudgetDAOImpl.getAllCategories(user);
-									for (Category cat : categoriesList) { %>
-									    <option value="<%= cat.getName() %>">
-								<% } %>
-							</datalist>
+						<datalist id="categories">
+							<% ArrayList<Category> categoriesList = miBudgetDAOImpl.getAllCategories(user);
+								for (Category cat : categoriesList) { %>
+							<option value="<%= cat.getName() %>">
+									<% } %>
+						</datalist>
 					</div>
 					<br/>
 					<div id="currencyBlock" style="width:99%;">
 						<input id="currentCurrency" list="currencies" style="width:100px; display:inline-block; margin-left:50px;" placeholder="Currency" tabindex="2" name="currency" />
 						<!-- TODO: Once one is selected, list disappears basically. Figure out how to keep entire list. -->
-							<datalist id="currencies">
-								<option value="USD">
-								<option value="CAD">
-								<option value="Euro">
-								<option value="Mex$">
-							</datalist>
+						<datalist id="currencies">
+							<option value="USD">
+							<option value="CAD">
+							<option value="Euro">
+							<option value="Mex$">
+						</datalist>
 						<input id="budgetedAmt" type="text" style="direction:RTL; width: 144px; display:inline-block; margin-left:75px;" placeholder="Budgeted Amount" tabindex="3" name="categoryAmt" value="" required>
 					</div>
 					<br/>
 					<p style="text-align:center;">Rules</p>
 					<p>Rules takes precedence when new transactions come in and will affect this Category! You can define both types of rules but you must choose which one will take precedence.</p>
 					<button type="submit" style="right; left:71%; width:130px; white-space: nowrap;" id="saveRule">Save Rule</button>
-					
+
 					<br/>
-							
+
 					<div id="group2">
 						<p style="float:left;">If a transactions amount is:</p>
 						<input id="transactionPrecendence" name="group2" value="precedenceAmount" style="float:right;" type="radio">
-						
+
 						<br/>
 						<div id="currencyBlock">
-						<input id="currentCurrency" list="currencies" style="width:100px; display:block; float:left;" placeholder="Currency" tabindex="2" name="currency" />
+							<input id="currentCurrency" list="currencies" style="width:100px; display:block; float:left;" placeholder="Currency" tabindex="2" name="currency" />
 							<!-- TODO: Once one is selected, list disappears basically. Figure out how to keep entire list. -->
 							<datalist id="currencies">
 								<option value="USD">
@@ -245,7 +254,7 @@
 								<option value="Mex$">
 							</datalist>
 							<input type="text" style="direction:RTL; width: 144px; display:block; margin-left:100px;" placeholder="Transaction Amount" tabindex="3" name="categoryAmt" value="" required>
-						</div>	
+						</div>
 						<input id="transactionPrecendence" name="group2" value="precedenceName" style="float:right;" type="radio"/>
 						<p style="float:left;">If a transactions name is like:</p>
 						<br/>
@@ -253,7 +262,7 @@
 							 <span class="input-group-addon">
 							 	<i id="glyphiconRemove" onclick="clearInput('merchantsName2')" class="glyphicon glyphicon-remove"></i>
 							 </span>
-							 <input id="merchantsName2" class="form-control" type="text" style="width: 205px; display:block; left:0px;" placeholder="ex: McDs, Target, Sonic" tabindex="7" name="merchantsName" value="" required/>
+							<input id="merchantsName2" class="form-control" type="text" style="width: 205px; display:block; left:0px;" placeholder="ex: McDs, Target, Sonic" tabindex="7" name="merchantsName" value="" required/>
 						</div>
 					</div>
 					<br/>
@@ -282,9 +291,9 @@
 					<br/>
 					<br/>
 				</div>
-						
+
 			</div> <!-- Ends New Categories Div -->
-					
+
 			<!-- Form Line Divider -->
 			
 			<!-- Start Transactions Div -->		
@@ -302,9 +311,10 @@
 							       String name = acct.getNameOfAccount(); %>
 								   <option label="Account" value="<%= name %>"/>
 							   <% } %>
-						   <% } 
-						%>
+						   <% } %>
+
 					</datalist>
+
 					<input type="hidden" name="validated" value="false"/>
 					<input type="hidden" name="formId" value="transactions"/>
 					<div style="margin: auto; text-align: right; display: flex; flex-direction: row;">
@@ -315,31 +325,14 @@
 					</div>
 					
 				 </div> <!-- end getTransactionsDiv -->
-						
-				<div id="transactionsList" class="mainTable" overflow: scroll;">
-				 	<table id="transactionsTable" class="innerTable" name="transactionsTable">
-					 	<tr id="transaction">
-					 		<td>
-					 			<form action="TransactionsMap.jsp" method="post">
-							    	<div class="container" name="formForTransaction">
-							    		<!-- Transaction -->
-										<!-- Merchant Name \t Price -->
-							    		<label type="text" value="Merchant Name: "></label>
-										<label type="text" value="\tPrice: "></label>
-										</br>
-										<!-- Category: <dropdown> -->
-										<label type="text" value="Category: List"></label>
-										</br>
-										<!-- Btn:Ignore \t Btn: Save -->
-										<label>Btn:Ignore \tBtn:Save</label>
-									</div>
-								</form>
-					 		</td>
-					    </tr>
+
+
+				<div id="transactionsList" overflow: scroll; style="margin: auto; text-align: right; display: flex; flex-direction: row;">
+					<!-- new table to use -->
+					<table id="transactionsTable" name="transactionsTable">
 					</table> <!-- end transactionsTable -->
-					
-				 </div> <!-- end transactionsList -->
-				
+				</div> <!-- end transactionsList -->
+
 			</div> <!-- end transactionsDiv -->
 			
 		</div> <!-- end MainDiv -->
@@ -411,7 +404,9 @@
 						$.ajax({
 					        'type': "POST",
 					        'url': "CAT",
-					        'data': { 
+					        'data': {
+					            'fromDate': fromDate,
+                                'toDate': toDate,
 						        'numberOfTrans': count,
 								'currentAccount': accountName,
 								'validated': true,
@@ -446,17 +441,28 @@
 				var transactions = object.Transactions;
 				var count = transactions.length;
 				var i;
-				var accountId;
+				var transactionsTable = $("[id='transactionsTable']");
+				console.log(transactionsTable != null ? 'TABLE OBTAINED' : 'TABLE NOT OBTAINED');
+				// add logic so when a new bank is chosen, the previous transactions go away, and loads only the new transactions
 				for (i=0; i<count; i++) {
-					var transactionRow = $("[name='formForTransaction']").attr('name');
-					console.log(transactionRow == 'formForTransaction' ? 'FORM ATTAINED!' : 'DO NOT HAVE FORM');
+					//var transactionRow = $("[name='formForTransaction']").attr('name');
+					//console.log(transactionRow == 'formForTransaction' ? 'FORM ATTAINED!' : 'DO NOT HAVE FORM');
 					// add to transactionRow
+					let transaction = transactions[i];
+					console.log('transaction: ' + transaction);
+					transactionsTable.append('<tr> <td> <label type="text" value="Merchant Name: "></label> <input type="text" id="merchantName" value="' + transaction.name + '"/></td></tr>');
+					<!-- Merchant Name \t Price  -->
+					transactionsTable.append('<tr> <td> <label type ="text" value="Price: "></label> <input type=text" id="price" value="' + transaction.amount + '"/></td></tr>');
+					transactionsTable.append('<tr> <td> <label type="text" value="Category: List"></label> <td>');
+					<!-- Btn:Ignore Btn: Save -->
+					transactionsTable.append('</tr>')
+					transactionsTable.show();
 				}
-			};
+			}
 			function reloadPage() {
 				console.log('running reloadPage()')
 			    $.when(reload()).done(function() {
-			    	location.reload(true);;
+			    	location.reload(true);
 				});
 			    function reload() { 
 				    console.log('running reload()');
@@ -615,7 +621,7 @@
 				});
 				
 				// Last line of on ready function
-			}); // End on ready function
+			});  // End on ready function
 		</script>
 	</body>
 </html>

@@ -64,7 +64,7 @@ public class CAT extends HttpServlet {
 	private final String secret = "0e580ef72b47a2e4a7723e8abc7df5"; 
 	private final String secretD = "c7d7ddb79d5b92aec57170440f7304";
 	
-	private static Logger LOGGER = null;
+	public static Logger LOGGER = null;
 	static  {
 		System.setProperty("appName", "miBudget");
 		LOGGER = LogManager.getLogger(CAT.class);
@@ -152,11 +152,15 @@ public class CAT extends HttpServlet {
 				String accessToken = itemDAOImpl.getItem(itemTableId).getAccessToken();
 				Response<TransactionsGetResponse> transactionsGetResponse = null;
 				try {
-					startDate = (java.sql.Date) sdf.parse(request.getParameter("FromDate"));
-					endDate = (java.sql.Date) sdf.parse(request.getParameter("ToDate"));
+					//startDate = (java.sql.Date) sdf.parse(request.getParameter("FromDate"));
+					String fromDate = request.getParameter("fromDate");
+					LOGGER.debug("requested from date: {}", fromDate);
+					startDate = transactionsProcessor.getStartDate(fromDate);
+					//endDate = (java.sql.Date) sdf.parse(request.getParameter("ToDate"));
+					endDate = transactionsProcessor.getEndDate(request.getParameter("toDate"));
 					LOGGER.info("StartDate: " + startDate);
-					LOGGER.info("EndDate: " + startDate);
-					transactionsGetResponse = transactionsProcessor.getTransactions(accessToken, acctId, transactionsRequested);
+					LOGGER.info("EndDate: " + endDate);
+					transactionsGetResponse = transactionsProcessor.getTransactions(accessToken, acctId, transactionsRequested, startDate, endDate);
 				} catch ( ParseException | NullPointerException e) {
 					LOGGER.warn("Failed to read in FromDate or ToDate. Will set default dates...");
 				} 
@@ -164,7 +168,7 @@ public class CAT extends HttpServlet {
 					endDate = transactionsProcessor.createSqlEndDate();
 					startDate = transactionsProcessor.createSqlStartDate();
 					try {
-						transactionsGetResponse = transactionsProcessor.getTransactions(accessToken, acctId, transactionsRequested);
+						transactionsGetResponse = transactionsProcessor.getTransactions(accessToken, acctId, transactionsRequested, startDate, endDate);
 					} catch (ParseException e) {
 						LOGGER.warn("Failed to get transactions because: {}", e.getMessage());
 					}

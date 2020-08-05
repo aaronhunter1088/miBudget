@@ -28,8 +28,45 @@ public class TransactionsProcessor {
 	private void setEndDate(java.sql.Date endDate) { this.endDate = endDate; }
 	private void setStartDate(java.sql.Date startDate) { this.startDate = startDate; }
 	
-	public java.sql.Date getEndDate() { return endDate; }
-	public java.sql.Date getStartDate() { return startDate; }
+	public java.sql.Date getEndDate(String endDate) throws ParseException {
+		//return endDate;
+		LOGGER.info("method: getEndDate");
+		DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		Calendar calendar = Calendar.getInstance();
+		Date end = sdf.parse(endDate);
+		calendar.setTime(end);
+		String monthStr = null, dateStr = null;
+		int month = calendar.get(Calendar.MONTH) + 1;
+		int date = calendar.get(Calendar.DAY_OF_MONTH);
+		int year = calendar.get(Calendar.YEAR);
+		if (month <= 9) monthStr = "0" + month;
+		else monthStr = String.valueOf(month);
+		if (date <= 9) dateStr = "0" + date;
+		else dateStr = String.valueOf(date);
+		String endDateStr = year+"-"+monthStr+"-"+dateStr;
+		LOGGER.info("endDateStr: " + endDateStr);
+		return java.sql.Date.valueOf(endDateStr);
+	}
+	public java.sql.Date getStartDate(String fromDate) throws ParseException {
+		//return startDate;
+		LOGGER.info("method: getStartDate");
+		DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		Calendar calendar = Calendar.getInstance();
+		Date start = sdf.parse(fromDate);
+		calendar.setTime(start);
+		//calendar.add(Calendar.MONTH, -1); // go back one month
+		String monthStr = null, dateStr = null;
+		int month = calendar.get(Calendar.MONTH) + 1;
+		int date = calendar.get(Calendar.DAY_OF_MONTH);
+		int year = calendar.get(Calendar.YEAR);
+		if (month <= 9) monthStr = "0" + month;
+		else monthStr = String.valueOf(month);
+		if (date <= 9) dateStr = "0" + date;
+		else dateStr = String.valueOf(date);
+		String startDateStr = year+"-"+monthStr+"-"+dateStr;
+		LOGGER.info("startDateStr: " + startDateStr);
+		return java.sql.Date.valueOf(startDateStr);
+	}
 
 	public TransactionsProcessor() {};
 	
@@ -39,9 +76,9 @@ public class TransactionsProcessor {
 		LOGGER = LogManager.getLogger(TransactionsProcessor.class);
 	}
 	
-	public Response<TransactionsGetResponse> getTransactions(String accessToken, String accountId, int transactionsCount) throws ParseException, IOException {
+	public Response<TransactionsGetResponse> getTransactions(String accessToken, String accountId, int transactionsCount, java.sql.Date startDate, java.sql.Date endDate) throws ParseException, IOException {
 		
-		Response<TransactionsGetResponse> response = tryWithSqlDate(accessToken, accountId, transactionsCount);
+		Response<TransactionsGetResponse> response = tryWithSqlDate(accessToken, accountId, transactionsCount, startDate, endDate);
 		//Response<TransactionsGetResponse> response = tryWithDate(accessToken, accountId, transactionsCount);
 		// i prefer sql date because the date is much easier to read and it still works
 		
@@ -74,10 +111,10 @@ public class TransactionsProcessor {
 		}
 	}
 	
-	public Response<TransactionsGetResponse> tryWithSqlDate(String accessToken, String accountId, int transactionsCount) throws IOException {
+	public Response<TransactionsGetResponse> tryWithSqlDate(String accessToken, String accountId, int transactionsCount, java.sql.Date startDate, java.sql.Date endDate) throws IOException {
 		LOGGER.info("method: tryWithSqlDate");
-		java.sql.Date endDate = createSqlEndDate();
-		java.sql.Date startDate = createSqlStartDate();
+		//java.sql.Date endDate = createSqlEndDate();
+		//java.sql.Date startDate = createSqlStartDate();
 		LOGGER.info("startDate: " + startDate);
 		LOGGER.info("endDate: " + endDate);
 		

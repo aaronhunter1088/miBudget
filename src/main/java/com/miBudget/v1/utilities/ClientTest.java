@@ -49,7 +49,7 @@ public class ClientTest {
 		//public Response<TransactionsGetResponse> getTransactions(String accessToken, String accountId, int transactionsCount)
 		try {
 			Response<TransactionsGetResponse> response = transactionsProcessor.getTransactions("access-development-7e2ed5ce-8d7e-471d-bc24-af1a4156774f", 
-					"zJAKN9ak3jsKYPqew3nwuZPgaeNVgzFO6LxkR", 5);
+					"zJAKN9ak3jsKYPqew3nwuZPgaeNVgzFO6LxkR", 5, null, null);
 			if (response.isSuccessful()) {
 				LOGGER.info("transactionsProcessor was successful");
 				LOGGER.info("raw: {}", ((TransactionsGetResponse)response.body()).toString());

@@ -16,7 +16,7 @@ public class DateAndTimeUtility {
 	public static String getDateAndTimeAsStr(Calendar cal) {
 		String dateAndTimeStr = "";
 		String day = DateAndTimeUtility.convertDayToStr(cal.get(Calendar.DAY_OF_WEEK));
-		String month = DateAndTimeUtility.convertMonthToStr(cal.get(Calendar.MONTH));
+		String month = DateAndTimeUtility.convertMonthToStr(cal.get(Calendar.MONTH) + 1);
 		int date = cal.get(Calendar.DAY_OF_MONTH);
 		int year = cal.get(Calendar.YEAR);
 		int hour = cal.get(Calendar.HOUR);
