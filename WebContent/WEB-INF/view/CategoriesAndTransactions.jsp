@@ -10,6 +10,7 @@
 	<%@ page import="com.miBudget.v1.daoimplementations.AccountDAOImpl" %>
 	<%@ page import="com.miBudget.v1.daoimplementations.ItemDAOImpl" %>
 	<%@ page import="com.miBudget.v1.entities.*" %>
+	<%@ page import="com.miBudget.v1.entities.Category" %>
 	<%@ page import="java.util.HashMap" %>
 	<%@ page import="org.json.*" %>
 <%@ page import="org.json.simple.parser.JSONParser" %>
@@ -128,7 +129,7 @@
 		<!-- Start of Main Div -->
 		<div style="width:100%; overflow: auto;">
 			<h3 style="display:inline;width:50%;float:left;text-align:center;">Categories</h3>
-			<h3 style="display:inline;width:50%;float:right;text-align:center;">Transactions!</h3>
+			<h3 style="display:inline;width:50%;float:right;text-align:center;">Transactions</h3>
 
 			<div id="categoriesDiv" class="border" style="width:49%; float:left;"> <!-- 425px -->
 				<p id="checked" style="float:right; font-size:90%;" value="New Category" name="newCategory">Click for Your Categories</p>
@@ -203,7 +204,7 @@
 					</div>
 					<br/>
 					<br/>
-					<button type="submit" style="float:left; left:19%; width:180px; white-space: nowrap;" tabindex="7" id="deleteCategory">Wipe Category Form</button>
+					<button type="submit" style="float:left; left:19%; width:180px; white-space: nowrap;" tabindex="7" id="wipeForm">Wipe Category Form</button>
 					<button type="submit" style="float:left; left:70%; width:150px; white-space: nowrap;" tabindex="8" id="saveNewCategory">Save New Category</button>
 					<br/>
 					<br/>
@@ -443,6 +444,12 @@
 				var i;
 				var transactionsTable = $("[id='transactionsTable']");
 				console.log(transactionsTable != null ? 'TABLE OBTAINED' : 'TABLE NOT OBTAINED');
+				// reset table if transactions exist
+				if (transactionsTable.rows > 0)
+				{
+					console.log("transactionsTable populated.... clearing");
+					transactionsTable = transactionsTable;
+				}
 				// add logic so when a new bank is chosen, the previous transactions go away, and loads only the new transactions
 				for (i=0; i<count; i++) {
 					//var transactionRow = $("[name='formForTransaction']").attr('name');
@@ -450,15 +457,47 @@
 					// add to transactionRow
 					let transaction = transactions[i];
 					console.log('transaction: ' + transaction);
-					transactionsTable.append('<tr> <td> <label type="text" value="Merchant Name: "></label> <input type="text" id="merchantName" value="' + transaction.name + '"/></td></tr>');
+					let listOfCategoriesForTransaction = transaction.category;
+					console.log('categories for transaction: ' + listOfCategoriesForTransaction);
+
+					//let categoriesToShowInTable = combineCategories(listOfCategoriesForTransaction, <% user.getCategories(); %>);
+
+					if (i != 0) {
+					    transactionsTable.append('<br>')
+					}
 					<!-- Merchant Name \t Price  -->
-					transactionsTable.append('<tr> <td> <label type ="text" value="Price: "></label> <input type=text" id="price" value="' + transaction.amount + '"/></td></tr>');
-					transactionsTable.append('<tr> <td> <label type="text" value="Category: List"></label> <td>');
-					<!-- Btn:Ignore Btn: Save -->
-					transactionsTable.append('</tr>')
-					transactionsTable.show();
+					transactionsTable.append('<div>');
+					transactionsTable.append('<tr> <td> <label for="merchantName">Merchant Name:</label> <input type="text" id="merchantName" value="' + transaction.name + '"/> </td> </tr>');
+
+					transactionsTable.append('<tr> <td> <label for="amount">Amount:</label> <input type=text" id="price" value="' + transaction.amount + '"/></td>');
+
+					transactionsTable.append('<tr> <td> <datalist id="categories"></datalist> <input id="categorySelected" name="categorySelected" value="" title="Choose a Category" class="form-control" list="categories" type="text" style="display: block;" placeholder="Choose a Category" tabindex="#" required/> </td> </tr>');
+					transactionsTable.append('<tr> <td> &#8203; </td> </tr>')
+					transactionsTable.append('<tr> <td> <button type="submit" style="float:left; left:19%; white-space: nowrap;" tabindex="#" id="ignoreTransaction">Ignore</button><button type="submit" style="float:left; left:60%; width:150px; white-space: nowrap;" tabindex="#" id="saveTransactionMap">Save To Category</button> </td> </tr>');
+					transactionsTable.append('</div>');
+
 				}
+				transactionsTable.show();
 			}
+			function combineCategories(array1, array2) {
+				var result_array = [];
+				var arr = array1.concat(array2);
+				var len = arr.length;
+				var assoc = {};
+
+				while(len--) {
+					var item = arr[len];
+
+					if(!assoc[item])
+					{
+						result_array.unshift(item);
+						assoc[item] = true;
+					}
+				}
+
+				return result_array;
+			}
+
 			function reloadPage() {
 				console.log('running reloadPage()')
 			    $.when(reload()).done(function() {
