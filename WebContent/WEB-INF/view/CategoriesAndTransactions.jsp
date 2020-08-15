@@ -325,14 +325,17 @@
 						<input id="getTransactions" type="submit" title="Get Transactions" onclick="validateFields('get transactions')" class="form-control" style="width:130px; display: block;" value="Get Transactions"/>
 					</div>
 					
-				 </div> <!-- end getTransactionsDiv -->
+				</div> <!-- end getTransactionsDiv -->
 
+				<!-- new table to use -->
+				<table id="transactionsTable" name="transactionsTable" style="margin: auto; text-align: center; display: flex; height: 489px;
+																			  width:99%; overflow-y: scroll; flex-direction: column; flex-flow: row wrap;">
+				</table> <!-- end transactionsTable -->
 
-				<div id="transactionsList" overflow: scroll; style="margin: auto; text-align: right; display: flex; flex-direction: row;">
-					<!-- new table to use -->
-					<table id="transactionsTable" name="transactionsTable">
-					</table> <!-- end transactionsTable -->
-				</div> <!-- end transactionsList -->
+				<!--
+				<div id="transactionsList" style="">
+				</div> end transactionsList
+				-->
 
 			</div> <!-- end transactionsDiv -->
 			
@@ -418,10 +421,7 @@
 						        console.log("call to CAT was successful.");
 						        //console.log(JSON.stringify(data));
 						        //console.log(data);
-								// grab the getTransactions div
-								// append to it the data and how i want it to look
-								// reload location and make sure the parameters
-								// the user gave to get transactions stays in form
+								$("[id='transactionsTable']").children().remove();
 								updateTransactionsTable(data);
 								//reloadPage();
 					        },
@@ -435,38 +435,34 @@
 						console.log("Unable to post to CAT");
 					}
 				}
-			}; //validate fields 
+			}; //validate fields
+
 			function updateTransactionsTable(data) {
-				console.log("Now to simple build the table with: " + data);
+				//console.log("Now to simple build the table with: " + data);
 				var object = JSON.parse(data);
 				var transactions = object.Transactions;
 				var count = transactions.length;
 				var i;
 				var transactionsTable = $("[id='transactionsTable']");
+
 				console.log(transactionsTable != null ? 'TABLE OBTAINED' : 'TABLE NOT OBTAINED');
-				// reset table if transactions exist
-				if (transactionsTable.rows > 0)
-				{
-					console.log("transactionsTable populated.... clearing");
-					transactionsTable = transactionsTable;
-				}
 				// add logic so when a new bank is chosen, the previous transactions go away, and loads only the new transactions
 				for (i=0; i<count; i++) {
 					//var transactionRow = $("[name='formForTransaction']").attr('name');
 					//console.log(transactionRow == 'formForTransaction' ? 'FORM ATTAINED!' : 'DO NOT HAVE FORM');
 					// add to transactionRow
 					let transaction = transactions[i];
-					console.log('transaction: ' + transaction);
+					//console.log('transaction: ' + transaction);
 					let listOfCategoriesForTransaction = transaction.category;
-					console.log('categories for transaction: ' + listOfCategoriesForTransaction);
+					//console.log('categories for transaction: ' + listOfCategoriesForTransaction);
 
 					//let categoriesToShowInTable = combineCategories(listOfCategoriesForTransaction, <% user.getCategories(); %>);
 
 					if (i != 0) {
 					    transactionsTable.append('<br>')
+						transactionsTable.append('<br>')
 					}
 					<!-- Merchant Name \t Price  -->
-					transactionsTable.append('<div>');
 					transactionsTable.append('<tr> <td> <label for="merchantName">Merchant Name:</label> <input type="text" id="merchantName" value="' + transaction.name + '"/> </td> </tr>');
 
 					transactionsTable.append('<tr> <td> <label for="amount">Amount:</label> <input type=text" id="price" value="' + transaction.amount + '"/></td>');
@@ -474,8 +470,6 @@
 					transactionsTable.append('<tr> <td> <datalist id="categories"></datalist> <input id="categorySelected" name="categorySelected" value="" title="Choose a Category" class="form-control" list="categories" type="text" style="display: block;" placeholder="Choose a Category" tabindex="#" required/> </td> </tr>');
 					transactionsTable.append('<tr> <td> &#8203; </td> </tr>')
 					transactionsTable.append('<tr> <td> <button type="submit" style="float:left; left:19%; white-space: nowrap;" tabindex="#" id="ignoreTransaction">Ignore</button><button type="submit" style="float:left; left:60%; width:150px; white-space: nowrap;" tabindex="#" id="saveTransactionMap">Save To Category</button> </td> </tr>');
-					transactionsTable.append('</div>');
-
 				}
 				transactionsTable.show();
 			}
