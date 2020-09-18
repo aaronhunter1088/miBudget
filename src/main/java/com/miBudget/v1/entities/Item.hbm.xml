@@ -4,18 +4,18 @@
 <!-- Generated Nov 20, 2018 11:32:29 AM by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
     <class name="com.miBudget.v1.entities.Item" table="ITEMS">
-        <id name="itemTableId" type="int">
-            <column name="item_table_id" />
+        <id name="itemtableid" type="int">
+            <column name="itemtableid" />
             <generator class="assigned" />
         </id>
-        <property name="institutionId" type="java.lang.String" access="field">
-            <column name="institution_id" />
+        <property name="institutionid" type="java.lang.String" access="field">
+            <column name="institutionid" />
         </property>
-        <property name="itemId" type="java.lang.String" access="field">
-            <column name="item_id" />
+        <property name="itemid" type="java.lang.String" access="field">
+            <column name="itemid" />
         </property>
-        <property name="accessToken" type="java.lang.String" access="field">
-            <column name="access_token" />
+        <property name="accesstoken" type="java.lang.String" access="field">
+            <column name="accesstoken" />
         </property>
     </class>
 </hibernate-mapping>

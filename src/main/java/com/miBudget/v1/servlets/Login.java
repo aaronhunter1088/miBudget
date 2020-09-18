@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.miBudget.v1.utilities.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -50,10 +51,10 @@ public class Login extends HttpServlet {
 	}
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		LOGGER.info("--- START ---");
+		LOGGER.info(Constants.start);
 		LOGGER.info("Inside the Login doGet() servlet.");
 		LOGGER.info("Redirecting to Login.html.");
-		LOGGER.info("--- END ---");
+		LOGGER.info(Constants.end);
 		response.setStatus(HttpServletResponse.SC_OK);
 	}
 	
@@ -62,7 +63,7 @@ public class Login extends HttpServlet {
 	 */
 	//@SuppressWarnings("null")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		LOGGER.info("--- START ---");
+		LOGGER.info(Constants.start);
 		LOGGER.info("Inside Login doPost() servlet.");
 		String cellphone = request.getParameter("Cellphone");
 		String password = request.getParameter("Password");
@@ -159,13 +160,13 @@ public class Login extends HttpServlet {
 			session.setAttribute("transactionsList", new JSONArray());
 		    
 			LOGGER.info("Redirecting to Profile.jsp");
-			LOGGER.info("--- END ---");
+			LOGGER.info(Constants.end);
 			//response.sendRedirect("/WEB-INF/view/Profile.jsp");
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/Profile.jsp" );
 			dispatcher.forward( request, response );
 		} else {
 			LOGGER.info("Redirecting to Register.jsp");
-			LOGGER.info("--- END ---");
+			LOGGER.info(Constants.end);
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/Register.jsp" );
 			dispatcher.forward( request, response );
 		}

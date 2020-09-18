@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="users_accounts")
+@Table(name="usersaccounts")
 public class UserAccountObject implements Serializable {
 	
 	public UserAccountObject() {}
@@ -34,37 +34,37 @@ public class UserAccountObject implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id")
-	private int id;
+	@Column(name="usersaccountsid")
+	private int usersaccountsid;
 	
-	@Column(name="user_id")
+	@Column(name="userid")
 	private int userId;
 	
-	@Column(name="account_id")
+	@Column(name="accountid")
 	private String accountId;
 	
-	@Column(name="available_balance", precision=10, scale=2)
+	@Column(name="availablebalance", precision=10, scale=2)
 	private double availableBalance;
 	
-	@Column(name="iso_currency_code")
+	@Column(name="currencycode")
 	private String currencyCode;
 	
-	@Column(name="current_balance", precision=10, scale=2)
+	@Column(name="currentbalance", precision=10, scale=2)
 	private double currentBalance;
 	
 	@Column(name="_limit", precision=10, scale=2)
 	private double limit;
 	
-	@Column(name="item_table_id")
+	@Column(name="itemtableid")
 	private int itemTableId;
 	
 	@Column(name="mask")
 	private String mask;
 	
-	@Column(name="account_name")
+	@Column(name="nameofaccount")
 	private String nameOfAccount;
 	
-	@Column(name="account_official_name")
+	@Column(name="officialname")
 	private String officialName;
 	
 	@Column(name="_type")
@@ -86,7 +86,7 @@ public class UserAccountObject implements Serializable {
 	}
 
 	/**
-	 * @param user_id the user_id to set
+	 * @param userId the user_id to set
 	 */
 	public void setUserId(int userId) {
 		this.userId = userId;
@@ -100,18 +100,18 @@ public class UserAccountObject implements Serializable {
 	}
 
 	/**
-	 * @param account_id the account_id to set
+	 * @param accountId the account_id to set
 	 */
 	public void setAccountId(String accountId) {
 		this.accountId = accountId;
 	}
 
 	public int getId() {
-		return id;
+		return usersaccountsid;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setId(int usersaccountsid) {
+		this.usersaccountsid = usersaccountsid;
 	}
 
 	public double getAvailableBalance() {

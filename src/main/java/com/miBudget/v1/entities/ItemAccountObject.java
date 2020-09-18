@@ -14,7 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="items_accounts")
+@Table(name="itemsaccounts")
 public class ItemAccountObject implements Serializable {
 
 	public ItemAccountObject() {}
@@ -26,13 +26,13 @@ public class ItemAccountObject implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id")
+	@Column(name="itemaccountid")
 	private int id;
 	
-	@Column(name="item_table_id")
+	@Column(name="itemtableid")
 	private int itemTableId;
 	
-	@Column(name="account_id")
+	@Column(name="accountid")
 	private String accountId;
 	
 	/**
@@ -70,7 +70,7 @@ public class ItemAccountObject implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ItemAccountObject [id=" + id + ", itemTableId=" + itemTableId + ", accountId=" + accountId + "]";
+		return "ItemAccountObject [itemsaccountid=" + id + ", itemTableId=" + itemTableId + ", accountId=" + accountId + "]";
 	}
 	
 	

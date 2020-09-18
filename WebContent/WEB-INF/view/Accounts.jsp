@@ -123,7 +123,7 @@
 				 	<td id="deletebtn" name="<%= currentId %>">
 				 	  <!-- Delete button -->
 				 	  <!-- Goes to Delete.java and performs doPost --> 
-				      <form id="delete" method="post" onsubmit="return deleteBank('<%= currentId %>');" action="Delete"> 
+				      <form id="delete1" method="post" onsubmit="return deleteBank('<%= currentId %>');" action="Delete">
 				      	<input type="hidden" name="delete" value="bank"></input>
 				      	<input type="hidden" name="currentId" value="<%= currentId %>"></input>
 					    <button id="deleteButton" name="<%= currentId %>" type="submit" formmethod="post">Delete Bank</button>
@@ -156,7 +156,6 @@
 						<!-- [Name | Mask | Available Balance] | Delete --> 
 						<tr id="acct" class="acct" name="<%= acctsForThisInstitutionId %>"> 
 							<!-- Account -->
-							<!-- Name | Mask | Subtype -->
 						  	<td>
 						  		<%= name %> <!-- Name of Account otherwise Official Name --> 
 						  	</td> 
@@ -180,7 +179,7 @@
 						 	<!-- Delete Account -->
 						 	<td id="deleteAccount">
 						 		<%-- return deleteAccount('BOAChecking') as a reminder --%> 
-						 		<form id="delete" method="post" onsubmit="return deleteAccount('<%= name %>');" action="Delete"> 
+						 		<form id="delete2" method="post" onsubmit="return deleteAccount('<%= name %>');" action="Delete">
 							      	<input type="hidden" name="delete" value="account"></input>
 							      	<input type="hidden" name="currentId" value="<%= acctsForThisInstitutionId %>"></input>
 							      	<input type="hidden" name="itemTableId" value="<%= acct.getItemTableId() %>"></input>
@@ -221,7 +220,7 @@
 				ans = prompt('WARNING! You are about to delete your \'' + bankName + '\' bank. Are you sure you want to continue? Enter: \'Yes\' to confirm.', '');
 				console.log('answer: ' + ans);
 
-				if (ans.toLowerCase() == 'yes') {
+				if (ans == 'Yes'.toLowerCase() && ans != null) {
 					console.log('Making a post request to Delete to delete this single ' + bankName + ' account.');
 					return true;
 				}
@@ -230,7 +229,7 @@
 			function deleteAccount(acctName) {
 				var ans = "";
 				ans = prompt('WARNING! You are about to delete your ' + acctName + ' account. Are you sure you want to continue? Enter: \'Yes\' to confirm.','');
-				if (ans == 'Yes'.toLowerCase()) {
+				if (ans == 'Yes'.toLowerCase() && ans != null) {
 					console.log('Making a post request to Delete to delete this single ' + acctName + ' account.');
 					return true;
 				}

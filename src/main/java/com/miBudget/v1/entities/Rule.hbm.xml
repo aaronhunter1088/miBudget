@@ -5,7 +5,7 @@
 <hibernate-mapping>
     <class name="com.miBudget.v1.entities.Rule" table="rules">
         <id name="id" type="int">
-            <column name="id" />
+            <column name="rulesid" />
             <generator class="assigned" />
         </id>
         <property name="amount" type="double">

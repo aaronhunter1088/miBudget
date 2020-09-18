@@ -23,7 +23,7 @@
         <property name="email" type="java.lang.String">
             <column name="EMAIL" />
         </property>
-        <list name="account_ids" inverse="false" table="USER" lazy="true" access="field">
+        <list name="accountIds" inverse="false" table="USER" lazy="true" access="field">
             <key>
                 <column name="ID" />
             </key>

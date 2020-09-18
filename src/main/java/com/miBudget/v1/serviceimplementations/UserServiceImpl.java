@@ -8,12 +8,10 @@ import com.miBudget.v1.services.UserServices;
 
 public class UserServiceImpl implements UserServices {
 	
-	
+	@Override
 	public List<String> getAllUsersByCellphone(Session session) throws Exception {
 		return null;
-		// TODO Auto-generated method stub
-		// validate session ....
-//		return mibudgetuserDAOImpl.getAllUsersByCellphone(session);
+		//return mibudgetuserDAOImpl.getAllUsersByCellphone(session);
 	}
 	
 	

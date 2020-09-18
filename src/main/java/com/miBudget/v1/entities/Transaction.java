@@ -88,7 +88,7 @@ public class Transaction implements Serializable {
 	 * @param name, where the transaction took place
 	 * @param amount
 	 * @param location
-	 * @param categories
+	 * @param defaultCategories
 	 */
 	public Transaction(String accountId, String name, double amount, com.miBudget.v1.entities.Location location, List<String> defaultCategories) {
 		setAccountId(accountId);
@@ -118,7 +118,7 @@ public class Transaction implements Serializable {
 	 * @param accountId
 	 * @param name
 	 * @param amount
-	 * @param categories
+	 * @param defaultCategories
 	 */
 	public Transaction(String accountId, String name, double amount, List<String> defaultCategories) {
 		setAccountId(accountId);
@@ -236,7 +236,7 @@ public class Transaction implements Serializable {
 	}
 
 	/**
-	 * @param categories the categories to set
+	 * @param defaultCategories the categories to set
 	 */
 	private void setCategories(List<String> defaultCategories) {
 		this.defaultCategories = defaultCategories;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -59,8 +60,8 @@ public class MiBudgetDAOImpl {
 			session = factory.openSession();
 			t = session.beginTransaction();
 			categoriesFromDB = (ArrayList<Category>) session
-					.createNativeQuery("SELECT * FROM users_categories "
-					   				 + "WHERE user_id = " + user.getId())
+					.createNativeQuery("SELECT * FROM userscategories "
+					   				 + "WHERE userId = " + user.getId())
 					.addEntity(Category.class).getResultList();
 			LOGGER.info("Query executed. categories list populated from MiBudgetDAOImpl.");
 			LOGGER.info("Returning " + categoriesFromDB.size() + " categories for " + user.getFirstName() + " " + user.getLastName());
@@ -91,7 +92,7 @@ public class MiBudgetDAOImpl {
 	 * @param user
 	 * @return
 	 */
-	public HashMap<String, ArrayList<UserAccountObject>> getAcctsAndInstutionIdMap(User user) {
+	public HashMap<String, ArrayList<UserAccountObject>> getAcctsAndInstitutionIdMap(User user) {
 		
 		HashMap<String, ArrayList<UserAccountObject>> mapToReturn = new HashMap<>();
 		ArrayList<String> insIdsList = new ArrayList<>();
@@ -128,21 +129,21 @@ public class MiBudgetDAOImpl {
     	Transaction t = null;
 		ArrayList<String> institutionIds = new ArrayList<>();
 		try {
-			LOGGER.info("Attempting to get all the institution_ids for " + user.getFirstName() + " " + user.getLastName());
+			LOGGER.info("Attempting to get all the institutionids for " + user.getFirstName() + " " + user.getLastName());
 			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
 			institutionIds = (ArrayList<String>) session
-					   .createNativeQuery("SELECT institution_id FROM users_institution_ids "
-					   					+ "WHERE user_id = " + user.getId())
+					   .createNativeQuery("SELECT institutionid FROM usersinstitutionsids "
+					   					+ "WHERE userid = " + user.getId())
 					   .getResultList();
 			LOGGER.info("Query executed.");
-			LOGGER.info(institutionIds.size() + " institution ids for " + user.getFirstName() + " " + user.getLastName());
+			LOGGER.info(institutionIds.size() + " institutionids for " + user.getFirstName() + " " + user.getLastName());
 			session.getTransaction().commit();
 			session.close();
 			if (institutionIds.size() != 0) {
 				for ( String id : institutionIds) {
-					LOGGER.info("institution_id: " + id);
+					LOGGER.info("institutionid: " + id);
 				}
 			} else {
 				LOGGER.info("Returning an empty list.");
@@ -170,14 +171,16 @@ public class MiBudgetDAOImpl {
 			session = factory.openSession();
 			t = session.beginTransaction();
 			institutionIds = (ArrayList<String>) session
-					   .createNativeQuery("SELECT institution_id FROM users_institution_ids "
-					   					+ "WHERE user_id = " + user.getId()).getResultList();
+					   .createNativeQuery("SELECT institutionid FROM usersinstitutionsids "
+					   					+ "WHERE userid = " + user.getId()).getResultList();
 			LOGGER.info("Query executed. institutionIds list populated from MiBudgetDAOImpl.");
 			LOGGER.info("Returning " + institutionIds.size() + " institution ids for " + user.getFirstName() + " " + user.getLastName());
 			session.getTransaction().commit();
 			session.close();
+			AtomicInteger ai = new AtomicInteger();
 			for ( String id : institutionIds) {
-				LOGGER.info("institution_id: " + id);
+				ai.incrementAndGet();
+				LOGGER.info(" {} institutionid: {}", ai.get(), id);
 			}
 			return institutionIds;
 		} catch (Exception e) {
@@ -190,17 +193,17 @@ public class MiBudgetDAOImpl {
     }
 	
     // SQL Implementation
-    public int addInstitutionIdToDatabase(String ins_id, User user) {
+    public int addInstitutionIdToDatabase(String insId, User user) {
     	SessionFactory factory = null;
     	Session session = null;
     	Transaction t = null;
     	try {
-			LOGGER.info("Attempting to execute insert institution_id query...");
+			LOGGER.info("Attempting to execute insert institutionid query...");
 			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
-			session.createNativeQuery("INSERT INTO users_institution_ids (institution_id, user_id) " +
-									  "VALUES ('" + ins_id + "', " + user.getId() + ")").executeUpdate(); // recall Strings need quotes around them. numbers don't
+			session.createNativeQuery("INSERT INTO usersinstitutionsids (institutionid, userid) " +
+									  "VALUES ('" + insId + "', " + user.getId() + ")").executeUpdate(); // recall Strings need quotes around them. numbers don't
 			t.commit();
 			LOGGER.info("Institution saved"); // "Institution save using session.save(item)"
 			session.close();
@@ -238,7 +241,7 @@ public class MiBudgetDAOImpl {
     		session.close();
 			return 1; // good
 		} catch (Exception e) {
-			LOGGER.error("Error connecting to DB");
+			LOGGER.error("Error saving user to database");
 			LOGGER.error(e.getMessage());
 			t.rollback();
 			session.close();
@@ -258,7 +261,7 @@ public class MiBudgetDAOImpl {
 			t = session.beginTransaction();
 			// TODO: Check query. Appears to not be working
 			List<?> cellphonesFromDB = session
-					   .createNativeQuery("SELECT Cellphone FROM Users")
+					   .createNativeQuery("SELECT cellphone FROM users")
 					   .getResultList();
 			LOGGER.info("Query executed!");
 			t.commit();
@@ -366,13 +369,13 @@ public class MiBudgetDAOImpl {
 			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> idsFromDB = session
-					   				.createNativeQuery("SELECT item_id FROM items")
+					   				.createNativeQuery("SELECT itemid FROM items")
 					   				.getResultList();
 			List<?> institutionIdsFromDB = session
-								    .createNativeQuery("SELECT institution_id FROM items")
+								    .createNativeQuery("SELECT institutionid FROM items")
 								    .getResultList();
 			List<?> accessTokensFromDB = session
-									.createNativeQuery("SELECT access_token FROM items")
+									.createNativeQuery("SELECT accesstoken FROM items")
 									.getResultList();
 			
 			LOGGER.info("3 Queries executed!");
@@ -407,8 +410,8 @@ public class MiBudgetDAOImpl {
 			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> item_idsFromDB = session
-					   .createNativeQuery("SELECT item_id FROM users_items " +
-							   			  "WHERE user_id = " + user.getId())
+					   .createNativeQuery("SELECT itemid FROM usersitems " +
+							   			  "WHERE userid = " + user.getId())
 					   .getResultList();
 			LOGGER.info("Query executed!");
 			t.commit();
@@ -424,7 +427,7 @@ public class MiBudgetDAOImpl {
 				while (iterator.hasNext()) {
 					String itemID = iterator.next().toString();
 					itemIds.add(itemID);
-					LOGGER.info("item_id: " + itemID);
+					LOGGER.info("itemid: " + itemID);
 				}
 //				String[] item_idsFromDBArr = item_idsFromDB.split(",");
 //				for(String s : item_idsFromDBArr) {
@@ -432,7 +435,7 @@ public class MiBudgetDAOImpl {
 //					itemIds.add(itemID);
 //					System.out.println("item_id: " + itemID);
 //				}
-				LOGGER.info("item_ids list populated from MiBudgetDAOImpl");
+				LOGGER.info("itemids list populated from MiBudgetDAOImpl");
 				return itemIds;
 			} 
 		} catch (NullPointerException e) {
@@ -464,15 +467,15 @@ public class MiBudgetDAOImpl {
 			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
-			List<?> itemTableId = session.createNativeQuery("SELECT item_table_id " +
+			List<?> itemTableId = session.createNativeQuery("SELECT itemtableid " +
 													   "FROM items " +
-													   "WHERE institution_id = '" + institution_id + "'").getResultList();
-			List<?> itemId = session.createNativeQuery("SELECT item_id " + 
+													   "WHERE institutionid = '" + institution_id + "'").getResultList();
+			List<?> itemId = session.createNativeQuery("SELECT itemid " +
 													   "FROM items " +
-													   "WHERE institution_id = '" + institution_id + "'").getResultList();
-			List<?> accessToken = session.createNativeQuery("SELECT access_token " + 
+													   "WHERE institutionid = '" + institution_id + "'").getResultList();
+			List<?> accessToken = session.createNativeQuery("SELECT accesstoken " +
 															"FROM items " +
-															"WHERE institution_id = '" + institution_id + "'").getResultList();
+															"WHERE institutionid = '" + institution_id + "'").getResultList();
 //			Item item = session.createNativeQuery("SELECT * FROM " + 
 //												  "WHERE ")
 			item = new Item(Integer.parseInt(itemTableId.get(0).toString()), itemId.get(0).toString(), 

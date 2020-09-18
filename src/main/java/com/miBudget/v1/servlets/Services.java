@@ -81,7 +81,7 @@ public class Services extends HttpServlet {
 				case "getAllCategories" :   categoriesList = miBudgetDAOImpl.getAllCategories(user);
 											res = changeToJsonString(categoriesList);
 											break;
-				case "getAcctsAndInstitutionIdMap" : acctsAndInstitutionIdMap = miBudgetDAOImpl.getAcctsAndInstutionIdMap(user); 
+				case "getAcctsAndInstitutionIdMap" : acctsAndInstitutionIdMap = miBudgetDAOImpl.getAcctsAndInstitutionIdMap(user);
 													 res = changeToJsonString(acctsAndInstitutionIdMap);
 													 break;
 				case "getTransactions" : transactionsList = miBudgetDAOImpl.getTransactions(request);

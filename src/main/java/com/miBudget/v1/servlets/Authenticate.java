@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.miBudget.v1.utilities.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -103,7 +105,7 @@ public class Authenticate extends HttpServlet {
     /**
      * This method takes the institution_id and saves it to the 
      * database with the appropriate user.
-     * @param inst_id
+     * @param ins_id
      * @param user
      * @return
      */
@@ -222,8 +224,7 @@ public class Authenticate extends HttpServlet {
      * @throws IOException
      */
 	private String authenticate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, NullPointerException {
-		// TODO Auto-generated method stub
-		LOGGER.info("\nInside authenticate()...");	
+		LOGGER.info("Inside authenticate()...");
 		HttpSession session = request.getSession(false);
 		if (session.getId() != session.getAttribute("sessionId")) {
 			LOGGER.info("not the same session");
@@ -360,8 +361,8 @@ public class Authenticate extends HttpServlet {
 		ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
 		for(String id : institutionIdsList) {
 			if (id.equals(institutionId)) {
-				LOGGER.info(institutionId + " has already been added. We cannot add it again. Checking"
-						+ "\nto see if the user is adding accounts back.");
+				LOGGER.info(institutionId + " has already been added. We cannot add it again. Checking "
+											 + "to see if the user is adding accounts back.");
 				duplicateBank = true;
 				break;
 			} else
@@ -568,26 +569,23 @@ public class Authenticate extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		LOGGER.info("--- START ---");
-		LOGGER.info("\nInside Authenticate servlet doPost.");		
+		LOGGER.info(Constants.start);
+		LOGGER.info("Inside the Authenticate doPost() servlet.");
 		String authResponse = authenticate(request, response);
-		LOGGER.info("Authenticate response: " + authResponse);
+		LOGGER.info("authenticate response: " + authResponse);
 		
 		if (authResponse.equals("SUCCESS")) {
 			// add session back to response obj
-			response.setContentType("application/html");
+			//response.setContentType("application/html");
 			response.setStatus(HttpServletResponse.SC_OK);
-//			getServletContext().getRequestDispatcher("/Profile.jsp").forward(request, response);
-			//response.sendRedirect("Profile.jsp");
-			LOGGER.info("--- END ---");
-			return;
-		} else {
-			LOGGER.info(authResponse);
-			response.setStatus(HttpServletResponse.SC_CONFLICT); // TODO: Implement as some 2xx. 4xx is for invalid requests. We don't have that, we just restrict the logic. 
-			response.setContentType("application/text");
-			LOGGER.info("--- END ---");
-			return;
 		}
+		else {
+			LOGGER.warn(authResponse);
+			response.setStatus(HttpServletResponse.SC_CONFLICT); // TODO: Implement as some 2xx. 4xx is for invalid requests. We don't have that, we just restrict the logic.
+		}
+		LOGGER.info(Constants.end);
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/Accounts.jsp" );
+		dispatcher.forward( request, response );
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

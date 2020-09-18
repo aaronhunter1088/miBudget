@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.miBudget.v1.utilities.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -195,8 +197,8 @@ public class Delete extends HttpServlet {
 	@SuppressWarnings({ "unlikely-arg-type", "unchecked" })
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		LOGGER.info("--- START ---");
-		LOGGER.info("Inside the Delete doPost method");
+		LOGGER.info(Constants.start);
+		LOGGER.info("Inside the Delete doPost() servlet");
 		LOGGER.info("currentId: " + request.getParameter("currentId"));
 		LOGGER.info("requesting to delete: " + request.getParameter("delete"));
 		HttpSession session = request.getSession(false);
@@ -218,24 +220,19 @@ public class Delete extends HttpServlet {
 			if (deleteResponse.contains("SUCCESS")) {
 				session.setAttribute("change", "You have successfully deleted your bank.");
 				session.setAttribute("ErrMapForItems", errMapForItems);
-				response.setContentType("application/html");
-				response.setStatus(HttpServletResponse.SC_OK);
-				response.sendRedirect("/WEB-INF/view/Accounts.jsp");
 			} else {
 				session.setAttribute("change", "There was an issue deleting your bank: " + deleteResponse);
-				response.setContentType("applicaiton/html");
-				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-				response.sendRedirect("/WEB-INF/view/Accounts.jsp");
 			}
 			
-		} else if (request.getParameter("delete").equals("account")) {
+		}
+		else if (request.getParameter("delete").equals("account")) {
 			itemTableId = Integer.parseInt(request.getParameter("itemTableId"));
 			item = itemDAOImpl.getItem(itemTableId);
 			String accountId = request.getParameter("accountId");
 			ArrayList<String> acctIdToDeleteList = new ArrayList<>();
 			acctIdToDeleteList.add(accountId);
 			Account account = accountDAOImpl.getAllAccounts(acctIdToDeleteList).get(0);
-			HashMap<String, Object> deleteResponse = deleteAccount(request, response);
+			HashMap<String, Object> deleteAccountResponse = deleteAccount(request, response);
 			
 			HashMap<String, ArrayList<Account>> acctsAndInstitutionIdMap = 
 					(HashMap<String, ArrayList<Account>>) session.getAttribute("acctsAndInstitutionIdMap");
@@ -245,7 +242,7 @@ public class Delete extends HttpServlet {
 			acctsAndInstitutionIdMap.put(institutionId, newAcctList);
 			LOGGER.info("newAcctList size: " + newAcctList.size());
 			
-			LOGGER.info("\nUpdated acctsAndInstitutionIdMap");
+			LOGGER.info("Updated acctsAndInstitutionIdMap");
 			for (String key : acctsAndInstitutionIdMap.keySet()) {
 				LOGGER.info("key: " + key);
 				for (Account a : acctsAndInstitutionIdMap.get(key)) {
@@ -253,7 +250,7 @@ public class Delete extends HttpServlet {
 				}
 			}
 			
-			if (deleteResponse.get("usersInstitutionIdsResult") == Boolean.TRUE) {
+			if (deleteAccountResponse.get("usersInstitutionIdsResult") == Boolean.TRUE) {
 				LOGGER.info("Boolean result is true");
 				ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
 				session.setAttribute("institutionIdsList", institutionIdsList);
@@ -271,24 +268,18 @@ public class Delete extends HttpServlet {
 			
 			// If still has 1 or more accounts for an item
 			// insIdsList, acctsAndInsIdMap, and accounts sizes don't change
-			session.setAttribute("change", "You have successfully deleted your " + deleteResponse.get("name") + " account.");
+			session.setAttribute("change", "You have successfully deleted your " + deleteAccountResponse.get("name") + " account.");
 			session.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
 			
 			session.setAttribute("accountsSize", (Integer)session.getAttribute("accountsSize")-1);
-			
-//			for (String key : acctsAndInstitutionIdMap.keySet()) {
-//				LOGGER.info("key: " + key);
-//				for (Account a : acctsAndInstitutionIdMap.get(key)) {
-//					LOGGER.info("\t" + a);
-//				}
-//			}
-			
-			LOGGER.info("--- END ---");
-			response.setContentType("application/html");
-			response.setStatus(HttpServletResponse.SC_OK);
-			response.sendRedirect("/WEB-INF/view/Accounts.jsp");
+
 		}
-		
+		LOGGER.info(Constants.end);
+		//response.setContentType("application/html");
+		//response.sendRedirect("Accounts.jsp");
+		response.setStatus(HttpServletResponse.SC_OK);
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/Accounts.jsp" );
+		dispatcher.forward( request, response );
 	}
 
 }

@@ -23,12 +23,14 @@ public class DatabaseConnectionTest {
 			LOGGER.info("MySQL version is {}", result);
 			LOGGER.info("Test completed. Passed.");
 			HibernateUtilities.shutdown();
-		} catch (NullPointerException | HibernateException e) {
+		} catch (NullPointerException e) {
 			LOGGER.error("Error making a connection to the database...\n");
 			StackTraceElement[] ste = e.getStackTrace();
 			for (int i = 0; i < ste.length; i++) {
 				LOGGER.error(ste[i]);
 			}
+		} catch (HibernateException e) {
+			LOGGER.error("class: {} error: {}", e.getClass(), e.getMessage());
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}

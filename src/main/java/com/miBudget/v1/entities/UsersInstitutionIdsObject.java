@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="users_institution_ids")
+@Table(name="usersinstitutionsids")
 public class UsersInstitutionIdsObject implements Serializable {
 
 	public UsersInstitutionIdsObject() {}
@@ -28,13 +28,13 @@ public class UsersInstitutionIdsObject implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id")
+	@Column(name="userinstitutionid")
 	int id;
 	
-	@Column(name="institution_id")
+	@Column(name="institutionid")
 	String institutionId;
 	
-	@Column(name="user_id")
+	@Column(name="userid")
 	int userId;
 	
 	/**

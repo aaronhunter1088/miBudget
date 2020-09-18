@@ -73,14 +73,14 @@ public class Accounts extends HttpServlet {
 		//LOGGER.info("request: " + !request.getSession(false));
 		if (requestSession != null && (Boolean)requestSession.getAttribute("isUserLoggedIn") == true) {
 			
-			User user = (User) request.getAttribute("user");
+			User user = (User)request.getAttribute("user");
 			LOGGER.info("current user: " + user);
 			HashMap<String, Boolean> errMapForItems = new HashMap<>();
 			ArrayList<String> ids = (ArrayList<String>) requestSession.getAttribute("institutionIdsList");
 			ArrayList<Item> items = new ArrayList<>();
 			for (String id : ids) {
 				Item item = itemDAOImpl.getItemFromUser(id);
-				LOGGER.info("Retreived " + item);
+				LOGGER.info("Retrieved " + item);
 				items.add(item);
 			}
 			String errMsg = "";
@@ -118,6 +118,7 @@ public class Accounts extends HttpServlet {
 			LOGGER.info("--- END ---");
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/Accounts.jsp" );
 			dispatcher.forward( request, response );
+			//response.sendRedirect("Accounts.jsp");
 		} else {
 			LOGGER.info("requestSession: " + requestSession );
 			LOGGER.info("isUserLoggedIn: " + requestSession.getAttribute("isUserLoggedIn") );
@@ -126,8 +127,6 @@ public class Accounts extends HttpServlet {
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "index.html" );
 			dispatcher.forward( request, response );
 		}
-		
-		//doPost(request, response);
 	}
 	
 	/**
@@ -135,7 +134,7 @@ public class Accounts extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LOGGER.info("--- START ---");
-		LOGGER.info("\nInside the Accounts doPost() servlet.");
+		LOGGER.info("Inside the Accounts doPost() servlet.");
 		HttpSession requestSession = request.getSession(false);  
         if (requestSession != null && (Boolean)requestSession.getAttribute("isUserLoggedIn") == true){  
         	LOGGER.info("stored requestSessionId: " + requestSession.getAttribute("requestSessionId"));

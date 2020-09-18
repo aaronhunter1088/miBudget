@@ -4,16 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 @Entity
-@Table(name="users_categories")
+@Table(name="userscategories")
 public class Category implements Serializable {
 
 	public Category() {}
@@ -48,7 +42,7 @@ public class Category implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id", updatable=false, nullable=false)
+	@Column(name="usercategoryid", updatable=false, nullable=false)
 	private int id;
 	
 	@Column(name="name")
@@ -57,13 +51,14 @@ public class Category implements Serializable {
 	@Column(name="currency")
 	private String currency;
 	
-	@Column(name="amount")
+	@Column(name="budgetedamt")
 	private double budgetedAmt;
-	
-	@Column(name="rules")
+
+	@SuppressWarnings("JpaAttributeTypeInspection")
+	@Column(name = "rules")
 	private ArrayList<Rule> rules;
 	
-	@Column(name="user_id")
+	@Column(name="userid")
 	private int userId;
 	
 	public static long getSerialversionuid() {

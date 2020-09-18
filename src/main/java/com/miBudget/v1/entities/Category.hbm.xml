@@ -3,9 +3,9 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Jan 19, 2019 6:32:50 PM by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
-    <class name="com.miBudget.v1.entities.Category" table="users_categories">
+    <class name="com.miBudget.v1.entities.Category" table="userscategories">
         <id name="id" type="int">
-            <column name="id" />
+            <column name="categoryid" />
             <generator class="assigned" />
         </id>
         <property name="name" type="java.lang.String">
@@ -15,13 +15,13 @@
         	<column name="currency" />
         </property>
         <property name="budgetedAmt" type="double">
-            <column name="budgeted_amount" />
+            <column name="budgetedamount" />
         </property>
         <property name="rules" type="java.lang.String">
         	<column name="rules" />
         </property>
         <property name="userId" type="int">
-        	<column name="user_id" />
+        	<column name="userid" />
         </property>
     </class>
 </hibernate-mapping>

@@ -46,8 +46,8 @@ public class AccountDAOImpl {
     		session = factory.openSession();
     		t = session.beginTransaction();
     		accountIds = (ArrayList<String>) session
-    				            .createNativeQuery("SELECT account_id FROM accounts " +
-    								               "WHERE item_table_id = " + item.getItemTableId())
+    				            .createNativeQuery("SELECT accountid FROM accounts " +
+    								               "WHERE itemtableid = " + item.getItemTableId())
     											   .getResultList();
     		LOGGER.info("Query executed!");
     		t.commit();
@@ -79,7 +79,8 @@ public class AccountDAOImpl {
 			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> userAccountsFromDB = session
-					   .createNativeQuery("SELECT account_id FROM users_accounts ")
+					   .createNativeQuery("SELECT accountid FROM usersaccounts " +
+					   						 "WHERE userid = \'" + userId + "\'")
 					   .getResultList();
 			LOGGER.info("Query executed!");
 			t.commit();
@@ -116,8 +117,8 @@ public class AccountDAOImpl {
 			session = factory.openSession();
 			t = session.beginTransaction();
 			usersAccounts = (ArrayList<String>) session
-					   .createNativeQuery("SELECT account_id FROM users_accounts " +
-							   			  "WHERE user_id = " + user.getId() )
+					   .createNativeQuery("SELECT accountid FROM usersaccounts " +
+							   			  "WHERE userid = " + user.getId() )
 					   .getResultList();
 			LOGGER.info("Query executed!");
 			t.commit();
@@ -172,7 +173,7 @@ public class AccountDAOImpl {
 			session = factory.openSession();
 			t = session.beginTransaction();
 			session.saveOrUpdate(new UserAccountObject(
-					user.getId(), 
+					user.getId(),
 					account.getAccountId(),
 					account.getItemTableId(),
 					account.getAvailableBalance(),
@@ -199,8 +200,7 @@ public class AccountDAOImpl {
     
     /**
      * Use this method, getAllAccounts, when you need to get all accounts' info's from one user
-     * @param user
-     * @param account_ids
+     * @param accountIds
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -225,7 +225,7 @@ public class AccountDAOImpl {
 			t = session.beginTransaction();
 			accountsResult = (ArrayList<Account>) session
 					.createNativeQuery("SELECT * FROM accounts " +
-									   "WHERE account_id " +
+									   "WHERE accountid " +
 									   "IN (" +  str + ")")
 					.addEntity(Account.class).getResultList();
 			session.getTransaction().commit();
@@ -272,7 +272,7 @@ public class AccountDAOImpl {
 			t = session.beginTransaction();
 			List<Account> userAccountsFromDB = (List<Account>) session
 					   .createNativeQuery("SELECT * FROM accounts " +
-							   		     "WHERE item_table_id = " + itemTableId)
+							   		     "WHERE itemtableid = " + itemTableId)
 					   .addEntity(Account.class)
 					   .getResultList();
 			LOGGER.info("getAllAccountsForItem query executed!");
@@ -309,14 +309,14 @@ public class AccountDAOImpl {
 			List<UserAccountObject> userAccountsFromDB = null;
 			if (itemTableId == 0) {
 				userAccountsFromDB = (List<UserAccountObject>) session
-						.createNativeQuery("SELECT * FROM users_accounts " +
-						   		   		   "WHERE user_id = " + user.getId())
+						.createNativeQuery("SELECT * FROM usersaccounts " +
+						   		   		   "WHERE userid = " + user.getId())
 						.addEntity(UserAccountObject.class).getResultList();
 			} else {
 				userAccountsFromDB = (List<UserAccountObject>) session
-						.createNativeQuery("SELECT * FROM users_accounts " +
-								   		   "WHERE user_id = " + user.getId() + " " +
-								   		   "AND item_table_id = " + itemTableId)
+						.createNativeQuery("SELECT * FROM usersaccounts " +
+								   		   "WHERE userid = " + user.getId() + " " +
+								   		   "AND itemtableid = " + itemTableId)
 						.addEntity(UserAccountObject.class).getResultList();
 			}
 			LOGGER.info("Query executed!");
@@ -346,7 +346,7 @@ public class AccountDAOImpl {
 			session = factory.openSession();
 			t = session.beginTransaction();
 			List<UserAccountObject> userAccountsFromDB = session
-					   .createNativeQuery("SELECT * FROM users_accounts")
+					   .createNativeQuery("SELECT * FROM usersaccounts")
 					   .addEntity(UserAccountObject.class)
 					   .getResultList();
 			LOGGER.info("Query executed!");
@@ -378,8 +378,8 @@ public class AccountDAOImpl {
 			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> userAccountsFromDB = session
-					   .createNativeQuery("SELECT account_id FROM users_accounts " +
-							   			  "WHERE user_id = " + user.getId() )
+					   .createNativeQuery("SELECT accountid FROM usersaccounts " +
+							   			  "WHERE userid = " + user.getId() )
 					   .getResultList();
 			LOGGER.info("Query executed!");
 			t.commit();
@@ -507,8 +507,8 @@ public class AccountDAOImpl {
 			// Items_accounts table
 			// delete from items_accounts where item_table_id = 963;
 			session.createQuery("DELETE FROM ItemAccountObject " + 
-			    				"WHERE item_table_id = " + item.getItemTableId() + 
-			    				"AND account_id = \'" + accountId + "\'").executeUpdate();
+			    				"WHERE itemTableId = \'" + item.getItemTableId() + "\'" +
+			    				"AND accountId = \'" + accountId + "\'").executeUpdate();
 			LOGGER.info("... account was deleted from items_accounts table...");
 			t.commit();
 			session.close();
@@ -542,8 +542,8 @@ public class AccountDAOImpl {
     		// Users_institutions_ids table
     		// delete from users_institution_ids where user_id = 20 and institution_id = 'ins_3';
     		session.createQuery("DELETE FROM UserAccountObject " +
-					"WHERE account_id = \'" + accountId + "\' " +
-					"AND item_table_id = " + item.getItemTableId()).executeUpdate();
+								   "WHERE accountId = \'" + accountId + "\' " +
+					  			   "AND itemTableId = " + item.getItemTableId()).executeUpdate();
 
     		System.out.println("... account was deleted from users_accounts table...");
     		t.commit();

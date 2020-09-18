@@ -24,8 +24,8 @@ public class User implements Serializable {
 
 	public User() {}
 	
-	public User(int id) {
-		this.id = id;
+	public User(int userid) {
+		this.userid = userid;
 	}
 	
 	/**
@@ -74,14 +74,14 @@ public class User implements Serializable {
 	
 	/**
 	 * To create a user with no accounts, please provide in the following order:
-	 * @param id
+	 * @param userid
 	 * @param firstname
 	 * @param lastname
 	 * @param cellphone
 	 * @param password
 	 */
-	public User(int id, String firstname, String lastname, String cellphone, String password, String email) {
-		this.id = id;
+	public User(int userid, String firstname, String lastname, String cellphone, String password, String email) {
+		this.userid = userid;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.cellphone = cellphone;
@@ -93,7 +93,7 @@ public class User implements Serializable {
 	
 	/**
 	 * To create a user with accounts, please provide in the following order:
-	 * @param id
+	 * @param userid
 	 * @param firstname
 	 * @param lastname
 	 * @param cellphone
@@ -101,8 +101,8 @@ public class User implements Serializable {
 	 * @param email
 	 * @param accountIds
 	 */
-	public User(int id, String firstname, String lastname, String cellphone, String password, String email, ArrayList<String> accountIds) {
-		this.id = id;
+	public User(int userid, String firstname, String lastname, String cellphone, String password, String email, ArrayList<String> accountIds) {
+		this.userid = userid;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.cellphone = cellphone;
@@ -113,13 +113,13 @@ public class User implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id", updatable=false, nullable=false)
-	private int id;
+	@Column(name="userId", updatable=false, nullable=false)
+	private int userid;
 	
-	@Column(name="first_name")
+	@Column(name="firstname")
 	private String firstname;
 	
-	@Column(name="last_name")
+	@Column(name="lastname")
 	private String lastname;
 	
 	@Column(name="cellphone")
@@ -141,13 +141,13 @@ public class User implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public int getId() {
-		return id;
+		return userid;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setId(int userid) {
+		this.userid = userid;
 	}
 
 	public String getFirstName() {
@@ -204,7 +204,7 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", cellphone=" + cellphone
+		return "User [userid=" + userid + ", firstname=" + firstname + ", lastname=" + lastname + ", cellphone=" + cellphone
 				+ ", password=" + password + ", email=" + email + ", accountIds=" + accountIds 
 				+ ", categories=" + categories + "]";
 	}
@@ -272,7 +272,7 @@ public class User implements Serializable {
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hash(accountIds, cellphone, email, firstname, id, lastname, password);
+		return Objects.hash(accountIds, cellphone, email, firstname, userid, lastname, password);
 	}
 
 	/* (non-Javadoc)

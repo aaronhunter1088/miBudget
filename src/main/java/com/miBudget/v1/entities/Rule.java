@@ -21,7 +21,7 @@ public class Rule implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id", updatable=false, nullable=false)
+	@Column(name="rulesid", updatable=false, nullable=false)
 	private int id;
 	
 	@Column(name="amount")
@@ -60,7 +60,7 @@ public class Rule implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Rule [id=" + id + ", amount=" + amount + ", names=" + names + "]";
+		return "Rule [rulesid=" + id + ", amount=" + amount + ", names=" + names + "]";
 	}
 
 	@Override

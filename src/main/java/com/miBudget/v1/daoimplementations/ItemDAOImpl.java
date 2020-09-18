@@ -44,7 +44,7 @@ public class ItemDAOImpl {
 			t = session.beginTransaction();
 			item = (Item) session
 					.createNativeQuery("SELECT * FROM items " +
-			                           "WHERE item_table_id = " + itemTableId)
+			                           "WHERE itemtableid = " + itemTableId)
 					.addEntity(Item.class).getSingleResult();
 			t.commit();
 			session.close();
@@ -67,7 +67,7 @@ public class ItemDAOImpl {
 			session = factory.openSession();
 			t = session.beginTransaction();
 			itemsList = (ArrayList<UsersItemsObject>) session
-					.createNativeQuery("SELECT * FROM users_items WHERE user_id = " + user.getId())
+					.createNativeQuery("SELECT * FROM usersitems WHERE userid = " + user.getId())
 					.addEntity(UsersItemsObject.class)
 					.getResultList();
 			t.commit();
@@ -93,7 +93,7 @@ public class ItemDAOImpl {
 			t = session.beginTransaction();
 			item = (Item) session
 					.createNativeQuery("SELECT * FROM items " +
-			                           "WHERE institution_id = '" + institutionId + "'")
+			                           "WHERE institutionid = '" + institutionId + "'")
 					.addEntity(Item.class).getSingleResult();
 			t.commit();
 			session.close();
@@ -154,8 +154,8 @@ public class ItemDAOImpl {
     		session = factory.openSession();
     		t = session.beginTransaction();
     		List<?> singleItemTableIdList = session
-    				.createNativeQuery("SELECT item_table_id FROM items " +
-    								   "WHERE institution_id = '" + insId + "'") // integer doesn't need quotes. string values do!
+    				.createNativeQuery("SELECT itemtableid FROM items " +
+    								   "WHERE institutionid = '" + insId + "'") // integer doesn't need quotes. string values do!
     				.getResultList();
     		LOGGER.info("singleItemTableIdList: " + singleItemTableIdList.get(0));
     		t.commit();
@@ -169,7 +169,7 @@ public class ItemDAOImpl {
     	return 0;
     }
 	
-    public int getItemTableIdForItemId(String item_id) {
+    public int getItemTableIdForItemId(String itemId) {
     	SessionFactory factory = null;
     	Session session = null;
     	Transaction t = null;
@@ -179,8 +179,8 @@ public class ItemDAOImpl {
     		session = factory.openSession();
     		t = session.beginTransaction();
     		List<?> singleItemIdList = session
-    				.createNativeQuery("SELECT item_table_id FROM items " +
-    								   "WHERE item_id = '" + item_id + "'") // integer doesn't need quotes. string values do!
+    				.createNativeQuery("SELECT itemtableid FROM items " +
+    								   "WHERE itemid = '" + itemId + "'") // integer doesn't need quotes. string values do!
     				.getResultList();
     		LOGGER.info("singleItemIdList: " + singleItemIdList.get(0));
     		t.commit();
@@ -205,7 +205,7 @@ public class ItemDAOImpl {
 			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> itemIds = session
-					   .createNativeQuery("SELECT item_id FROM items").getResultList();
+					   .createNativeQuery("SELECT itemid FROM items").getResultList();
 			LOGGER.info("Query executed!");
 			t.commit();
 			session.close();
@@ -242,7 +242,7 @@ public class ItemDAOImpl {
 			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> tableIds = session
-					   .createNativeQuery("SELECT id FROM items").getResultList();
+					   .createNativeQuery("SELECT itemtableid FROM items").getResultList();
 			LOGGER.info("Query executed!");
 			t.commit();
 			session.close();
@@ -278,9 +278,9 @@ public class ItemDAOImpl {
     		factory = HibernateUtilities.getSessionFactory();
     		session = factory.openSession();
     		t = session.beginTransaction();
-    		List<?> res = (List<?>) session.createNativeQuery("SELECT access_token " +
+    		List<?> res = (List<?>) session.createNativeQuery("SELECT accesstoken " +
     											              "FROM items " +
-    											              "WHERE user_id = '" + user.getId() + "'").getResultList();
+    											              "WHERE userid = '" + user.getId() + "'").getResultList();
     		t.commit();
     		session.close();
     		res.forEach(str -> {
@@ -304,9 +304,9 @@ public class ItemDAOImpl {
     		session = factory.openSession();
     		t = session.beginTransaction();
     		res = session
-    				.createNativeQuery("SELECT access_token " +
+    				.createNativeQuery("SELECT accesstoken " +
     						   		   "FROM items " +
-    						   		   "WHERE institution_id = '" + institutionId + "'").getSingleResult().toString();
+    						   		   "WHERE institutionid = '" + institutionId + "'").getSingleResult().toString();
     	} catch (HibernateException e) {
     		t.rollback();
     	} finally {
@@ -364,8 +364,9 @@ public class ItemDAOImpl {
     		// Users_institutions_ids table
     		// delete from users_institution_ids where user_id = 20 and institution_id = 'ins_3';
     		session.createQuery("DELETE FROM UsersInstitutionIdsObject " +
-			    				"WHERE user_id = " + user.getId() + " " +
-								"AND institution_id = '" + item.getInstitutionId() + "'").executeUpdate();
+			    				"WHERE userId = " + user.getId() + " " +
+								"AND institutionId = '" + item.getInstitutionId() + "'")
+					.executeUpdate();
     		//org.hibernate.query.Query query = session.createQuery("DELETE users_institution_ids WHERE institution_id = :institution_id");
     		//query.setParameter("institution_id", item.getInsitutionId());
     		//int executeResult = query.executeUpdate();
@@ -375,8 +376,8 @@ public class ItemDAOImpl {
     		// Users_accounts table
     		// delete from users_accounts where user_id = 20 and institution_id = 'ins_3';
     		session.createQuery("DELETE FROM UserAccountObject " +
-    							"WHERE user_id = " + user.getId() + " " +
-    							"AND item_table_id = " + item.getItemTableId()).executeUpdate();
+    							"WHERE userId = " + user.getId() + " " +
+    							"AND itemTableId = " + item.getItemTableId()).executeUpdate();
     		
     		LOGGER.info("... reference(s) deleted from users_accounts table...");
     		t.commit();
@@ -384,7 +385,7 @@ public class ItemDAOImpl {
     		// Users_items table
     		// delete from users_items where item_table_id = 963;
     		session.createQuery("DELETE FROM UsersItemsObject " + 
-			    				"WHERE item_table_id = " + item.getItemTableId()).executeUpdate();
+			    				"WHERE itemTableId = " + item.getItemTableId()).executeUpdate();
     		LOGGER.info("... reference(s) deleted from users_items table...");
 //    		UsersItemsObject usersItemsObj = new UsersItemsObject(item.getItemTableId(), user.getId());
 //    		session.delete(usersItemsObj);
@@ -393,7 +394,7 @@ public class ItemDAOImpl {
     		// Items_accounts table
     		// delete from items_accounts where item_table_id = 963;
     		session.createQuery("DELETE FROM ItemAccountObject " + 
-			    				"WHERE item_table_id = " + item.getItemTableId()).executeUpdate();
+			    				"WHERE itemTableId = " + item.getItemTableId()).executeUpdate();
     		LOGGER.info("... reference(s) deleted from items_accounts table...");
     		t.commit();
     		session.close();
@@ -464,9 +465,9 @@ public class ItemDAOImpl {
     		t = session.beginTransaction();
     		// Users_institutions_ids table
     		// delete from users_institution_ids where user_id = 20 and institution_id = 'ins_3';
-    		session.createQuery("DELETE FROM users_institution_ids " +
-			    				"WHERE user_id = " + user.getId() + " " +
-								"AND institution_id = '" + item.getInstitutionId() + "'").executeUpdate();
+    		session.createQuery("DELETE FROM UsersInstitutionIdsObject " +
+			    				"WHERE userId = " + user.getId() + " " +
+								"AND institutionId = '" + item.getInstitutionId() + "'").executeUpdate();
     		//org.hibernate.query.Query query = session.createQuery("DELETE users_institution_ids WHERE institution_id = :institution_id");
     		//query.setParameter("institution_id", item.getInsitutionId());
     		//int executeResult = query.executeUpdate();
@@ -502,7 +503,7 @@ public class ItemDAOImpl {
     		// Users_institutions_ids table
     		// delete from users_institution_ids where user_id = 20 and institution_id = 'ins_3';
     		session.createQuery("DELETE FROM UsersItemsObject " + 
-    				"WHERE item_table_id = " + item.getItemTableId()).executeUpdate();
+    				"WHERE itemTableId = " + item.getItemTableId()).executeUpdate();
     		LOGGER.info("... reference deleted from UsersItems table...");
     		session.getTransaction().commit();
     		return true;

@@ -50,16 +50,16 @@ public class Item implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="item_table_id")
+	@Column(name="itemtableid")
 	public int itemTableId;
 	
-	@Column(name="institution_id")
+	@Column(name="institutionid")
 	public String institutionId;
 	
-	@Column(name="item_id")
+	@Column(name="itemid")
 	public String itemId;
 	
-	@Column(name="access_token")
+	@Column(name="accesstoken")
 	public String accessToken;
 
 	public int getItemTableId() {

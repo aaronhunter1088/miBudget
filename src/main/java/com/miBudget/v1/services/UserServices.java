@@ -1,8 +1,8 @@
 package com.miBudget.v1.services;
 
-//import java.util.List;
-//
-//import org.hibernate.Session;
+import java.util.List;
+
+import org.hibernate.Session;
 
 public interface UserServices {
 
@@ -11,5 +11,5 @@ public interface UserServices {
 	 * @return
 	 * @throws Exception
 	 */
-//	public List<String> getAllUsersByCellphone(Session session) throws Exception;
+	public List<String> getAllUsersByCellphone(Session session) throws Exception;
 }
