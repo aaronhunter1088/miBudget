@@ -1,9 +1,7 @@
 package com.miBudget.v1.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.miBudget.v1.entities.Transaction;
 import com.miBudget.v1.utilities.Constants;
+import com.miBudget.v1.utilities.DateAndTimeUtility;
 import com.miBudget.v1.utilities.MiBudgetError;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,6 +22,8 @@ import org.hibernate.MappingException;
 import com.miBudget.v1.daoimplementations.MiBudgetDAOImpl;
 import com.miBudget.v1.entities.Account;
 import com.miBudget.v1.entities.User;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Servlet implementation class Register
@@ -185,7 +187,6 @@ public class Register extends HttpServlet {
 
 					HashMap<String, ArrayList<Account>> acctsAndInstitutionIdMap = new HashMap<>();
 					ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(regUser);
-
 					requestSession.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
 					requestSession.setAttribute("institutionIdsList", institutionIdsList);
 					requestSession.setAttribute("institutionIdsListSize", institutionIdsList.size());
@@ -197,7 +198,10 @@ public class Register extends HttpServlet {
 					requestSession.setAttribute("user", regUser);
 					requestSession.setAttribute("accountsSize", 0);
 					requestSession.setAttribute("isUserLoggedIn", true);
-
+					requestSession.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr());
+					requestSession.setAttribute("getTransactions", new JSONObject());
+					requestSession.setAttribute("transactionsList", new JSONArray());
+					requestSession.setAttribute("usersTransactions", new ArrayList<Transaction>()); // meant to be empty at this moment
 					LOGGER.info("Redirecting to Profile.jsp");
 					LOGGER.info(Constants.end);
 					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/view/Profile.jsp");

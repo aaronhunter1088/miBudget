@@ -37,6 +37,19 @@
 			.images {
 				display: all; /* all */
 			}
+			.center {
+				top: 50%;
+				left: 50%;
+				margin-top: -10px;
+				margin-left: -10px;
+			}
+			.box {
+				float: start;
+				padding: 0px 8px;
+				width: fit-content;
+				height: fit-content;
+				box-sizing: border-box;
+			}
 			button{
 			    height:21px; 
 			    width:100px; 
@@ -52,10 +65,15 @@
 			}
 			.mainTable, th, td {
 				border: 1px solid black;
-				visibility: show;
+				visibility: visible;
 			}
-			.innertable {
+			.transactionsTable {
 				visibility: hidden; /* visible */
+				border: 1px solid black;
+				margin-left:10px;
+				margin-top:10px;
+				margin-right:10px;
+				margin-bottom:10px;
 			}
 			p.changingText {
 				font-weight: bold;
@@ -81,7 +99,7 @@
 			}
 			.acct {}
 			.border {
-				border-style : solid;
+				border : 1px solid black;
 			}
 			::placeholder {
 				text-align: center;
@@ -131,7 +149,7 @@
 			<h3 style="display:inline;width:50%;float:left;text-align:center;">Categories</h3>
 			<h3 style="display:inline;width:50%;float:right;text-align:center;">Transactions</h3>
 
-			<div id="categoriesDiv" class="border" style="width:49%; float:left;"> <!-- 425px -->
+			<div id="categoriesDiv" class="border" style="height: 526px; width:49%; float:left;"> <!-- 425px -->
 				<p id="checked" style="float:right; font-size:90%;" value="New Category" name="newCategory">Click for Your Categories</p>
 				<br/>
 
@@ -181,7 +199,7 @@
 						<input id="transactionPrecendence" name="group1" value="precedenceName" style="float:right;" type="radio"/>
 						<p style="float:left;">If a transactions name is like:</p>
 						<br/>
-						<div class="input-group" style="right:10px;">
+						<div class="input-group" style="right:0px;">
 							 <span class="input-group-addon">
 							 	<i id="glyphiconRemove" onclick="clearInput('merchantsName2')" class="glyphicon glyphicon-remove"></i>
 							 </span>
@@ -190,7 +208,7 @@
 					</div>
 					<br/>
 					<br/>
-					<div id="currentRules" style="height: 90px; width:99%; overflow: scroll;">
+					<div id="currentRules" style="height: 90px; width:99%; overflow-y: scroll;">
 						<p>This div should be scrollable</p>
 						<p>It will dynamically list the rules the user has added to a new category.</p>
 						<p>Once rule is saved, user should have the freedom to edit any value right there. When category is saved the last
@@ -213,8 +231,8 @@
 				<!-- <form id="currentCategoryForm" onsubmit="" method="post" action="CAT"> -->
 				<div id="currentCategoryDiv" style="width:99%;">
 					<div class="input-control">
-						<input id="currentCategory"  class="form-control" list="categories" type="text" style="width:244px; width:99%;" placeholder="Choose a Category" tabindex="1" name="categoryName" required/>
-						<datalist id="categories">
+						<input id="currentCategory"  class="form-control" list="categories1" type="text" style="width:244px; width:99%;" placeholder="Choose a Category" tabindex="1" name="categoryName" required/>
+						<datalist id="categories1">
 							<% ArrayList<Category> categoriesList = miBudgetDAOImpl.getAllCategories(user);
 								for (Category cat : categoriesList) { %>
 							<option value="<%= cat.getName() %>">
@@ -298,7 +316,7 @@
 			<!-- Form Line Divider -->
 			
 			<!-- Start Transactions Div -->		
-			<div id="transactionsDiv" class="border" style="width:49%; float:right;"> 
+			<div id="transactionsDiv" class="border" style="heighbt: 526px; width:49%; float:right;">
 				<div id="getTransactionsDiv" style="width:99%; text-align:center;">
 					<div style="margin: auto; text-align: center; display: flex; flex-direction: row;">
 						<input style="display: block;" title="The From Date is not required" class="form-control" id="FromDate" name="FromDate" placeholder="From" required="" tabindex="#" type="text" value=""><br>
@@ -315,7 +333,6 @@
 						   <% } %>
 
 					</datalist>
-
 					<input type="hidden" name="validated" value="false"/>
 					<input type="hidden" name="formId" value="transactions"/>
 					<div style="margin: auto; text-align: right; display: flex; flex-direction: row;">
@@ -324,19 +341,66 @@
 						<input type="hidden" id="currentAccountHidden" name="currentAccountHidden" value=""/> 
 						<input id="getTransactions" type="submit" title="Get Transactions" onclick="validateFields('get transactions')" class="form-control" style="width:130px; display: block;" value="Get Transactions"/>
 					</div>
-					
 				</div> <!-- end getTransactionsDiv -->
+				<div id="displayTransactionsDiv" style="height: 526px; width:100%; overflow-y:scroll; ">
+					<%
+								// Java code here
+								ArrayList<Transaction> transactions = (ArrayList<Transaction>) session.getAttribute("usersTransactions");
+								for (int i = 0; i < transactions.size(); i++) {
+									Transaction transaction = transactions.get(i);%>
+						<div id="transactionTicket" class="transactionsTable" name="transactionTicket" >
+							<!-- new table to use -->
+							<table id="transactionsTable" name="transactionsTable" style="width:100%;">
+								<tr id="header" name="">
+									<th colspan="2">
+										<h4 id="TransactionMapping" style="text-align: center">Transaction Map</h4>
+									</th>
+								</tr>
+								<tr id="row1">
+									<td>
+										<!-- Merchant Name: <merchantName> (Editable) -->
+										<label for="merchantName" style="margin-left:10px;">Merchant Name:</label>
+										<input type="text" style="float: right; text-align:right;" id="merchantName" value="<%= transaction.getName() %>"/>
+									</td>
+								</tr>
 
-				<!-- new table to use -->
-				<table id="transactionsTable" name="transactionsTable" style="margin: auto; text-align: center; display: flex; height: 489px;
-																			  width:99%; overflow-y: scroll; flex-direction: column; flex-flow: row wrap;">
-				</table> <!-- end transactionsTable -->
+								<tr id="row2">
+									<td>
+										<!-- Amount: <amount> (Non-editable) -->
+										<label for="amount" style="margin-left:10px;">Amount:</label>
+										<input type=text" style="float: right; text-align:right;" id="amount" value="<%= transaction.getAmount() %>"/>
+									</td>
+								</tr>
 
-				<!--
-				<div id="transactionsList" style="">
-				</div> end transactionsList
-				-->
+								<tr id="row3" style="margin-left:10px;">
+									<td>
+										<!-- TODO: change to aggregated list -->
+										<datalist id="categories2"></datalist>
+										<input id="categorySelected" name="categorySelected" value=""
+											   title="Choose a Category" class="form-control" list="categories1" type="text"
+											   style="display: block; text-align:left;" placeholder="Choose a Category" tabindex="#" required/>
+									</td>
+								</tr>
 
+								<tr id="row4">
+									<td>
+										<div style="display:block; position:relative; width:100%; text-align:center; overflow:auto;" scope="row">
+											<form id="updateTransactions" method="post" action="CAT">
+												<input type="hidden" name="transactionId" value="<%= transaction.getTransactionId() %>"></input>
+												<input type="submit" value="Ignore" tabindex="#" onclick="updateUsersTransactions(<%= transaction.getTransactionId() %>, 'ignore')"></input>
+												<input type="submit" value="Mark as Bill" tabindex="#" onclick="updateUsersTransactions(<%= transaction.getTransactionId() %>, 'bill')"></input>
+												<input type="submit" value="Mark as Income" tabindex="#" onclick="updateUsersTransactions(<%= transaction.getTransactionId() %>, 'income')"></input>
+												<input type="submit" value="Save to Category" tabindex="#" onclick="updateUsersTransactions(<%= transaction.getTransactionId() %>, 'save')"></input>
+											</form>
+
+										</div>
+										<% if (i != transactions.size()-1) {%> <hr size="4"/> <% } %>
+									</td>
+								</tr>
+							</table> <!-- end transactionsTable -->
+						</div> <!-- name="transactionsTicket -->
+					<% } %>
+				</div>
 			</div> <!-- end transactionsDiv -->
 			
 		</div> <!-- end MainDiv -->
@@ -345,6 +409,25 @@
 		<br/>
 		<p id="date" class="footer" style="text-align:center">${dateAndTime}</p>
 		<script>
+			function updateUsersTransactions(transactionid, methodName) {
+				$.ajax({
+					'type': "POST",
+					'url': "CAT",
+					'data': {
+						'transactionId': transactionid,
+						'methodName': methodName
+					},
+					'success': function () {
+						updateTransactionsTable();
+						location.reload();
+						console.log("call to CAT was successful.");
+					},
+					'fail': function(response) {
+						console.log("failed to perform Post to CAT");
+						console.log(response);
+					}
+				});
+			}
 			function clearInput(input) {
 				//alert("Clearing this text box.")
 				var target = input;
@@ -374,22 +457,17 @@
 				if (formName == "transactions") {
 					let fromDate = $("#FromDate").val();
 					let toDate = $("#ToDate").val();
-
 					console.log("fromDate: " + fromDate + "\ntoDate: " + toDate);
-					
 					// Check transactions count has value
 					let count = $("#numberOfTrans").val();
-			
 					if (count === "undefined") {
 						count = 0
 						console.log("count: " + count);
 					} else {
 						console.log("count: " + count);
 					}
-			
 					// Check that an account was chosen
-					let accountName = $('#currentAccountHidden').val() 
-			
+					let accountName = $('#currentAccountHidden').val()
 					if (accountName === "undefined" || accountName === "" || accountName == null) {
 						console.log("accountName: " + null);
 						validate = false;
@@ -417,13 +495,10 @@
 								'formName': formName,
 								'methodName': methodName
 					        },				    
-					        'success': function (data) {
-						        console.log("call to CAT was successful.");
-						        //console.log(JSON.stringify(data));
-						        //console.log(data);
-								$("[id='transactionsTable']").children().remove();
-								updateTransactionsTable(data);
-								//reloadPage();
+					        'success': function () {
+						        updateTransactionsTable();
+								location.reload();
+								console.log("call to CAT was successful.");
 					        },
 					        'fail': function(response) {
 								console.log("failed to perform Post to CAT");
@@ -437,41 +512,10 @@
 				}
 			}; //validate fields
 
-			function updateTransactionsTable(data) {
-				//console.log("Now to simple build the table with: " + data);
-				var object = JSON.parse(data);
-				var transactions = object.Transactions;
-				var count = transactions.length;
-				var i;
-				var transactionsTable = $("[id='transactionsTable']");
-
-				console.log(transactionsTable != null ? 'TABLE OBTAINED' : 'TABLE NOT OBTAINED');
-				// add logic so when a new bank is chosen, the previous transactions go away, and loads only the new transactions
-				for (i=0; i<count; i++) {
-					//var transactionRow = $("[name='formForTransaction']").attr('name');
-					//console.log(transactionRow == 'formForTransaction' ? 'FORM ATTAINED!' : 'DO NOT HAVE FORM');
-					// add to transactionRow
-					let transaction = transactions[i];
-					//console.log('transaction: ' + transaction);
-					let listOfCategoriesForTransaction = transaction.category;
-					//console.log('categories for transaction: ' + listOfCategoriesForTransaction);
-
-					//let categoriesToShowInTable = combineCategories(listOfCategoriesForTransaction, <% user.getCategories(); %>);
-
-					if (i != 0) {
-					    transactionsTable.append('<br>')
-						transactionsTable.append('<br>')
-					}
-					<!-- Merchant Name \t Price  -->
-					transactionsTable.append('<tr> <td> <label for="merchantName">Merchant Name:</label> <input type="text" id="merchantName" value="' + transaction.name + '"/> </td> </tr>');
-
-					transactionsTable.append('<tr> <td> <label for="amount">Amount:</label> <input type=text" id="price" value="' + transaction.amount + '"/></td>');
-
-					transactionsTable.append('<tr> <td> <datalist id="categories"></datalist> <input id="categorySelected" name="categorySelected" value="" title="Choose a Category" class="form-control" list="categories" type="text" style="display: block;" placeholder="Choose a Category" tabindex="#" required/> </td> </tr>');
-					transactionsTable.append('<tr> <td> &#8203; </td> </tr>')
-					transactionsTable.append('<tr> <td> <button type="submit" style="float:left; left:19%; white-space: nowrap;" tabindex="#" id="ignoreTransaction">Ignore</button><button type="submit" style="float:left; left:60%; width:150px; white-space: nowrap;" tabindex="#" id="saveTransactionMap">Save To Category</button> </td> </tr>');
-				}
-				transactionsTable.show();
+			function updateTransactionsTable() {
+				let displayTransactionsDiv = $("[id='displayTransactionsDiv']")
+				displayTransactionsDiv.hide();
+				displayTransactionsDiv.show();
 			}
 			function combineCategories(array1, array2) {
 				var result_array = [];
@@ -549,18 +593,17 @@
 		            }
 				} 
 				
-				$("#transactions").find('input[name=numberOfTrans]').on('change', function () {
+				/** $("#transactions").find('input[name=numberOfTrans]').on('change', function () {
 					if ($("#transactions").find('input[name=numberOfTrans]').val() == "") {
 						$("#transactions").find('input[name=validated]').val("false");
 					}
-				});
+				}); */
 				
-				$("#transactions").find('input[id=currentAccount]').on('change', function () {
+				/** $("#transactions").find('input[id=currentAccount]').on('change', function () {
 					if ($("#transactions").find('input[id=currentAccount]').val() == "" || 
 						$("#transactions").find('input[id=currentAccount]').val() == "Choose an Account" )
-		
 						$("#transactions").find('input[name=validated]').val("false");
-				});
+				}); */
 				
 				var categoriesMap = function () {
 				    var categoriesM = new Map();
@@ -591,7 +634,7 @@
 				console.log(categoriesMap);
 				
 				$("#currentCategoryDiv").hide();
-				$("#transactionsTable").hide();
+				//$("#transactionsTable").hide();
 		
 				$("#checked").on("mouseover", function() {
 					 document.body.style.cursor="pointer";
@@ -636,9 +679,10 @@
 							case "Subscriptions" : $("#budgetedAmt").val(budgetText); $('[id="currentCurrency"]').val(currency); break;
 							case "Bills" : $("#budgetedAmt").val(budgetText); $('[id="currentCurrency"]').val(currency); break;
 						}		
-					} else {
+					}
+					else {
 						$("#budgetedAmt").val("");
-						$("#currentCurreny").val("");
+						$("#currentCurrency").val("");
 					}	
 					
 				});

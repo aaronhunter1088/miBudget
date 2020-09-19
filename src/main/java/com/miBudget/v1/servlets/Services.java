@@ -87,6 +87,8 @@ public class Services extends HttpServlet {
 				case "getTransactions" : transactionsList = miBudgetDAOImpl.getTransactions(request);
 										 res = changeToJsonString(transactionsList);
 										 break;
+
+
 			}
 			
 			

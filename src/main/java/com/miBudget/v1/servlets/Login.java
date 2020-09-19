@@ -140,10 +140,7 @@ public class Login extends HttpServlet {
 				session = request.getSession(true);
 			}
 			// Update time
-        	Calendar cal = Calendar.getInstance();
-        	Date now = new Date();
-        	cal.setTime(now);
-			ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(loginUser);
+        	ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(loginUser);
 			session.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
 			session.setAttribute("institutionIdsList", institutionIdsList);
 			session.setAttribute("institutionIdsListSize", institutionIdsList.size());
@@ -155,10 +152,10 @@ public class Login extends HttpServlet {
 			session.setAttribute("user", loginUser); 
 			session.setAttribute("accountsSize", accountsTotal);
 			session.setAttribute("isUserLoggedIn", true);
-			session.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr(cal));
+			session.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr());
 			session.setAttribute("getTransactions", new JSONObject());
 			session.setAttribute("transactionsList", new JSONArray());
-		    
+			session.setAttribute("usersTransactions", new ArrayList<Transaction>()); // meant to be empty at this moment
 			LOGGER.info("Redirecting to Profile.jsp");
 			LOGGER.info(Constants.end);
 			//response.sendRedirect("/WEB-INF/view/Profile.jsp");

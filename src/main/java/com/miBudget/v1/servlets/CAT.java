@@ -2,6 +2,7 @@ package com.miBudget.v1.servlets;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,11 +25,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.miBudget.v1.utilities.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 
 import com.miBudget.v1.daoimplementations.AccountDAOImpl;
@@ -105,7 +107,7 @@ public class CAT extends HttpServlet {
 	 */
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		LOGGER.info("--- START ---");
+		LOGGER.info(Constants.start);
 		LOGGER.info("Inside the Categories and Transactions or, CAT doPost() servlet.");
 		HttpSession session = request.getSession(false);
 		if (session.getId() != session.getAttribute("sessionId")) {
@@ -114,7 +116,6 @@ public class CAT extends HttpServlet {
 		} else {
 			LOGGER.info("valid active session");
 		}
-		
 		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		User user = (User) session.getAttribute("user");
 		String acctName = null;
@@ -196,25 +197,24 @@ public class CAT extends HttpServlet {
 						try {
 							transactionDate = sdf.parse(transaction.getDate());
 						} catch (ParseException pe) { LOGGER.error("Failed to parse transactionDate"); }
-						com.miBudget.v1.entities.Transaction newTransaction = new com.miBudget.v1.entities.Transaction(
-							transaction.getTransactionId(), 
-							transaction.getAccountId(),
-							transaction.getName(), 
-							transaction.getAmount(), 
-							miBudgetLocation, 
-							transaction.getCategory(), 
-							transactionDate
+						finalTransactionsList.add(new com.miBudget.v1.entities.Transaction(
+								transaction.getTransactionId(),
+								transaction.getAccountId(),
+								transaction.getName(),
+								transaction.getAmount(),
+								miBudgetLocation,
+								transaction.getCategory(),
+								transactionDate)
 						);
-						finalTransactionsList.add(newTransaction);
 					}
 					// Return to UI a JsonObject with one property, Transactions, which is a List of Transaction objects
 					JSONObject jsonObject = new JSONObject().put("Transactions", finalTransactionsList);
 					session.setAttribute("getTransactions", jsonObject);
 					customTextForResponse.append(jsonObject);
-					session.setAttribute("transactionsList", finalTransactionsList);
+					session.setAttribute("usersTransactions", finalTransactionsList);
 					response.setStatus(HttpServletResponse.SC_OK);
 					response.getWriter().append(customTextForResponse);
-					LOGGER.info("finalTransactionsList: {}", jsonObject.toString());
+					LOGGER.info("usersTransactions: {}", jsonObject.toString());
 					
 				} else {
 					LOGGER.error("raw: {}", transactionsGetResponse.raw());
@@ -224,12 +224,21 @@ public class CAT extends HttpServlet {
 				LOGGER.info("--- END ---");
 				//response.getWriter().append("\naccountName: " + acctName + "\ntransactionsReq: " + transactionsRequested + "\nmethodName: " + methodName);
 			}
+			else if (request.getParameter("methodName").equals("ignore")) {}
+			else if (request.getParameter("methodName").equals("bill")) {}
+			else if (request.getParameter("methodName").equals("income")) {}
+			else if (request.getParameter("methodName").equals("save")) {}
 		}
 		else {
 			LOGGER.info("--- END ---");
 			response.setStatus(HttpServletResponse.SC_ACCEPTED);
 			response.getWriter().append("No response set");
 		}
+	}
+
+	private Transaction createNewTransaction(org.json.simple.JSONObject object) {
+		return new Transaction((String)object.get("transactionid"), (String)object.get("accountid"), (String)object.get("name"), (double)object.get("amount"),
+								(Location) object.get("location"), (ArrayList<String>)object.get("categories"), (Date)object.get("date"));
 	}
 	
 	public Location convertLocation(TransactionsGetResponse.Transaction.Location location) {

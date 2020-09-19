@@ -1,6 +1,7 @@
 package com.miBudget.v1.utilities;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,8 +13,14 @@ public class DateAndTimeUtility {
 		System.setProperty("appName", "miBudget");
 		LOGGER = LogManager.getLogger(DateAndTimeUtility.class);
 	}
+
+	public static String getDateAndTimeAsStr() {
+		return getDateAndTimeAsStr(Calendar.getInstance());
+	}
 	
 	public static String getDateAndTimeAsStr(Calendar cal) {
+		Date now = new Date();
+		cal.setTime(now);
 		String dateAndTimeStr = "";
 		String day = DateAndTimeUtility.convertDayToStr(cal.get(Calendar.DAY_OF_WEEK));
 		String month = DateAndTimeUtility.convertMonthToStr(cal.get(Calendar.MONTH) + 1);
