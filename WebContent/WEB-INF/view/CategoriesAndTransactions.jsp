@@ -122,7 +122,12 @@
 			    text-align: center;
 			    text-size: 30%;
 			}
-			
+			.wrap {
+				white-space: normal;
+				font-size:large ;
+				width:100px;
+				height: 50px;
+			}
 		</style>
 	</head>
 	<body style="margin:8px; overflow: auto;" class="fonta">
@@ -385,11 +390,11 @@
 							<tr id="row4">
 								<td>
 									<table class="transactionTable" style="width:100%;">
-										<tr>
-											<td><button style="display: inline-block;" tabindex="#" type="submit" onclick="updateUsersTransactions('<%= transaction.getTransactionId() %>', 'ignore')">Ignore</button></td>
-											<td><button style="display: inline-block;" tabindex="#" type="submit" onclick="updateUsersTransactions('<%= transaction.getTransactionId() %>', 'bill')">Mark as Bill</button></td>
-											<td><button style="display: inline-block;" tabindex="#" type="submit" onclick="updateUsersTransactions('<%= transaction.getTransactionId() %>', 'income')">Mark as Income</button></td>
-											<td><button style="display: inline-block;" tabindex="#" type="submit" onclick="updateUsersTransactions('<%= transaction.getTransactionId() %>', 'save')">Save to Category</button></td>
+										<tr class="wrap">
+											<td><button style="height:100%; display: inline-block;" tabindex="#" type="submit" onclick="updateUsersTransactions('<%= transaction.getTransactionId() %>', 'ignore')">Ignore</button></td>
+											<td><button style="height:100%; display: inline-block;" tabindex="#" type="submit" onclick="updateUsersTransactions('<%= transaction.getTransactionId() %>', 'bill')">Mark as Bill</button></td>
+											<td><button style="height:100%; display: inline-block;" tabindex="#" type="submit" onclick="updateUsersTransactions('<%= transaction.getTransactionId() %>', 'income')">Mark as Income</button></td>
+											<td><button style="height:100%; display: inline-block;" tabindex="#" type="submit" onclick="updateUsersTransactions('<%= transaction.getTransactionId() %>', 'save')">Save to Category</button></td>
 										</tr>
 									</table>
 								</td>
