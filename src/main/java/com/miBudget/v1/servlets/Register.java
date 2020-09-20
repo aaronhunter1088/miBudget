@@ -197,7 +197,6 @@ public class Register extends HttpServlet {
 					requestSession.setAttribute("Lastname", regUser.getLastName());
 					requestSession.setAttribute("user", regUser);
 					requestSession.setAttribute("accountsSize", 0);
-					requestSession.setAttribute("isUserLoggedIn", true);
 					requestSession.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr());
 					requestSession.setAttribute("getTransactions", new JSONObject());
 					requestSession.setAttribute("transactionsList", new JSONArray());

@@ -77,7 +77,7 @@
 		<% AccountDAOImpl accountDAOImpl = new AccountDAOImpl(); %>
 		<% ItemDAOImpl itemsDAOImpl = new ItemDAOImpl(); %>
 	
-		<form action="Profile" method="get"> <!-- think about changing this call to get -->
+		<form action="profile" method="get"> <!-- think about changing this call to get -->
 			<button type="submit">Profile Page</button>
 		</form>
 		<hr/>

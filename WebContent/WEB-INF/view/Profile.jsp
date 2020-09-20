@@ -46,7 +46,7 @@
 		</form>
 		<hr>
 		<!-- <a href="">Categories</a> -->
-		<form action="CAT" method="get">
+		<form action="cat" method="get">
 			<input style="cursor:pointer;" type="submit" value="Categories and Transactions"/>
 		</form>
 		<hr>

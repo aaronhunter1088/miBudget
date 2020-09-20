@@ -151,16 +151,15 @@ public class Login extends HttpServlet {
 			session.setAttribute("Lastname", loginUser.getLastName());
 			session.setAttribute("user", loginUser); 
 			session.setAttribute("accountsSize", accountsTotal);
-			session.setAttribute("isUserLoggedIn", true);
 			session.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr());
 			session.setAttribute("getTransactions", new JSONObject());
 			session.setAttribute("transactionsList", new JSONArray());
 			session.setAttribute("usersTransactions", new ArrayList<Transaction>()); // meant to be empty at this moment
 			LOGGER.info("Redirecting to Profile.jsp");
 			LOGGER.info(Constants.end);
-			//response.sendRedirect("/WEB-INF/view/Profile.jsp");
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/Profile.jsp" );
 			dispatcher.forward( request, response );
+			response.sendRedirect("/WEB-INF/view/Profile.jsp");
 		} else {
 			LOGGER.info("Redirecting to Register.jsp");
 			LOGGER.info(Constants.end);

@@ -61,6 +61,9 @@
 			    font-family: Arial, Helvetica, sans-serif;
 			    font-size: 1em;
 			}
+			.cursor {
+				cursor:pointer;
+			}
 			.updateButton {
 			}
 			.mainTable, th, td {
@@ -138,9 +141,9 @@
 		%>
 
 		<div id="profileDiv" style="float:left; margin-left:50px;">
-			<form action="Profile" method="get"> <!-- think about changing this call to get -->
+			<form action="profile" method="get"> <!-- think about changing this call to get -->
 <!-- 			<input class="button" type="submit" value="Profile">
- -->			<button type="submit">Profile</button>
+ -->			<button type="submit">Profile Page</button>
 			</form>
 		</div>
 		<br/>
@@ -384,17 +387,17 @@
 
 								<tr id="row4">
 									<td>
-										<div style="display:block; position:relative; width:100%; text-align:center; overflow:auto;" scope="row">
-											<form id="updateTransactions" method="post" action="CAT">
-												<input type="hidden" name="transactionId" value="<%= transaction.getTransactionId() %>"></input>
-												<input type="submit" value="Ignore" tabindex="#" onclick="updateUsersTransactions(<%= transaction.getTransactionId() %>, 'ignore')"></input>
-												<input type="submit" value="Mark as Bill" tabindex="#" onclick="updateUsersTransactions(<%= transaction.getTransactionId() %>, 'bill')"></input>
-												<input type="submit" value="Mark as Income" tabindex="#" onclick="updateUsersTransactions(<%= transaction.getTransactionId() %>, 'income')"></input>
-												<input type="submit" value="Save to Category" tabindex="#" onclick="updateUsersTransactions(<%= transaction.getTransactionId() %>, 'save')"></input>
-											</form>
-
+										<!--<div style="display:block; position:relative; width:100%; text-align:center; overflow:auto;" scope="row">-->
+										<div class="clearfix" style="display: block; position:relative; text-align: center; justify-content: space-between;">
+											<%--<form id="updateTransactions" method="get" action="cat">--%>
+												<%--<input type="hidden" name="transaction" value="<%= transaction %>">--%>
+												<button class="" tabindex="#" type="submit" onclick="updateUsersTransactions('<%= transaction %>', 'ignore')">Ignore</button>
+												<input type="submit" value="Mark as Bill" tabindex="#" onclick="updateUsersTransactions('<%= transaction %>', 'bill')">
+												<input type="submit" value="Mark as Income" tabindex="#" onclick="updateUsersTransactions('<%= transaction %>', 'income')">
+												<input type="submit" value="Save to Category" tabindex="#" onclick="updateUsersTransactions('<%= transaction %>', 'save')">
+											<%--</form>--%>
 										</div>
-										<% if (i != transactions.size()-1) {%> <hr size="4"/> <% } %>
+										<% if (i != transactions.size()-1) {%> <hr size="3"/> <% } %>
 									</td>
 								</tr>
 							</table> <!-- end transactionsTable -->
@@ -409,23 +412,30 @@
 		<br/>
 		<p id="date" class="footer" style="text-align:center">${dateAndTime}</p>
 		<script>
-			function updateUsersTransactions(transactionid, methodName) {
+			function updateUsersTransactions(transaction, methodName) {
 				$.ajax({
-					'type': "POST",
-					'url': "CAT",
-					'data': {
-						'transactionId': transactionid,
-						'methodName': methodName
-					},
-					'success': function () {
-						updateTransactionsTable();
-						location.reload();
-						console.log("call to CAT was successful.");
-					},
-					'fail': function(response) {
-						console.log("failed to perform Post to CAT");
-						console.log(response);
+					type: "Post",
+					url: "cat",
+					data: {
+						transaction: transaction,
+						methodName: methodName
 					}
+				}).success(function (response) {
+					updateTransactionsTable();
+					location.reload();
+					console.log("call to CAT was successful.");
+				}).error(function (response) {
+					var res = JSON.stringify(response.responseText);
+					res = res.substring(1, res.length -1);
+					$("[id='changingText']").text(res).css({ 'font-weight': 'bold' }).fadeOut(8000, function() {
+						$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
+								.css({ 'font-weight' : 'bold'});
+					});
+					console.log("failed to perform Post to CAT");
+				}).done(function () {
+				}).fail(function () {
+				}).always(function (response) {
+					console.log(response);
 				});
 			}
 			function clearInput(input) {
@@ -484,8 +494,8 @@
 						//$(formName).find('input[name=validated]').val("true");
 						console.log("making post request to CAT");
 						$.ajax({
-					        'type': "POST",
-					        'url': "CAT",
+					        'type': "Post",
+					        'url': "cat",
 					        'data': {
 					            'fromDate': fromDate,
                                 'toDate': toDate,
@@ -500,9 +510,8 @@
 								location.reload();
 								console.log("call to CAT was successful.");
 					        },
-					        'fail': function(response) {
+					        'error': function(response) {
 								console.log("failed to perform Post to CAT");
-								console.log(response);
 						    }
 					    });
 					}

@@ -21,7 +21,7 @@ import com.miBudget.v1.utilities.DateAndTimeUtility;
 /**
  * Servlet implementation class Welcome
  */
-@WebServlet("/Profile")
+@WebServlet("/profile")
 public class Profile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

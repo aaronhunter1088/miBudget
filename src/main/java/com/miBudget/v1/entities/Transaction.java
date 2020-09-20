@@ -1,8 +1,11 @@
 package com.miBudget.v1.entities;
 
+import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Notes
@@ -141,7 +144,45 @@ public class Transaction implements Serializable {
 		setLocation(null);
 		setCategories(null);
 	}
-	
+
+    public Transaction(JSONObject jsonObject) {
+		this(jsonObject.get("transactionId").toString(),
+			jsonObject.get("accountId").toString(),
+			jsonObject.get("name").toString(),
+			Double.parseDouble(jsonObject.get("amount").toString()),
+			(Location)jsonObject.get("location"),
+			(ArrayList<String>)jsonObject.get("defaultCategories"),
+			(Date)jsonObject.get("date"));
+    }
+
+	/**
+	 * Used to convert Object to applicable json format
+	 * @param jsonStr
+	 */
+	public Transaction(String jsonStr) {
+		this(convertObject(jsonStr));
+	}
+
+	private static JSONObject convertObject(String jsonStr) {
+		//"Transaction [transactionId=mZQerEO0NDhnXJMXL1wQT5mMererKaHMVO8A6, accountId=4Oky7aA3XDTmB3pBMEaeuwm9yj0rnphkMdM8B, name=Uber, amount=-12.49, location=Location"
+		//		+ " [address=null, city=null, state=null, zipcode=00000], defaultCategories=[Travel, Taxi], date=Wed Sep 09 00:00:00 CDT 2020]";
+		// Cut off Transaction [ and ]
+		String formattedString = jsonStr.substring(13);
+		formattedString.substring(0, formattedString.length()-1);
+		// Map values by commas
+		// [transactionId=<>, accountId=<>,
+		// name=<>, amount=<>
+		// ...]
+		ArrayList<String> tokens = Arrays.asList(formattedString.split(","));
+
+
+
+		Map map = new HashMap<String,String>();
+		for(int i=0; i<tokens.length; i++) {
+			map.put("transactionId", )
+		}
+	}
+
 	/**
 	 * return the transactionId
 	 */
@@ -257,5 +298,9 @@ public class Transaction implements Serializable {
 		return "Transaction [transactionId=" + transactionId + ", accountId=" + accountId + ", name=" + name
 				+ ", amount=" + amount + ", location=" + location + ", defaultCategories=" + defaultCategories
 				+ ", date=" + date + "]";
+	}
+
+	public JSONObject toJsonString() throws ParseException {
+		return (JSONObject) new JSONParser().parse(this.toString());
 	}
 }

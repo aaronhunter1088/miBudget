@@ -70,6 +70,7 @@ public class User implements Serializable {
 		this.email = email;
 		createAccounts();
 		createCategories();
+		setIgnoredTransactions(new ArrayList<Transaction>());
 	}
 	
 	/**
@@ -134,12 +135,13 @@ public class User implements Serializable {
 	
 	@Transient
 	private ArrayList<String> accountIds; // will become budget_ids ...
-	
+
+	@Transient
+	private ArrayList<Transaction> ignoredTransactions;
+
 	@Transient
 	private ArrayList<Category> categories;
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	public int getId() {
@@ -189,7 +191,11 @@ public class User implements Serializable {
 	private void setEmail(String email) {
 		this.email = email;
 	}
-	
+
+	public ArrayList<Transaction> getIgnoredTransactions() { return ignoredTransactions; }
+
+	public void setIgnoredTransactions(ArrayList<Transaction> ignoredTransactions) { this.ignoredTransactions = ignoredTransactions; }
+
 	public ArrayList<Category> getCategories() {
 		return categories;
 	}

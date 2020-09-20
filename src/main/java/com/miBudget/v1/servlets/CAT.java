@@ -25,10 +25,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
 import com.miBudget.v1.utilities.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.util.JsonUtils;
 import org.json.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -54,7 +56,7 @@ import retrofit2.Response;
 /**
  * Servlet implementation class CAT
  */
-@WebServlet("/CAT")
+@WebServlet("/cat")
 public class CAT extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -118,23 +120,26 @@ public class CAT extends HttpServlet {
 		}
 		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		User user = (User) session.getAttribute("user");
-		String acctName = null;
 		String acctId = null;
 		int transactionsRequested = 0;
-		String methodName = null;
+		Transaction transaction = null;
+		ArrayList<Transaction> transactions = null;
+		JSONObject jsonObject = null;
+		StringBuilder customTextForResponse = new StringBuilder();
 				
 		if (session != null && (Boolean)session.getAttribute("isUserLoggedIn") == true) {
 			// Save a new Category: methodName = Save Category
 			// Update an existing Category: methodName = Update Category
 			// Delete an existing Category: methodName = Delete Category
 			// Get Transactions: methodName = get transactions
-			
+			//final Transaction transaction = (Transaction) request.getParameter("transactionObject");
+			String methodName = request.getParameter("methodName");
 			// A valid user is requesting transactions
 			//if (request.getParameter("formName").equals("transactions")) {
-			if (request.getParameter("methodName").equals("get transactions")) {	
+			if (methodName.equals("get transactions")) {
 				java.sql.Date startDate = null, endDate = null;
 				TransactionsProcessor transactionsProcessor = new TransactionsProcessor();
-				acctName = request.getParameter("currentAccount");
+				String acctName = request.getParameter("currentAccount");
 				int itemTableId = 0;
 				// get all users accounts
 				ArrayList<UserAccountObject> usersAccts = accountDAOImpl.getAllUserAccountObjectsFromUserAndItemTableId(user, 0);
@@ -183,57 +188,75 @@ public class CAT extends HttpServlet {
 				LOGGER.info("startDate: {}", startDate);
 				
 				List<com.miBudget.v1.entities.Transaction> finalTransactionsList = new ArrayList<>();
-				StringBuilder customTextForResponse = new StringBuilder();
+
 				if (transactionsGetResponse.isSuccessful()) {
 					LOGGER.info("get transactions was successful");
 					LOGGER.info("raw: {}", ((TransactionsGetResponse)transactionsGetResponse.body()).toString());
 					LOGGER.info("count: {}", transactionsGetResponse.body().getTransactions().size());
 					List<TransactionsGetResponse.Transaction> plaidTransactions = transactionsGetResponse.body().getTransactions();
 					
-					for (TransactionsGetResponse.Transaction transaction : plaidTransactions) {
+					for (TransactionsGetResponse.Transaction transactionGetResponse : plaidTransactions) {
 						// Make a new miBudget location from object
-						Location miBudgetLocation = convertLocation(transaction.getLocation());
+						Location miBudgetLocation = convertLocation(transactionGetResponse.getLocation());
 						Date transactionDate = null;
 						try {
-							transactionDate = sdf.parse(transaction.getDate());
+							transactionDate = sdf.parse(transactionGetResponse.getDate());
 						} catch (ParseException pe) { LOGGER.error("Failed to parse transactionDate"); }
 						finalTransactionsList.add(new com.miBudget.v1.entities.Transaction(
-								transaction.getTransactionId(),
-								transaction.getAccountId(),
-								transaction.getName(),
-								transaction.getAmount(),
+								transactionGetResponse.getTransactionId(),
+								transactionGetResponse.getAccountId(),
+								transactionGetResponse.getName(),
+								transactionGetResponse.getAmount(),
 								miBudgetLocation,
-								transaction.getCategory(),
+								transactionGetResponse.getCategory(),
 								transactionDate)
 						);
 					}
 					// Return to UI a JsonObject with one property, Transactions, which is a List of Transaction objects
-					JSONObject jsonObject = new JSONObject().put("Transactions", finalTransactionsList);
+					jsonObject = new JSONObject().put("Transactions", finalTransactionsList);
 					session.setAttribute("getTransactions", jsonObject);
 					customTextForResponse.append(jsonObject);
 					session.setAttribute("usersTransactions", finalTransactionsList);
+					LOGGER.info("usersTransactions: {}", jsonObject.toString());
 					response.setStatus(HttpServletResponse.SC_OK);
 					response.getWriter().append(customTextForResponse);
-					LOGGER.info("usersTransactions: {}", jsonObject.toString());
-					
 				} else {
 					LOGGER.error("raw: {}", transactionsGetResponse.raw());
 					LOGGER.error("error body: {}", transactionsGetResponse.errorBody());
 					LOGGER.error("code: {}", transactionsGetResponse.code());
 				}
-				LOGGER.info("--- END ---");
 				//response.getWriter().append("\naccountName: " + acctName + "\ntransactionsReq: " + transactionsRequested + "\nmethodName: " + methodName);
 			}
-			else if (request.getParameter("methodName").equals("ignore")) {}
-			else if (request.getParameter("methodName").equals("bill")) {}
-			else if (request.getParameter("methodName").equals("income")) {}
-			else if (request.getParameter("methodName").equals("save")) {}
+			else if (methodName.equals("ignore")) {
+
+				try {
+					String jsonStr = request.getParameter("transaction");
+					LOGGER.debug("temp: {}", jsonStr);
+					transaction = new Transaction(jsonStr);
+					LOGGER.debug("methodName: {}, transaction: {}", methodName, transaction);
+				} catch (Exception e) {
+					LOGGER.error("gson: {}", new Gson().toJson(request.getParameter("transaction")));
+				}
+				LOGGER.info("Ignoring transaction for now: {}", transaction);
+				session.setAttribute("usersTransactions", transactions.remove(transaction.getTransactionId()));
+				ArrayList<Transaction> ignoredTransactions = new ArrayList<>();
+				ignoredTransactions.add(transaction);
+				user.setIgnoredTransactions(ignoredTransactions);
+				LOGGER.debug("user.getIgnoredTransactions: {}", Arrays.toString(user.getIgnoredTransactions().toArray()));
+				response.setStatus(HttpServletResponse.SC_OK);
+				jsonObject = new JSONObject().append("usersTransactions", transactions);
+				response.getWriter().append((CharSequence) jsonObject);
+			}
+			else if (methodName.equals("bill")) {}
+			else if (methodName.equals("income")) {}
+			else if (methodName.equals("save")) {}
 		}
 		else {
-			LOGGER.info("--- END ---");
+			LOGGER.error("Something is wrong with the session.");
 			response.setStatus(HttpServletResponse.SC_ACCEPTED);
-			response.getWriter().append("No response set");
+			response.getWriter().append("Something is wrong with the session.");
 		}
+		LOGGER.info("--- END ---");
 	}
 
 	private Transaction createNewTransaction(org.json.simple.JSONObject object) {
