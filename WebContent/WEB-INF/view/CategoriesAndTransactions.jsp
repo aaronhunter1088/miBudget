@@ -34,9 +34,6 @@
 				border-style : solid;
 				cursor:pointer;
 			}
-			.images {
-				display: all; /* all */
-			}
 			.center {
 				top: 50%;
 				left: 50%;
@@ -70,13 +67,19 @@
 				border: 1px solid black;
 				visibility: visible;
 			}
-			.transactionsTable {
-				visibility: hidden; /* visible */
-				border: 1px solid black;
+			.transactionTable {
+				visibility: hidden;
+				border:none;
+
+			}
+			.transactionTicket {
+				width:100%;
+				height:100%;
+				border: none;
 				margin-left:10px;
 				margin-top:10px;
 				margin-right:10px;
-				margin-bottom:10px;
+				margin-bottom: 10px;
 			}
 			p.changingText {
 				font-weight: bold;
@@ -108,9 +111,6 @@
 				text-align: center;
 				color: black;
 				font-weight: bold;
-			}
-			::list {
-				position: left;
 			}
 			.footer {
 			    position: fixed;
@@ -148,7 +148,7 @@
 		</div>
 		<br/>
 		<!-- Start of Main Div -->
-		<div style="width:100%; overflow: auto;">
+		<div style="width:100%;">
 			<h3 style="display:inline;width:50%;float:left;text-align:center;">Categories</h3>
 			<h3 style="display:inline;width:50%;float:right;text-align:center;">Transactions</h3>
 
@@ -319,7 +319,7 @@
 			<!-- Form Line Divider -->
 			
 			<!-- Start Transactions Div -->		
-			<div id="transactionsDiv" class="border" style="heighbt: 526px; width:49%; float:right;">
+			<div id="transactionsDiv" class="border" style="height: 526px; width:49%; float:right; overflow-y:scroll;">
 				<div id="getTransactionsDiv" style="width:99%; text-align:center;">
 					<div style="margin: auto; text-align: center; display: flex; flex-direction: row;">
 						<input style="display: block;" title="The From Date is not required" class="form-control" id="FromDate" name="FromDate" placeholder="From" required="" tabindex="#" type="text" value=""><br>
@@ -345,65 +345,67 @@
 						<input id="getTransactions" type="submit" title="Get Transactions" onclick="validateFields('get transactions')" class="form-control" style="width:130px; display: block;" value="Get Transactions"/>
 					</div>
 				</div> <!-- end getTransactionsDiv -->
-				<div id="displayTransactionsDiv" style="height: 526px; width:100%; overflow-y:scroll; ">
+				<div id="displayTransactionsDiv" style="width:98%;">
 					<%
-								// Java code here
-								ArrayList<Transaction> transactions = (ArrayList<Transaction>) session.getAttribute("usersTransactions");
-								for (int i = 0; i < transactions.size(); i++) {
-									Transaction transaction = transactions.get(i);%>
-						<div id="transactionTicket" class="transactionsTable" name="transactionTicket" >
-							<!-- new table to use -->
-							<table id="transactionsTable" name="transactionsTable" style="width:100%;">
-								<tr id="header" name="">
-									<th colspan="2">
-										<h4 id="TransactionMapping" style="text-align: center">Transaction Map</h4>
-									</th>
-								</tr>
-								<tr id="row1">
-									<td>
-										<!-- Merchant Name: <merchantName> (Editable) -->
-										<label for="merchantName" style="margin-left:10px;">Merchant Name:</label>
-										<input type="text" style="float: right; text-align:right;" id="merchantName" value="<%= transaction.getName() %>"/>
-									</td>
-								</tr>
-
-								<tr id="row2">
-									<td>
-										<!-- Amount: <amount> (Non-editable) -->
-										<label for="amount" style="margin-left:10px;">Amount:</label>
-										<input type=text" style="float: right; text-align:right;" id="amount" value="<%= transaction.getAmount() %>"/>
-									</td>
-								</tr>
-
-								<tr id="row3" style="margin-left:10px;">
-									<td>
-										<!-- TODO: change to aggregated list -->
-										<datalist id="categories2"></datalist>
-										<input id="categorySelected" name="categorySelected" value=""
-											   title="Choose a Category" class="form-control" list="categories1" type="text"
-											   style="display: block; text-align:left;" placeholder="Choose a Category" tabindex="#" required/>
-									</td>
-								</tr>
-
-								<tr id="row4">
-									<td>
-										<!--<div style="display:block; position:relative; width:100%; text-align:center; overflow:auto;" scope="row">-->
-										<div class="clearfix" style="display: block; position:relative; text-align: center; justify-content: space-between;">
-											<%--<form id="updateTransactions" method="get" action="cat">--%>
-												<%--<input type="hidden" name="transaction" value="<%= transaction %>">--%>
-												<button class="" tabindex="#" type="submit" onclick="updateUsersTransactions('<%= transaction %>', 'ignore')">Ignore</button>
-												<input type="submit" value="Mark as Bill" tabindex="#" onclick="updateUsersTransactions('<%= transaction %>', 'bill')">
-												<input type="submit" value="Mark as Income" tabindex="#" onclick="updateUsersTransactions('<%= transaction %>', 'income')">
-												<input type="submit" value="Save to Category" tabindex="#" onclick="updateUsersTransactions('<%= transaction %>', 'save')">
-											<%--</form>--%>
-										</div>
-										<% if (i != transactions.size()-1) {%> <hr size="3"/> <% } %>
-									</td>
-								</tr>
-							</table> <!-- end transactionsTable -->
-						</div> <!-- name="transactionsTicket -->
-					<% } %>
-				</div>
+					// Java code here
+					ArrayList<Transaction> transactions = (ArrayList<Transaction>) session.getAttribute("usersTransactions");
+					for (int i = 0; i < transactions.size(); i++) {
+						Transaction transaction = transactions.get(i);
+					%>
+					<div id="transactionsContainerDiv" class="" name="transactionTicket">
+						<table id="transactionsTable" class="transactionTable transactionTicket" name="transactionsTable">
+							<tr id="header" name="">
+								<th colspan="2">
+									<h4 id="TransactionMapping" style="text-align: center">Transaction <%= (i+1) %></h4>
+								</th>
+							</tr>
+							<tr id="row1">
+								<td>
+									<!-- Merchant Name: <merchantName> (Editable) -->
+									<label for="merchantName" style="margin-left:10px;">Merchant Name:</label>
+									<input type="text" style="float: right; text-align:right;" id="merchantName" value="<%= transaction.getName() %>"/>
+								</td>
+							</tr>
+							<tr id="row2">
+								<td>
+									<!-- Amount: <amount> (Non-editable) -->
+									<label for="amount" style="margin-left:10px;">Amount:</label>
+									<input type=text" style="float: right; text-align:right;" id="amount" value="<%= transaction.getAmount() %>"/>
+								</td>
+							</tr>
+							<tr id="row3" style="margin-left:10px;">
+								<td>
+									<!-- TODO: change to aggregated list
+									<datalist id="categories2"></datalist> -->
+									<input id="categorySelected" name="categorySelected" value=""
+										   title="Choose a Category" class="form-control" list="categories1" type="text"
+										   style="display: block; text-align:left;" placeholder="Choose a Category" tabindex="#" required/>
+								</td>
+							</tr>
+							<tr id="row4">
+								<td>
+									<table class="transactionTable" style="width:100%;">
+										<tr>
+											<td><button style="display: inline-block;" tabindex="#" type="submit" onclick="updateUsersTransactions('<%= transaction.getTransactionId() %>', 'ignore')">Ignore</button></td>
+											<td><button style="display: inline-block;" tabindex="#" type="submit" onclick="updateUsersTransactions('<%= transaction.getTransactionId() %>', 'bill')">Mark as Bill</button></td>
+											<td><button style="display: inline-block;" tabindex="#" type="submit" onclick="updateUsersTransactions('<%= transaction.getTransactionId() %>', 'income')">Mark as Income</button></td>
+											<td><button style="display: inline-block;" tabindex="#" type="submit" onclick="updateUsersTransactions('<%= transaction.getTransactionId() %>', 'save')">Save to Category</button></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+							<tr id="row5">
+								<td>
+									&nbsp;
+								</td>
+							</tr>
+						</table> <!-- end transactionsTicket -->
+					</div> <!-- end transactionsTable -->
+					<% if (i != (transactions.size()-1)) {%>
+					<hr size="20" style="border: 1px solid black;"/>
+					<!-- if we just printed last transaction or are printing first transaction, don't print -->
+					<% } }%>
+				</div> <!-- end transactionContainerDiv -->
 			</div> <!-- end transactionsDiv -->
 			
 		</div> <!-- end MainDiv -->
@@ -437,7 +439,7 @@
 				}).always(function (response) {
 					console.log(response);
 				});
-			}
+			};
 			function clearInput(input) {
 				//alert("Clearing this text box.")
 				var target = input;

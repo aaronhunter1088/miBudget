@@ -100,7 +100,7 @@ public class Location implements Serializable, Comparable<Location> {
 	 */
 	@Override
 	public String toString() {
-		return "Location [address=" + address + ", city=" + city + ", state=" + state + ", zipcode=" + zipcode + "]";
+		return "Location{address=" + address + ", city=" + city + ", state=" + state + ", zipcode=" + zipcode + "}";
 	}
 
 	/* (non-Javadoc)

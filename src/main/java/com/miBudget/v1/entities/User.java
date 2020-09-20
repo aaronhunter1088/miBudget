@@ -36,6 +36,8 @@ public class User implements Serializable {
 	public User(String cellphone, String password) {
 		this.cellphone = cellphone;
 		this.password = password;
+		createCategories();
+		this.ignoredTransactions = new ArrayList<>();
 	}
 	
 	/**

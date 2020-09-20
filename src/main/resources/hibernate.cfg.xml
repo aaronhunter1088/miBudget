@@ -9,7 +9,7 @@
   <property name="hibernate.connection.password">rootRoot</property> <!-- rootpassword -->
   <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
   <property name="hibernate.hbm2ddl.auto">update</property>
-  <property name="show_sql">true</property>
+  <property name="show_sql">false</property>
   <property name="format_sql">true</property>
   <!-- JDBC connection pool settings ... using built-in test pool -->
   <property name="connection.pool_size">200</property>

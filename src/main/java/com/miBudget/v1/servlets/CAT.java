@@ -228,24 +228,24 @@ public class CAT extends HttpServlet {
 				//response.getWriter().append("\naccountName: " + acctName + "\ntransactionsReq: " + transactionsRequested + "\nmethodName: " + methodName);
 			}
 			else if (methodName.equals("ignore")) {
-
-				try {
-					String jsonStr = request.getParameter("transaction");
-					LOGGER.debug("temp: {}", jsonStr);
-					transaction = new Transaction(jsonStr);
-					LOGGER.debug("methodName: {}, transaction: {}", methodName, transaction);
-				} catch (Exception e) {
-					LOGGER.error("gson: {}", new Gson().toJson(request.getParameter("transaction")));
+				LOGGER.info("methodName: {}", methodName);
+				String transactionId = request.getParameter("transaction");
+				transactions = (ArrayList<Transaction>) session.getAttribute("usersTransactions");
+				for (Transaction t : transactions) {
+					if (t.getTransactionId().equals(transactionId)) {
+						transaction = t;
+						ArrayList<Transaction> ignoredTransactions = user.getIgnoredTransactions() == null ? new ArrayList<>() : user.getIgnoredTransactions();
+						ignoredTransactions.add(transaction);
+						user.setIgnoredTransactions(ignoredTransactions);
+						LOGGER.info("ignoring this transaction: {}", transaction);
+						break;
+					}
 				}
-				LOGGER.info("Ignoring transaction for now: {}", transaction);
-				session.setAttribute("usersTransactions", transactions.remove(transaction.getTransactionId()));
-				ArrayList<Transaction> ignoredTransactions = new ArrayList<>();
-				ignoredTransactions.add(transaction);
-				user.setIgnoredTransactions(ignoredTransactions);
-				LOGGER.debug("user.getIgnoredTransactions: {}", Arrays.toString(user.getIgnoredTransactions().toArray()));
+				transactions.remove(transaction);
+				session.setAttribute("usersTransactions", transactions);
 				response.setStatus(HttpServletResponse.SC_OK);
 				jsonObject = new JSONObject().append("usersTransactions", transactions);
-				response.getWriter().append((CharSequence) jsonObject);
+				response.getWriter().append(jsonObject.toString());
 			}
 			else if (methodName.equals("bill")) {}
 			else if (methodName.equals("income")) {}

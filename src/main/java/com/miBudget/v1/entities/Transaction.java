@@ -156,34 +156,6 @@ public class Transaction implements Serializable {
     }
 
 	/**
-	 * Used to convert Object to applicable json format
-	 * @param jsonStr
-	 */
-	public Transaction(String jsonStr) {
-		this(convertObject(jsonStr));
-	}
-
-	private static JSONObject convertObject(String jsonStr) {
-		//"Transaction [transactionId=mZQerEO0NDhnXJMXL1wQT5mMererKaHMVO8A6, accountId=4Oky7aA3XDTmB3pBMEaeuwm9yj0rnphkMdM8B, name=Uber, amount=-12.49, location=Location"
-		//		+ " [address=null, city=null, state=null, zipcode=00000], defaultCategories=[Travel, Taxi], date=Wed Sep 09 00:00:00 CDT 2020]";
-		// Cut off Transaction [ and ]
-		String formattedString = jsonStr.substring(13);
-		formattedString.substring(0, formattedString.length()-1);
-		// Map values by commas
-		// [transactionId=<>, accountId=<>,
-		// name=<>, amount=<>
-		// ...]
-		ArrayList<String> tokens = Arrays.asList(formattedString.split(","));
-
-
-
-		Map map = new HashMap<String,String>();
-		for(int i=0; i<tokens.length; i++) {
-			map.put("transactionId", )
-		}
-	}
-
-	/**
 	 * return the transactionId
 	 */
 	public String getTransactionId() {
@@ -290,17 +262,27 @@ public class Transaction implements Serializable {
 		this.date = date;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
-		return "Transaction [transactionId=" + transactionId + ", accountId=" + accountId + ", name=" + name
-				+ ", amount=" + amount + ", location=" + location + ", defaultCategories=" + defaultCategories
-				+ ", date=" + date + "]";
+		return "Transaction{" +
+				"transactionId='" + transactionId + '\'' +
+				", accountId='" + accountId + '\'' +
+				", name='" + name + '\'' +
+				", amount=" + amount +
+				", location=" + location +
+				", defaultCategories=" + defaultCategories +
+				", date=" + date +
+				'}';
 	}
 
-	public JSONObject toJsonString() throws ParseException {
-		return (JSONObject) new JSONParser().parse(this.toString());
+	public String toJsonString() {
+		return new StringBuilder().append("Transaction{")
+				.append("\"transactionId\":").append(transactionId).append(",")
+				.append("\"accountId\"").append(accountId).append(",")
+				.append("\"name\"").append(name).append(",")
+				.append("\"amount\"").append(amount).append(",")
+				.append("\"location\"").append(location).append(",")
+				.append("\"defaultCategories\"").append(defaultCategories).append(",")
+				.append("\"date\"").append(date).append("}").toString();
 	}
 }
