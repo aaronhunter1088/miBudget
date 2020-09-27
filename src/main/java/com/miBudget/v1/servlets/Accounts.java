@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.miBudget.v1.utilities.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,7 +35,7 @@ import retrofit2.Response;
  * Servlet implementation class Profile
  */
 @SuppressWarnings("unused")
-@WebServlet("/Accounts")
+@WebServlet("/accounts")
 public class Accounts extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -115,7 +116,7 @@ public class Accounts extends HttpServlet {
 			else requestSession.setAttribute("change", errMsg);
 			requestSession.setAttribute("ErrMapForItems", errMapForItems);
 			LOGGER.info("Redirecting to Accounts.jsp.");
-			LOGGER.info("--- END ---");
+			LOGGER.info(Constants.end);
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/Accounts.jsp" );
 			dispatcher.forward( request, response );
 			//response.sendRedirect("Accounts.jsp");

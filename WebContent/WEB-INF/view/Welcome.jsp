@@ -15,6 +15,12 @@
 		<title>NO LONGER USED</title>
 		<link href="wallet.ico" rel="icon" type="image/x-icon">
 	</head>
+	<style>
+		<!-- NEEDED -->
+		body {
+			display: block;
+			margin: 8px;
+	</style>
 	<body>
 		<h1>Welcome, <i>${Firstname}</i> : ${accountsSize}</h1><br>
 		<%

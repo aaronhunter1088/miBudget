@@ -13,13 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.miBudget.v1.utilities.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.miBudget.v1.utilities.DateAndTimeUtility;
 
 /**
- * Servlet implementation class Welcome
+ * Servlet implementation class Profile
  */
 @WebServlet("/profile")
 public class Profile extends HttpServlet {
@@ -58,25 +59,26 @@ public class Profile extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		LOGGER.info("--- START ---");
-		LOGGER.info("\nInside the Profile doPost() servlet.");
+		LOGGER.info(Constants.start);
+		LOGGER.info("Inside the Profile doPost() servlet.");
 		HttpSession session = request.getSession(false);  
         if(session != null && (Boolean) session.getAttribute("isUserLoggedIn") == true ) {
         	LOGGER.info("requestSessionId: " + session.getId());
         	LOGGER.info("NumberOfAccounts: " + (Integer) session.getAttribute("accountsSize"));
         	LOGGER.info("Redirecting to Profile.jsp");
-        	LOGGER.info("--- END ---");
+
         	// Update time
         	Calendar cal = Calendar.getInstance();
         	Date now = new Date();
         	cal.setTime(now);
         	session.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr(cal));
-        	getServletContext().getRequestDispatcher("/Profile.jsp").forward(request, response);
+        	getServletContext().getRequestDispatcher("/WEB-INF/view/Profile.jsp").forward(request, response);
+			LOGGER.info(Constants.end);
         }  
         else { 
         	LOGGER.info("User may not be logged in/Session may have ended");
         	LOGGER.info("Redirecting to Login.html");
-        	LOGGER.info("--- END ---");
+        	LOGGER.info(Constants.end);
             response.sendRedirect("Login.html");
         }
 	}

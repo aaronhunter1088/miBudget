@@ -28,6 +28,11 @@
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<style>
+			<!-- NEEDED -->
+			body {
+				display: block;
+				margin: 8px;
+			}
 			img {
 				width : 50px;
 				height: 50px;
@@ -48,11 +53,11 @@
 				box-sizing: border-box;
 			}
 			button{
-			    height:21px; 
-			    width:100px; 
-			    margin: -20px -50px; 
+			    height:21px;
+			    width:100px;
+			    margin: -20px -50px;
 			    position:relative;
-			    top:50%; 
+			    top:50%;
 			    left:50%;
 			    cursor:pointer;
 			    font-family: Arial, Helvetica, sans-serif;
@@ -64,7 +69,7 @@
 			.updateButton {
 			}
 			.mainTable, th, td {
-				border: 1px solid black;
+				border: 1px solid #000000;
 				visibility: visible;
 			}
 			.transactionTable {
@@ -130,9 +135,7 @@
 			}
 		</style>
 	</head>
-	<body style="margin:8px; overflow: auto;" class="fonta">
-		<h1 class="font1">Categories and Transactions for <i>${Firstname} ${Lastname}</i></h1>
-		<br/>
+	<body>
 		<% User user = (User)session.getAttribute("user"); %>
 		<% MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl(); %>
 		<% AccountDAOImpl accountDAOImpl = new AccountDAOImpl(); %>
@@ -142,15 +145,16 @@
 			response.setHeader("Pragma","no-cache"); //HTTP 1.0
 			response.setDateHeader ("Expires", 0);
 			//response.setIntHeader("Refresh", 1);
-            //prevents caching at the proxy server
+			//prevents caching at the proxy server
 		%>
-
-		<div id="profileDiv" style="float:left; margin-left:50px;">
-			<form action="profile" method="get"> <!-- think about changing this call to get -->
-<!-- 			<input class="button" type="submit" value="Profile">
- -->			<button type="submit">Profile Page</button>
-			</form>
-		</div>
+		<h1 class="font1">Categories and Transactions for <i>${Firstname} ${Lastname}</i></h1>
+		<br/>
+		<form action="profile" method="get"> <!-- think about changing this call to get -->
+			<button type="submit">Profile Page</button>
+		</form>
+		<hr/>
+		<!-- TODO: Implement changingText on every page -->
+		<p id="changingText" class="changingText"><b>${change}</b></p>
 		<br/>
 		<!-- Start of Main Div -->
 		<div style="width:100%;">
@@ -367,15 +371,15 @@
 							<tr id="row1">
 								<td>
 									<!-- Merchant Name: <merchantName> (Editable) -->
-									<label for="merchantName" style="margin-left:10px;">Merchant Name:</label>
-									<input type="text" style="float: right; text-align:right;" id="merchantName" value="<%= transaction.getName() %>"/>
+									<label for="merchantName" style="margin-right:10px;">Merchant Name:</label>
+									<input type="text" size="70px" style="float: right; text-align:right;" id="merchantName" value="<%= transaction.getName() %>"/>
 								</td>
 							</tr>
 							<tr id="row2">
 								<td>
 									<!-- Amount: <amount> (Non-editable) -->
-									<label for="amount" style="margin-left:10px;">Amount:</label>
-									<input type=text" style="float: right; text-align:right;" id="amount" value="<%= transaction.getAmount() %>"/>
+									<label for="amount" style="margin-right:10px;">Amount:</label>
+									<p style="float: right; text-align:right;" id="amount"><%= transaction.getAmount() %></p>
 								</td>
 							</tr>
 							<tr id="row3" style="margin-left:10px;">
@@ -384,17 +388,17 @@
 									<datalist id="categories2"></datalist> -->
 									<input id="categorySelected" name="categorySelected" value=""
 										   title="Choose a Category" class="form-control" list="categories1" type="text"
-										   style="display: block; text-align:left;" placeholder="Choose a Category" tabindex="#" required/>
+										   style="display: block; margin-right:10px;" placeholder="Choose a Category" tabindex="#" required/>
 								</td>
 							</tr>
 							<tr id="row4">
 								<td>
 									<table class="transactionTable" style="width:100%;">
 										<tr class="wrap">
-											<td><button style="height:100%; display: inline-block;" tabindex="#" type="submit" onclick="updateUsersTransactions('<%= transaction.getTransactionId() %>', 'ignore')">Ignore</button></td>
-											<td><button style="height:100%; display: inline-block;" tabindex="#" type="submit" onclick="updateUsersTransactions('<%= transaction.getTransactionId() %>', 'bill')">Mark as Bill</button></td>
-											<td><button style="height:100%; display: inline-block;" tabindex="#" type="submit" onclick="updateUsersTransactions('<%= transaction.getTransactionId() %>', 'income')">Mark as Income</button></td>
-											<td><button style="height:100%; display: inline-block;" tabindex="#" type="submit" onclick="updateUsersTransactions('<%= transaction.getTransactionId() %>', 'save')">Save to Category</button></td>
+											<td><button style="height:100%; display: inline-block;" tabindex="#" type="submit" onclick="performTransactionAction('<%= transaction.getTransactionId() %>', 'ignore')">Ignore</button></td>
+											<td><button style="height:100%; display: inline-block;" tabindex="#" type="submit" onclick="performTransactionAction('<%= transaction.getTransactionId() %>', 'bill')">Mark as Bill</button></td>
+											<td><button style="height:100%; display: inline-block;" tabindex="#" type="submit" onclick="performTransactionAction('<%= transaction.getTransactionId() %>', 'income')">Mark as Income</button></td>
+											<td><button style="height:100%; display: inline-block;" tabindex="#" type="submit" onclick="performTransactionAction('<%= transaction.getTransactionId() %>', 'save')">Save to Category</button></td>
 										</tr>
 									</table>
 								</td>
@@ -419,7 +423,7 @@
 		<br/>
 		<p id="date" class="footer" style="text-align:center">${dateAndTime}</p>
 		<script>
-			function updateUsersTransactions(transaction, methodName) {
+			function performTransactionAction(transaction, methodName) {
 				$.ajax({
 					type: "Post",
 					url: "cat",
@@ -429,20 +433,25 @@
 					}
 				}).success(function (response) {
 					updateTransactionsTable();
-					location.reload();
+					updateTransactionsTickets();
+					$("[id='changingText']").text(response).css({ 'font-weight': 'bold' });
+					//location.reload();
 					console.log("call to CAT was successful.");
 				}).error(function (response) {
 					var res = JSON.stringify(response.responseText);
 					res = res.substring(1, res.length -1);
-					$("[id='changingText']").text(res).css({ 'font-weight': 'bold' }).fadeOut(8000, function() {
-						$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
+					$("[id='changingText']").text(res).css({ 'font-weight': 'bold' }).fadeOut(20000, function() {
+						$("[id='changingText']").show().text('This text will change after taking an action.')
 								.css({ 'font-weight' : 'bold'});
 					});
 					console.log("failed to perform Post to CAT");
 				}).done(function () {
 				}).fail(function () {
 				}).always(function (response) {
-					console.log(response);
+					$("[id='changingText']").fadeOut(20000, function() {
+						$("[id='changingText']").show().text('This text will change after taking an action.')
+								.css({ 'font-weight' : 'bold'});
+					});
 				});
 			};
 			function clearInput(input) {
@@ -528,8 +537,15 @@
 				}
 			}; //validate fields
 
+			function updateTransactionsTickets() {
+				$('#transactionsContainerDiv:text').each(function() {
+					let length = $(this).value().length;
+					console.log($(this).value());
+					$(this).width(length+5);
+				});
+			}
 			function updateTransactionsTable() {
-				let displayTransactionsDiv = $("[id='displayTransactionsDiv']")
+				let displayTransactionsDiv = $("[id='#displayTransactionsDiv']")
 				displayTransactionsDiv.hide();
 				displayTransactionsDiv.show();
 			}
@@ -564,6 +580,7 @@
 		
 			// onReady function
 			$(function() {
+				console.log("starting onReady function...")
 				$('#currentAccount').on('input',function() {
 				    var opt = $('option[value="'+$(this).val()+'"]');
 				    var acct = opt.attr('value');
@@ -574,6 +591,18 @@
 				  });
 				$( "#FromDate" ).datepicker();
 				$( "#ToDate" ).datepicker();
+
+				/*let text = $("[id='changingText']").text();
+				if (text != 'This text will change after taking an action.') {
+					// Default
+					$("[id='changingText']").fadeOut(20000, function() {
+						$("[id='changingText']").text('This text will change after taking an action.')
+								.css({ 'font-weight' : 'bold'});
+					});
+				} else {
+					// Don't fade the text
+				}*/
+
 			    var acctsAndInsIdMap = function () {
 					var list = [];
 					var map = new Map();
@@ -712,7 +741,6 @@
 						console.log("user still needs to provide a category name");
 					}
 				});
-				
 				// Last line of on ready function
 			});  // End on ready function
 		</script>

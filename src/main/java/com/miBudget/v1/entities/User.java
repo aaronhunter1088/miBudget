@@ -138,8 +138,11 @@ public class User implements Serializable {
 	@Transient
 	private ArrayList<String> accountIds; // will become budget_ids ...
 
-	@Transient
+	@Transient // will need to persist
 	private ArrayList<Transaction> ignoredTransactions;
+
+	@Transient // will need to persist
+	private ArrayList<Transaction> bills;
 
 	@Transient
 	private ArrayList<Category> categories;
@@ -198,6 +201,12 @@ public class User implements Serializable {
 
 	public void setIgnoredTransactions(ArrayList<Transaction> ignoredTransactions) { this.ignoredTransactions = ignoredTransactions; }
 
+	public ArrayList<Transaction> getBills() { return bills; }
+
+	public void setBills(ArrayList<Transaction> bills) {
+		this.bills = bills;
+	}
+
 	public ArrayList<Category> getCategories() {
 		return categories;
 	}
@@ -234,7 +243,7 @@ public class User implements Serializable {
 	/**
 	 * Sets the item for the user
 	 * itemSepcifics is : access token, item id, request id
-	 * @param itemSpecifics
+	 *
 	 */
 	public void setAccountIds(ArrayList<String> accountIds) {
 		if (accountIds == null) {

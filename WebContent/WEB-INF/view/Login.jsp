@@ -5,7 +5,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Login - NO LONGER USED</title>
+    <style>
+        <!-- NEEDED -->
+        body {
+            display: block;
+            margin: 8px;
+        }
+    </style>
 </head>
+
 <body bgcolor="#32CD32">
 <h1>Login</h1>	
 <form action="Login" method="post" action="Profile.jsp">

@@ -189,5 +189,23 @@ public class UserAccountObject implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "UserAccountObject{" +
+				"usersaccountsid=" + usersaccountsid +
+				", userId=" + userId +
+				", accountId='" + accountId + '\'' +
+				", availableBalance=" + availableBalance +
+				", currencyCode='" + currencyCode + '\'' +
+				", currentBalance=" + currentBalance +
+				", limit=" + limit +
+				", itemTableId=" + itemTableId +
+				", mask='" + mask + '\'' +
+				", nameOfAccount='" + nameOfAccount + '\'' +
+				", officialName='" + officialName + '\'' +
+				", type='" + type + '\'' +
+				", subType='" + subType + '\'' +
+				'}';
+	}
 }

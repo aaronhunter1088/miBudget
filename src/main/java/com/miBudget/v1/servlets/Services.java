@@ -47,7 +47,7 @@ public class Services extends HttpServlet {
 		Gson gson = new Gson();
 		String srcAsJson = gson.toJson(src);
 		LOGGER.info("Object as Json String");
-		LOGGER.info(srcAsJson);
+		//LOGGER.info(srcAsJson);
 		if (srcAsJson.equals("{}")) {
 			// empty map. return blank string
 			return "";

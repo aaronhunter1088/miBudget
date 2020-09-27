@@ -82,8 +82,8 @@ public class Delete extends HttpServlet {
 		ArrayList<String> list = new ArrayList<>();
 		list.add(accountId);
 		Account account = accountDAOImpl.getAllAccounts(list).get(0);
-		if (!account.getAccountId().equals(accountId)) LOGGER.info("Wrong account received!!");
-		LOGGER.info("\nAttempting to delete: " + account);
+		if (!account.getAccountId().equals(accountId)) LOGGER.error("Wrong account received!!");
+		LOGGER.info("Attempting to delete: " + account);
 		HttpSession session = request.getSession(false);  
 		HashMap<String, Object> deleteResponse = new HashMap<String, Object>();
 		

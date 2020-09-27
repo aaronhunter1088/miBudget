@@ -4,8 +4,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Forgot Password</title>
 </head>
+<title>Forgot Password</title>
+<style>
+    <!-- NEEDED -->
+    body {
+        display: block;
+        margin: 8px;
+    }
+</style>
 <body bgcolor="#32CD32">
 
 <h1>Forgot Password</h1>

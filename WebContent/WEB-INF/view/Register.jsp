@@ -7,6 +7,10 @@
 <style>
 ::placeholder {
 	color: black;
+<!-- NEEDED -->
+body {
+	display: block;
+	margin: 8px;
 }
 </style>
 </head>

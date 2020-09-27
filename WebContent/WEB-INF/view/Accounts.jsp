@@ -23,14 +23,17 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
 		<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
 	    <style>
+			<!-- NEEDED -->
+			body {
+				display: block;
+				margin: 8px;
+			}
+
 			img {
 				width : 50px;
 				height: 50px;
 				border-style : solid;
 				cursor:pointer;
-			}
-			.images {
-				display: all; /* all */
 			}
 			button {
 				cursor:pointer;
@@ -82,8 +85,6 @@
 		</form>
 		<hr/>
 		<button id="link-button">Link Account</button>
-		<hr/>
-		<button id="testButton" onclick="reloadPage()">Update Page</button>
 		<hr/>
 		<!-- TODO: Implement changingText on every page -->
 		<p id="changingText" class="changingText"><b>${change}</b></p>
@@ -199,7 +200,7 @@
 		
 		<script>
 			$("img").on("click", function() {
-				console.log('inside click()');
+				//console.log('inside click()');
 				$(".outerTable").hide();
 				$(".innerTable").show();
 			});
@@ -216,9 +217,9 @@
 			function deleteBank(institutionId) {
 				var bankName = getInstitutionNameFromId(institutionId);
 				var ans = "";
-				console.log('bankName: ' + bankName);
+				//console.log('bankName: ' + bankName);
 				ans = prompt('WARNING! You are about to delete your \'' + bankName + '\' bank. Are you sure you want to continue? Enter: \'Yes\' to confirm.', '');
-				console.log('answer: ' + ans);
+				//console.log('answer: ' + ans);
 
 				if (ans == 'Yes'.toLowerCase() && ans != null) {
 					console.log('Making a post request to Delete to delete this single ' + bankName + ' account.');
@@ -236,26 +237,26 @@
 				return false;
 			};
 			function resetParagraphs(metadata_accounts_length) {
-				console.log("Inside resetParagraphs");
+				//console.log("Inside resetParagraphs");
 				var usersAccounts = <%= user.getAccountIds().size() %>;
-				console.log("usersAccounts: " + usersAccounts);
+				//console.log("usersAccounts: " + usersAccounts);
 				var strAccounts = (usersAccounts == 1) ? ' account!' : ' accounts!';
 				$('#accounts').text('Accounts - ' + usersAccounts);
 		        $('#changingText').text('You have successfully loaded ' + metadata_accounts_length + strAccounts);
 			};
 			function updateBanksTable() {
-				console.log('Inside updateBanksTable()...');
+				//console.log('Inside updateBanksTable()...');
 				var firstRowText = $("[id='bank']").attr('id');
-				console.log(firstRowText == 'bank' ? 'ROW ATTAINED!' : 'DO NOT HAVE ROW')  ;
+				//console.log(firstRowText == 'bank' ? 'ROW ATTAINED!' : 'DO NOT HAVE ROW')  ;
 				$("[id='bank']").each(function() {
 					var institutionId = $(this).find('td:nth-child(1)').attr('name');
 					var row = $(this);
 					var col1 = $(this).find('td:nth-child(1)');
 					var col2 = $(this).find('td:nth-child(2)'); // Update button
 					var col3 = $(this).find('td:nth-child(3)'); // Delete button
-					console.log("cell value: " + institutionId);
+					//console.log("cell value: " + institutionId);
 					var nameOfButton = col2.attr('name');
-					console.log("button name is: " + nameOfButton); // expecting true or false
+					//console.log("button name is: " + nameOfButton); // expecting true or false
 					if (institutionId == "") { $(this).html(''); }
 					// will do for all update buttons
 					if (col2.attr('name') == "true") { col2.show(); }
@@ -314,17 +315,17 @@
 					col2.attr('name', nameOfButton);
 					col3.attr('name', nameOfButton);
 					col3Form.attr('name', nameOfButton);
-					console.log('image(button) column name is now: ' + col1.attr('name'));
-					console.log('col2 name: ' + col2.attr('name'));
-					console.log('col3 name: ' + col3.attr('name'));
-					console.log('form name: ' + col3Form.attr('name'));
+					//console.log('image(button) column name is now: ' + col1.attr('name'));
+					//console.log('col2 name: ' + col2.attr('name'));
+					//console.log('col3 name: ' + col3.attr('name'));
+					//console.log('form name: ' + col3Form.attr('name'));
 					col1.click(function() {
 						var col1 = $(this);
 						var nameOfButton = "";
 						var code = col1.html().split(" ",3).pop();
 						nameOfButton = code.substring(code.indexOf('"')+1, code.lastIndexOf('"'));
 						nameOfButton = nameOfButton.includes('_') == true ? replaceAll(nameOfButton, '_', ' ') : nameOfButton; 
-						console.log('you clicked ' + nameOfButton);
+						//console.log('you clicked ' + nameOfButton);
 						$('.outerTable').hide();
 						<%-- <tr id="acct" name="<%= currentId %>"> --%>
 						$("[id='header'] > th > h4").text(nameOfButton);
@@ -348,15 +349,15 @@
 				}); // end for each row
 			};
 			function updateAccountsTable() {
-				console.log("Inside updateAccountsTable()");
+				//console.log("Inside updateAccountsTable()");
 				<%-- <tr id="acct" name="<%= currentId %>"> 
 				id="bankName" --%>
 				$("[id='acct']").each(function() {
 					var acctRow = $(this); //$("[id='acct']")
 					var acctRowId = acctRow.attr('id');
 					var acctRowName = acctRow.attr('name');
-					console.log(acctRowId == 'acct' ? 'ROW ATTAINED!' : 'DO NOT HAVE ROW')  ;
-					console.log('acctRow name before: ' + acctRowName);
+					//console.log(acctRowId == 'acct' ? 'ROW ATTAINED!' : 'DO NOT HAVE ROW')  ;
+					//console.log('acctRow name before: ' + acctRowName);
 					switch(acctRowName) {
 						case "ins_1" :  acctRow.attr('name', 'Bank of America');
 										break;
@@ -396,7 +397,7 @@
 										break;
 						default : console.log('unknown institution.')
 					}
-					console.log("acctRow name after: \""+acctRow.attr('name')+"\"");
+					//console.log("acctRow name after: \""+acctRow.attr('name')+"\"");
 				});
 			};
 			function getInstitutionNameFromId(institutionId) {
@@ -443,8 +444,8 @@
 				return bankName;
 			};
 			function getUpdateHandler(publicToken) {
-				console.log('Inside getUpdateHandler');
-				console.log('passed in param: ' + publicToken);
+				//console.log('Inside getUpdateHandler');
+				//console.log('passed in param: ' + publicToken);
 				var thisPT = publicToken;
 				var updateHandler = Plaid.create({
 			        env: 'development',
@@ -458,39 +459,38 @@
 		   	        webhook: 'https://requestb.in',
 				    onLoad: function() {
 				      // Optional, called when Link loads
-				      console.log("loading Plaid updateHandler");
-				      console.log("using token: " + publicToken);
-				      //
+				      //console.log("loading Plaid updateHandler");
+				      //console.log("using token: " + publicToken);
 			        },
 			        onSuccess: function(thisPT, metadata) {
-			            console.log('Account reauthentication done.');
-			            console.log('metadata:');
-			            console.log(JSON.stringify(metadata));
+			            //console.log('Account reauthentication done.');
+			            //console.log('metadata:');
+			            //console.log(JSON.stringify(metadata));
 			            location.reload(true);
 			        },
 			        onExit: function(err, metadata) {
 			            if (err != null) {
 			                // The user encountered a Plaid API error prior
 		                    // to exiting.
-		    	            console.log(JSON.stringify(err));
-		    	            console.log(JSON.stringify(metadata));
+		    	            //console.log(JSON.stringify(err));
+		    	            //console.log(JSON.stringify(metadata));
 			            }
 			                // metadata contains the most recent API request ID and the
 			                // Link session ID. Storing this information is helpful
 			                // for support.
 			        }  
 			    }); // end handlerUpdate
-			    console.log('created updateHandler');
+			    //console.log('created updateHandler');
 			    return updateHandler; 
 		    	
 		    }
 			function reloadPage() {
-				console.log('running reloadPage()')
+				//console.log('running reloadPage()')
 			    $.when(reload()).done(function() {
 			    	location.reload(true);;
 				});
 			    function reload() { 
-				    console.log('running reload()');
+				    //console.log('running reload()');
 			    	return $.get("Profile",
 						function(data) {
 	
@@ -498,7 +498,7 @@
 				};
 			}
 			$(function() {
-				console.log("starting document.onload()..");
+				//console.log("starting document.onload()..");
 				$('.button').removeAttr('disabled');
 				var text = $("[id='changingText']").text();
 				var usersAccounts = <%= user.getAccountIds().size() %>;
@@ -515,8 +515,8 @@
 				matchGoodText2 = text.substring(0, goodLength2);
 				matchErrText = text.substring(text.indexOf('.')+2, errLength);
 				matchDeleteText = text.substring(0, deleteLength);
-				console.log('matchGoodText: ' + matchGoodText);
-				console.log('matchErrText: ' + matchErrText);
+				//console.log('matchGoodText: ' + matchGoodText);
+				//console.log('matchErrText: ' + matchErrText);
 				if ( matchGoodText == goodText ) {
 					$("[id='changingText']").fadeOut(8000, function() {
 						$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
@@ -682,7 +682,7 @@
 				hideInnerTable();
 				updateAccountsTable();
 				updateBanksTable();
-				console.log("jsp page has finished loading.")
+				//console.log("jsp page has finished loading.")
 		    });
 		</script>
 	</body>

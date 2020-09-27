@@ -7,6 +7,11 @@
 <title>miBudget</title>
 
 <style>
+    <!-- NEEDED -->
+    body {
+        display: block;
+        margin: 8px;
+    }
 </style>
 </head>
 <body background-image:url("/miBudget/WebContent/images/background.jpg") >

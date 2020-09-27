@@ -5,6 +5,11 @@
 		<title>Login</title>
 		<link href="images/wallet.ico" rel="icon" type="image/x-icon">
 		<style>
+			<!-- NEEDED -->
+			body {
+				display: block;
+				margin: 8px;
+			}
 		    ::placeholder {
 		   		color: black;
 		   		font-weight: bold;
@@ -17,7 +22,7 @@
 	</head>
 	<body bgcolor="#32CD32">
 		
-		<form action="Login" id="login_form" method="post" name="login_form" onsubmit="return validateFields()">
+		<form action="login" id="login_form" method="post" name="login_form" onsubmit="return validateFields()">
 			<div class="container" style="text-align: center; display: block; justify-content: space-between; width: 15%">
 				<h1>Login</h1>
 				<input name="validated" type="hidden" value="false"> <input name="btnSelected" type="hidden" value="Cancel"> <input name="Cellphone" placeholder="Enter cellphone" required="" tabindex="1" type="text" value=""><br>

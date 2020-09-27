@@ -9,6 +9,7 @@ import java.util.List;
 import java.time.*;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,7 +37,7 @@ import com.miBudget.v1.utilities.DateAndTimeUtility;
 /**
  * Servlet implementation class Login
  */
-@WebServlet("/Login")
+@WebServlet("/login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -49,7 +50,10 @@ public class Login extends HttpServlet {
 		System.setProperty("appName", "miBudget");
 		LOGGER = LogManager.getLogger(Login.class);
 	}
-    
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LOGGER.info(Constants.start);
 		LOGGER.info("Inside the Login doGet() servlet.");
@@ -57,10 +61,7 @@ public class Login extends HttpServlet {
 		LOGGER.info(Constants.end);
 		response.setStatus(HttpServletResponse.SC_OK);
 	}
-	
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+
 	//@SuppressWarnings("null")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LOGGER.info(Constants.start);
@@ -155,11 +156,11 @@ public class Login extends HttpServlet {
 			session.setAttribute("getTransactions", new JSONObject());
 			session.setAttribute("transactionsList", new JSONArray());
 			session.setAttribute("usersTransactions", new ArrayList<Transaction>()); // meant to be empty at this moment
+			session.setAttribute("usersBills", new ArrayList<Transaction>()); // meant to be empty at this moment
 			LOGGER.info("Redirecting to Profile.jsp");
 			LOGGER.info(Constants.end);
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/Profile.jsp" );
-			dispatcher.forward( request, response );
-			response.sendRedirect("/WEB-INF/view/Profile.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher( "/WEB-INF/view/Profile.jsp" );
+			dispatcher.forward(request, response);
 		} else {
 			LOGGER.info("Redirecting to Register.jsp");
 			LOGGER.info(Constants.end);

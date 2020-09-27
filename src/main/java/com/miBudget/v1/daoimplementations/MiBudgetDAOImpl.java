@@ -105,11 +105,11 @@ public class MiBudgetDAOImpl {
 					int itemTableId = ItemDAOImpl.getItemTableIdUsingInsId(id);
 					acctsList = AccountDAOImpl.getAllUserAccountObjectsFromUserAndItemTableId(user, itemTableId);
 					mapToReturn.put(id, acctsList);
-					LOGGER.info("id");
+					//LOGGER.info("id");
 					acctsList.forEach(acct -> {
 						LOGGER.info(acct);
 					});
-					LOGGER.info("");
+					//LOGGER.info("");
 				}
 			} else {
 				return mapToReturn; // empty
@@ -129,7 +129,7 @@ public class MiBudgetDAOImpl {
     	Transaction t = null;
 		ArrayList<String> institutionIds = new ArrayList<>();
 		try {
-			LOGGER.info("Attempting to get all the institutionids for " + user.getFirstName() + " " + user.getLastName());
+			//LOGGER.info("Attempting to get all the institutionids for " + user.getFirstName() + " " + user.getLastName());
 			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
@@ -137,13 +137,13 @@ public class MiBudgetDAOImpl {
 					   .createNativeQuery("SELECT institutionid FROM usersinstitutionsids "
 					   					+ "WHERE userid = " + user.getId())
 					   .getResultList();
-			LOGGER.info("Query executed.");
+			//LOGGER.info("Query executed.");
 			LOGGER.info(institutionIds.size() + " institutionids for " + user.getFirstName() + " " + user.getLastName());
 			session.getTransaction().commit();
 			session.close();
 			if (institutionIds.size() != 0) {
 				for ( String id : institutionIds) {
-					LOGGER.info("institutionid: " + id);
+					//LOGGER.info("institutionid: " + id);
 				}
 			} else {
 				LOGGER.info("Returning an empty list.");

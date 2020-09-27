@@ -5,6 +5,11 @@
 		<title>Sign Up</title>
 		<link href="images/wallet.ico" rel="icon" type="image/x-icon">
 		<style>
+			<!-- NEEDED -->
+			body {
+				display: block;
+				margin: 8px;
+			}
 			.cursor {
 		    	cursor:pointer;
 		    }
@@ -17,7 +22,7 @@
 	</head>
 	<body bgcolor="#1E90FF">
 		
-		<form action="Register" id="Register" method="post" name="Register" onsubmit="return validateFields()">
+		<form action="register" id="Register" method="post" name="Register" onsubmit="return validateFields()">
 			<div class="container" style="text-align: center; display: block; justify-content: space-between; width: 15%">
 				<h1>Sign Up</h1>
 				<input name="Validated" type="hidden" value="false"> <input name="btnSelected" type="hidden" value="Cancel"> <input name="Firstname" placeholder="Enter first name" required="required" tabindex="1" type="text"><br>

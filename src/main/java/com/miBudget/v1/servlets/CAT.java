@@ -2,6 +2,7 @@ package com.miBudget.v1.servlets;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -26,7 +27,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
+import com.miBudget.v1.entities.*;
 import com.miBudget.v1.utilities.Constants;
+import com.plaid.client.request.CategoriesGetRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,12 +41,6 @@ import org.json.simple.parser.JSONParser;
 import com.miBudget.v1.daoimplementations.AccountDAOImpl;
 import com.miBudget.v1.daoimplementations.ItemDAOImpl;
 import com.miBudget.v1.daoimplementations.MiBudgetDAOImpl;
-import com.miBudget.v1.entities.Account;
-import com.miBudget.v1.entities.Item;
-import com.miBudget.v1.entities.Location;
-import com.miBudget.v1.entities.Transaction;
-import com.miBudget.v1.entities.User;
-import com.miBudget.v1.entities.UserAccountObject;
 import com.miBudget.v1.processors.TransactionsProcessor;
 import com.plaid.client.PlaidClient;
 import com.plaid.client.request.TransactionsGetRequest;
@@ -97,11 +94,20 @@ public class CAT extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		LOGGER.info(Constants.start);
+		LOGGER.info("Inside the Categories and Transactions or, CAT doGet() servlet.");
 		HttpSession requestSession = request.getSession(false);
 		if (requestSession != null && (Boolean)requestSession.getAttribute("isUserLoggedIn") == true) {
+			requestSession.setAttribute("change", "This text will change after taking an action.");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/CategoriesAndTransactions.jsp" );
+			dispatcher.forward( request, response );
+			LOGGER.info("redirecting to cat.jsp");
+		} else {
+			LOGGER.error("session=null? : {} isUserLoggedIn? : {}", requestSession==null?true:false, requestSession.getAttribute("isUserLoggedIn"));
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/CategoriesAndTransactions.jsp" );
 			dispatcher.forward( request, response );
 		}
+		LOGGER.info(Constants.end);
 	}
 
 	/**
@@ -134,8 +140,6 @@ public class CAT extends HttpServlet {
 			// Get Transactions: methodName = get transactions
 			//final Transaction transaction = (Transaction) request.getParameter("transactionObject");
 			String methodName = request.getParameter("methodName");
-			// A valid user is requesting transactions
-			//if (request.getParameter("formName").equals("transactions")) {
 			if (methodName.equals("get transactions")) {
 				java.sql.Date startDate = null, endDate = null;
 				TransactionsProcessor transactionsProcessor = new TransactionsProcessor();
@@ -187,7 +191,7 @@ public class CAT extends HttpServlet {
 				LOGGER.info("endDate: {}", endDate);
 				LOGGER.info("startDate: {}", startDate);
 				
-				List<com.miBudget.v1.entities.Transaction> finalTransactionsList = new ArrayList<>();
+				ArrayList<Transaction> finalTransactionsList = new ArrayList<>();
 
 				if (transactionsGetResponse.isSuccessful()) {
 					LOGGER.info("get transactions was successful");
@@ -212,6 +216,8 @@ public class CAT extends HttpServlet {
 								transactionDate)
 						);
 					}
+					// TODO: Combine transactions categories to intelligently display
+					//finalTransactionsList = combineTransactions(finalTransactionsList, user.getCategories());
 					// Return to UI a JsonObject with one property, Transactions, which is a List of Transaction objects
 					jsonObject = new JSONObject().put("Transactions", finalTransactionsList);
 					session.setAttribute("getTransactions", jsonObject);
@@ -243,11 +249,32 @@ public class CAT extends HttpServlet {
 				}
 				transactions.remove(transaction);
 				session.setAttribute("usersTransactions", transactions);
+				session.setAttribute("change", "You have successfully ignored the transaction: " + transaction + ".");
+				response.setStatus(HttpServletResponse.SC_OK);
+				jsonObject = new JSONObject().append("usersTransactions", transactions);
+				response.getWriter().append("You have successfully ignored the transaction: " + transaction.getName() + " with an amount of " + transaction.getAmount() + ".");
+			}
+			else if (methodName.equals("bill")) {
+				LOGGER.info("methodName: {}", methodName);
+				String transactionId = request.getParameter("transaction");
+				transactions = (ArrayList<Transaction>) session.getAttribute("usersTransactions");
+				for (Transaction t : transactions) {
+					if (t.getTransactionId().equals(transactionId)) {
+						transaction = t;
+						ArrayList<Transaction> usersBills = user.getIgnoredTransactions() == null ? new ArrayList<>() : user.getBills();
+						usersBills.add(transaction);
+						user.setBills(usersBills);
+						LOGGER.info("adding transaction as bill: {}", transaction);
+						break;
+					}
+				}
+				transactions.remove(transaction);
+				session.setAttribute("usersTransactions", transactions);
+				session.setAttribute("change", "You have successfully added the transaction: " + transaction + " as a bill.");
 				response.setStatus(HttpServletResponse.SC_OK);
 				jsonObject = new JSONObject().append("usersTransactions", transactions);
 				response.getWriter().append(jsonObject.toString());
 			}
-			else if (methodName.equals("bill")) {}
 			else if (methodName.equals("income")) {}
 			else if (methodName.equals("save")) {}
 		}
@@ -257,11 +284,8 @@ public class CAT extends HttpServlet {
 			response.getWriter().append("Something is wrong with the session.");
 		}
 		LOGGER.info("--- END ---");
-	}
-
-	private Transaction createNewTransaction(org.json.simple.JSONObject object) {
-		return new Transaction((String)object.get("transactionid"), (String)object.get("accountid"), (String)object.get("name"), (double)object.get("amount"),
-								(Location) object.get("location"), (ArrayList<String>)object.get("categories"), (Date)object.get("date"));
+		//RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/CategoriesAndTransactions.jsp" );
+		//dispatcher.forward( request, response );
 	}
 	
 	public Location convertLocation(TransactionsGetResponse.Transaction.Location location) {
@@ -273,4 +297,28 @@ public class CAT extends HttpServlet {
 		);
 		return loc;
 	}
+
+	/*private ArrayList<Transaction> combineTransactions(ArrayList<Transaction> transactions, ArrayList<Category> usersCategories) {
+		List<String> usersCategoriesStr = new ArrayList<>();
+		for (Category category : usersCategories) {
+			usersCategoriesStr.add(category.getName());
+		}
+
+		boolean matchingCategory = false;
+		// part1 stores categories to list first, part2 holds 
+		ArrayList<Transaction> listPart1 = new ArrayList<>(), listPart2 = new ArrayList<>(), finalTransactionsList = new ArrayList<>();
+		for (Transaction transaction : transactions) {
+			List<String> transactionsCategories = transaction.getDefaultCategories();
+			for (String transactionCategoryName : transactionsCategories) {
+				for (String userCategoryName : usersCategoriesStr) {
+					if (transactionCategoryName.equals(userCategoryName)) {
+						matchingCategory = true;
+						saveCategoryToNewList(transactionCategoryName, listPart1);
+					}
+				}
+			}
+		}
+	}*/
+
+
 }
