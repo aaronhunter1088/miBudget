@@ -67,7 +67,8 @@ public class Accounts extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	@SuppressWarnings("unchecked")
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
 		LOGGER.info("--- START ---");
 		LOGGER.info("Inside Accounts doGet() servlet");
 		HttpSession requestSession = request.getSession(false);
@@ -133,7 +134,8 @@ public class Accounts extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
 		LOGGER.info("--- START ---");
 		LOGGER.info("Inside the Accounts doPost() servlet.");
 		HttpSession requestSession = request.getSession(false);  

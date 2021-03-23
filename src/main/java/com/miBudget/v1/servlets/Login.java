@@ -54,7 +54,8 @@ public class Login extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
 		LOGGER.info(Constants.start);
 		LOGGER.info("Inside the Login doGet() servlet.");
 		LOGGER.info("Redirecting to Login.html.");
@@ -63,7 +64,8 @@ public class Login extends HttpServlet {
 	}
 
 	//@SuppressWarnings("null")
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
 		LOGGER.info(Constants.start);
 		LOGGER.info("Inside Login doPost() servlet.");
 		String cellphone = request.getParameter("Cellphone");
@@ -159,6 +161,7 @@ public class Login extends HttpServlet {
 			session.setAttribute("usersBills", new ArrayList<Transaction>()); // meant to be empty at this moment
 			LOGGER.info("Redirecting to Profile.jsp");
 			LOGGER.info(Constants.end);
+			// call Profile.doGet here
 			RequestDispatcher dispatcher = request.getRequestDispatcher( "/WEB-INF/view/Profile.jsp" );
 			dispatcher.forward(request, response);
 		} else {

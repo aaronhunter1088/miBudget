@@ -195,7 +195,8 @@ public class Delete extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	@SuppressWarnings({ "unlikely-arg-type", "unchecked" })
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
 		// TODO Auto-generated method stub
 		LOGGER.info(Constants.start);
 		LOGGER.info("Inside the Delete doPost() servlet");

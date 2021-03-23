@@ -32,7 +32,8 @@ public class Profile extends HttpServlet {
 		LOGGER = LogManager.getLogger(Profile.class);
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
 		LOGGER.info("--- START ---");
 		LOGGER.info("Inside the Profile doGet() servlet.");
 		HttpSession session = request.getSession(false);
@@ -40,17 +41,14 @@ public class Profile extends HttpServlet {
 			LOGGER.info("Redirecting to Profile.jsp");
 			LOGGER.info("--- END ---");
 			// Update time
-			Calendar cal = Calendar.getInstance();
-			Date now = new Date();
-			cal.setTime(now);
-			session.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr(cal));
+			session.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr());
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/Profile.jsp" );
 			dispatcher.forward( request, response );
 		} else {
 			// User is not logged in or the session is null
 			LOGGER.info("Redirecting to Login.html");
 			LOGGER.info("--- END ---");
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "index.html" );
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "login.html" );
 			dispatcher.forward( request, response );
 		}
 	}
@@ -58,7 +56,8 @@ public class Profile extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
 		LOGGER.info(Constants.start);
 		LOGGER.info("Inside the Profile doPost() servlet.");
 		HttpSession session = request.getSession(false);  
@@ -68,10 +67,7 @@ public class Profile extends HttpServlet {
         	LOGGER.info("Redirecting to Profile.jsp");
 
         	// Update time
-        	Calendar cal = Calendar.getInstance();
-        	Date now = new Date();
-        	cal.setTime(now);
-        	session.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr(cal));
+        	session.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr());
         	getServletContext().getRequestDispatcher("/WEB-INF/view/Profile.jsp").forward(request, response);
 			LOGGER.info(Constants.end);
         }  

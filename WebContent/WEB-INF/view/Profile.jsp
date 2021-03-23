@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ page import="com.miBudget.v1.entities.User" %>
-    <%@ page import="javax.servlet.*" %>
-	<%@ page import="java.time.*" %>
-	<%@ page import="java.util.*" %>
-<!DOCTYPE>
+<%@ page import="com.miBudget.v1.entities.User" %>
+<%@ page import="javax.servlet.*" %>
+<%@ page import="java.time.*" %>
+<%@ page import="java.util.*" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
 		<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
@@ -16,6 +16,9 @@
 			body {
 				display: block;
 				margin: 8px;
+			}
+			button {
+				cursor:pointer;
 			}
 			h1.font1 {
 				font-family: "Times New Roman", Times, serif;
@@ -29,74 +32,62 @@
 			p.a {
 			    font-family: "Times New Roman", Times, serif;
 			}
-			
 			p.b {
 			    font-family: Arial, Helvetica, sans-serif;
 			}
 			.footer {
-			    position: fixed;
-			    left: 0;
-			    bottom: 0;
-			    width: 100%;
-			    background-color: white;
-			    color: black;
-			    text-align: center;
-			    text-size: 30%;
+				position: fixed;
+				display: table-cell;
+				vertical-align: middle;
+				left: 0;
+				bottom: 0;
+				height: 2.5rem;
+				width: 100%;
+				background-color: white;
+				color: black;
+				text-align: center;
 			}
 		</style>
 	</head>
 	<body>
-		<div>
-			<%
-				Calendar cal = Calendar.getInstance();
-				Date today = new Date();
-				cal.setTime(today);
-				int hours = cal.get(Calendar.HOUR_OF_DAY);
-				if (hours >= 0 && hours < 12)  { %>
-			<h1 id="greeting" class="font1">Good morning, <i>${Firstname} ${Lastname}</i></h1>
-			<% }
-			else if (hours >= 12 && hours < 16)  { %>
-			<h1 id="greeting" class="font1">Good afternoon, <i>${Firstname} ${Lastname}</i></h1>
-			<% }
-			else  { %>
-			<h1 id="greeting" class="font1">Good evening, <i>${Firstname} ${Lastname}</i></h1>
-			<% }
-			%>
-			<br/>
+		<%
+			LocalTime time = LocalTime.now();
+			int hours = time.getHour();
+			if (hours >= 0 && hours < 12)  { %>
+		<h1 id="greeting" class="font1">Good morning, <i>${Firstname} ${Lastname}</i></h1>
+		<% }
+		else if (hours >= 12 && hours < 16)  { %>
+		<h1 id="greeting" class="font1">Good afternoon, <i>${Firstname} ${Lastname}</i></h1>
+		<% }
+		else  { %>
+		<h1 id="greeting" class="font1">Good evening, <i>${Firstname} ${Lastname}</i></h1>
+		<% }
+		%>
+		<br/>
+		<div class="container" style="text-align: left; display: block; justify-content: space-between; width: 20%">
 			<form action="accounts" method="get">
 				<%--<input style="cursor:pointer;" type="submit" value="Accounts"/>--%>
 				<button type="submit">Accounts</button>
 			</form>
 			<hr/>
 			<!-- <a href="">Categories</a> -->
-			<%--<form action="cat" method="get">
-                <input style="cursor:pointer;" type="submit" value="Categories and Transactions"/>
-            </form>--%>
-			<input type="button" value="Categories and Transactions" onclick="goToCat()" >
+			<form action="cat" method="get">
+				<button type="submit">Categories and Transactions</button>
+			</form>
+			<%--<input type="button" value="Categories and Transactions" onclick="goToCat()" >--%>
 			<hr/>
 			<input style="cursor:pointer;" type="submit" value="Goals"/>
 			<hr/>
 			<!-- Add this button to the profile page -->
-			<input style="cursor:pointer;" type="submit" onclick="return logout();" value="Logout"/>
+			<form action="logout" method="post">
+				<input style="cursor:pointer;" type="submit" value="Logout"/>
+			</form>
+			<%--<input style="cursor:pointer;" type="submit" onclick="return logout();" value="Logout"/>--%>
 			<hr/>
-			<p>Profile for ${Firstname} ${Lastname}</p>
+			<br/>
+			<br/>
 		</div>
-		<br/>
-		<br/>
-		<p id="date" class="footer" style="text-align:center">${dateAndTime}</p>
 		<script>
-			// Throwing Uncaught ReferenceError: Michael is not defined.... in the else section of this function
-			/*function updateGreetingMessage() {
-                let greetingElement = $("[id='greeting']");
-                let hours = new Date().getHours();
-                if (hours >= 0 && hours < 12) {
-                    greetingElement.text('Good morning, ' + ${Firstname} + ' ' + ${Lastname});
-			} else if (hours >=12 && hours < 16) {
-				greetingElement.text('Good afternoon, ' + ${Firstname} + ' ' + ${Lastname});
-			} else {
-				greetingElement.text('Good evening, ' + ${Firstname} + ' ' + ${Lastname});
-			}
-		}*/
 			$(function() {
 				//updateGreetingMessage();
 			});
@@ -140,5 +131,5 @@
 			}
 		</script>
 	</body>
-
+	<footer id="date" class="footer">${dateAndTime}</footer>
 </html>

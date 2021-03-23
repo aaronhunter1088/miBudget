@@ -410,7 +410,7 @@ public class MiBudgetDAOImpl {
 			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> item_idsFromDB = session
-					   .createNativeQuery("SELECT itemid FROM usersitems " +
+					   .createNativeQuery("SELECT useritemid FROM usersitems " +
 							   			  "WHERE userid = " + user.getId())
 					   .getResultList();
 			LOGGER.info("Query executed!");

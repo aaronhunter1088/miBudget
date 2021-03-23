@@ -3,6 +3,7 @@ package com.miBudget.v1.servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.miBudget.v1.services.UserServices;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,12 +22,13 @@ import com.miBudget.v1.entities.User;
 import com.miBudget.v1.entities.UserAccountObject;
 import com.google.gson.Gson;
 import com.miBudget.v1.daoimplementations.MiBudgetDAOImpl;
+import org.hibernate.Session;
 
 /**
  * Servlet implementation class Services
  */
 @WebServlet("/Services")
-public class Services extends HttpServlet {
+public class Services extends HttpServlet implements UserServices {
 	private static final long serialVersionUID = 1L;
        
 	private static Logger LOGGER = null;
@@ -58,7 +61,8 @@ public class Services extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
 		LOGGER.info("--- START ---");
 		LOGGER.info("Inside Services doGet servlet.");
 		HttpSession session = request.getSession(false);
@@ -87,7 +91,7 @@ public class Services extends HttpServlet {
 				case "getTransactions" : transactionsList = miBudgetDAOImpl.getTransactions(request);
 										 res = changeToJsonString(transactionsList);
 										 break;
-
+				case "getAllUsersByCellPhone" : getAllUsersByCellphone(session);
 
 			}
 			
@@ -102,9 +106,14 @@ public class Services extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		this.doGet(request, response);
 	}
 
+	@Override
+	public List<String> getAllUsersByCellphone(HttpSession session) {
+		return null;
+	}
 }

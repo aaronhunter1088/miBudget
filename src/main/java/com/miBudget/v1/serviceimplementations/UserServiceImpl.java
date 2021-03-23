@@ -6,10 +6,12 @@ import org.hibernate.Session;
 
 import com.miBudget.v1.services.UserServices;
 
+import javax.servlet.http.HttpSession;
+
 public class UserServiceImpl implements UserServices {
 	
 	@Override
-	public List<String> getAllUsersByCellphone(Session session) throws Exception {
+	public List<String> getAllUsersByCellphone(HttpSession session) throws Exception {
 		return null;
 		//return mibudgetuserDAOImpl.getAllUsersByCellphone(session);
 	}

@@ -223,7 +223,8 @@ public class Authenticate extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-	private String authenticate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, NullPointerException {
+	private String authenticate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, NullPointerException
+	{
 		LOGGER.info("Inside authenticate()...");
 		HttpSession session = request.getSession(false);
 		if (session.getId() != session.getAttribute("sessionId")) {
@@ -568,7 +569,8 @@ public class Authenticate extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
 		LOGGER.info(Constants.start);
 		LOGGER.info("Inside the Authenticate doPost() servlet.");
 		String authResponse = authenticate(request, response);
@@ -588,9 +590,10 @@ public class Authenticate extends HttpServlet {
 		dispatcher.forward( request, response );
 	}
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
 		LOGGER.info("--- START ---");
-		LOGGER.info("Inside the Profile doGet() servlet.");
+		LOGGER.info("Inside the Authenticate doGet() servlet.");
 		LOGGER.info("--- END ---");
 	}
 

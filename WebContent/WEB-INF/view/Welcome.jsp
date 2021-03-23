@@ -20,6 +20,7 @@
 		body {
 			display: block;
 			margin: 8px;
+		}
 	</style>
 	<body>
 		<h1>Welcome, <i>${Firstname}</i> : ${accountsSize}</h1><br>

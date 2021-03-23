@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import javax.servlet.http.HttpSession;
+
 public interface UserServices {
 
 	/**
@@ -11,5 +13,5 @@ public interface UserServices {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<String> getAllUsersByCellphone(Session session) throws Exception;
+	public List<String> getAllUsersByCellphone(HttpSession session) throws Exception;
 }

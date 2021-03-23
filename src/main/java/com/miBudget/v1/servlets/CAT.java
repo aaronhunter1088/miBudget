@@ -93,7 +93,9 @@ public class CAT extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+
+	{
 		LOGGER.info(Constants.start);
 		LOGGER.info("Inside the Categories and Transactions or, CAT doGet() servlet.");
 		HttpSession requestSession = request.getSession(false);
@@ -104,7 +106,7 @@ public class CAT extends HttpServlet {
 			LOGGER.info("redirecting to cat.jsp");
 		} else {
 			LOGGER.error("session=null? : {} isUserLoggedIn? : {}", requestSession==null?true:false, requestSession.getAttribute("isUserLoggedIn"));
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/CategoriesAndTransactions.jsp" );
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "index.html" );
 			dispatcher.forward( request, response );
 		}
 		LOGGER.info(Constants.end);
@@ -133,7 +135,8 @@ public class CAT extends HttpServlet {
 		JSONObject jsonObject = null;
 		StringBuilder customTextForResponse = new StringBuilder();
 				
-		if (session != null && (Boolean)session.getAttribute("isUserLoggedIn") == true) {
+		if (session != null && (Boolean)session.getAttribute("isUserLoggedIn") == true)
+		{
 			// Save a new Category: methodName = Save Category
 			// Update an existing Category: methodName = Update Category
 			// Delete an existing Category: methodName = Delete Category
@@ -221,17 +224,22 @@ public class CAT extends HttpServlet {
 					// Return to UI a JsonObject with one property, Transactions, which is a List of Transaction objects
 					jsonObject = new JSONObject().put("Transactions", finalTransactionsList);
 					session.setAttribute("getTransactions", jsonObject);
-					customTextForResponse.append(jsonObject);
+					String transactionsWord = finalTransactionsList.size() == 1 ? "transaction" : "transactions";
+					session.setAttribute("change", "You have successfully loaded " + finalTransactionsList.size() + " " + transactionsWord);
+					//customTextForResponse.append(jsonObject);
 					session.setAttribute("usersTransactions", finalTransactionsList);
 					LOGGER.info("usersTransactions: {}", jsonObject.toString());
 					response.setStatus(HttpServletResponse.SC_OK);
-					response.getWriter().append(customTextForResponse);
+					response.setContentType("text/plain");
+					response.getWriter().write("You have successfully loaded " + finalTransactionsList.size() + transactionsWord + ".");
+					LOGGER.info(Constants.end);
+					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/CategoriesAndTransactions.jsp" );
+					dispatcher.forward( request, response );
 				} else {
 					LOGGER.error("raw: {}", transactionsGetResponse.raw());
 					LOGGER.error("error body: {}", transactionsGetResponse.errorBody());
 					LOGGER.error("code: {}", transactionsGetResponse.code());
-				}
-				//response.getWriter().append("\naccountName: " + acctName + "\ntransactionsReq: " + transactionsRequested + "\nmethodName: " + methodName);
+				} // transactionsGet error
 			}
 			else if (methodName.equals("ignore")) {
 				LOGGER.info("methodName: {}", methodName);
@@ -283,12 +291,11 @@ public class CAT extends HttpServlet {
 			response.setStatus(HttpServletResponse.SC_ACCEPTED);
 			response.getWriter().append("Something is wrong with the session.");
 		}
-		LOGGER.info("--- END ---");
-		//RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/CategoriesAndTransactions.jsp" );
-		//dispatcher.forward( request, response );
+
 	}
 	
-	public Location convertLocation(TransactionsGetResponse.Transaction.Location location) {
+	public Location convertLocation(TransactionsGetResponse.Transaction.Location location)
+	{
 		Location loc = new Location(
 			location.getAddress(),
 			location.getCity(),
@@ -297,28 +304,4 @@ public class CAT extends HttpServlet {
 		);
 		return loc;
 	}
-
-	/*private ArrayList<Transaction> combineTransactions(ArrayList<Transaction> transactions, ArrayList<Category> usersCategories) {
-		List<String> usersCategoriesStr = new ArrayList<>();
-		for (Category category : usersCategories) {
-			usersCategoriesStr.add(category.getName());
-		}
-
-		boolean matchingCategory = false;
-		// part1 stores categories to list first, part2 holds 
-		ArrayList<Transaction> listPart1 = new ArrayList<>(), listPart2 = new ArrayList<>(), finalTransactionsList = new ArrayList<>();
-		for (Transaction transaction : transactions) {
-			List<String> transactionsCategories = transaction.getDefaultCategories();
-			for (String transactionCategoryName : transactionsCategories) {
-				for (String userCategoryName : usersCategoriesStr) {
-					if (transactionCategoryName.equals(userCategoryName)) {
-						matchingCategory = true;
-						saveCategoryToNewList(transactionCategoryName, listPart1);
-					}
-				}
-			}
-		}
-	}*/
-
-
 }

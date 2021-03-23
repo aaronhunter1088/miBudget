@@ -17,9 +17,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<%--<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">--%>
+		<%--<link rel="icon" type="image/x-icon" href="images/wallet.ico">--%>
+		<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+		<link href="images/wallet.ico" rel="icon" type="image/x-icon">
 		<title>Accounts</title>
-		<link rel="icon" type="image/x-icon" href="images/wallet.ico">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
 		<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
 	    <style>
@@ -40,7 +42,7 @@
 			}
 			.updateButton {
 			}
-			.mainTable, th, td {
+			th, td {
 				border: 1px solid black;
 			}
 			p.changingText {
@@ -55,20 +57,20 @@
 				margin-inline-start: 0px;
 				margin-inline-end: 0px;
 			}
-			.outertable {}
-			.innertable {
-				visibility: hidden; /* visible */
-			}
+			.outerTable {}
+			.innerTable {}
 			.acct {}
 			.footer {
-			    position: fixed;
-			    left: 0;
-			    bottom: 0;
-			    width: 100%;
-			    background-color: white;
-			    color: black;
-			    text-align: center;
-			    text-size: 30%;
+				position: fixed;
+				display: table-cell;
+				vertical-align: middle;
+				left: 0;
+				bottom: 0;
+				height: 2.5rem;
+				width: 100%;
+				background-color: white;
+				color: black;
+				text-align: center;
 			}
 		</style>
 	</head>
@@ -79,125 +81,125 @@
 		<% MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl(); %>
 		<% AccountDAOImpl accountDAOImpl = new AccountDAOImpl(); %>
 		<% ItemDAOImpl itemsDAOImpl = new ItemDAOImpl(); %>
-	
-		<form action="profile" method="get"> <!-- think about changing this call to get -->
-			<button type="submit">Profile Page</button>
-		</form>
-		<hr/>
-		<button id="link-button">Link Account</button>
-		<hr/>
+
+		<div class="container" style="text-align: left; display: block; justify-content: space-between; width: 20%">
+			<form action="profile" method="get">
+				<button type="submit">Profile Page</button>
+			</form>
+			<hr/>
+			<button id="link-button">Link Account</button>
+			<hr/>
+		</div>
 		<!-- TODO: Implement changingText on every page -->
 		<p id="changingText" class="changingText"><b>${change}</b></p>
-		<br/>
+		<p></p> <!-- Meant to be empty -->
 		<p id="institutions">Banks : ${institutionIdsListSize}
 		<p id="accounts">Accounts : ${accountsSize}</p>
 		<!-- Create a table that lists all accounts -->
 		<!-- Each account should have an update button and a delete button -->
 		<!-- Update updates the Item -->
 		<!-- Delete deletes the Item -->
-		<% List institutionsIdsList = (ArrayList<String>)session.getAttribute("institutionIdsList"); 
-		   int idCopy; 
+		<% List institutionsIdsList = (ArrayList<String>)session.getAttribute("institutionIdsList");
+			int idCopy;
 		%>
 		<div class="mainTable" id="accountsTable">
 			<table class="outerTable" id="outerTable">
-				<% 
-				Iterator institutionIdsIter = institutionsIdsList.iterator();
-				Iterator accountIdsIter = ((List)user.getAccountIds()).iterator();
-				HashMap<String, Boolean> errMapForItems = (HashMap) session.getAttribute("ErrMapForItems");
-				// Load Map of ItemGetResponses here
-				while (institutionIdsIter.hasNext()) {
-				    String currentId = (String)institutionIdsIter.next();
-				    //idCopy = Integer.parseInt(currentId);
-				%> 
-				<!-- [Bank Logo | Update | Delete] --> <!-- var firstRowText = $("[id='bank']").attr('id'); -->
+				<%
+					Iterator institutionIdsIter = institutionsIdsList.iterator();
+					Iterator accountIdsIter = ((List)user.getAccountIds()).iterator();
+					HashMap<String, Boolean> errMapForItems = (HashMap) session.getAttribute("ErrMapForItems");
+					// Load Map of ItemGetResponses here
+					while (institutionIdsIter.hasNext()) {
+						String currentId = (String)institutionIdsIter.next();
+						//idCopy = Integer.parseInt(currentId);
+				%>
+				<!--BANK: [Bank Logo | Update | Delete] --> <!-- var firstRowText = $("[id='bank']").attr('id'); -->
 				<tr id="bank" name="<%= currentId %>">
 					<td id="logo" name="<%= currentId %>">
-					 	<%= currentId %> <!-- change to Logo -->  
-				 	</td> 
-				 	<!-- Whitespace -->
-				 	<!--  Change this button to ONLY show if there is an error.  -->
-				 	<td id="updatebtn" name="<%= errMapForItems.get(currentId) %>">
-				 		<!-- Update button --> 
-				 		<button class="updateButton" id="link-update-button" name="<%= currentId %>"><b>Update Bank</b></button>
-				 	</td> 
-				 	<!-- Whitespace -->
-				 	<td id="deletebtn" name="<%= currentId %>">
-				 	  <!-- Delete button -->
-				 	  <!-- Goes to Delete.java and performs doPost --> 
-				      <form id="delete1" method="post" onsubmit="return deleteBank('<%= currentId %>');" action="Delete">
-				      	<input type="hidden" name="delete" value="bank"></input>
-				      	<input type="hidden" name="currentId" value="<%= currentId %>"></input>
-					    <button id="deleteButton" name="<%= currentId %>" type="submit" formmethod="post">Delete Bank</button>
-					  </form> 
-				    </td> 
-				</tr> 
+						<%= currentId %> <!-- change to Logo -->
+					</td>
+					<!-- Whitespace -->
+					<!--  Change this button to ONLY show if there is an error.  -->
+					<td id="updatebtn" name="<%= errMapForItems.get(currentId) %>">
+						<!-- Update button -->
+						<button class="updateButton" id="link-update-button" name="<%= currentId %>"><b>Update Bank</b></button>
+					</td>
+					<!-- Whitespace -->
+					<td id="deletebtn" name="<%= currentId %>">
+						<!-- Delete button -->
+						<!-- Goes to Delete.java and performs doPost -->
+						<form id="delete1" method="post" onsubmit="return deleteBank('<%= currentId %>');" action="Delete">
+							<input type="hidden" name="delete" value="bank"></input>
+							<input type="hidden" name="currentId" value="<%= currentId %>"></input>
+							<button id="deleteButton" name="<%= currentId %>" type="submit" formmethod="post">Delete Bank</button>
+						</form>
+					</td>
+				</tr>
 				<% } %>
 			</table>
 			<!-- Space for readability -->
-			<table class="innerTable" id="innerTable">
+			<table class="innerTable" id="innerTable" style="border: 1px solid black;">
 				<tr id="header" name="">
 					<th colspan="5">
-			    		<h4 id="bankName"></h4>
-			    	</th>
-			    	<th> 
+						<h4 id="bankName"></h4>
+					</th>
+					<th>
 						<button onclick="hideInnerTable()">Go Back</button>
 					</th>
-			    </tr>
+				</tr>
 				<%
-				HashMap<String, ArrayList<Account>> acctsMap = (HashMap<String, ArrayList<Account>>)
-					session.getAttribute("acctsAndInstitutionIdMap"); // recall Integer is itemTableId
-				Set<String> acctsMapKeySet = acctsMap.keySet();
-				for (String acctsForThisInstitutionId : acctsMapKeySet) {	
-					ArrayList<Account> acctsList = acctsMap.get(acctsForThisInstitutionId);
-					
-					for (Account acct : acctsList) {
-						String name = acct.getNameOfAccount() != null ? 
-						  			  acct.getNameOfAccount() :
-						  			  acct.getOfficialName(); %>
-						<!-- [Name | Mask | Available Balance] | Delete --> 
-						<tr id="acct" class="acct" name="<%= acctsForThisInstitutionId %>"> 
-							<!-- Account -->
-						  	<td>
-						  		<%= name %> <!-- Name of Account otherwise Official Name --> 
-						  	</td> 
-					 		<!-- Whitespace -->	
-					 		<td>
-					 			<%= acct.getMask() %>
-					 		</td>
-					 		<!-- Whitespace -->	
-					 		<td> 
-					 			<%= acct.getAvailableBalance() %> 
-					 			<!-- add logic for credit cards to show owed amount as well -->
-					 		</td>
-					 		<!-- Whitespace -->	
-					 		<td>
-					 			<%= acct.getType() %>
-					 		</td>
-					 		<!-- Whitespace -->	
-					 		<td> 
-					 			<%= acct.getSubType() %>
-					 		</td> 
-						 	<!-- Delete Account -->
-						 	<td id="deleteAccount">
-						 		<%-- return deleteAccount('BOAChecking') as a reminder --%> 
-						 		<form id="delete2" method="post" onsubmit="return deleteAccount('<%= name %>');" action="Delete">
-							      	<input type="hidden" name="delete" value="account"></input>
-							      	<input type="hidden" name="currentId" value="<%= acctsForThisInstitutionId %>"></input>
-							      	<input type="hidden" name="itemTableId" value="<%= acct.getItemTableId() %>"></input>
-							      	<input type="hidden" name="accountId" value="<%= acct.getAccountId() %>"></input>
-								    <button id="deleteAccountBtn" name="deleteAccountForm" type="submit">Delete Account</button>
-								</form>
-						 	</td> 
-						</tr>
+					HashMap<String, ArrayList<Account>> acctsMap = (HashMap<String, ArrayList<Account>>)
+							session.getAttribute("acctsAndInstitutionIdMap"); // recall Integer is itemTableId
+					Set<String> acctsMapKeySet = acctsMap.keySet();
+					for (String acctsForThisInstitutionId : acctsMapKeySet) {
+						ArrayList<Account> acctsList = acctsMap.get(acctsForThisInstitutionId);
+
+						for (Account acct : acctsList) {
+							String name = acct.getNameOfAccount() != null ?
+									acct.getNameOfAccount() :
+									acct.getOfficialName(); %>
+				<!-- [Name | Mask | Available Balance] | Delete -->
+				<tr id="acct" class="acct" name="<%= acctsForThisInstitutionId %>">
+					<!-- Account -->
+					<td>
+						<%= name %> <!-- Name of Account otherwise Official Name -->
+					</td>
+					<!-- Whitespace -->
+					<td>
+						<%= acct.getMask() %>
+					</td>
+					<!-- Whitespace -->
+					<td>
+						<%= acct.getAvailableBalance() %>
+						<!-- add logic for credit cards to show owed amount as well -->
+					</td>
+					<!-- Whitespace -->
+					<td>
+						<%= acct.getType() %>
+					</td>
+					<!-- Whitespace -->
+					<td>
+						<%= acct.getSubType() %>
+					</td>
+					<!-- Delete Account -->
+					<td id="deleteAccount">
+						<%-- return deleteAccount('BOAChecking') as a reminder --%>
+						<form id="delete2" method="post" onsubmit="return deleteAccount('<%= name %>');" action="Delete">
+							<input type="hidden" name="delete" value="account"></input>
+							<input type="hidden" name="currentId" value="<%= acctsForThisInstitutionId %>"></input>
+							<input type="hidden" name="itemTableId" value="<%= acct.getItemTableId() %>"></input>
+							<input type="hidden" name="accountId" value="<%= acct.getAccountId() %>"></input>
+							<button id="deleteAccountBtn" name="deleteAccountForm" type="submit">Delete Account</button>
+						</form>
+					</td>
+				</tr>
 				<% }
-		    } %> 
+				} %>
 			</table>
-			
+
 		</div>
 		<br/>
 		<br/>
-		<p id="date" class="footer" style="text-align:center">${dateAndTime}</p>
-		
 		<script>
 			$("img").on("click", function() {
 				//console.log('inside click()');
@@ -487,7 +489,7 @@
 			function reloadPage() {
 				//console.log('running reloadPage()')
 			    $.when(reload()).done(function() {
-			    	location.reload(true);;
+			    	location.reload(true);
 				});
 			    function reload() { 
 				    //console.log('running reload()');
@@ -559,43 +561,43 @@
 							  console.log("loading Plaid handler...")
 							},
 							onSuccess: function(public_token, metadata) {
-							  console.log("public_token: " + public_token);
-							  console.log("metadata: " + metadata);
-							  var accounts = [], account = [];
-							  var _id, _name, _mask, _type, _subtype;
-							  console.log(metadata.institution_id);
-							  for(var i = 0; i < metadata.accounts.length; i++) {
-								console.log("account id: " + metadata.accounts[i].id);
-								console.log("name: " + metadata.accounts[i].name);
-								console.log("mask: " + metadata.accounts[i].mask);
-								console.log("type: " + metadata.accounts[i].type);
-								console.log("subtype: " + metadata.accounts[i].subtype);
+							    console.log("public_token: " + public_token);
+							    console.log("metadata: " + metadata);
+							    var accounts = [], account = [];
+							    var _id, _name, _mask, _type, _subtype;
+							    console.log(metadata.institution_id);
+							    for(var i = 0; i < metadata.accounts.length; i++) {
+									console.log("account id: " + metadata.accounts[i].id);
+									console.log("name: " + metadata.accounts[i].name);
+									console.log("mask: " + metadata.accounts[i].mask);
+									console.log("type: " + metadata.accounts[i].type);
+									console.log("subtype: " + metadata.accounts[i].subtype);
 
-								_id = metadata.accounts[i].id;
-								_name = metadata.accounts[i].name;
-								_mask = metadata.accounts[i].mask;
-								_type = metadata.accounts[i].type;
-								_subtype = metadata.accounts[i].subtype;
+									_id = metadata.accounts[i].id;
+									_name = metadata.accounts[i].name;
+									_mask = metadata.accounts[i].mask;
+									_type = metadata.accounts[i].type;
+									_subtype = metadata.accounts[i].subtype;
 
-								account = {id: _id, name: _name, mask: _mask, type: _type, subtype: _subtype};
+									account = {id: _id, name: _name, mask: _mask, type: _type, subtype: _subtype};
 
-								accounts[i] = account;
-							  }
+									accounts[i] = account;
+							    }
 
-							  var jsonAccount = JSON.stringify(accounts);
+							    var jsonAccount = JSON.stringify(accounts);
 
-							  $.ajax({
-								 type: "POST",
-								 url: "authenticate",
-								 data: {
-									 public_token: public_token,
-									 link_session_id: metadata.link_session_id,
-									 institutionId: metadata.insitution_id,
-									 accounts: jsonAccount,
-									 institution_name: metadata.institution.name,
-									 institution_id: metadata.institution.institution_id
-								 }
-							  }).success(function (response) {
+							    $.ajax({
+								   type: "POST",
+								   url: "authenticate",
+								   data: {
+								       public_token: public_token,
+									   link_session_id: metadata.link_session_id,
+									   institutionId: metadata.insitution_id,
+									   accounts: jsonAccount,
+									   institution_name: metadata.institution.name,
+									   institution_id: metadata.institution.institution_id
+								   }
+							    }).success(function (response) {
 								  location.reload();
 								  updateAccountsTable();
 								  updateBanksTable();
@@ -648,9 +650,9 @@
 					handler.open();
 				  });
 				$("[id='link-update-button']").on('click', function(e) {
-					 var institutionIdName = $(this).attr('name');
-					 var publicToken;
-					 var updateHandler;
+					 let institutionIdName = $(this).attr('name');
+					 let publicToken;
+					 let updateHandler;
 					 console.log('the button you clicked: ' + institutionIdName);
 
 					 $.when(ajax1()).done(function(publicToken) {
@@ -686,5 +688,6 @@
 		    });
 		</script>
 	</body>
+	<footer id="date" class="footer">${dateAndTime}</footer>
 </html>
 
