@@ -22,9 +22,6 @@
 		<link href="images/wallet.ico" rel="icon" type="image/x-icon">
 		<title>Categories and Transactions</title>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
-		<%--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">--%>
-		<%--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>--%>
-
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<style>
@@ -150,18 +147,22 @@
 		<% AccountDAOImpl accountDAOImpl = new AccountDAOImpl(); %>
 		<% ItemDAOImpl itemsDAOImpl = new ItemDAOImpl(); %>
 
-		<div class="container" style="text-align: left; display: block; justify-content: space-between; width: 20%">
+		<div style="display: inline-block;">
 			<form action="profile" method="get">
 				<button type="submit">Profile Page</button>
 			</form>
 			<hr/>
 		</div>
-		<!-- TODO: Implement changingText on every page -->
-		<p id="changingText" class="changingText">${change}</p>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<div style="display: inline-block; overflow-wrap: break-word; word-wrap:break-word; word-break: break-all; vertical-align: top;" class="container">
+			<div style="display: block; overflow-wrap: break-word; word-wrap:break-word; word-break: break-all;" class="container">
+				<p id="changingText" class="changingText" style="overflow-wrap:break-word; word-wrap:break-word; word-break:break-all;">${change}</p>
+			</div>
+		</div>
 		<br/>
 		<!-- Start of Main Div -->
-		<h3 style="display:inline;width:50%;float:left;text-align:center;">Categories</h3>
-		<h3 style="display:inline;width:50%;float:right;text-align:center;">Transactions</h3>
+		<h3 style="display:inline;width:50%;float:left;text-align:center;" id="cHeader">Categories</h3>
+		<h3 style="display:inline;width:50%;float:right;text-align:center;" id="tHeader">Transactions</h3>
 		<!-- Start New Categories Div -->
 		<div id="categoriesDiv" class="border" style="height: 526px; width:49%; float:left;"> <!-- 425px -->
 			<p id="checked" style="float:right; font-size:90%;" value="New Category" name="newCategory">Click for Your Categories</p>
@@ -247,8 +248,10 @@
 					<datalist id="categories1">
 						<% ArrayList<Category> categoriesList = miBudgetDAOImpl.getAllCategories(user);
 							for (Category cat : categoriesList) { %>
-						<option value="<%= cat.getName() %>">
+						<option value="<%= cat.getName() %>"></option>
 								<% } %>
+						<option value="Ignore"></option>
+						<option value="Income"></option>
 					</datalist>
 				</div>
 				<br/>
@@ -333,21 +336,22 @@
 						<input style="display: block; width:50%; float:left;" title="The From Date is not required" class="form-control" id="FromDate" name="FromDate" placeholder="From" tabindex="#" type="text" value=""><br>
 						<input style="display: block; width:50%; float:right;" title="The To Date is not required" class="form-control" id="ToDate" name="ToDate" placeholder="To" tabindex="#" type="text" value=""><br>
 					</div>
-					<datalist id="accounts">
-						<% HashMap<String, ArrayList<Account>> acctsMap = (HashMap<String, ArrayList<Account>>)
-								session.getAttribute("acctsAndInstitutionIdMap");
-							for (String insId : acctsMap.keySet()) {
-								for (Account acct : acctsMap.get(insId)) {
-									String name = acct.getNameOfAccount(); %>
-						<option label="Account" value="<%= name %>"/>
-						<% } } %>
-					</datalist>
 					<input type="hidden" name="validated" value="false"/>
 					<input type="hidden" name="formId" value="transactions"/>
 					<input type="hidden" name="methodName" value="get transactions"/>
+					<input type="hidden" name="ignoredTransactions" value="<%= user.getIgnoredTransactions().isEmpty() ? 0 : user.getIgnoredTransactions().size() %>"/>
 					<div style="display: flex; flex-direction: row;">
 						<input type="text" id="numberOfTrans" name="numberOfTrans" class="form-control" style="width:50px; text-align:center; display: block;" title="Enter the number of transactions <=50 you wish to receive" placeholder="#"/>
-						<input id="currentAccount" name="currentAccount" value="" title="Choose an Account to pull transactions from" class="form-control" list="accounts" type="text" style="width:75%; text-align:center;" placeholder="Choose an Account" tabindex="1" required/>
+						<input id="currentAccount" name="currentAccount" value="" title="Choose an Account to pull transactions from" class="form-control" list="accounts" autocomplete="off" type="text" style="width:75%; text-align:center;" placeholder="Choose an Account" tabindex="1" required/>
+						<datalist id="accounts">
+							<% HashMap<String, ArrayList<Account>> acctsMap = (HashMap<String, ArrayList<Account>>) session.getAttribute("acctsAndInstitutionIdMap");
+								for (String insId : acctsMap.keySet()) {
+									for (Account acct : acctsMap.get(insId)) {
+										String name = acct.getNameOfAccount(); %>
+							<option label="Account" value="<%= name %>"></option>
+							<% } } %>
+							<option label="Transactions" value="Ignored Transactions"></option>
+						</datalist>
 						<input type="hidden" id="currentAccountHidden" name="currentAccountHidden" value=""/>
 						<button id="getTransactions" type="submit" title="Get Transactions" onclick="return validateFields()" class="form-control" style="width:130px; display: block;">Get Transactions</button>
 					</div>
@@ -363,46 +367,45 @@
 						for (int i = 0; i < transactions.size(); i++) {
 							Transaction transaction = transactions.get(i);
 					%>
-					<tr id="header" name="transactionName">
-						<th colspan="2">
-							<h4 id="TransactionMapping" style="text-align: center">Transaction <%= (i+1) %></h4>
-						</th>
-					</tr>
-					<tr id="merchantRow">
-						<td>
-							<!-- Merchant Name: <merchantName> (Editable) -->
-							<label for="merchantName" style="margin-right:10px;">Merchant Name:</label>
-							<input type="text" size="50" style="float: right; text-align:right;" id="merchantName" value="<%= transaction.getName() %>"/>
-						</td>
-					</tr>
-					<tr id="amountRow">
-						<td>
-							<label for="amount" style="margin-right:10px;">Amount:</label>
-							<input readonly type="text" size="10" style="float: right; text-align:right;" id="amount" value="<%= transaction.getAmount() %>"/>
-<%--							<p style="float: right; text-align:right;" id="amount"><%= transaction.getAmount() %></p>--%>
-						</td>
-					</tr>
-					<tr id="categoryRow" style="margin-left:10px;">
-						<td>
-							<!-- TODO: change to aggregated list
-                            <datalist id="categories2"></datalist> -->
-							<input id="categorySelected" name="categorySelected" value=""
-								   title="Choose a Category" class="form-control" list="categories1" type="text"
-								   style="display: block; margin-right:10px;" placeholder="Choose a Category" tabindex="#" required/>
-						</td>
-					</tr>
-					<tr id="actionRow">
-						<td>
-							<table class="transactionTable" style="width:100%;">
-								<tr class="wrap">
-									<td><button style="height:100%; display: inline-block;" tabindex="#" type="submit" onclick="performTransactionAction('<%= transaction.getTransactionId() %>', 'ignore')">Ignore</button></td>
-									<td><button style="height:100%; display: inline-block;" tabindex="#" type="submit" onclick="performTransactionAction('<%= transaction.getTransactionId() %>', 'bill')">Bill</button></td>
-									<td><button style="height:100%; display: inline-block;" tabindex="#" type="submit" onclick="performTransactionAction('<%= transaction.getTransactionId() %>', 'income')">Income</button></td>
-									<td><button style="height:100%; display: inline-block;" tabindex="#" type="submit" onclick="performTransactionAction('<%= transaction.getTransactionId() %>', 'save')">Save</button></td>
-								</tr>
-							</table>
-						</td>
-					</tr>
+						<tr id="header" name="transactionName">
+							<th colspan="2">
+								<h4 id="TransactionMapping" style="text-align: center">Transaction <%= (i+1) %></h4>
+							</th>
+						</tr>
+						<form action="cat" method="post">
+							<tr id="merchantRow">
+								<td>
+									<!-- Merchant Name: <merchantName> (Editable) -->
+									<label for="merchantName" style="margin-right:10px;">Merchant Name:</label>
+									<input type="text" size="50" style="float: right; text-align:right;" id="merchantName" value="<%= transaction.getName() %>"/>
+								</td>
+							</tr>
+							<tr id="amountRow">
+								<td>
+                                    <!-- Amount: <transactionAmount> (Non editable) -->
+									<label for="amount" style="margin-right:10px;">Amount:</label>
+									<input readonly type="text" size="10" style="float: right; text-align:right;" id="amount" value="<%= transaction.getAmount() %>"/>
+                                    <%--<p style="float: right; text-align:right;" id="amount"><%= transaction.getAmount() %></p>--%>
+								</td>
+							</tr>
+							<tr id="categoryAndSaveRow" style="margin-left:10px;">
+								<td>
+									<table class="transactionTable" style="width:100%; text-align: center">
+										<tr class="wrap">
+											<td style="width:100%;">
+												<input id="categorySelected" name="categorySelected" value=""
+													   title="Choose a Category" class="form-control" list="categories1" autocomplete="off" type="text"
+													   style="display: block; margin-right:10px;" placeholder="Choose a Category" tabindex="#" required/>
+												<input type="hidden" id="saveMethodHidden" name="saveMethodHidden" value=""/>
+											</td>
+											<td>
+												<button style="height:100%; display: inline-block;" tabindex="#" type="submit" onclick="return performTransactionAction()">Save</button>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</form>
 					<% } %>
 				</table>
 			</div>
@@ -471,39 +474,47 @@
 		<br/>
 		<br/>
 		<script>
-			function performTransactionAction(transaction, methodName) {
-				$.ajax({
-					type: "Post",
-					url: "cat",
-					data: {
-						transaction: transaction,
-						methodName: methodName
-					}
-				}).success(function (response) {
-					updateTransactionsTable();
-					updateTransactionsTickets();
-					$("[id='changingText']").text(response.responseText).css({ 'font-weight': 'bold' });
-					console.log("call to CAT was successful.");
-				})
-						.error(function (response) {
-							var res = JSON.stringify(response.responseText);
-							res = res.substring(1, res.length -1);
-							$("[id='changingText']").text(res).css({ 'font-weight': 'bold' }).fadeOut(20000, function() {
-								$("[id='changingText']").show().text('This text will change after taking an action.')
-										.css({ 'font-weight' : 'bold'});
-							});
-							console.log("failed to perform Post to CAT");
-						})
-						.done(function () {
-				})
-						.fail(function () {
-				})
-						.always(function (response) {
-					$("[id='changingText']").fadeOut(20000, function() {
-						$("[id='changingText']").show().text('This text will change after taking an action.')
-								.css({ 'font-weight' : 'bold'});
-					});
+			function performTransactionAction()
+			{
+				let cat1 = $("#categorySelected option:selected").val();
+				let cat2 = $("#categorySelected option:selected").value;
+				let cat3 = $("#categorySelected option:selected").text;
+				let cat4 = $("#categorySelected option:selected").innerText;
+				let cat5 = $("#categorySelected option:selected").innerHTML;
+				//let cat6 = $("#categorySelected option:selected").value(); not a function
+				let cat6;
+				$("#categorySelected").on('change',function() {
+					let opt = $('option[value="'+$(this).val()+'"]');
+					cat6.value(opt);
 				});
+				let cat7 = $("#categorySelected").val();
+				console.log("cat1: " + cat1);
+				console.log("cat2: " + cat2);
+				console.log("cat3: " + cat3);
+				console.log("cat4: " + cat4);
+				console.log("cat5: " + cat5);
+				console.log("cat6: " + cat6);
+				console.log("cat7: " + cat7);
+				if (category === "Ignore")
+				{
+					$("#saveMethodHidden")
+							.find('input[name=saveMethodHidden]')
+							.val("ignore");
+					return true;
+				}
+				else if (category === "Bill")
+				{
+					$("#saveMethodHidden")
+							.find('input[name=saveMethodHidden]')
+							.val("bill");
+					return true;
+				}
+				else
+				{
+					console.log("unable to post to CAT");
+					return false;
+				}
+
 			};
 			function clearInput(input) {
 				//alert("Clearing this text box.")
@@ -528,12 +539,13 @@
 			};
 			function validateFields() {
 				let validate = false;
-				
+
 				let fromDate = $("#FromDate").val();
 				let toDate = $("#ToDate").val();
 				console.log("fromDate: " + fromDate + "\ntoDate: " + toDate);
 				// Check transactions count has value
 				let count = $("#numberOfTrans").val();
+				if (isNaN(count)) return false;
 				if (count === "undefined") {
 					count = 0
 					console.log("count: " + count);
@@ -550,6 +562,14 @@
 					$("#transactions")
 					.find('input[name=validated]')
 					.val(true);
+					validate = true;
+				}
+				let chosenOption = $('#currentAccount').val();
+				if (chosenOption === "undefined" || chosenOption === "" || chosenOption == null) {
+					console.log("chosenOption: " + null);
+					validate = false;
+				} else {
+					console.log("chosenOption: " + chosenOption);
 					validate = true;
 				}
 
@@ -636,24 +656,26 @@
 					$("[id='changingText']").show().text('This text will change after taking an action.')
 							.css({ 'font-weight' : 'bold'});
 				});
-
 			}
 		
 			// onReady function
 			$(function() {
 				console.log("starting onReady function...")
 				$('#currentAccount').on('input',function() {
-				    var opt = $('option[value="'+$(this).val()+'"]');
-				    var acct = opt.attr('value');
+				    let opt = $('option[value="'+$(this).val()+'"]');
+				    let acct = opt.attr('value');
+				    console.log('opt: ' + opt);
+				    console.log('acct: ' + acct);
 				    $('#currentAccountHidden').val(acct);
 				    //console.log('input value: ' + opt.attr('value'));
 				    console.log('currentAccountHidden value: ' + $('#currentAccountHidden').val());
 				    //alert(opt.length ? opt.attr('value') : 'NO OPTION');
 				  });
+
 				$( "#FromDate" ).datepicker();
 				$( "#ToDate" ).datepicker();
 
-			    var acctsAndInsIdMap = function () {
+			    let acctsAndInsIdMap = function () {
 					var list = [];
 					var map = new Map();
 					var acctsAndInsIdMap = new Map();
@@ -663,14 +685,15 @@
 				        'data': { 'method': 'getAcctsAndInstitutionIdMap' },
 				        'success': function (data) {
 					        console.log("successful retrieval of acctAndInstitutionIdMap");
-					        console.log(JSON.parse(data));
+					        //console.log(JSON.parse(data));
 							map = JSON.parse(data);
 					        var mapIter = Object.keys(JSON.parse(data));
 					        
 				            for (const key in map) {
 								for (const acct in map[key]) {
-									console.log(map[key][acct]);
+									//console.log(map[key][acct]);
 									list.push(map[key][acct]);
+									//console.log('list: ' + list);
 								}
 								acctsAndInsIdMap.set(key, list);
 				            }
@@ -678,24 +701,25 @@
 				    });
 				    return acctsAndInsIdMap;
 				}(jQuery);
-				console.log('acctsAndInsIdMap');
-				if (acctsAndInsIdMap.size != 0) {
-					for (const key in map) {
+				//console.log('acctsAndInsIdMap');
+				if (acctsAndInsIdMap.size !== 0) {
+					for (const key in acctsAndInsIdMap) {
 						console.log('key: ' + key);
-						for (const acct in map[key]) {
+						for (const acct in acctsAndInsIdMap[key]) {
 							console.log('acct: ' + acct);
+
 						}
 		            }
 				}
 				
-				var categoriesMap = function () {
+				let categoriesMap = function () {
 				    var categoriesM = new Map();
 				    $.ajax({
 				        'type': "GET",
 				        'url': "Services",
 				        'data': { 'method': 'getAllCategories' },
 				        'success': function (data) {
-					        console.log("successful retrieval of categories");
+					        //console.log("successful retrieval of categories");
 					        //console.log(data);
 					        data = JSON.parse(data);
 				            for (var i = 0; i < data.length; i++) {
@@ -713,20 +737,16 @@
 				    });
 				    return categoriesM;
 				} /**(jQuery); */
-				console.log('categoriesMap');
-				console.log(categoriesMap);
+				//console.log('categoriesMap: ' + categoriesMap);
+				//console.log(categoriesMap);
 				
-				$("#currentCategoryDiv").hide();
+				$('#currentCategoryDiv').hide();
 				//$("#transactionsTable").hide();
 		
-				$("#checked").on("mouseover", function() {
+				$('#checked').on("mouseover", function() {
 					 document.body.style.cursor="pointer";
-				})
-						.on("mouseout", function() {
-					document.body.style.cursor="default";
-				});
-				
-				$("#checked").on("click", function() {
+				}).on("mouseout", function() {
+					document.body.style.cursor="default";}).on("click", function() {
 					if ($("#checked").text() == "Click for Your Categories")  {
 						console.log("activating current categories list...");
 						$("#newCategoryDiv").hide();
@@ -741,7 +761,7 @@
 					}
 				});
 		
-				$("#currentCategory")
+				$('#currentCategory')
 						.on("click", function() {
 					console.log("clicked current category")
 					
@@ -773,7 +793,7 @@
 					
 				});
 		
-				$("#budgetedAmt").focus(function() {
+				$('#budgetedAmt').focus(function() {
 					console.log("budget amount has focus.");
 					var text = $("#currentCategory").val();
 					if (text != "") {
@@ -803,6 +823,27 @@
 				else {
 						// Don't fade the text
 				}
+
+				//$("[id='cHeader']").doSomething
+				$("[id='tHeader']").on("mouseover", function() {
+					document.body.style.cursor="pointer";
+					this.title = "Clear all transactions"
+				}).on("mouseout", function() {
+					document.body.style.cursor="default";})
+				.click(function() {
+					$("#displayTransactionsDiv").empty();
+					// clear transactions from user and session
+					$.ajax({
+						'type': "GET",
+						'url': "Services",
+						'data': { 'method': 'clearTransactions' },
+						'success': function (data) {
+							//console.log("successful retrieval of categories");
+							//console.log(data);
+							console.log("cleared transactions from user: " + JSON.parse(data));
+						}
+					});
+				});
 			});  // End on ready function
 		</script>
 

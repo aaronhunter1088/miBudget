@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -93,9 +94,14 @@ public class Services extends HttpServlet implements UserServices {
 										 break;
 				case "getAllUsersByCellPhone" : getAllUsersByCellphone(session);
 
+				case "clearTransactions" : res = miBudgetDAOImpl.clearTransactions(session);
+										   break;
+
+				default : LOGGER.error("Unknown method: " + method);
 			}
-			
-			
+
+			response.setStatus(HttpServletResponse.SC_OK);
+			response.setContentType("application/json");
 			// Save json string to response
 			response.getWriter().append(res);
 			response.setStatus(HttpServletResponse.SC_OK);
@@ -108,7 +114,6 @@ public class Services extends HttpServlet implements UserServices {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		// TODO Auto-generated method stub
 		this.doGet(request, response);
 	}
 

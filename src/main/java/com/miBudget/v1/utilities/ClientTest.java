@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.miBudget.v1.entities.MiBudgetError;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -48,19 +49,19 @@ public class ClientTest {
 		TransactionsProcessor transactionsProcessor = new TransactionsProcessor();
 		//public Response<TransactionsGetResponse> getTransactions(String accessToken, String accountId, int transactionsCount)
 		try {
-			Response<TransactionsGetResponse> response = transactionsProcessor.getTransactions("access-development-7e2ed5ce-8d7e-471d-bc24-af1a4156774f", 
+			Response<TransactionsGetResponse> response = transactionsProcessor.getTransactions("access-development-7e2ed5ce-8d7e-471d-bc24-af1a4156774f",
 					"zJAKN9ak3jsKYPqew3nwuZPgaeNVgzFO6LxkR", 5, null, null);
 			if (response.isSuccessful()) {
 				LOGGER.info("transactionsProcessor was successful");
-				LOGGER.info("raw: {}", ((TransactionsGetResponse)response.body()).toString());
-				LOGGER.info("count: {}", response.body().getTransactions().size());
-				LOGGER.info("transactions: {}", response.body().getTransactions().toString());
+				LOGGER.info("raw: {}", (response.body().toString()));
+				LOGGER.info("count: {}", (response.body().getTransactions().size()));
+				LOGGER.info("transactions: {}", (response.body().getTransactions().toString()));
 				List<com.miBudget.v1.entities.Transaction> transactions = convertTransactions(response);
 				for(com.miBudget.v1.entities.Transaction transaction : transactions) {
 					LOGGER.info("transactions after conversion: {}", transaction);
 				}
 			}
-		} catch (IOException e) {
+		} catch (IOException | MiBudgetError e) {
 			// TODO Auto-generated catch block
 			LOGGER.error(e);
 		}

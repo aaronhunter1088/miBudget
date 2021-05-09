@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.miBudget.v1.entities.User;
 import com.miBudget.v1.utilities.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,20 +35,27 @@ public class Profile extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		LOGGER.info("--- START ---");
+		LOGGER.info(Constants.start);
 		LOGGER.info("Inside the Profile doGet() servlet.");
 		HttpSession session = request.getSession(false);
 		if (session != null && (Boolean)session.getAttribute("isUserLoggedIn") == true) {
 			LOGGER.info("Redirecting to Profile.jsp");
-			LOGGER.info("--- END ---");
+			LOGGER.info(Constants.end);
 			// Update time
 			session.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr());
+			session.setAttribute("change", "This text will change after the user take actions");
+			boolean setupMode = ((User)session.getAttribute("user")).isSetupMode();
+			LOGGER.debug("is in SetupMode?: " + setupMode);
+			if (setupMode)
+			{
+				session.setAttribute("change", "Once you finish adding accounts, and creating categories, your budget will appear here.");
+			}
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/Profile.jsp" );
 			dispatcher.forward( request, response );
 		} else {
 			// User is not logged in or the session is null
 			LOGGER.info("Redirecting to Login.html");
-			LOGGER.info("--- END ---");
+			LOGGER.info(Constants.end);
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "login.html" );
 			dispatcher.forward( request, response );
 		}
@@ -68,6 +76,7 @@ public class Profile extends HttpServlet {
 
         	// Update time
         	session.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr());
+        	session.setAttribute("change", "This text will change after the user take actions");
         	getServletContext().getRequestDispatcher("/WEB-INF/view/Profile.jsp").forward(request, response);
 			LOGGER.info(Constants.end);
         }  

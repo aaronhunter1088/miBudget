@@ -11,6 +11,7 @@
 		<link href="images/wallet.ico" rel="icon" type="image/x-icon">
 		<title>Profile</title>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<style>
 			<!-- NEEDED -->
 			body {
@@ -47,6 +48,9 @@
 				color: black;
 				text-align: center;
 			}
+			p.changingText {
+				font-weight: bold;
+			}
 		</style>
 	</head>
 	<body>
@@ -64,32 +68,64 @@
 		<% }
 		%>
 		<br/>
-		<div class="container" style="text-align: left; display: block; justify-content: space-between; width: 20%">
-			<form action="accounts" method="get">
-				<%--<input style="cursor:pointer;" type="submit" value="Accounts"/>--%>
-				<button type="submit">Accounts</button>
-			</form>
-			<hr/>
-			<!-- <a href="">Categories</a> -->
-			<form action="cat" method="get">
-				<button type="submit">Categories and Transactions</button>
-			</form>
-			<%--<input type="button" value="Categories and Transactions" onclick="goToCat()" >--%>
-			<hr/>
-			<input style="cursor:pointer;" type="submit" value="Goals"/>
-			<hr/>
-			<!-- Add this button to the profile page -->
-			<form action="logout" method="post">
-				<input style="cursor:pointer;" type="submit" value="Logout"/>
-			</form>
-			<%--<input style="cursor:pointer;" type="submit" onclick="return logout();" value="Logout"/>--%>
-			<hr/>
-			<br/>
-			<br/>
+		<div style="display: inline-block;">
+<%--			<div style="text-align: left; display: inline-block; justify-content: space-between; width: 20%" class="container" >--%>
+				<form action="accounts" method="get">
+					<%--<input style="cursor:pointer;" type="submit" value="Accounts"/>--%>
+					<button type="submit">Accounts</button>
+				</form>
+				<hr/>
+				<!-- <a href="">Categories</a> -->
+				<form action="cat" method="get">
+					<button type="submit">Categories and Transactions</button>
+				</form>
+				<%--<input type="button" value="Categories and Transactions" onclick="goToCat()" >--%>
+				<hr/>
+				<input style="cursor:pointer;" type="submit" value="Goals"/>
+				<hr/>
+				<!-- Add this button to the profile page -->
+				<form action="logout" method="post">
+					<input style="cursor:pointer;" type="submit" value="Logout"/>
+				</form>
+				<%--<input style="cursor:pointer;" type="submit" onclick="return logout();" value="Logout"/>--%>
+				<hr/>
+				<br/>
+				<br/>
+<%--			</div>--%>
 		</div>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<div style="display: inline-block; vertical-align: top;">
+			<div style="display: block;">
+				<p id="changingText" class="changingText">${change}</p>
+			</div>
+			<div style="display: block;">
+				<img src="images/budgetconstructionimage.jpg" alt="budget under construction" width="150px" height="150px">
+			</div>
+		</div>
+		<br/>
+		<!-- Next line -->
+		<p>Next line</p>
+
 		<script>
 			$(function() {
-				//updateGreetingMessage();
+				let defaultText = 'This text will change after the user take actions';
+				let setupText = 'Once you finish adding accounts, and creating categories, your budget will appear here.';
+				let currentText = $("[id='changingText']").text();
+				if (defaultText === currentText) {
+					$("[id='changingText']").show().text(defaultText)
+							.css({ 'font-weight' : 'bold'});
+				}
+				else if (setupText = currentText) {
+					$("[id='changingText']").show().text(setupText)
+							.css({ 'font-weight' : 'bold'});
+				}
+				else {
+					// Default
+					$("[id='changingText']").fadeOut(20000, function() {
+						$("[id='changingText']").show().text(defaultText)
+								.css({ 'font-weight' : 'bold'});
+					});
+				}
 			});
 			function goToCat() {
 				$.ajax({

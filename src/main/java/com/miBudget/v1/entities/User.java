@@ -70,6 +70,7 @@ public class User implements Serializable {
 		this.cellphone = cellphone;
 		this.password = password;
 		this.email = email;
+		this.setupMode = true;
 		createAccounts();
 		createCategories();
 		setIgnoredTransactions(new ArrayList<Transaction>());
@@ -134,17 +135,24 @@ public class User implements Serializable {
 	// New
 	@Column(name="email")
 	private String email;
+
+	// New
+	@Column(name="setupmode")
+	private boolean setupMode;
 	
 	@Transient
 	private ArrayList<String> accountIds; // will become budget_ids ...
 
+	@Transient
+	private ArrayList<Transaction> transactions = new ArrayList<>();
+
 	@Transient // will need to persist
-	private ArrayList<Transaction> ignoredTransactions;
+	private ArrayList<Transaction> ignoredTransactions = new ArrayList<>();
 
 	@Transient // will need to persist
 	private ArrayList<Transaction> bills;
 
-	@Transient
+	@Transient // will need to persist
 	private ArrayList<Category> categories;
 
 	private static final long serialVersionUID = 1L;
@@ -197,8 +205,10 @@ public class User implements Serializable {
 		this.email = email;
 	}
 
+	public ArrayList<Transaction> getTransactions() { return transactions; }
 	public ArrayList<Transaction> getIgnoredTransactions() { return ignoredTransactions; }
 
+	public void setTransactions(ArrayList<Transaction> transactions) { this.transactions = transactions; }
 	public void setIgnoredTransactions(ArrayList<Transaction> ignoredTransactions) { this.ignoredTransactions = ignoredTransactions; }
 
 	public ArrayList<Transaction> getBills() { return bills; }
@@ -217,6 +227,15 @@ public class User implements Serializable {
 			return;
 		}
 		this.categories = categories;
+	}
+
+	public boolean isSetupMode() {
+		return setupMode;
+	}
+
+	public User setSetupMode(boolean setupMode) {
+		this.setupMode = setupMode;
+		return this;
 	}
 
 	@Override
@@ -278,7 +297,7 @@ public class User implements Serializable {
 		categoriesList.add(foodCat);
 		Category subscriptionsCat = new Category("Subscriptions", "USD", 500.00);
 		categoriesList.add(subscriptionsCat);
-		Category billsCat = new Category("Bills", "USD", 1000.00);
+		Category billsCat = new Category("Bill", "USD", 1000.00);
 		categoriesList.add(billsCat);
 		System.out.println("default categories list created for " + this.firstname + " " + this.lastname);
 		this.categories = categoriesList;

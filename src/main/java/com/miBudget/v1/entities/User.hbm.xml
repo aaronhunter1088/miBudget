@@ -5,7 +5,7 @@
 <hibernate-mapping>
     <class name="com.miBudget.v1.entities.User" table="USER">
         <id name="id" type="int">
-            <column name="ID" />
+            <column name="userid" />
             <generator class="assigned" />
         </id>
         <property name="firstname" type="java.lang.String" access="field">
@@ -32,5 +32,8 @@
                 <column name="ACCOUNT_IDS" />
             </element>
         </list>
+        <property name="setupmode" type="java.lang.Boolean">
+            <column name="SETUPMODE" />
+        </property>
     </class>
 </hibernate-mapping>

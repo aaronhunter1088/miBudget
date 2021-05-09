@@ -60,7 +60,8 @@ public class UpdateBank extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
 		// TODO Auto-generated method stub
 		LOGGER.info("Inside UpdateBank doGet()...");
 		HttpSession session = request.getSession(false);
@@ -79,7 +80,8 @@ public class UpdateBank extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
 		LOGGER.info("Inside UpdateBank doPost()...");
 		HttpSession session = null;
 		LOGGER.info("Retrieving public token...");

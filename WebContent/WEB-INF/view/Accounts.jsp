@@ -82,7 +82,7 @@
 		<% AccountDAOImpl accountDAOImpl = new AccountDAOImpl(); %>
 		<% ItemDAOImpl itemsDAOImpl = new ItemDAOImpl(); %>
 
-		<div class="container" style="text-align: left; display: block; justify-content: space-between; width: 20%">
+		<div style="display: inline-block;">
 			<form action="profile" method="get">
 				<button type="submit">Profile Page</button>
 			</form>
@@ -90,11 +90,16 @@
 			<button id="link-button">Link Account</button>
 			<hr/>
 		</div>
-		<!-- TODO: Implement changingText on every page -->
-		<p id="changingText" class="changingText"><b>${change}</b></p>
-		<p></p> <!-- Meant to be empty -->
-		<p id="institutions">Banks : ${institutionIdsListSize}
-		<p id="accounts">Accounts : ${accountsSize}</p>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<div style="display: inline-block; overflow-wrap: break-word; word-wrap:break-word; word-break: break-all; vertical-align: top;" class="container">
+			<div style="display: block; overflow-wrap: break-word; word-wrap:break-word; word-break: break-all;" class="container">
+				<p id="changingText" class="changingText" style="overflow-wrap:break-word; word-wrap:break-word; word-break:break-all;">${change}</p>
+			</div>
+		</div>
+		<br/>
+		<!-- Next line -->
+		<p>Next line</p>
+
 		<!-- Create a table that lists all accounts -->
 		<!-- Each account should have an update button and a delete button -->
 		<!-- Update updates the Item -->
@@ -598,22 +603,22 @@
 									   institution_id: metadata.institution.institution_id
 								   }
 							    }).success(function (response) {
-								  location.reload();
-								  updateAccountsTable();
-								  updateBanksTable();
-								  console.log("end of success");
-							  }).error(function (response) {
-								  var res = JSON.stringify(response.responseText);
-								  res = res.substring(1, res.length -1);
-								  $("[id='changingText']").text(res).css({ 'font-weight': 'bold' }).fadeOut(8000, function() {
+								    updateAccountsTable();
+								    updateBanksTable();
+								    location.reload();
+								    console.log("end of success");
+							    }).error(function (response) {
+								    var res = JSON.stringify(response.responseText);
+								    res = res.substring(1, res.length -1);
+								    $("[id='changingText']").text(res).css({ 'font-weight': 'bold' }).fadeOut(8000, function() {
 										$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
 										.css({ 'font-weight' : 'bold'});
 									});
-							  }).done(function () {
-							  }).fail(function () {
-							  }).always(function (response) {
-								  console.log(response);
-							  });
+							    }).done(function () {
+							    }).fail(function () {
+							    }).always(function (response) {
+								    console.log(response);
+							    });
 							},
 							onExit: function(err, metadata) {
 							  // The user exited the Link flow.

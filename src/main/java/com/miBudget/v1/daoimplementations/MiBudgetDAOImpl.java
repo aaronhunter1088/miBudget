@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -495,5 +496,18 @@ public class MiBudgetDAOImpl {
 	public ArrayList<com.miBudget.v1.entities.Transaction> getTransactions(HttpServletRequest request) {
 		// TODO: Implement if needed
 		return new ArrayList<com.miBudget.v1.entities.Transaction>();
+	}
+
+	public String clearTransactions(HttpSession session)
+	{
+		// clear transactions from user and session
+		if (session.getId() != null)
+		{
+			User user = (User) session.getAttribute("user");
+			user.setTransactions(new ArrayList<>());
+			session.setAttribute("usersTransactions", new ArrayList<>());
+		}
+		else return "{\"message\": \"session is null\"";
+		return "{\"message\":\"user and session cleared\"";
 	}
 }

@@ -159,12 +159,15 @@ public class Login extends HttpServlet {
 			session.setAttribute("transactionsList", new JSONArray());
 			session.setAttribute("usersTransactions", new ArrayList<Transaction>()); // meant to be empty at this moment
 			session.setAttribute("usersBills", new ArrayList<Transaction>()); // meant to be empty at this moment
+			if (loginUser.isSetupMode()) session.setAttribute("change", "Once you finish adding accounts, and creating categories, your budget will appear here.");
+			else session.setAttribute("change", "This text will change after the user take actions");
 			LOGGER.info("Redirecting to Profile.jsp");
 			LOGGER.info(Constants.end);
 			// call Profile.doGet here
 			RequestDispatcher dispatcher = request.getRequestDispatcher( "/WEB-INF/view/Profile.jsp" );
 			dispatcher.forward(request, response);
-		} else {
+		}
+		else {
 			LOGGER.info("Redirecting to Register.jsp");
 			LOGGER.info(Constants.end);
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/Register.jsp" );

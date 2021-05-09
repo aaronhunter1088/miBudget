@@ -398,7 +398,7 @@ public class Authenticate extends HttpServlet {
 		} else if (duplicateBank && after == 0) {
 			LOGGER.info("Trying to add duplicate bank...");
 			int numberOfAccounts = accountDAOImpl.getAccountIdsFromUser(user).size();
-			request.getSession(false).setAttribute("NoOfAccts", numberOfAccounts);
+			request.setAttribute("NoOfAccts", numberOfAccounts);
 			response.setStatus(HttpServletResponse.SC_CONFLICT); // TODO: Implement as some 2xx. 4xx is for invalid requests. We don't have that, we just restrict the logic. 
 			response.setContentType("application/text");
 			response.getWriter().append(institutionId + " has already been added. We cannot add it again.");
@@ -407,7 +407,7 @@ public class Authenticate extends HttpServlet {
 		} else if (duplicateBank && duplicateAcct) {
 			LOGGER.info("Trying to add duplicate account(s)...");
 			int numberOfAccounts = accountDAOImpl.getAccountIdsFromUser(user).size();
-			request.getSession(false).setAttribute("NoOfAccts", numberOfAccounts);
+			request.setAttribute("NoOfAccts", numberOfAccounts);
 			response.setStatus(HttpServletResponse.SC_CONFLICT); // TODO: Implement as some 2xx. 4xx is for invalid requests. We don't have that, we just restrict the logic. 
 			response.setContentType("application/text");
 			response.getWriter().append(institutionId + " has already been added. We cannot add it again.");
@@ -578,7 +578,7 @@ public class Authenticate extends HttpServlet {
 		
 		if (authResponse.equals("SUCCESS")) {
 			// add session back to response obj
-			//response.setContentType("application/html");
+			response.setContentType("application/html");
 			response.setStatus(HttpServletResponse.SC_OK);
 		}
 		else {
