@@ -24,6 +24,12 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
 		<style>
 			<!-- NEEDED -->
 			body {
@@ -154,47 +160,50 @@
 			<hr/>
 		</div>
 		&nbsp;&nbsp;&nbsp;&nbsp;
-		<div style="display: inline-block; overflow-wrap: break-word; word-wrap:break-word; word-break: break-all; vertical-align: top;" class="container">
-			<div style="display: block; overflow-wrap: break-word; word-wrap:break-word; word-break: break-all;" class="container">
-				<p id="changingText" class="changingText" style="overflow-wrap:break-word; word-wrap:break-word; word-break:break-all;">${change}</p>
+		<div style="display: inline-block; vertical-align: top;" class="container">
+			<div style="display: block;" class="container">
+				<p id="changingText" class="changingText">${change}</p>
 			</div>
 		</div>
 		<br/>
 		<!-- Start of Main Div -->
-		<h3 style="display:inline;width:50%;float:left;text-align:center;" id="cHeader">Categories</h3>
-		<h3 style="display:inline;width:50%;float:right;text-align:center;" id="tHeader">Transactions</h3>
+		<h3 style="display:inline;width:50%;float:left;text-align:center;" id="cHeader">New Categories</h3>
+		<h3 style="display:inline;width:50%;float:right;text-align:center;" id="tHeader">Your Transactions</h3>
 		<!-- Start New Categories Div -->
 		<div id="categoriesDiv" class="border" style="height: 526px; width:49%; float:left;"> <!-- 425px -->
-			<p id="checked" style="float:right; font-size:90%;" value="New Category" name="newCategory">Click for Your Categories</p>
-			<br/>
-			<!-- <form id="newCategoryForm" onsubmit="" method="post" action="CAT"> -->
-			<div id="newCategoryDiv" style="width:99%;">
-				<div class="input-group" style="width:99%;">
-				<span class="input-group-addon">
-					<i id="glyphiconRemove" onclick="clearInput('categoryName')" class="glyphicon glyphicon-remove"></i>
-				</span>
-					<input class="form-control" id="categoryName" type="text" placeholder="Name of Category" tabindex="1" name="categoryName" required>
+			<%--<p id="checked" style="float:right; font-size:90%;" value="New Category" name="newCategory">Click for Your Categories</p>
+			<br/> --%>
+			<div id="newCategoryDiv" style="width:95%; margin-left:20px; margin-top:20px; display:inline-block;">
+				<div id="row1" style="display:inline-block;">
+					<div id="nameOption" class="input-group" style="display:inline-block;">
+						<input class="form-control" style="width:150px;" id="categoryName" type="text" placeholder="Name of Category" tabindex="1" name="categoryName" title="This is the name of the new category" required>
+						<span class="input-group-addon">
+							<i id="glyphiconRemove" onclick="clearInput('categoryName')" class="glyphicon glyphicon-remove"></i>
+						</span>
+						</div>
+					<div  style="display:inline-block;">
+						<input class="form-control" style="width:150px;" id="categoryName" type="text" placeholder="Name of Category" tabindex="1" name="categoryName" title="This is the name of the new category" required>
+					</div>
+					<div id="amountOption" style="display:inline-block;">
+						<div style="display:inline-block;" class="input-group">
+							<input class="form-control" type="text" style="direction:RTL; width: 150px; margin-left:20px;" placeholder="Budgeted Amount" tabindex="3" name="categoryAmt" title="This is the budgeted amount" value="" required>
+							<div style="display:inline-block;" class="input-group-btn">
+								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Choose <span class="caret"></span></button>
+								<ul class="dropdown-menu dropdown-menu-right">
+									<li><a href="#">USD</a></li>
+									<li><a href="#">Mex$</a></li>
+									<li><a href="#">Euro</a></li>
+									<li><a href="#">CAD</a></li>
+								</ul>
+							</div><!-- /btn-group -->
+						</div>
+					</div>
 				</div>
 				<br/>
-				<div style="width:99%;">
-					<input list="currencies" style="width:100px; display:inline-block; margin-left:50px;" placeholder="Currency" tabindex="2" name="currency" />
-					<!-- TODO: Once one is selected, list disappears basically. Figure out how to keep entire list. -->
-					<datalist id="currencies">
-						<option value="USD">
-						<option value="CAD">
-						<option value="Euro">
-						<option value="Mex$">
-					</datalist>
-					<input type="text" style="direction:RTL; width: 144px; display:inline-block; margin-left:75px;" placeholder="Budgeted Amount" tabindex="3" name="categoryAmt" value="" required>
-				</div>
 				<br/>
-				<p style="text-align:center;">Rules</p>
 				<p>Rules takes precedence when new transactions come in and will affect this Category! You can define both types of rules but you must choose which one will take precedence.</p>
-				<button type="submit" style="right; left:71%; width:130px; white-space: nowrap;" id="saveRule">Save Rule</button>
-
 				<br/>
-
-				<div id="group1">
+				<div id="ruleGroup">
 					<p style="float:left;">If a transactions amount is:</p>
 					<input id="transactionPrecendence" name="group1" value="precedenceAmount" style="float:right;" type="radio">
 
@@ -214,11 +223,12 @@
 					<p style="float:left;">If a transactions name is like:</p>
 					<br/>
 					<div class="input-group" style="right:0px;">
-					 <span class="input-group-addon">
-						<i id="glyphiconRemove" onclick="clearInput('merchantsName2')" class="glyphicon glyphicon-remove"></i>
-					 </span>
+						<span class="input-group-addon">
+							<i id="glyphiconRemove" onclick="clearInput('merchantsName2')" class="glyphicon glyphicon-remove"></i>
+						</span>
 						<input id="merchantsName2" class="form-control" type="text" style="width: 205px; display:block; left:0px;" placeholder="ex: McDs, Target, Sonic" tabindex="7" name="merchantsName" value="" required/>
 					</div>
+					<button type="submit" style="right; left:71%; width:130px; white-space: nowrap;" id="saveRule">Save Rule</button>
 				</div>
 				<br/>
 				<br/>
@@ -353,11 +363,10 @@
 							<option label="Transactions" value="Ignored Transactions"></option>
 						</datalist>
 						<input type="hidden" id="currentAccountHidden" name="currentAccountHidden" value=""/>
-						<button id="getTransactions" type="submit" title="Get Transactions" onclick="return validateFields()" class="form-control" style="width:130px; display: block;">Get Transactions</button>
+						<button id="getTransactions" type="submit" title="Get" onclick="return validateFields()" class="form-control" style="width:130px; display: block;">Get Transactions</button>
 					</div>
 				</form>
 			</div> <!-- end getTransactionsDiv -->
-
 			<!-- Copy table as done in Accounts.jsp -->
 			<div id="displayTransactionsDiv" class="mainTable"  style="width:100%;">
 				<table class="innerTable" id="innerTable" style="margin-left: auto; margin-right: auto; width:100%;">
@@ -409,66 +418,6 @@
 					<% } %>
 				</table>
 			</div>
-			<!-- End copy, original follows but not using -->
-			<!--
-			<div id="displayTransactionsDiv" style="width:100%;">
-<%--				<%--%>
-<%--					// Java code here--%>
-<%--					ArrayList<Transaction> transactions = (ArrayList<Transaction>) session.getAttribute("usersTransactions");--%>
-<%--					for (int i = 0; i < transactions.size(); i++) {--%>
-<%--						Transaction transaction = transactions.get(i);--%>
-<%--				%>--%>
-				<div id="transactionsContainerDiv" class="transactionTicket" name="transactionTicket">
-					<table id="transactionsTable" class="transactionTable" name="transactionsTable">
-						<tr id="header" name="">
-							<th colspan="2">
-<%--								<h4 id="TransactionMapping" style="text-align: center">Transaction <%= (i+1) %></h4>--%>
-							</th>
-						</tr>
-						<tr id="row1">
-							<td>
-								 Merchant Name: <merchantName> (Editable)
-								<label for="merchantName" style="margin-right:10px;">Merchant Name:</label>
-<%--								<input type="text" size="50" style="float: right; text-align:right;" id="merchantName" value="<%= transaction.getName() %>"/>--%>
-							</td>
-						</tr>
-						<tr id="row2">
-							<td>
-								Amount: <amount> (Non-editable)
-								<label for="amount" style="margin-right:10px;">Amount:</label>
-<%--								<p style="float: right; text-align:right;" id="amount"><%= transaction.getAmount() %></p>--%>
-							</td>
-						</tr>
-						<tr id="row3" style="margin-left:10px;">
-							<td>
-								<datalist id="categories2"></datalist>
-								<input id="categorySelected" name="categorySelected" value=""
-									   title="Choose a Category" class="form-control" list="categories1" type="text"
-									   style="display: block; margin-right:10px;" placeholder="Choose a Category" tabindex="#" required/>
-							</td>
-						</tr>
-						<tr id="row4">
-							<td>
-								<table class="transactionTable" style="width:100%;">
-									<tr class="wrap">
-<%--										<td><button style="height:100%; display: inline-block;" tabindex="#" type="submit" onclick="performTransactionAction('<%= transaction.getTransactionId() %>', 'ignore')">Ignore</button></td>--%>
-<%--										<td><button style="height:100%; display: inline-block;" tabindex="#" type="submit" onclick="performTransactionAction('<%= transaction.getTransactionId() %>', 'bill')">Bill</button></td>--%>
-<%--										<td><button style="height:100%; display: inline-block;" tabindex="#" type="submit" onclick="performTransactionAction('<%= transaction.getTransactionId() %>', 'income')">Income</button></td>--%>
-<%--										<td><button style="height:100%; display: inline-block;" tabindex="#" type="submit" onclick="performTransactionAction('<%= transaction.getTransactionId() %>', 'save')">Save</button></td>--%>
-									</tr>
-								</table>
-							</td>
-						</tr>
-<%--						<tr id="row5">--%>
-<%--							<td>--%>
-<%--								&nbsp;--%>
-<%--							</td>--%>
-<%--						</tr>--%>
-					</table> end transactionsTicket
-				</div>end transactionsTable
-<%--				<% } %>--%>
-			</div> end transactionContainerDiv
-		</div> End transactionsDiv -->
 		</div>
 		<!-- end MainDiv -->
 		<br/>
@@ -824,7 +773,26 @@
 						// Don't fade the text
 				}
 
-				//$("[id='cHeader']").doSomething
+				$("[id='cHeader']").on("mouseover", function() {
+					document.body.style.cursor="pointer";
+					if (this.text === 'Your Categories') this.title = 'Change to New Categories';
+					else this.title = 'Change to Your Categories';
+				}).on("mouseout", function() {
+					document.body.style.cursor="default";})
+				.click(function() {
+					if ($("[id='cHeader']").text() === "New Categories")  {
+						console.log("activating current categories list...");
+						$('#newCategoryDiv').hide();
+						$('#currentCategoryDiv').show();
+						$("[id='cHeader']").text("Your Categories");
+					} else {
+						console.log("activating new categories view...");
+						$('#currentCategoryDiv').hide();
+						$('#newCategoryDiv').show();
+						$("[id='cHeader']").text("New Categories");
+					}
+				});
+
 				$("[id='tHeader']").on("mouseover", function() {
 					document.body.style.cursor="pointer";
 					this.title = "Clear all transactions"
