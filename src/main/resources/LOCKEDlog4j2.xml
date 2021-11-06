@@ -38,10 +38,12 @@
 		</RollingFile>
 	</Appenders>
 	<Loggers>
-		<Root level="TRACE">
+		<Root level="DEBUG">
 			<AppenderRef ref="ConsoleAppender" level="info"/>
 			<AppenderRef ref="MasterFileAppender" />
 			<AppenderRef ref="RollingFileAppender" />
 		</Root>
+		<!-- Eliminates all TRACE output except from the name listed below (should be a class)-->
+		<Logger name ="com.miBudget.v1" level="TRACE"/>
 	</Loggers>
 </Configuration>

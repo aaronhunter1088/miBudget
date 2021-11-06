@@ -5994,3 +5994,6 @@ Caused by: java.sql.SQLSyntaxErrorException: You have an error in your SQL synta
 [INFO ] 09-16-2020 23:39:17.849 [main] com.miBudget.v1.utilities.HibernateUtilities:shutdown:46 - serviceRegistry destroyed.
 [INFO ] 03-22-2021 18:42:08.238 [main] com.miBudget.v1.utilities.DateAndTimeUtility:getDateAndTimeAsStr:38 - dateAndTime: MONDAY MARCH 22, 2021 18:42:008 PM
 [INFO ] 03-22-2021 18:43:01.118 [main] com.miBudget.v1.utilities.DateAndTimeUtility:getDateAndTimeAsStr:38 - dateAndTime: MONDAY MARCH 22, 2021 06:43:001 AM
+[INFO ] 05-29-2021 10:49:32.167 [main] com.miBudget.v1.utilities.DateAndTimeUtility:getDateAndTimeAsStr:38 - dateAndTime: SATURDAY MAY 29, 2021 10:49:32 AM
+[INFO ] 05-29-2021 11:04:52.454 [main] com.miBudget.v1.utilities.DateAndTimeUtility:getDateAndTimeAsStr:38 - dateAndTime: SATURDAY MAY 29, 2021 11:04:52 AM
+[INFO ] 11-05-2021 21:15:40.931 [main] com.miBudget.v1.utilities.DateAndTimeUtility:getDateAndTimeAsStr:38 - dateAndTime: FRIDAY NOVEMBER 05, 2021 09:15:40 AM

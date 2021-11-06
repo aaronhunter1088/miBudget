@@ -41,7 +41,7 @@ public class DateAndTimeUtility {
 	
 	public static void main(String[] args)
 	{
-		System.out.println(getDateAndTimeAsStr());
+		getDateAndTimeAsStr();
 	}
 
 }

@@ -30,7 +30,9 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
-		<style>
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+        <style>
 			<!-- NEEDED -->
 			body {
 				display: block;
@@ -42,7 +44,7 @@
 				border-style : solid;
 				cursor:pointer;
 			}
-			button {
+			i, button {
 				/*height:21px;*/
 				/*width:100px;*/
 				/*margin: -20px -50px;*/
@@ -175,18 +177,17 @@
 			<br/> --%>
 			<div id="newCategoryDiv" style="width:95%; margin-left:20px; margin-top:20px; display:inline-block;">
 				<div id="row1" style="display:inline-block;">
-					<div id="nameOption" class="input-group" style="display:inline-block;">
-						<input class="form-control" style="width:150px;" id="categoryName" type="text" placeholder="Name of Category" tabindex="1" name="categoryName" title="This is the name of the new category" required>
-						<span class="input-group-addon">
-							<i id="glyphiconRemove" onclick="clearInput('categoryName')" class="glyphicon glyphicon-remove"></i>
-						</span>
-						</div>
-					<div  style="display:inline-block;">
-						<input class="form-control" style="width:150px;" id="categoryName" type="text" placeholder="Name of Category" tabindex="1" name="categoryName" title="This is the name of the new category" required>
-					</div>
-					<div id="amountOption" style="display:inline-block;">
+					<div class="input-group" id="nameOption" style="display:inline-block;">
+						<div style="display:inline-block;">
+                            <input class="form-control" id="categoryName" type="text" style="direction:LTR; width: 150px; margin-left:20px;" placeholder="Name of Category" tabindex="1" name="categoryName" title="This is the name of the new category" value="" required>
+                            <span class="input-group-addon" style="width:25px; height:34px;">
+									<i onclick="clearInput('categoryName')" class="glyphicon glyphicon-remove"></i>
+                            </span>
+                        </div>
+                    </div>
+					<div class="input-group" id="amountOption" style="display:inline-block; vertical-align:top;">
 						<div style="display:inline-block;" class="input-group">
-							<input class="form-control" type="text" style="direction:RTL; width: 150px; margin-left:20px;" placeholder="Budgeted Amount" tabindex="3" name="categoryAmt" title="This is the budgeted amount" value="" required>
+							<input class="form-control" id="categoryAmt" type="text" style="direction:RTL; width: 150px; margin-left:20px;" placeholder="Budgeted Amount" tabindex="2" name="budgetAmt" title="This is the budgeted amount" value="" required>
 							<div style="display:inline-block;" class="input-group-btn">
 								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Choose <span class="caret"></span></button>
 								<ul class="dropdown-menu dropdown-menu-right">
@@ -195,7 +196,7 @@
 									<li><a href="#">Euro</a></li>
 									<li><a href="#">CAD</a></li>
 								</ul>
-							</div><!-- /btn-group -->
+							</div>
 						</div>
 					</div>
 				</div>
@@ -363,7 +364,7 @@
 							<option label="Transactions" value="Ignored Transactions"></option>
 						</datalist>
 						<input type="hidden" id="currentAccountHidden" name="currentAccountHidden" value=""/>
-						<button id="getTransactions" type="submit" title="Get" onclick="return validateFields()" class="form-control" style="width:130px; display: block;">Get Transactions</button>
+						<button id="getTransactions" type="submit" title="Get" onclick="return validateFields()" class="form-control" style="width:130px; display: block;">Get</button>
 					</div>
 				</form>
 			</div> <!-- end getTransactionsDiv -->
@@ -467,25 +468,24 @@
 			};
 			function clearInput(input) {
 				//alert("Clearing this text box.")
-				var target = input;
+				let target = input;
 				console.log('target: ' + target);
 				
-				if (target == "categoryName") {
+				if (target === "categoryName") {
 					console.log('target before: ' + $("#categoryName").val());
 					$("#categoryName").val("");
 					console.log('target after: ' + $("#categoryName").val());
 					
-				} else if (target == "merchantsName") {
+				} else if (target === "merchantsName") {
 					console.log('target before: ' + $("#merchantsName").val());
 					$("#merchantsName").val("");
 					console.log('target after: ' + $("#merchantsName").val());
-				} else if (target == "merchantsName2") {
+				} else if (target === "merchantsName2") {
 					console.log('target before: ' + $("#merchantsName2").val());
 					$("#merchantsName2").val("");
 					console.log('target after: ' + $("#merchantsName2").val());
 				}
-				
-			};
+			}
 			function validateFields() {
 				let validate = false;
 
@@ -561,7 +561,7 @@
 					return false;
 				}
 
-			}; //validate fields
+			} //validate fields
 
 			function updateTransactionsTickets() {
 				$('#transactionsContainerDiv').each(function() {
