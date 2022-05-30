@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 20, 2018 11:32:29 AM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.miBudget.entities.UserAccountObject" table="usersaccounts">
+        <id name="id" type="int">
+            <column name="usersaccountsid" />
+            <generator class="assigned" />
+        </id>
+        <property name="userId" type="int">
+            <column name="userid" />
+        </property>
+        <property name="accountId" type="java.lang.String">
+            <column name="accountid" />
+        </property>
+        <property name="availableBalance" type="double">
+            <column name="availablebalance" />
+        </property>
+        <property name="currencyCode" type="java.lang.String">
+            <column name="currencycode" />
+        </property>
+        <property name="currentBalance" type="double">
+            <column name="currentbalance" />
+        </property>
+        <property name="limit" type="double" access="field">
+            <column name="_limit" />
+        </property>
+        <property name="itemTableId" type="int">
+            <column name="itemtableid" />
+        </property>
+        <property name="mask" type="java.lang.String">
+            <column name="mask" />
+        </property>
+        <property name="nameOfAccount" type="java.lang.String">
+            <column name="nameofaccount" />
+        </property>
+        <property name="officialName" type="java.lang.String">
+            <column name="officialname" />
+        </property>
+        <property name="type" type="java.lang.String">
+            <column name="_type" />
+        </property>
+        <property name="subType" type="java.lang.String">
+            <column name="subtype" />
+        </property>
+    </class>
+</hibernate-mapping>
