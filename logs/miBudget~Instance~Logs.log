@@ -1,1 +1,1 @@
-[INFO ] 11-05-2021 21:15:40.931 [main] com.miBudget.v1.utilities.DateAndTimeUtility:getDateAndTimeAsStr:38 - dateAndTime: FRIDAY NOVEMBER 05, 2021 09:15:40 AM
+[INFO ] 11-05-2021 21:15:40.931 [main] DateAndTimeUtility:getDateAndTimeAsStr:38 - dateAndTime: FRIDAY NOVEMBER 05, 2021 09:15:40 AM

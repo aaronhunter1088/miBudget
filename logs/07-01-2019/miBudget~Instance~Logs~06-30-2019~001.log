@@ -193,29 +193,29 @@ java.sql.SQLNonTransientConnectionException: Public Key Retrieval is not allowed
 	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:85) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
 	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:689) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
 	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:724) [hibernate-core-5.4.0.CR2.jar:5.4.0.CR2]
-	at com.miBudget.v1.utilities.HibernateUtilities.getSessionFactory(HibernateUtilities.java:65) [classes/:?]
-	at com.miBudget.v1.utilities.ClientTest.main(ClientTest.java:28) [classes/:?]
+	at HibernateUtilities.getSessionFactory(HibernateUtilities.java:65) [classes/:?]
+	at ClientTest.main(ClientTest.java:28) [classes/:?]
 [WARN ] 06-30-2019 18:05:36.049 [main] org.hibernate.engine.jdbc.spi.SqlExceptionHelper:logExceptions:137 - SQL Error: 0, SQLState: 08001
 [ERROR] 06-30-2019 18:05:36.049 [main] org.hibernate.engine.jdbc.spi.SqlExceptionHelper:logExceptions:142 - Public Key Retrieval is not allowed
-[ERROR] 06-30-2019 18:05:36.052 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:69 - Hibernate threw an error.
-[ERROR] 06-30-2019 18:05:36.053 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:70 - Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment]
-[ERROR] 06-30-2019 18:05:36.053 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:275)
-[ERROR] 06-30-2019 18:05:36.054 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
-[ERROR] 06-30-2019 18:05:36.054 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
-[ERROR] 06-30-2019 18:05:36.055 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:152)
-[ERROR] 06-30-2019 18:05:36.055 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
-[ERROR] 06-30-2019 18:05:36.055 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
-[ERROR] 06-30-2019 18:05:36.056 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
-[ERROR] 06-30-2019 18:05:36.057 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:175)
-[ERROR] 06-30-2019 18:05:36.057 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:119)
-[ERROR] 06-30-2019 18:05:36.058 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build(MetadataBuildingProcess.java:84)
-[ERROR] 06-30-2019 18:05:36.059 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:474)
-[ERROR] 06-30-2019 18:05:36.060 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:85)
-[ERROR] 06-30-2019 18:05:36.061 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:689)
-[ERROR] 06-30-2019 18:05:36.061 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:724)
-[ERROR] 06-30-2019 18:05:36.061 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - com.miBudget.v1.utilities.HibernateUtilities.getSessionFactory(HibernateUtilities.java:65)
-[ERROR] 06-30-2019 18:05:36.062 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:73 - com.miBudget.v1.utilities.ClientTest.main(ClientTest.java:28)
-[ERROR] 06-30-2019 18:05:36.063 [main] com.miBudget.v1.utilities.HibernateUtilities:getSessionFactory:91 - sessionFactory was not created due to an error.
-[ERROR] 06-30-2019 18:05:36.064 [main] com.miBudget.v1.utilities.ClientTest:main:57 - Error making a connection to the database
-[ERROR] 06-30-2019 18:05:36.066 [main] com.miBudget.v1.utilities.ClientTest:main:63 - com.miBudget.v1.utilities.ClientTest.main(ClientTest.java:29)
+[ERROR] 06-30-2019 18:05:36.052 [main] HibernateUtilities:getSessionFactory:69 - Hibernate threw an error.
+[ERROR] 06-30-2019 18:05:36.053 [main] HibernateUtilities:getSessionFactory:70 - Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment]
+[ERROR] 06-30-2019 18:05:36.053 [main] HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:275)
+[ERROR] 06-30-2019 18:05:36.054 [main] HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
+[ERROR] 06-30-2019 18:05:36.054 [main] HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+[ERROR] 06-30-2019 18:05:36.055 [main] HibernateUtilities:getSessionFactory:73 - org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:152)
+[ERROR] 06-30-2019 18:05:36.055 [main] HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
+[ERROR] 06-30-2019 18:05:36.055 [main] HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
+[ERROR] 06-30-2019 18:05:36.056 [main] HibernateUtilities:getSessionFactory:73 - org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+[ERROR] 06-30-2019 18:05:36.057 [main] HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:175)
+[ERROR] 06-30-2019 18:05:36.057 [main] HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:119)
+[ERROR] 06-30-2019 18:05:36.058 [main] HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build(MetadataBuildingProcess.java:84)
+[ERROR] 06-30-2019 18:05:36.059 [main] HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:474)
+[ERROR] 06-30-2019 18:05:36.060 [main] HibernateUtilities:getSessionFactory:73 - org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:85)
+[ERROR] 06-30-2019 18:05:36.061 [main] HibernateUtilities:getSessionFactory:73 - org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:689)
+[ERROR] 06-30-2019 18:05:36.061 [main] HibernateUtilities:getSessionFactory:73 - org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:724)
+[ERROR] 06-30-2019 18:05:36.061 [main] HibernateUtilities:getSessionFactory:73 - HibernateUtilities.getSessionFactory(HibernateUtilities.java:65)
+[ERROR] 06-30-2019 18:05:36.062 [main] HibernateUtilities:getSessionFactory:73 - ClientTest.main(ClientTest.java:28)
+[ERROR] 06-30-2019 18:05:36.063 [main] HibernateUtilities:getSessionFactory:91 - sessionFactory was not created due to an error.
+[ERROR] 06-30-2019 18:05:36.064 [main] ClientTest:main:57 - Error making a connection to the database
+[ERROR] 06-30-2019 18:05:36.066 [main] ClientTest:main:63 - ClientTest.main(ClientTest.java:29)
 

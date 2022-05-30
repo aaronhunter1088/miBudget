@@ -1,6 +1,6 @@
-[DEBUG] 05-03-2019 22:05:07.196 [main] com.miBudget.v1.logging.test.Log4j2Test:main:16 - This is a debug message
-[INFO ] 05-03-2019 22:05:07.208 [main] com.miBudget.v1.logging.test.Log4j2Test:main:17 - This is an info message
-[WARN ] 05-03-2019 22:05:07.209 [main] com.miBudget.v1.logging.test.Log4j2Test:main:18 - This is a warn message
-[ERROR] 05-03-2019 22:05:07.209 [main] com.miBudget.v1.logging.test.Log4j2Test:main:19 - This is an error message
-[FATAL] 05-03-2019 22:05:07.210 [main] com.miBudget.v1.logging.test.Log4j2Test:main:20 - This is a fatal message
-[INFO ] 05-03-2019 22:05:07.210 [main] com.miBudget.v1.logging.test.Log4j2Test:cat:25 - The method name is 'cat'.
+[DEBUG] 05-03-2019 22:05:07.196 [main] Log4j2Test:main:16 - This is a debug message
+[INFO ] 05-03-2019 22:05:07.208 [main] Log4j2Test:main:17 - This is an info message
+[WARN ] 05-03-2019 22:05:07.209 [main] Log4j2Test:main:18 - This is a warn message
+[ERROR] 05-03-2019 22:05:07.209 [main] Log4j2Test:main:19 - This is an error message
+[FATAL] 05-03-2019 22:05:07.210 [main] Log4j2Test:main:20 - This is a fatal message
+[INFO ] 05-03-2019 22:05:07.210 [main] Log4j2Test:cat:25 - The method name is 'cat'.

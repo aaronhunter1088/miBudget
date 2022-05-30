@@ -24,7 +24,7 @@ public class Item implements Serializable {
 	}
 	
 	public Item(int itemTableId, String itemId, String accessToken) {
-		this.itemTableId = itemTableId;
+		this._id = itemTableId;
 		this.itemId = itemId;
 		this.accessToken = accessToken;
 	}
@@ -42,7 +42,7 @@ public class Item implements Serializable {
 	}
 	
 	public Item(int itemTableId, String itemId, String accessToken, String institutionId) {
-		this.itemTableId = itemTableId;
+		this._id = itemTableId;
 		this.institutionId = institutionId;
 		this.itemId = itemId;
 		this.accessToken = accessToken;
@@ -50,8 +50,13 @@ public class Item implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+<<<<<<< Updated upstream
 	@Column(name="itemtableid")
 	public int itemTableId;
+=======
+	@Column(name="_id")
+	public int _id;
+>>>>>>> Stashed changes
 	
 	@Column(name="institutionid")
 	public String institutionId;
@@ -62,12 +67,12 @@ public class Item implements Serializable {
 	@Column(name="accesstoken")
 	public String accessToken;
 
-	public int getItemTableId() {
-		return itemTableId;
+	public int get_id() {
+		return _id;
 	}
 
-	public void setItemTableId(int itemTableId) {
-		this.itemTableId = itemTableId;
+	public void set_id(int _id) {
+		this._id = _id;
 	}
 	
 	public String getInstitutionId() {
@@ -101,7 +106,7 @@ public class Item implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Item [itemTableId=" + itemTableId + ", institutionId=" + institutionId + ", itemId=" + itemId
+		return "Item [itemTableId=" + _id + ", institutionId=" + institutionId + ", itemId=" + itemId
 				+ ", accessToken=" + accessToken + "]";
 	}
 	

@@ -30,6 +30,8 @@ public class Account implements Serializable {
 		this.subType = subtype;
 	}
 
+
+
 	@Id
 	@Column(name="accountid")
 	private String accountId;

@@ -29,15 +29,15 @@
   <!-- Related to the mapping start 
 	  	<mapping resource ="mapping xml file name" /> 
  <mapping class="" resource=""/> -->
-  <mapping class="com.miBudget.v1.entities.User" resource="com/miBudget/v1/entities/User.hbm.xml"/>
-  <mapping class="com.miBudget.v1.entities.Item" resource="com/miBudget/v1/entities/Item.hbm.xml"/>
-  <mapping class="com.miBudget.v1.entities.Account" resource="com/miBudget/v1/entities/Account.hbm.xml"/>
-  <mapping class="com.miBudget.v1.entities.UserAccountObject" resource="com/miBudget/v1/entities/UserAccountObject.hbm.xml"/>
-  <mapping class="com.miBudget.v1.entities.ItemAccountObject" resource="com/miBudget/v1/entities/ItemAccountObject.hbm.xml"/>
-  <mapping class="com.miBudget.v1.entities.UsersInstitutionIdsObject" resource="com/miBudget/v1/entities/UsersInstitutionIdsObject.hbm.xml"/>
-  <mapping class="com.miBudget.v1.entities.UsersItemsObject" resource="com/miBudget/v1/entities/UsersItemsObject.hbm.xml"/>
-  <mapping class="com.miBudget.v1.entities.Rule" resource="com/miBudget/v1/entities/Rule.hbm.xml"/>
-  <mapping class="com.miBudget.v1.entities.Category" resource="com/miBudget/v1/entities/Category.hbm.xml"/>
+  <mapping class="com.miBudget.entities.User" resource="com/miBudget/entities/User.hbm.xml"/>
+  <mapping class="com.miBudget.entities.Item" resource="com/miBudget/entities/Item.hbm.xml"/>
+  <mapping class="com.miBudget.entities.Account" resource="com/miBudget/entities/Account.hbm.xml"/>
+  <mapping class="com.miBudget.entities.UserAccountObject" resource="com/miBudget/entities/UserAccountObject.hbm.xml"/>
+  <mapping class="com.miBudget.entities.ItemAccountObject" resource="com/miBudget/entities/ItemAccountObject.hbm.xml"/>
+  <mapping class="com.miBudget.entities.UsersInstitutionIdsObject" resource="com/miBudget/entities/UsersInstitutionIdsObject.hbm.xml"/>
+  <mapping class="com.miBudget.entities.UsersItemsObject" resource="com/miBudget/entities/UsersItemsObject.hbm.xml"/>
+  <mapping class="com.miBudget.entities.Rule" resource="com/miBudget/entities/Rule.hbm.xml"/>
+  <mapping class="com.miBudget.entities.Category" resource="com/miBudget/entities/Category.hbm.xml"/>
   <!-- Related to the mapping end -->
  </session-factory>
 </hibernate-configuration>

@@ -94,7 +94,7 @@ public class Authenticate extends HttpServlet {
     		// update account availableBalance, currentBalance, limit, currencyCode, item, figure out how to unmask mask to reveal last 4 of account
 			verify = accountDAOImpl.addAccountObjectToAccountsTableDatabase(account);
 			verify = accountDAOImpl.addAccountObjectToUsersAccountsTable(account, user);
-    		verify = accountDAOImpl.addAccountIdToItemsAccountsTable(item.getItemTableId(), account.getAccountId());
+    		verify = accountDAOImpl.addAccountIdToItemsAccountsTable(item.get_id(), account.getAccountId());
     		
 		}
     	if (verify == 0)
@@ -117,7 +117,7 @@ public class Authenticate extends HttpServlet {
     public int addItemToUsersItemsInDatabase(ArrayList<UsersItemsObject> usersItemsList, Item item, User user) {
     	try {
 //    		itemTableId = itemDAOImpl.getItemTableIdForItemId(item.getItemId());
-    		int itemTableId = item.getItemTableId();
+    		int itemTableId = item.get_id();
     		
     		boolean brokenLoop = false;
     		int verify = 0;
@@ -125,7 +125,7 @@ public class Authenticate extends HttpServlet {
     			verify = miBudgetDAOImpl.addItemToUsersItemsTable(itemTableId, user);
     		} else {
     			for (UsersItemsObject uiObj : usersItemsList) {
-        			if (uiObj.getItemTableId() == item.getItemTableId()) {
+        			if (uiObj.getItemTableId() == item.get_id()) {
         				// we cannot add a bank again to a specific users list of items
         				brokenLoop = true;
         				break;
@@ -442,9 +442,15 @@ public class Authenticate extends HttpServlet {
 			    if (verify == 0)
 				    return "FAIL: did not add " + bankToAdd + " to database.";
 			    else {
+<<<<<<< Updated upstream
 				    LOGGER.info(bankToAdd + " was added to the database.");
 				    bankToAdd.setItemTableId(itemDAOImpl.getItemTableIdForItemId(bankToAdd.getItemId())); // until this point, itemTableId is not set
 				    LOGGER.info("updated bankToAdd: " + bankToAdd);
+=======
+				    System.out.println(bankToAdd + " was added to the database.");
+				    bankToAdd.set_id(itemDAOImpl.getItemTableIdForItemId(bankToAdd.getItemId())); // until this point, itemTableId is not set
+				    System.out.println("updated bankToAdd: " + bankToAdd);
+>>>>>>> Stashed changes
 			    }
 			    
 			    // Add created Item to users_items table
@@ -462,14 +468,19 @@ public class Authenticate extends HttpServlet {
 				    LOGGER.info(bankToAdd.getInstitutionId() + " added to UsersInstitutions table in database");
 			    }
 		    } else {
+<<<<<<< Updated upstream
 		    	bankToAdd.setItemTableId(ItemDAOImpl.getItemTableIdUsingInsId(bankToAdd.getInstitutionId())); // until this point, itemTableId is not set
 			    LOGGER.info("updated bankToAdd: " + bankToAdd); // since bank already exists, get itemTableId and set it for this bankToAdd object
+=======
+		    	bankToAdd.set_id(itemDAOImpl.getItemTableIdUsingInsId(bankToAdd.getInstitutionId())); // until this point, itemTableId is not set
+			    System.out.println("updated bankToAdd: " + bankToAdd); // since bank already exists, get itemTableId and set it for this bankToAdd object
+>>>>>>> Stashed changes
 		    }
 //		    bankToAdd = itemDAOImpl.getItemFromUser(institutionId);
 		    // Add accounts to users profile
 //		    int itemTableId = itemDAOImpl.getItemTableIdForItemId(bankToAdd.getItemId());
 		    accountsRequestedList.forEach(account -> {
-			    account.setItemTableId(bankToAdd.getItemTableId());
+			    account.setItemTableId(bankToAdd.get_id());
 		    });
 		    // Need the above lines to set item_table_id for the accounts. they all have the same item
 		    // But need to set to proper item_table_id that was set.

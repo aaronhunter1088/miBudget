@@ -169,309 +169,309 @@
 [INFO ] 05-03-2019 20:37:55.593 [main] org.hibernate.envers.boot.internal.EnversServiceImpl:configure:90 - Envers integration enabled? : true
 [DEBUG] 05-03-2019 20:37:55.595 [main] org.hibernate.type.BasicTypeRegistry:register:156 - Adding type registration org.hibernate.envers.internal.entities.RevisionTypeType -> org.hibernate.type.CustomType@1d9bec4d
 [DEBUG] 05-03-2019 20:37:55.597 [main] org.hibernate.type.spi.TypeConfiguration$Scope:scope:152 - Scoping TypeConfiguration [org.hibernate.type.spi.TypeConfiguration@5fb97279] to MetadataBuildingContext [org.hibernate.boot.internal.MetadataBuildingContextRootImpl@439a8f59]
-[DEBUG] 05-03-2019 20:37:55.673 [main] org.hibernate.cfg.AnnotationBinder:bindClass:558 - Binding entity from annotated class: com.miBudget.v1.entities.User
+[DEBUG] 05-03-2019 20:37:55.673 [main] org.hibernate.cfg.AnnotationBinder:bindClass:558 - Binding entity from annotated class: User
 [DEBUG] 05-03-2019 20:37:55.703 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3DiscriminatorColumn{logicalColumnName'DTYPE', discriminatorTypeName='string'}
 [DEBUG] 05-03-2019 20:37:55.710 [main] org.hibernate.cfg.annotations.EntityBinder:bindEntity:430 - Import with entity name User
-[DEBUG] 05-03-2019 20:37:55.715 [main] org.hibernate.cfg.annotations.EntityBinder:bindTable:873 - Bind entity com.miBudget.v1.entities.User on table users
+[DEBUG] 05-03-2019 20:37:55.715 [main] org.hibernate.cfg.annotations.EntityBinder:bindTable:873 - Bind entity User on table users
 [DEBUG] 05-03-2019 20:37:55.747 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users), mappingColumn=id, insertable=true, updatable=false, unique=false}
 [DEBUG] 05-03-2019 20:37:55.753 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property id with lazy=false
-[DEBUG] 05-03-2019 20:37:55.757 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.User:id]
+[DEBUG] 05-03-2019 20:37:55.757 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [User:id]
 [DEBUG] 05-03-2019 20:37:55.761 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for id
 [DEBUG] 05-03-2019 20:37:55.765 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property id
 [DEBUG] 05-03-2019 20:37:55.771 [main] org.hibernate.cfg.BinderHelper:makeIdGenerator:644 - #makeIdGenerator(org.hibernate.mapping.SimpleValue([org.hibernate.mapping.Column(id)]), id, org.hibernate.id.enhanced.SequenceStyleGenerator, , ...)
 [DEBUG] 05-03-2019 20:37:55.776 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users), mappingColumn=cellphone, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.778 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property cellphone with lazy=false
-[DEBUG] 05-03-2019 20:37:55.779 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.User:cellphone]
+[DEBUG] 05-03-2019 20:37:55.779 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [User:cellphone]
 [DEBUG] 05-03-2019 20:37:55.779 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for cellphone
 [DEBUG] 05-03-2019 20:37:55.780 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property cellphone
 [DEBUG] 05-03-2019 20:37:55.780 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users), mappingColumn=email, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.781 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property email with lazy=false
-[DEBUG] 05-03-2019 20:37:55.781 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.User:email]
+[DEBUG] 05-03-2019 20:37:55.781 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [User:email]
 [DEBUG] 05-03-2019 20:37:55.782 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for email
 [DEBUG] 05-03-2019 20:37:55.782 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property email
 [DEBUG] 05-03-2019 20:37:55.784 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users), mappingColumn=first_name, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.784 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property firstname with lazy=false
-[DEBUG] 05-03-2019 20:37:55.784 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.User:firstname]
+[DEBUG] 05-03-2019 20:37:55.784 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [User:firstname]
 [DEBUG] 05-03-2019 20:37:55.785 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for firstname
 [DEBUG] 05-03-2019 20:37:55.785 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property firstname
 [DEBUG] 05-03-2019 20:37:55.786 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users), mappingColumn=last_name, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.786 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property lastname with lazy=false
-[DEBUG] 05-03-2019 20:37:55.786 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.User:lastname]
+[DEBUG] 05-03-2019 20:37:55.786 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [User:lastname]
 [DEBUG] 05-03-2019 20:37:55.787 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for lastname
 [DEBUG] 05-03-2019 20:37:55.787 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property lastname
 [DEBUG] 05-03-2019 20:37:55.788 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users), mappingColumn=password, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.788 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property password with lazy=false
-[DEBUG] 05-03-2019 20:37:55.789 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.User:password]
+[DEBUG] 05-03-2019 20:37:55.789 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [User:password]
 [DEBUG] 05-03-2019 20:37:55.789 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for password
 [DEBUG] 05-03-2019 20:37:55.789 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property password
-[DEBUG] 05-03-2019 20:37:55.795 [main] org.hibernate.cfg.AnnotationBinder:bindClass:558 - Binding entity from annotated class: com.miBudget.v1.entities.Item
+[DEBUG] 05-03-2019 20:37:55.795 [main] org.hibernate.cfg.AnnotationBinder:bindClass:558 - Binding entity from annotated class: Item
 [DEBUG] 05-03-2019 20:37:55.795 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3DiscriminatorColumn{logicalColumnName'DTYPE', discriminatorTypeName='string'}
 [DEBUG] 05-03-2019 20:37:55.795 [main] org.hibernate.cfg.annotations.EntityBinder:bindEntity:430 - Import with entity name Item
-[DEBUG] 05-03-2019 20:37:55.796 [main] org.hibernate.cfg.annotations.EntityBinder:bindTable:873 - Bind entity com.miBudget.v1.entities.Item on table items
+[DEBUG] 05-03-2019 20:37:55.796 [main] org.hibernate.cfg.annotations.EntityBinder:bindTable:873 - Bind entity Item on table items
 [DEBUG] 05-03-2019 20:37:55.797 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(items), mappingColumn=item_table_id, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.798 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property itemTableId with lazy=false
-[DEBUG] 05-03-2019 20:37:55.799 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Item:itemTableId]
+[DEBUG] 05-03-2019 20:37:55.799 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Item:itemTableId]
 [DEBUG] 05-03-2019 20:37:55.799 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for itemTableId
 [DEBUG] 05-03-2019 20:37:55.800 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property itemTableId
 [DEBUG] 05-03-2019 20:37:55.800 [main] org.hibernate.cfg.BinderHelper:makeIdGenerator:644 - #makeIdGenerator(org.hibernate.mapping.SimpleValue([org.hibernate.mapping.Column(item_table_id)]), itemTableId, org.hibernate.id.enhanced.SequenceStyleGenerator, , ...)
 [DEBUG] 05-03-2019 20:37:55.801 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(items), mappingColumn=access_token, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.801 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property accessToken with lazy=false
-[DEBUG] 05-03-2019 20:37:55.801 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Item:accessToken]
+[DEBUG] 05-03-2019 20:37:55.801 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Item:accessToken]
 [DEBUG] 05-03-2019 20:37:55.802 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for accessToken
 [DEBUG] 05-03-2019 20:37:55.802 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property accessToken
 [DEBUG] 05-03-2019 20:37:55.803 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(items), mappingColumn=institution_id, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.805 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property institutionId with lazy=false
-[DEBUG] 05-03-2019 20:37:55.805 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Item:institutionId]
+[DEBUG] 05-03-2019 20:37:55.805 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Item:institutionId]
 [DEBUG] 05-03-2019 20:37:55.805 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for institutionId
 [DEBUG] 05-03-2019 20:37:55.806 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property institutionId
 [DEBUG] 05-03-2019 20:37:55.806 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(items), mappingColumn=item_id, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.807 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property itemId with lazy=false
-[DEBUG] 05-03-2019 20:37:55.807 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Item:itemId]
+[DEBUG] 05-03-2019 20:37:55.807 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Item:itemId]
 [DEBUG] 05-03-2019 20:37:55.807 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for itemId
 [DEBUG] 05-03-2019 20:37:55.808 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property itemId
-[DEBUG] 05-03-2019 20:37:55.808 [main] org.hibernate.cfg.AnnotationBinder:bindClass:558 - Binding entity from annotated class: com.miBudget.v1.entities.Account
+[DEBUG] 05-03-2019 20:37:55.808 [main] org.hibernate.cfg.AnnotationBinder:bindClass:558 - Binding entity from annotated class: Account
 [DEBUG] 05-03-2019 20:37:55.809 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3DiscriminatorColumn{logicalColumnName'DTYPE', discriminatorTypeName='string'}
 [DEBUG] 05-03-2019 20:37:55.809 [main] org.hibernate.cfg.annotations.EntityBinder:bindEntity:430 - Import with entity name Account
-[DEBUG] 05-03-2019 20:37:55.809 [main] org.hibernate.cfg.annotations.EntityBinder:bindTable:873 - Bind entity com.miBudget.v1.entities.Account on table accounts
+[DEBUG] 05-03-2019 20:37:55.809 [main] org.hibernate.cfg.annotations.EntityBinder:bindTable:873 - Bind entity Account on table accounts
 [DEBUG] 05-03-2019 20:37:55.813 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(accounts), mappingColumn=account_id, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.813 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property accountId with lazy=false
-[DEBUG] 05-03-2019 20:37:55.813 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Account:accountId]
+[DEBUG] 05-03-2019 20:37:55.813 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Account:accountId]
 [DEBUG] 05-03-2019 20:37:55.814 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for accountId
 [DEBUG] 05-03-2019 20:37:55.814 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property accountId
 [DEBUG] 05-03-2019 20:37:55.817 [main] org.hibernate.cfg.BinderHelper:makeIdGenerator:644 - #makeIdGenerator(org.hibernate.mapping.SimpleValue([org.hibernate.mapping.Column(account_id)]), accountId, assigned, , ...)
 [DEBUG] 05-03-2019 20:37:55.818 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(accounts), mappingColumn=available_balance, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.819 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property availableBalance with lazy=false
-[DEBUG] 05-03-2019 20:37:55.819 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Account:availableBalance]
+[DEBUG] 05-03-2019 20:37:55.819 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Account:availableBalance]
 [DEBUG] 05-03-2019 20:37:55.819 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for availableBalance
 [DEBUG] 05-03-2019 20:37:55.820 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property availableBalance
 [DEBUG] 05-03-2019 20:37:55.821 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(accounts), mappingColumn=iso_currency_code, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.822 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property currencyCode with lazy=false
-[DEBUG] 05-03-2019 20:37:55.823 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Account:currencyCode]
+[DEBUG] 05-03-2019 20:37:55.823 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Account:currencyCode]
 [DEBUG] 05-03-2019 20:37:55.823 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for currencyCode
 [DEBUG] 05-03-2019 20:37:55.823 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property currencyCode
 [DEBUG] 05-03-2019 20:37:55.824 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(accounts), mappingColumn=current_balance, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.824 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property currentBalance with lazy=false
-[DEBUG] 05-03-2019 20:37:55.824 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Account:currentBalance]
+[DEBUG] 05-03-2019 20:37:55.824 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Account:currentBalance]
 [DEBUG] 05-03-2019 20:37:55.825 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for currentBalance
 [DEBUG] 05-03-2019 20:37:55.825 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property currentBalance
 [DEBUG] 05-03-2019 20:37:55.825 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(accounts), mappingColumn=item_table_id, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.826 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property itemTableId with lazy=false
-[DEBUG] 05-03-2019 20:37:55.826 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Account:itemTableId]
+[DEBUG] 05-03-2019 20:37:55.826 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Account:itemTableId]
 [DEBUG] 05-03-2019 20:37:55.827 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for itemTableId
 [DEBUG] 05-03-2019 20:37:55.827 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property itemTableId
 [DEBUG] 05-03-2019 20:37:55.827 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(accounts), mappingColumn=_limit, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.828 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property limit with lazy=false
-[DEBUG] 05-03-2019 20:37:55.828 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Account:limit]
+[DEBUG] 05-03-2019 20:37:55.828 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Account:limit]
 [DEBUG] 05-03-2019 20:37:55.828 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for limit
 [DEBUG] 05-03-2019 20:37:55.829 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property limit
 [DEBUG] 05-03-2019 20:37:55.829 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(accounts), mappingColumn=mask, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.830 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property mask with lazy=false
-[DEBUG] 05-03-2019 20:37:55.830 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Account:mask]
+[DEBUG] 05-03-2019 20:37:55.830 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Account:mask]
 [DEBUG] 05-03-2019 20:37:55.831 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for mask
 [DEBUG] 05-03-2019 20:37:55.831 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property mask
 [DEBUG] 05-03-2019 20:37:55.832 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(accounts), mappingColumn=account_name, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.832 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property nameOfAccount with lazy=false
-[DEBUG] 05-03-2019 20:37:55.832 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Account:nameOfAccount]
+[DEBUG] 05-03-2019 20:37:55.832 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Account:nameOfAccount]
 [DEBUG] 05-03-2019 20:37:55.833 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for nameOfAccount
 [DEBUG] 05-03-2019 20:37:55.833 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property nameOfAccount
 [DEBUG] 05-03-2019 20:37:55.834 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(accounts), mappingColumn=account_official_name, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.834 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property officialName with lazy=false
-[DEBUG] 05-03-2019 20:37:55.834 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Account:officialName]
+[DEBUG] 05-03-2019 20:37:55.834 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Account:officialName]
 [DEBUG] 05-03-2019 20:37:55.834 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for officialName
 [DEBUG] 05-03-2019 20:37:55.835 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property officialName
 [DEBUG] 05-03-2019 20:37:55.835 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(accounts), mappingColumn=subtype, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.836 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property subType with lazy=false
-[DEBUG] 05-03-2019 20:37:55.836 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Account:subType]
+[DEBUG] 05-03-2019 20:37:55.836 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Account:subType]
 [DEBUG] 05-03-2019 20:37:55.836 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for subType
 [DEBUG] 05-03-2019 20:37:55.837 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property subType
 [DEBUG] 05-03-2019 20:37:55.837 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(accounts), mappingColumn=_type, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.837 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property type with lazy=false
-[DEBUG] 05-03-2019 20:37:55.838 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Account:type]
+[DEBUG] 05-03-2019 20:37:55.838 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Account:type]
 [DEBUG] 05-03-2019 20:37:55.838 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for type
 [DEBUG] 05-03-2019 20:37:55.838 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property type
-[DEBUG] 05-03-2019 20:37:55.839 [main] org.hibernate.cfg.AnnotationBinder:bindClass:558 - Binding entity from annotated class: com.miBudget.v1.entities.UserAccountObject
+[DEBUG] 05-03-2019 20:37:55.839 [main] org.hibernate.cfg.AnnotationBinder:bindClass:558 - Binding entity from annotated class: UserAccountObject
 [DEBUG] 05-03-2019 20:37:55.839 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3DiscriminatorColumn{logicalColumnName'DTYPE', discriminatorTypeName='string'}
 [DEBUG] 05-03-2019 20:37:55.839 [main] org.hibernate.cfg.annotations.EntityBinder:bindEntity:430 - Import with entity name UserAccountObject
-[DEBUG] 05-03-2019 20:37:55.840 [main] org.hibernate.cfg.annotations.EntityBinder:bindTable:873 - Bind entity com.miBudget.v1.entities.UserAccountObject on table users_accounts
+[DEBUG] 05-03-2019 20:37:55.840 [main] org.hibernate.cfg.annotations.EntityBinder:bindTable:873 - Bind entity UserAccountObject on table users_accounts
 [DEBUG] 05-03-2019 20:37:55.842 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_accounts), mappingColumn=id, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.843 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property id with lazy=false
-[DEBUG] 05-03-2019 20:37:55.843 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.UserAccountObject:id]
+[DEBUG] 05-03-2019 20:37:55.843 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [UserAccountObject:id]
 [DEBUG] 05-03-2019 20:37:55.843 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for id
 [DEBUG] 05-03-2019 20:37:55.844 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property id
 [DEBUG] 05-03-2019 20:37:55.844 [main] org.hibernate.cfg.BinderHelper:makeIdGenerator:644 - #makeIdGenerator(org.hibernate.mapping.SimpleValue([org.hibernate.mapping.Column(id)]), id, org.hibernate.id.enhanced.SequenceStyleGenerator, , ...)
 [DEBUG] 05-03-2019 20:37:55.845 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_accounts), mappingColumn=account_id, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.845 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property accountId with lazy=false
-[DEBUG] 05-03-2019 20:37:55.845 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.UserAccountObject:accountId]
+[DEBUG] 05-03-2019 20:37:55.845 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [UserAccountObject:accountId]
 [DEBUG] 05-03-2019 20:37:55.845 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for accountId
 [DEBUG] 05-03-2019 20:37:55.846 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property accountId
 [DEBUG] 05-03-2019 20:37:55.846 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_accounts), mappingColumn=available_balance, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.847 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property availableBalance with lazy=false
-[DEBUG] 05-03-2019 20:37:55.847 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.UserAccountObject:availableBalance]
+[DEBUG] 05-03-2019 20:37:55.847 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [UserAccountObject:availableBalance]
 [DEBUG] 05-03-2019 20:37:55.847 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for availableBalance
 [DEBUG] 05-03-2019 20:37:55.848 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property availableBalance
 [DEBUG] 05-03-2019 20:37:55.848 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_accounts), mappingColumn=iso_currency_code, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.848 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property currencyCode with lazy=false
-[DEBUG] 05-03-2019 20:37:55.849 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.UserAccountObject:currencyCode]
+[DEBUG] 05-03-2019 20:37:55.849 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [UserAccountObject:currencyCode]
 [DEBUG] 05-03-2019 20:37:55.849 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for currencyCode
 [DEBUG] 05-03-2019 20:37:55.849 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property currencyCode
 [DEBUG] 05-03-2019 20:37:55.850 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_accounts), mappingColumn=current_balance, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.850 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property currentBalance with lazy=false
-[DEBUG] 05-03-2019 20:37:55.850 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.UserAccountObject:currentBalance]
+[DEBUG] 05-03-2019 20:37:55.850 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [UserAccountObject:currentBalance]
 [DEBUG] 05-03-2019 20:37:55.851 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for currentBalance
 [DEBUG] 05-03-2019 20:37:55.851 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property currentBalance
 [DEBUG] 05-03-2019 20:37:55.851 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_accounts), mappingColumn=item_table_id, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.852 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property itemTableId with lazy=false
-[DEBUG] 05-03-2019 20:37:55.853 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.UserAccountObject:itemTableId]
+[DEBUG] 05-03-2019 20:37:55.853 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [UserAccountObject:itemTableId]
 [DEBUG] 05-03-2019 20:37:55.853 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for itemTableId
 [DEBUG] 05-03-2019 20:37:55.853 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property itemTableId
 [DEBUG] 05-03-2019 20:37:55.854 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_accounts), mappingColumn=_limit, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.854 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property limit with lazy=false
-[DEBUG] 05-03-2019 20:37:55.854 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.UserAccountObject:limit]
+[DEBUG] 05-03-2019 20:37:55.854 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [UserAccountObject:limit]
 [DEBUG] 05-03-2019 20:37:55.855 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for limit
 [DEBUG] 05-03-2019 20:37:55.855 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property limit
 [DEBUG] 05-03-2019 20:37:55.855 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_accounts), mappingColumn=mask, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.856 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property mask with lazy=false
-[DEBUG] 05-03-2019 20:37:55.856 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.UserAccountObject:mask]
+[DEBUG] 05-03-2019 20:37:55.856 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [UserAccountObject:mask]
 [DEBUG] 05-03-2019 20:37:55.856 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for mask
 [DEBUG] 05-03-2019 20:37:55.857 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property mask
 [DEBUG] 05-03-2019 20:37:55.857 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_accounts), mappingColumn=account_name, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.857 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property nameOfAccount with lazy=false
-[DEBUG] 05-03-2019 20:37:55.858 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.UserAccountObject:nameOfAccount]
+[DEBUG] 05-03-2019 20:37:55.858 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [UserAccountObject:nameOfAccount]
 [DEBUG] 05-03-2019 20:37:55.858 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for nameOfAccount
 [DEBUG] 05-03-2019 20:37:55.858 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property nameOfAccount
 [DEBUG] 05-03-2019 20:37:55.859 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_accounts), mappingColumn=account_official_name, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.859 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property officialName with lazy=false
-[DEBUG] 05-03-2019 20:37:55.859 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.UserAccountObject:officialName]
+[DEBUG] 05-03-2019 20:37:55.859 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [UserAccountObject:officialName]
 [DEBUG] 05-03-2019 20:37:55.860 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for officialName
 [DEBUG] 05-03-2019 20:37:55.860 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property officialName
 [DEBUG] 05-03-2019 20:37:55.860 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_accounts), mappingColumn=subtype, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.861 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property subType with lazy=false
-[DEBUG] 05-03-2019 20:37:55.861 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.UserAccountObject:subType]
+[DEBUG] 05-03-2019 20:37:55.861 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [UserAccountObject:subType]
 [DEBUG] 05-03-2019 20:37:55.861 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for subType
 [DEBUG] 05-03-2019 20:37:55.861 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property subType
 [DEBUG] 05-03-2019 20:37:55.862 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_accounts), mappingColumn=_type, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.862 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property type with lazy=false
-[DEBUG] 05-03-2019 20:37:55.863 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.UserAccountObject:type]
+[DEBUG] 05-03-2019 20:37:55.863 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [UserAccountObject:type]
 [DEBUG] 05-03-2019 20:37:55.863 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for type
 [DEBUG] 05-03-2019 20:37:55.863 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property type
 [DEBUG] 05-03-2019 20:37:55.864 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_accounts), mappingColumn=user_id, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.864 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property userId with lazy=false
-[DEBUG] 05-03-2019 20:37:55.865 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.UserAccountObject:userId]
+[DEBUG] 05-03-2019 20:37:55.865 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [UserAccountObject:userId]
 [DEBUG] 05-03-2019 20:37:55.865 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for userId
 [DEBUG] 05-03-2019 20:37:55.865 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property userId
-[DEBUG] 05-03-2019 20:37:55.865 [main] org.hibernate.cfg.AnnotationBinder:bindClass:558 - Binding entity from annotated class: com.miBudget.v1.entities.ItemAccountObject
+[DEBUG] 05-03-2019 20:37:55.865 [main] org.hibernate.cfg.AnnotationBinder:bindClass:558 - Binding entity from annotated class: ItemAccountObject
 [DEBUG] 05-03-2019 20:37:55.866 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3DiscriminatorColumn{logicalColumnName'DTYPE', discriminatorTypeName='string'}
 [DEBUG] 05-03-2019 20:37:55.866 [main] org.hibernate.cfg.annotations.EntityBinder:bindEntity:430 - Import with entity name ItemAccountObject
-[DEBUG] 05-03-2019 20:37:55.867 [main] org.hibernate.cfg.annotations.EntityBinder:bindTable:873 - Bind entity com.miBudget.v1.entities.ItemAccountObject on table items_accounts
+[DEBUG] 05-03-2019 20:37:55.867 [main] org.hibernate.cfg.annotations.EntityBinder:bindTable:873 - Bind entity ItemAccountObject on table items_accounts
 [DEBUG] 05-03-2019 20:37:55.868 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(items_accounts), mappingColumn=id, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.868 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property id with lazy=false
-[DEBUG] 05-03-2019 20:37:55.869 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.ItemAccountObject:id]
+[DEBUG] 05-03-2019 20:37:55.869 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [ItemAccountObject:id]
 [DEBUG] 05-03-2019 20:37:55.869 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for id
 [DEBUG] 05-03-2019 20:37:55.869 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property id
 [DEBUG] 05-03-2019 20:37:55.870 [main] org.hibernate.cfg.BinderHelper:makeIdGenerator:644 - #makeIdGenerator(org.hibernate.mapping.SimpleValue([org.hibernate.mapping.Column(id)]), id, org.hibernate.id.enhanced.SequenceStyleGenerator, , ...)
 [DEBUG] 05-03-2019 20:37:55.870 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(items_accounts), mappingColumn=account_id, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.871 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property accountId with lazy=false
-[DEBUG] 05-03-2019 20:37:55.871 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.ItemAccountObject:accountId]
+[DEBUG] 05-03-2019 20:37:55.871 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [ItemAccountObject:accountId]
 [DEBUG] 05-03-2019 20:37:55.871 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for accountId
 [DEBUG] 05-03-2019 20:37:55.872 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property accountId
 [DEBUG] 05-03-2019 20:37:55.872 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(items_accounts), mappingColumn=item_table_id, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.872 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property itemTableId with lazy=false
-[DEBUG] 05-03-2019 20:37:55.873 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.ItemAccountObject:itemTableId]
+[DEBUG] 05-03-2019 20:37:55.873 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [ItemAccountObject:itemTableId]
 [DEBUG] 05-03-2019 20:37:55.873 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for itemTableId
 [DEBUG] 05-03-2019 20:37:55.873 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property itemTableId
-[DEBUG] 05-03-2019 20:37:55.874 [main] org.hibernate.cfg.AnnotationBinder:bindClass:558 - Binding entity from annotated class: com.miBudget.v1.entities.UsersInstitutionIdsObject
+[DEBUG] 05-03-2019 20:37:55.874 [main] org.hibernate.cfg.AnnotationBinder:bindClass:558 - Binding entity from annotated class: UsersInstitutionIdsObject
 [DEBUG] 05-03-2019 20:37:55.874 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3DiscriminatorColumn{logicalColumnName'DTYPE', discriminatorTypeName='string'}
 [DEBUG] 05-03-2019 20:37:55.875 [main] org.hibernate.cfg.annotations.EntityBinder:bindEntity:430 - Import with entity name UsersInstitutionIdsObject
-[DEBUG] 05-03-2019 20:37:55.875 [main] org.hibernate.cfg.annotations.EntityBinder:bindTable:873 - Bind entity com.miBudget.v1.entities.UsersInstitutionIdsObject on table users_institution_ids
+[DEBUG] 05-03-2019 20:37:55.875 [main] org.hibernate.cfg.annotations.EntityBinder:bindTable:873 - Bind entity UsersInstitutionIdsObject on table users_institution_ids
 [DEBUG] 05-03-2019 20:37:55.877 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_institution_ids), mappingColumn=id, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.878 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property id with lazy=false
-[DEBUG] 05-03-2019 20:37:55.878 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.UsersInstitutionIdsObject:id]
+[DEBUG] 05-03-2019 20:37:55.878 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [UsersInstitutionIdsObject:id]
 [DEBUG] 05-03-2019 20:37:55.878 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for id
 [DEBUG] 05-03-2019 20:37:55.879 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property id
 [DEBUG] 05-03-2019 20:37:55.881 [main] org.hibernate.cfg.BinderHelper:makeIdGenerator:644 - #makeIdGenerator(org.hibernate.mapping.SimpleValue([org.hibernate.mapping.Column(id)]), id, org.hibernate.id.enhanced.SequenceStyleGenerator, , ...)
 [DEBUG] 05-03-2019 20:37:55.882 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_institution_ids), mappingColumn=institution_id, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.883 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property institutionId with lazy=false
-[DEBUG] 05-03-2019 20:37:55.883 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.UsersInstitutionIdsObject:institutionId]
+[DEBUG] 05-03-2019 20:37:55.883 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [UsersInstitutionIdsObject:institutionId]
 [DEBUG] 05-03-2019 20:37:55.883 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for institutionId
 [DEBUG] 05-03-2019 20:37:55.883 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property institutionId
 [DEBUG] 05-03-2019 20:37:55.884 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_institution_ids), mappingColumn=user_id, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.884 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property userId with lazy=false
-[DEBUG] 05-03-2019 20:37:55.885 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.UsersInstitutionIdsObject:userId]
+[DEBUG] 05-03-2019 20:37:55.885 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [UsersInstitutionIdsObject:userId]
 [DEBUG] 05-03-2019 20:37:55.886 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for userId
 [DEBUG] 05-03-2019 20:37:55.891 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property userId
-[DEBUG] 05-03-2019 20:37:55.891 [main] org.hibernate.cfg.AnnotationBinder:bindClass:558 - Binding entity from annotated class: com.miBudget.v1.entities.UsersItemsObject
+[DEBUG] 05-03-2019 20:37:55.891 [main] org.hibernate.cfg.AnnotationBinder:bindClass:558 - Binding entity from annotated class: UsersItemsObject
 [DEBUG] 05-03-2019 20:37:55.892 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3DiscriminatorColumn{logicalColumnName'DTYPE', discriminatorTypeName='string'}
 [DEBUG] 05-03-2019 20:37:55.892 [main] org.hibernate.cfg.annotations.EntityBinder:bindEntity:430 - Import with entity name UsersItemsObject
-[DEBUG] 05-03-2019 20:37:55.892 [main] org.hibernate.cfg.annotations.EntityBinder:bindTable:873 - Bind entity com.miBudget.v1.entities.UsersItemsObject on table users_items
+[DEBUG] 05-03-2019 20:37:55.892 [main] org.hibernate.cfg.annotations.EntityBinder:bindTable:873 - Bind entity UsersItemsObject on table users_items
 [DEBUG] 05-03-2019 20:37:55.893 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_items), mappingColumn=id, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.893 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property id with lazy=false
-[DEBUG] 05-03-2019 20:37:55.893 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.UsersItemsObject:id]
+[DEBUG] 05-03-2019 20:37:55.893 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [UsersItemsObject:id]
 [DEBUG] 05-03-2019 20:37:55.894 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for id
 [DEBUG] 05-03-2019 20:37:55.894 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property id
 [DEBUG] 05-03-2019 20:37:55.894 [main] org.hibernate.cfg.BinderHelper:makeIdGenerator:644 - #makeIdGenerator(org.hibernate.mapping.SimpleValue([org.hibernate.mapping.Column(id)]), id, org.hibernate.id.enhanced.SequenceStyleGenerator, , ...)
 [DEBUG] 05-03-2019 20:37:55.894 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_items), mappingColumn=item_table_id, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.894 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property itemTableId with lazy=false
-[DEBUG] 05-03-2019 20:37:55.895 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.UsersItemsObject:itemTableId]
+[DEBUG] 05-03-2019 20:37:55.895 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [UsersItemsObject:itemTableId]
 [DEBUG] 05-03-2019 20:37:55.895 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for itemTableId
 [DEBUG] 05-03-2019 20:37:55.895 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property itemTableId
 [DEBUG] 05-03-2019 20:37:55.895 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_items), mappingColumn=user_id, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.895 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property userId with lazy=false
-[DEBUG] 05-03-2019 20:37:55.896 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.UsersItemsObject:userId]
+[DEBUG] 05-03-2019 20:37:55.896 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [UsersItemsObject:userId]
 [DEBUG] 05-03-2019 20:37:55.896 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for userId
 [DEBUG] 05-03-2019 20:37:55.896 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property userId
-[DEBUG] 05-03-2019 20:37:55.896 [main] org.hibernate.cfg.AnnotationBinder:bindClass:558 - Binding entity from annotated class: com.miBudget.v1.entities.Category
+[DEBUG] 05-03-2019 20:37:55.896 [main] org.hibernate.cfg.AnnotationBinder:bindClass:558 - Binding entity from annotated class: Category
 [DEBUG] 05-03-2019 20:37:55.897 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3DiscriminatorColumn{logicalColumnName'DTYPE', discriminatorTypeName='string'}
 [DEBUG] 05-03-2019 20:37:55.897 [main] org.hibernate.cfg.annotations.EntityBinder:bindEntity:430 - Import with entity name Category
-[DEBUG] 05-03-2019 20:37:55.897 [main] org.hibernate.cfg.annotations.EntityBinder:bindTable:873 - Bind entity com.miBudget.v1.entities.Category on table users_categories
+[DEBUG] 05-03-2019 20:37:55.897 [main] org.hibernate.cfg.annotations.EntityBinder:bindTable:873 - Bind entity Category on table users_categories
 [DEBUG] 05-03-2019 20:37:55.899 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_categories), mappingColumn=id, insertable=true, updatable=false, unique=false}
 [DEBUG] 05-03-2019 20:37:55.900 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property id with lazy=false
-[DEBUG] 05-03-2019 20:37:55.900 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Category:id]
+[DEBUG] 05-03-2019 20:37:55.900 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Category:id]
 [DEBUG] 05-03-2019 20:37:55.901 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for id
 [DEBUG] 05-03-2019 20:37:55.901 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property id
 [DEBUG] 05-03-2019 20:37:55.901 [main] org.hibernate.cfg.BinderHelper:makeIdGenerator:644 - #makeIdGenerator(org.hibernate.mapping.SimpleValue([org.hibernate.mapping.Column(id)]), id, org.hibernate.id.enhanced.SequenceStyleGenerator, , ...)
 [DEBUG] 05-03-2019 20:37:55.902 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_categories), mappingColumn=amount, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.902 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property budgetedAmt with lazy=false
-[DEBUG] 05-03-2019 20:37:55.902 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Category:budgetedAmt]
+[DEBUG] 05-03-2019 20:37:55.902 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Category:budgetedAmt]
 [DEBUG] 05-03-2019 20:37:55.902 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for budgetedAmt
 [DEBUG] 05-03-2019 20:37:55.903 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property budgetedAmt
 [DEBUG] 05-03-2019 20:37:55.903 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_categories), mappingColumn=currency, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.903 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property currency with lazy=false
-[DEBUG] 05-03-2019 20:37:55.903 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Category:currency]
+[DEBUG] 05-03-2019 20:37:55.903 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Category:currency]
 [DEBUG] 05-03-2019 20:37:55.904 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for currency
 [DEBUG] 05-03-2019 20:37:55.904 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property currency
 [DEBUG] 05-03-2019 20:37:55.904 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_categories), mappingColumn=name, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.905 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property name with lazy=false
-[DEBUG] 05-03-2019 20:37:55.905 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Category:name]
+[DEBUG] 05-03-2019 20:37:55.905 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Category:name]
 [DEBUG] 05-03-2019 20:37:55.905 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for name
 [DEBUG] 05-03-2019 20:37:55.905 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property name
 [DEBUG] 05-03-2019 20:37:55.906 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_categories), mappingColumn=rules, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.906 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property rules with lazy=false
-[DEBUG] 05-03-2019 20:37:55.906 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Category:rules]
+[DEBUG] 05-03-2019 20:37:55.906 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Category:rules]
 [DEBUG] 05-03-2019 20:37:55.907 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for rules
 [DEBUG] 05-03-2019 20:37:55.907 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property rules
 [DEBUG] 05-03-2019 20:37:55.907 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users_categories), mappingColumn=user_id, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.908 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property userId with lazy=false
-[DEBUG] 05-03-2019 20:37:55.908 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Category:userId]
+[DEBUG] 05-03-2019 20:37:55.908 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Category:userId]
 [DEBUG] 05-03-2019 20:37:55.908 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for userId
 [DEBUG] 05-03-2019 20:37:55.908 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property userId
-[DEBUG] 05-03-2019 20:37:55.909 [main] org.hibernate.cfg.AnnotationBinder:bindClass:558 - Binding entity from annotated class: com.miBudget.v1.entities.Rule
+[DEBUG] 05-03-2019 20:37:55.909 [main] org.hibernate.cfg.AnnotationBinder:bindClass:558 - Binding entity from annotated class: Rule
 [DEBUG] 05-03-2019 20:37:55.909 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3DiscriminatorColumn{logicalColumnName'DTYPE', discriminatorTypeName='string'}
 [DEBUG] 05-03-2019 20:37:55.910 [main] org.hibernate.cfg.annotations.EntityBinder:bindEntity:430 - Import with entity name Rule
-[DEBUG] 05-03-2019 20:37:55.910 [main] org.hibernate.cfg.annotations.EntityBinder:bindTable:873 - Bind entity com.miBudget.v1.entities.Rule on table rules
+[DEBUG] 05-03-2019 20:37:55.910 [main] org.hibernate.cfg.annotations.EntityBinder:bindTable:873 - Bind entity Rule on table rules
 [DEBUG] 05-03-2019 20:37:55.914 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(rules), mappingColumn=id, insertable=true, updatable=false, unique=false}
 [DEBUG] 05-03-2019 20:37:55.915 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property id with lazy=false
-[DEBUG] 05-03-2019 20:37:55.915 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Rule:id]
+[DEBUG] 05-03-2019 20:37:55.915 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Rule:id]
 [DEBUG] 05-03-2019 20:37:55.916 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for id
 [DEBUG] 05-03-2019 20:37:55.916 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property id
 [DEBUG] 05-03-2019 20:37:55.916 [main] org.hibernate.cfg.BinderHelper:makeIdGenerator:644 - #makeIdGenerator(org.hibernate.mapping.SimpleValue([org.hibernate.mapping.Column(id)]), id, org.hibernate.id.enhanced.SequenceStyleGenerator, , ...)
 [DEBUG] 05-03-2019 20:37:55.916 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(rules), mappingColumn=amount, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.917 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property amount with lazy=false
-[DEBUG] 05-03-2019 20:37:55.917 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Rule:amount]
+[DEBUG] 05-03-2019 20:37:55.917 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Rule:amount]
 [DEBUG] 05-03-2019 20:37:55.917 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for amount
 [DEBUG] 05-03-2019 20:37:55.918 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property amount
 [DEBUG] 05-03-2019 20:37:55.918 [main] org.hibernate.cfg.Ejb3Column:bind:213 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(rules), mappingColumn=names, insertable=true, updatable=true, unique=false}
 [DEBUG] 05-03-2019 20:37:55.918 [main] org.hibernate.cfg.annotations.PropertyBinder:makePropertyAndValue:175 - MetadataSourceProcessor property names with lazy=false
-[DEBUG] 05-03-2019 20:37:55.919 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [com.miBudget.v1.entities.Rule:names]
+[DEBUG] 05-03-2019 20:37:55.919 [main] org.hibernate.cfg.AbstractPropertyHolder:resolveAttributeConverterDescriptor:94 - Attempting to locate auto-apply AttributeConverter for property [Rule:names]
 [DEBUG] 05-03-2019 20:37:55.919 [main] org.hibernate.cfg.annotations.SimpleValueBinder:make:411 - building SimpleValue for names
 [DEBUG] 05-03-2019 20:37:55.919 [main] org.hibernate.cfg.annotations.PropertyBinder:makeProperty:266 - Building property names
 [DEBUG] 05-03-2019 20:37:55.920 [main] org.hibernate.cfg.annotations.SimpleValueBinder:fillSimpleValue:456 - Starting fillSimpleValue for id
@@ -575,49 +575,49 @@
 [DEBUG] 05-03-2019 20:37:56.094 [main] org.hibernate.cfg.Settings:<init>:115 - JPA compliance - lists : 
 [DEBUG] 05-03-2019 20:37:56.094 [main] org.hibernate.cfg.Settings:<init>:116 - JPA compliance - transactions : 
 [DEBUG] 05-03-2019 20:37:56.198 [main] org.hibernate.internal.SessionFactoryImpl:<init>:251 - Session factory constructed with filter configurations : {}
-[DEBUG] 05-03-2019 20:37:56.199 [main] org.hibernate.internal.SessionFactoryImpl:<init>:252 - Instantiating session factory with properties: {gopherProxySet=false, hibernate.format_sql=true, awt.toolkit=sun.lwawt.macosx.LWCToolkit, file.encoding.pkg=sun.io, java.specification.version=1.8, sun.cpu.isalist=, sun.jnu.encoding=UTF-8, hibernate.dialect=org.hibernate.dialect.MySQL5Dialect, java.class.path=/Users/michaelball/git/miBudget/target/classes:/Users/michaelball/.m2/com/plaid/plaid-java/3.0.5/plaid-java-3.0.5.jar:/Users/michaelball/.m2/com/squareup/retrofit2/retrofit/2.1.0/retrofit-2.1.0.jar:/Users/michaelball/.m2/com/squareup/retrofit2/converter-gson/2.1.0/converter-gson-2.1.0.jar:/Users/michaelball/.m2/com/google/code/gson/gson/2.7/gson-2.7.jar:/Users/michaelball/.m2/com/squareup/okhttp3/okhttp/3.6.0/okhttp-3.6.0.jar:/Users/michaelball/.m2/com/squareup/okio/okio/1.11.0/okio-1.11.0.jar:/Users/michaelball/.m2/com/squareup/okhttp3/logging-interceptor/3.6.0/logging-interceptor-3.6.0.jar:/Users/michaelball/.m2/com/mchange/c3p0/0.9.5.2/c3p0-0.9.5.2.jar:/Users/michaelball/.m2/com/mchange/mchange-commons-java/0.2.11/mchange-commons-java-0.2.11.jar:/Users/michaelball/.m2/net/bytebuddy/byte-buddy/1.9.5/byte-buddy-1.9.5.jar:/Users/michaelball/.m2/com/fasterxml/classmate/1.4.0/classmate-1.4.0.jar:/Users/michaelball/.m2/org/geolatte/geolatte-geom/1.4.0/geolatte-geom-1.4.0.jar:/Users/michaelball/.m2/org/locationtech/jts/jts-core/1.16.0/jts-core-1.16.0.jar:/Users/michaelball/.m2/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1.jar:/Users/michaelball/.m2/org/hibernate/hibernate-c3p0/5.4.0.CR2/hibernate-c3p0-5.4.0.CR2.jar:/Users/michaelball/.m2/org/jboss/logging/jboss-logging/3.3.2.Final/jboss-logging-3.3.2.Final.jar:/Users/michaelball/.m2/org/hibernate/common/hibernate-commons-annotations/5.1.0.Final/hibernate-commons-annotations-5.1.0.Final.jar:/Users/michaelball/.m2/org/hibernate/hibernate-core/5.4.0.CR2/hibernate-core-5.4.0.CR2.jar:/Users/michaelball/.m2/antlr/antlr/2.7.7/antlr-2.7.7.jar:/Users/michaelball/.m2/javax/activation/javax.activation-api/1.2.0/javax.activation-api-1.2.0.jar:/Users/michaelball/.m2/org/dom4j/dom4j/2.1.1/dom4j-2.1.1.jar:/Users/michaelball/.m2/javax/xml/bind/jaxb-api/2.3.1/jaxb-api-2.3.1.jar:/Users/michaelball/.m2/org/glassfish/jaxb/jaxb-runtime/2.3.1/jaxb-runtime-2.3.1.jar:/Users/michaelball/.m2/org/glassfish/jaxb/txw2/2.3.1/txw2-2.3.1.jar:/Users/michaelball/.m2/com/sun/istack/istack-commons-runtime/3.0.7/istack-commons-runtime-3.0.7.jar:/Users/michaelball/.m2/org/jvnet/staxex/stax-ex/1.8/stax-ex-1.8.jar:/Users/michaelball/.m2/org/hibernate/hibernate-envers/5.4.0.CR2/hibernate-envers-5.4.0.CR2.jar:/Users/michaelball/.m2/org/hibernate/hibernate-jpamodelgen/5.4.0.CR2/hibernate-jpamodelgen-5.4.0.CR2.jar:/Users/michaelball/.m2/org/hibernate/hibernate-osgi/5.4.0.CR2/hibernate-osgi-5.4.0.CR2.jar:/Users/michaelball/.m2/org/osgi/org.osgi.core/6.0.0/org.osgi.core-6.0.0.jar:/Users/michaelball/.m2/org/hibernate/hibernate-proxool/5.4.0.CR2/hibernate-proxool-5.4.0.CR2.jar:/Users/michaelball/.m2/proxool/proxool/0.8.3/proxool-0.8.3.jar:/Users/michaelball/.m2/org/hibernate/hibernate-spatial/5.4.0.CR2/hibernate-spatial-5.4.0.CR2.jar:/Users/michaelball/.m2/org/postgresql/postgresql/42.2.2/postgresql-42.2.2.jar:/Users/michaelball/.m2/org/jboss/jandex/2.0.5.Final/jandex-2.0.5.Final.jar:/Users/michaelball/.m2/org/javassist/javassist/3.24.0-GA/javassist-3.24.0-GA.jar:/Users/michaelball/.m2/javax/interceptor/javax.interceptor-api/1.2.2/javax.interceptor-api-1.2.2.jar:/Users/michaelball/.m2/javax/persistence/javax.persistence-api/2.2/javax.persistence-api-2.2.jar:/Users/michaelball/.m2/org/jboss/spec/javax/transaction/jboss-transaction-api_1.2_spec/1.1.1.Final/jboss-transaction-api_1.2_spec-1.1.1.Final.jar:/Users/michaelball/.m2/org/apache/commons/commons-lang3/3.8.1/commons-lang3-3.8.1.jar:/Users/michaelball/.m2/com/googlecode/json-simple/json-simple/1.1.1/json-simple-1.1.1.jar:/Users/michaelball/.m2/junit/junit/4.10/junit-4.10.jar:/Users/michaelball/.m2/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar:/Users/michaelball/.m2/org/antlr/antlr4/4.7.1/antlr4-4.7.1.jar:/Users/michaelball/.m2/org/antlr/antlr4-runtime/4.7.1/antlr4-runtime-4.7.1.jar:/Users/michaelball/.m2/org/antlr/antlr-runtime/3.5.2/antlr-runtime-3.5.2.jar:/Users/michaelball/.m2/org/antlr/ST4/4.0.8/ST4-4.0.8.jar:/Users/michaelball/.m2/org/abego/treelayout/org.abego.treelayout.core/1.0.3/org.abego.treelayout.core-1.0.3.jar:/Users/michaelball/.m2/org/glassfish/javax.json/1.0.4/javax.json-1.0.4.jar:/Users/michaelball/.m2/com/ibm/icu/icu4j/58.2/icu4j-58.2.jar:/Users/michaelball/.m2/mysql/mysql-connector-java/8.0.13/mysql-connector-java-8.0.13.jar:/Users/michaelball/.m2/com/google/protobuf/protobuf-java/3.6.1/protobuf-java-3.6.1.jar:/Users/michaelball/.m2/org/osgi/org.osgi.compendium/5.0.0/org.osgi.compendium-5.0.0.jar:/Users/michaelball/.m2/org/osgi/osgi.core/6.0.0/osgi.core-6.0.0.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-annotations-api/9.0.13/tomcat-annotations-api-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-catalina-ant/9.0.13/tomcat-catalina-ant-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-catalina-ha/9.0.13/tomcat-catalina-ha-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-juli/9.0.13/tomcat-juli-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-tribes/9.0.13/tomcat-tribes-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-catalina/9.0.13/tomcat-catalina-9.0.13.jar:/Users/michaelball/.m2/org/eclipse/jdt/ecj/3.15.1/ecj-3.15.1.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-el-api/9.0.13/tomcat-el-api-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-jasper-el/9.0.13/tomcat-jasper-el-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-jasper/9.0.13/tomcat-jasper-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-jaspic-api/9.0.13/tomcat-jaspic-api-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-jsp-api/9.0.13/tomcat-jsp-api-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-servlet-api/9.0.13/tomcat-servlet-api-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-api/9.0.13/tomcat-api-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-coyote/9.0.13/tomcat-coyote-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-dbcp/9.0.13/tomcat-dbcp-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-i18n-es/9.0.13/tomcat-i18n-es-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-i18n-fr/9.0.13/tomcat-i18n-fr-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-i18n-ja/9.0.13/tomcat-i18n-ja-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-jdbc/9.0.13/tomcat-jdbc-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-jni/9.0.13/tomcat-jni-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-util-scan/9.0.13/tomcat-util-scan-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-util/9.0.13/tomcat-util-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-websocket/9.0.13/tomcat-websocket-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-websocket-api/9.0.13/tomcat-websocket-api-9.0.13.jar:/Users/michaelball/.m2/com/sun/xml/fastinfoset/FastInfoset/1.2.15/FastInfoset-1.2.15.jar:/Users/michaelball/.m2/org/apache/logging/log4j/log4j-core/2.11.2/log4j-core-2.11.2.jar:/Users/michaelball/.m2/org/apache/logging/log4j/log4j-api/2.11.2/log4j-api-2.11.2.jar, java.vm.vendor=Oracle Corporation, sun.arch.data.model=64, java.vendor.url=http://java.oracle.com/, user.timezone=America/Chicago, os.name=Mac OS X, java.vm.specification.version=1.8, user.country=US, sun.java.launcher=SUN_STANDARD, sun.boot.library.path=/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib, sun.java.command=com.miBudget.v1.utilities.ClientTest, http.nonProxyHosts=local|*.local|169.254/16|*.169.254/16, sun.cpu.endian=little, user.home=/Users/michaelball, user.language=en, java.specification.vendor=Oracle Corporation, java.home=/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre, file.separator=/, line.separator=
+[DEBUG] 05-03-2019 20:37:56.199 [main] org.hibernate.internal.SessionFactoryImpl:<init>:252 - Instantiating session factory with properties: {gopherProxySet=false, hibernate.format_sql=true, awt.toolkit=sun.lwawt.macosx.LWCToolkit, file.encoding.pkg=sun.io, java.specification.version=1.8, sun.cpu.isalist=, sun.jnu.encoding=UTF-8, hibernate.dialect=org.hibernate.dialect.MySQL5Dialect, java.class.path=/Users/michaelball/git/miBudget/target/classes:/Users/michaelball/.m2/com/plaid/plaid-java/3.0.5/plaid-java-3.0.5.jar:/Users/michaelball/.m2/com/squareup/retrofit2/retrofit/2.1.0/retrofit-2.1.0.jar:/Users/michaelball/.m2/com/squareup/retrofit2/converter-gson/2.1.0/converter-gson-2.1.0.jar:/Users/michaelball/.m2/com/google/code/gson/gson/2.7/gson-2.7.jar:/Users/michaelball/.m2/com/squareup/okhttp3/okhttp/3.6.0/okhttp-3.6.0.jar:/Users/michaelball/.m2/com/squareup/okio/okio/1.11.0/okio-1.11.0.jar:/Users/michaelball/.m2/com/squareup/okhttp3/logging-interceptor/3.6.0/logging-interceptor-3.6.0.jar:/Users/michaelball/.m2/com/mchange/c3p0/0.9.5.2/c3p0-0.9.5.2.jar:/Users/michaelball/.m2/com/mchange/mchange-commons-java/0.2.11/mchange-commons-java-0.2.11.jar:/Users/michaelball/.m2/net/bytebuddy/byte-buddy/1.9.5/byte-buddy-1.9.5.jar:/Users/michaelball/.m2/com/fasterxml/classmate/1.4.0/classmate-1.4.0.jar:/Users/michaelball/.m2/org/geolatte/geolatte-geom/1.4.0/geolatte-geom-1.4.0.jar:/Users/michaelball/.m2/org/locationtech/jts/jts-core/1.16.0/jts-core-1.16.0.jar:/Users/michaelball/.m2/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1.jar:/Users/michaelball/.m2/org/hibernate/hibernate-c3p0/5.4.0.CR2/hibernate-c3p0-5.4.0.CR2.jar:/Users/michaelball/.m2/org/jboss/logging/jboss-logging/3.3.2.Final/jboss-logging-3.3.2.Final.jar:/Users/michaelball/.m2/org/hibernate/common/hibernate-commons-annotations/5.1.0.Final/hibernate-commons-annotations-5.1.0.Final.jar:/Users/michaelball/.m2/org/hibernate/hibernate-core/5.4.0.CR2/hibernate-core-5.4.0.CR2.jar:/Users/michaelball/.m2/antlr/antlr/2.7.7/antlr-2.7.7.jar:/Users/michaelball/.m2/javax/activation/javax.activation-api/1.2.0/javax.activation-api-1.2.0.jar:/Users/michaelball/.m2/org/dom4j/dom4j/2.1.1/dom4j-2.1.1.jar:/Users/michaelball/.m2/javax/xml/bind/jaxb-api/2.3.1/jaxb-api-2.3.1.jar:/Users/michaelball/.m2/org/glassfish/jaxb/jaxb-runtime/2.3.1/jaxb-runtime-2.3.1.jar:/Users/michaelball/.m2/org/glassfish/jaxb/txw2/2.3.1/txw2-2.3.1.jar:/Users/michaelball/.m2/com/sun/istack/istack-commons-runtime/3.0.7/istack-commons-runtime-3.0.7.jar:/Users/michaelball/.m2/org/jvnet/staxex/stax-ex/1.8/stax-ex-1.8.jar:/Users/michaelball/.m2/org/hibernate/hibernate-envers/5.4.0.CR2/hibernate-envers-5.4.0.CR2.jar:/Users/michaelball/.m2/org/hibernate/hibernate-jpamodelgen/5.4.0.CR2/hibernate-jpamodelgen-5.4.0.CR2.jar:/Users/michaelball/.m2/org/hibernate/hibernate-osgi/5.4.0.CR2/hibernate-osgi-5.4.0.CR2.jar:/Users/michaelball/.m2/org/osgi/org.osgi.core/6.0.0/org.osgi.core-6.0.0.jar:/Users/michaelball/.m2/org/hibernate/hibernate-proxool/5.4.0.CR2/hibernate-proxool-5.4.0.CR2.jar:/Users/michaelball/.m2/proxool/proxool/0.8.3/proxool-0.8.3.jar:/Users/michaelball/.m2/org/hibernate/hibernate-spatial/5.4.0.CR2/hibernate-spatial-5.4.0.CR2.jar:/Users/michaelball/.m2/org/postgresql/postgresql/42.2.2/postgresql-42.2.2.jar:/Users/michaelball/.m2/org/jboss/jandex/2.0.5.Final/jandex-2.0.5.Final.jar:/Users/michaelball/.m2/org/javassist/javassist/3.24.0-GA/javassist-3.24.0-GA.jar:/Users/michaelball/.m2/javax/interceptor/javax.interceptor-api/1.2.2/javax.interceptor-api-1.2.2.jar:/Users/michaelball/.m2/javax/persistence/javax.persistence-api/2.2/javax.persistence-api-2.2.jar:/Users/michaelball/.m2/org/jboss/spec/javax/transaction/jboss-transaction-api_1.2_spec/1.1.1.Final/jboss-transaction-api_1.2_spec-1.1.1.Final.jar:/Users/michaelball/.m2/org/apache/commons/commons-lang3/3.8.1/commons-lang3-3.8.1.jar:/Users/michaelball/.m2/com/googlecode/json-simple/json-simple/1.1.1/json-simple-1.1.1.jar:/Users/michaelball/.m2/junit/junit/4.10/junit-4.10.jar:/Users/michaelball/.m2/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar:/Users/michaelball/.m2/org/antlr/antlr4/4.7.1/antlr4-4.7.1.jar:/Users/michaelball/.m2/org/antlr/antlr4-runtime/4.7.1/antlr4-runtime-4.7.1.jar:/Users/michaelball/.m2/org/antlr/antlr-runtime/3.5.2/antlr-runtime-3.5.2.jar:/Users/michaelball/.m2/org/antlr/ST4/4.0.8/ST4-4.0.8.jar:/Users/michaelball/.m2/org/abego/treelayout/org.abego.treelayout.core/1.0.3/org.abego.treelayout.core-1.0.3.jar:/Users/michaelball/.m2/org/glassfish/javax.json/1.0.4/javax.json-1.0.4.jar:/Users/michaelball/.m2/com/ibm/icu/icu4j/58.2/icu4j-58.2.jar:/Users/michaelball/.m2/mysql/mysql-connector-java/8.0.13/mysql-connector-java-8.0.13.jar:/Users/michaelball/.m2/com/google/protobuf/protobuf-java/3.6.1/protobuf-java-3.6.1.jar:/Users/michaelball/.m2/org/osgi/org.osgi.compendium/5.0.0/org.osgi.compendium-5.0.0.jar:/Users/michaelball/.m2/org/osgi/osgi.core/6.0.0/osgi.core-6.0.0.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-annotations-api/9.0.13/tomcat-annotations-api-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-catalina-ant/9.0.13/tomcat-catalina-ant-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-catalina-ha/9.0.13/tomcat-catalina-ha-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-juli/9.0.13/tomcat-juli-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-tribes/9.0.13/tomcat-tribes-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-catalina/9.0.13/tomcat-catalina-9.0.13.jar:/Users/michaelball/.m2/org/eclipse/jdt/ecj/3.15.1/ecj-3.15.1.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-el-api/9.0.13/tomcat-el-api-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-jasper-el/9.0.13/tomcat-jasper-el-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-jasper/9.0.13/tomcat-jasper-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-jaspic-api/9.0.13/tomcat-jaspic-api-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-jsp-api/9.0.13/tomcat-jsp-api-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-servlet-api/9.0.13/tomcat-servlet-api-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-api/9.0.13/tomcat-api-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-coyote/9.0.13/tomcat-coyote-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-dbcp/9.0.13/tomcat-dbcp-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-i18n-es/9.0.13/tomcat-i18n-es-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-i18n-fr/9.0.13/tomcat-i18n-fr-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-i18n-ja/9.0.13/tomcat-i18n-ja-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-jdbc/9.0.13/tomcat-jdbc-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-jni/9.0.13/tomcat-jni-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-util-scan/9.0.13/tomcat-util-scan-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-util/9.0.13/tomcat-util-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-websocket/9.0.13/tomcat-websocket-9.0.13.jar:/Users/michaelball/.m2/org/apache/tomcat/tomcat-websocket-api/9.0.13/tomcat-websocket-api-9.0.13.jar:/Users/michaelball/.m2/com/sun/xml/fastinfoset/FastInfoset/1.2.15/FastInfoset-1.2.15.jar:/Users/michaelball/.m2/org/apache/logging/log4j/log4j-core/2.11.2/log4j-core-2.11.2.jar:/Users/michaelball/.m2/org/apache/logging/log4j/log4j-api/2.11.2/log4j-api-2.11.2.jar, java.vm.vendor=Oracle Corporation, sun.arch.data.model=64, java.vendor.url=http://java.oracle.com/, user.timezone=America/Chicago, os.name=Mac OS X, java.vm.specification.version=1.8, user.country=US, sun.java.launcher=SUN_STANDARD, sun.boot.library.path=/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib, sun.java.command=ClientTest, http.nonProxyHosts=local|*.local|169.254/16|*.169.254/16, sun.cpu.endian=little, user.home=/Users/michaelball, user.language=en, java.specification.vendor=Oracle Corporation, java.home=/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre, file.separator=/, line.separator=
 , java.vm.specification.vendor=Oracle Corporation, java.specification.name=Java Platform API Specification, java.awt.graphicsenv=sun.awt.CGraphicsEnvironment, sun.boot.class.path=/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/sunrsasign.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/classes, hibernate.hbm2ddl.auto=update, sun.management.compiler=HotSpot 64-Bit Tiered Compilers, ftp.nonProxyHosts=local|*.local|169.254/16|*.169.254/16, java.runtime.version=1.8.0_191-b12, user.name=michaelball, path.separator=:, hibernate.connection.username=****, os.version=10.14.4, java.endorsed.dirs=/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/endorsed, java.runtime.name=Java(TM) SE Runtime Environment, hibernate.connection.url=jdbc:mysql://localhost:3306/mibudget?useSSL=false&serverTimezone=UTC, connection.pool_size=100, file.encoding=UTF-8, format_sql=true, java.vm.name=Java HotSpot(TM) 64-Bit Server VM, hibernate.show_sql=true, show_sql=true, hibernate.connection.driver_class=com.mysql.cj.jdbc.Driver, java.vendor.url.bug=http://bugreport.sun.com/bugreport/, java.io.tmpdir=/var/folders/nv/476gj4b17td6l4prcrzdx2v00000gn/T/, java.version=1.8.0_191, user.dir=/Users/michaelball/git/miBudget, appName=CustomLookupAndReplace, os.arch=x86_64, java.vm.specification.name=Java Virtual Machine Specification, hibernate.connection.password=****, java.awt.printerjob=sun.lwawt.macosx.CPrinterJob, sun.os.patch.level=unknown, hibernate.boot.CfgXmlAccessService.key=org.hibernate.boot.cfgxml.spi.LoadedConfig@69c6161d, java.library.path=/Users/michaelball/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:., java.vm.info=mixed mode, java.vendor=Oracle Corporation, java.vm.version=25.191-b12, hibernate.bytecode.use_reflection_optimizer=false, hibernate.connection.pool_size=100, java.ext.dirs=/Users/michaelball/Library/Java/Extensions:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/ext:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java, sun.io.unicode.encoding=UnicodeBig, java.class.version=52.0, socksNonProxyHosts=local|*.local|169.254/16|*.169.254/16}
 [DEBUG] 05-03-2019 20:37:56.218 [main] org.hibernate.secure.spi.JaccIntegrator:doIntegration:80 - Skipping JACC integration as it was not enabled
 [DEBUG] 05-03-2019 20:37:56.219 [main] org.hibernate.envers.boot.internal.EnversIntegrator:integrate:76 - Skipping Envers listener registrations : No audited entities found
 [DEBUG] 05-03-2019 20:37:56.220 [main] org.hibernate.internal.SessionFactoryImpl:<init>:291 - Instantiated session factory
 [DEBUG] 05-03-2019 20:37:56.221 [main] org.hibernate.type.spi.TypeConfiguration$Scope:scope:157 - Scoping TypeConfiguration [org.hibernate.type.spi.TypeConfiguration@5fb97279] to SessionFactoryImpl [org.hibernate.internal.SessionFactoryImpl@56781d96]
-[DEBUG] 05-03-2019 20:37:56.295 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [com.miBudget.v1.entities.Rule] is safe
-[DEBUG] 05-03-2019 20:37:56.295 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.miBudget.v1.entities.Rule
-[DEBUG] 05-03-2019 20:37:56.308 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [com.miBudget.v1.entities.Rule] is safe
-[DEBUG] 05-03-2019 20:37:56.308 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.miBudget.v1.entities.Rule
-[DEBUG] 05-03-2019 20:37:56.604 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [com.miBudget.v1.entities.UserAccountObject] is safe
-[DEBUG] 05-03-2019 20:37:56.605 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.miBudget.v1.entities.UserAccountObject
-[DEBUG] 05-03-2019 20:37:56.605 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [com.miBudget.v1.entities.UserAccountObject] is safe
-[DEBUG] 05-03-2019 20:37:56.606 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.miBudget.v1.entities.UserAccountObject
-[DEBUG] 05-03-2019 20:37:56.699 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [com.miBudget.v1.entities.Category] is safe
-[DEBUG] 05-03-2019 20:37:56.700 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.miBudget.v1.entities.Category
-[DEBUG] 05-03-2019 20:37:56.700 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [com.miBudget.v1.entities.Category] is safe
-[DEBUG] 05-03-2019 20:37:56.701 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.miBudget.v1.entities.Category
-[DEBUG] 05-03-2019 20:37:56.753 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [com.miBudget.v1.entities.ItemAccountObject] is safe
-[DEBUG] 05-03-2019 20:37:56.754 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.miBudget.v1.entities.ItemAccountObject
-[DEBUG] 05-03-2019 20:37:56.754 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [com.miBudget.v1.entities.ItemAccountObject] is safe
-[DEBUG] 05-03-2019 20:37:56.754 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.miBudget.v1.entities.ItemAccountObject
-[DEBUG] 05-03-2019 20:37:56.776 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [com.miBudget.v1.entities.UsersInstitutionIdsObject] is safe
-[DEBUG] 05-03-2019 20:37:56.776 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.miBudget.v1.entities.UsersInstitutionIdsObject
-[DEBUG] 05-03-2019 20:37:56.777 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [com.miBudget.v1.entities.UsersInstitutionIdsObject] is safe
-[DEBUG] 05-03-2019 20:37:56.777 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.miBudget.v1.entities.UsersInstitutionIdsObject
-[DEBUG] 05-03-2019 20:37:56.802 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [com.miBudget.v1.entities.Account] is safe
-[DEBUG] 05-03-2019 20:37:56.802 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.miBudget.v1.entities.Account
-[DEBUG] 05-03-2019 20:37:56.803 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [com.miBudget.v1.entities.Account] is safe
-[DEBUG] 05-03-2019 20:37:56.803 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.miBudget.v1.entities.Account
-[DEBUG] 05-03-2019 20:37:56.865 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [com.miBudget.v1.entities.UsersItemsObject] is safe
-[DEBUG] 05-03-2019 20:37:56.866 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.miBudget.v1.entities.UsersItemsObject
-[DEBUG] 05-03-2019 20:37:56.866 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [com.miBudget.v1.entities.UsersItemsObject] is safe
-[DEBUG] 05-03-2019 20:37:56.867 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.miBudget.v1.entities.UsersItemsObject
-[DEBUG] 05-03-2019 20:37:56.901 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [com.miBudget.v1.entities.User] is safe
-[DEBUG] 05-03-2019 20:37:56.901 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.miBudget.v1.entities.User
-[DEBUG] 05-03-2019 20:37:56.902 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [com.miBudget.v1.entities.User] is safe
-[DEBUG] 05-03-2019 20:37:56.902 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.miBudget.v1.entities.User
-[DEBUG] 05-03-2019 20:37:56.957 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [com.miBudget.v1.entities.Item] is safe
-[DEBUG] 05-03-2019 20:37:56.958 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.miBudget.v1.entities.Item
-[DEBUG] 05-03-2019 20:37:56.959 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [com.miBudget.v1.entities.Item] is safe
-[DEBUG] 05-03-2019 20:37:56.960 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.miBudget.v1.entities.Item
-[DEBUG] 05-03-2019 20:37:56.993 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3794 - Static SQL for entity: com.miBudget.v1.entities.Rule
+[DEBUG] 05-03-2019 20:37:56.295 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [Rule] is safe
+[DEBUG] 05-03-2019 20:37:56.295 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : Rule
+[DEBUG] 05-03-2019 20:37:56.308 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [Rule] is safe
+[DEBUG] 05-03-2019 20:37:56.308 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : Rule
+[DEBUG] 05-03-2019 20:37:56.604 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [UserAccountObject] is safe
+[DEBUG] 05-03-2019 20:37:56.605 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : UserAccountObject
+[DEBUG] 05-03-2019 20:37:56.605 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [UserAccountObject] is safe
+[DEBUG] 05-03-2019 20:37:56.606 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : UserAccountObject
+[DEBUG] 05-03-2019 20:37:56.699 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [Category] is safe
+[DEBUG] 05-03-2019 20:37:56.700 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : Category
+[DEBUG] 05-03-2019 20:37:56.700 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [Category] is safe
+[DEBUG] 05-03-2019 20:37:56.701 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : Category
+[DEBUG] 05-03-2019 20:37:56.753 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [ItemAccountObject] is safe
+[DEBUG] 05-03-2019 20:37:56.754 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : ItemAccountObject
+[DEBUG] 05-03-2019 20:37:56.754 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [ItemAccountObject] is safe
+[DEBUG] 05-03-2019 20:37:56.754 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : ItemAccountObject
+[DEBUG] 05-03-2019 20:37:56.776 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [UsersInstitutionIdsObject] is safe
+[DEBUG] 05-03-2019 20:37:56.776 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : UsersInstitutionIdsObject
+[DEBUG] 05-03-2019 20:37:56.777 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [UsersInstitutionIdsObject] is safe
+[DEBUG] 05-03-2019 20:37:56.777 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : UsersInstitutionIdsObject
+[DEBUG] 05-03-2019 20:37:56.802 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [Account] is safe
+[DEBUG] 05-03-2019 20:37:56.802 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : Account
+[DEBUG] 05-03-2019 20:37:56.803 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [Account] is safe
+[DEBUG] 05-03-2019 20:37:56.803 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : Account
+[DEBUG] 05-03-2019 20:37:56.865 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [UsersItemsObject] is safe
+[DEBUG] 05-03-2019 20:37:56.866 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : UsersItemsObject
+[DEBUG] 05-03-2019 20:37:56.866 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [UsersItemsObject] is safe
+[DEBUG] 05-03-2019 20:37:56.867 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : UsersItemsObject
+[DEBUG] 05-03-2019 20:37:56.901 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [User] is safe
+[DEBUG] 05-03-2019 20:37:56.901 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : User
+[DEBUG] 05-03-2019 20:37:56.902 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [User] is safe
+[DEBUG] 05-03-2019 20:37:56.902 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : User
+[DEBUG] 05-03-2019 20:37:56.957 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [Item] is safe
+[DEBUG] 05-03-2019 20:37:56.958 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : Item
+[DEBUG] 05-03-2019 20:37:56.959 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:60 - Not known whether passed class name [Item] is safe
+[DEBUG] 05-03-2019 20:37:56.960 [main] org.hibernate.boot.internal.ClassLoaderAccessImpl:classForName:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : Item
+[DEBUG] 05-03-2019 20:37:56.993 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3794 - Static SQL for entity: Rule
 [DEBUG] 05-03-2019 20:37:56.994 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3799 -  Version select: select id from rules where id =?
 [DEBUG] 05-03-2019 20:37:56.994 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3802 -  Snapshot select: select rule_.id, rule_.amount as amount2_3_, rule_.names as names3_3_ from rules rule_ where rule_.id=?
 [DEBUG] 05-03-2019 20:37:56.994 [main] org.hibernate.persister.entity.AbstractEntityPersister:debugf:394 -  Insert 0: insert into rules (amount, names, id) values (?, ?, ?)
@@ -628,34 +628,34 @@
 [DEBUG] 05-03-2019 20:37:57.036 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : names
 [DEBUG] 05-03-2019 20:37:57.037 [main] org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy:buildLoadPlan:150 - Building LoadPlan...
 [DEBUG] 05-03-2019 20:37:57.058 [main] org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor:processQuerySpaceJoins:119 - processing queryspace <gen:0>
-[DEBUG] 05-03-2019 20:37:57.065 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=com.miBudget.v1.entities.Rule)
+[DEBUG] 05-03-2019 20:37:57.065 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=Rule)
     - Returns
-       - EntityReturnImpl(entity=com.miBudget.v1.entities.Rule, querySpaceUid=<gen:0>, path=com.miBudget.v1.entities.Rule)
+       - EntityReturnImpl(entity=Rule, querySpaceUid=<gen:0>, path=Rule)
     - QuerySpaces
-       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.miBudget.v1.entities.Rule)
+       - EntityQuerySpaceImpl(uid=<gen:0>, entity=Rule)
           - SQL table alias mapping - rule0_
           - alias suffix - 0_
           - suffixed key columns - {id1_3_0_}
 
-[DEBUG] 05-03-2019 20:37:57.068 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity com.miBudget.v1.entities.Rule [NONE]: select rule0_.id as id1_3_0_, rule0_.amount as amount2_3_0_, rule0_.names as names3_3_0_ from rules rule0_ where rule0_.id=?
+[DEBUG] 05-03-2019 20:37:57.068 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity Rule [NONE]: select rule0_.id as id1_3_0_, rule0_.amount as amount2_3_0_, rule0_.names as names3_3_0_ from rules rule0_ where rule0_.id=?
 [DEBUG] 05-03-2019 20:37:57.069 [main] org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl:registerQuerySpace:174 - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@f08fdce]
 [DEBUG] 05-03-2019 20:37:57.069 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : amount
 [DEBUG] 05-03-2019 20:37:57.069 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : names
 [DEBUG] 05-03-2019 20:37:57.070 [main] org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy:buildLoadPlan:150 - Building LoadPlan...
 [DEBUG] 05-03-2019 20:37:57.070 [main] org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor:processQuerySpaceJoins:119 - processing queryspace <gen:0>
-[DEBUG] 05-03-2019 20:37:57.071 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=com.miBudget.v1.entities.Rule)
+[DEBUG] 05-03-2019 20:37:57.071 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=Rule)
     - Returns
-       - EntityReturnImpl(entity=com.miBudget.v1.entities.Rule, querySpaceUid=<gen:0>, path=com.miBudget.v1.entities.Rule)
+       - EntityReturnImpl(entity=Rule, querySpaceUid=<gen:0>, path=Rule)
     - QuerySpaces
-       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.miBudget.v1.entities.Rule)
+       - EntityQuerySpaceImpl(uid=<gen:0>, entity=Rule)
           - SQL table alias mapping - rule0_
           - alias suffix - 0_
           - suffixed key columns - {id1_3_0_}
 
-[DEBUG] 05-03-2019 20:37:57.071 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity com.miBudget.v1.entities.Rule [READ]: select rule0_.id as id1_3_0_, rule0_.amount as amount2_3_0_, rule0_.names as names3_3_0_ from rules rule0_ where rule0_.id=?
-[DEBUG] 05-03-2019 20:37:57.094 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_MERGE on entity com.miBudget.v1.entities.Rule: select rule0_.id as id1_3_0_, rule0_.amount as amount2_3_0_, rule0_.names as names3_3_0_ from rules rule0_ where rule0_.id=?
-[DEBUG] 05-03-2019 20:37:57.095 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_REFRESH on entity com.miBudget.v1.entities.Rule: select rule0_.id as id1_3_0_, rule0_.amount as amount2_3_0_, rule0_.names as names3_3_0_ from rules rule0_ where rule0_.id=?
-[DEBUG] 05-03-2019 20:37:57.095 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3794 - Static SQL for entity: com.miBudget.v1.entities.UserAccountObject
+[DEBUG] 05-03-2019 20:37:57.071 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity Rule [READ]: select rule0_.id as id1_3_0_, rule0_.amount as amount2_3_0_, rule0_.names as names3_3_0_ from rules rule0_ where rule0_.id=?
+[DEBUG] 05-03-2019 20:37:57.094 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_MERGE on entity Rule: select rule0_.id as id1_3_0_, rule0_.amount as amount2_3_0_, rule0_.names as names3_3_0_ from rules rule0_ where rule0_.id=?
+[DEBUG] 05-03-2019 20:37:57.095 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_REFRESH on entity Rule: select rule0_.id as id1_3_0_, rule0_.amount as amount2_3_0_, rule0_.names as names3_3_0_ from rules rule0_ where rule0_.id=?
+[DEBUG] 05-03-2019 20:37:57.095 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3794 - Static SQL for entity: UserAccountObject
 [DEBUG] 05-03-2019 20:37:57.096 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3799 -  Version select: select id from users_accounts where id =?
 [DEBUG] 05-03-2019 20:37:57.096 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3802 -  Snapshot select: select useraccoun_.id, useraccoun_.account_id as account_2_5_, useraccoun_.available_balance as availabl3_5_, useraccoun_.iso_currency_code as iso_curr4_5_, useraccoun_.current_balance as current_5_5_, useraccoun_.item_table_id as item_tab6_5_, useraccoun_._limit as _limit7_5_, useraccoun_.mask as mask8_5_, useraccoun_.account_name as account_9_5_, useraccoun_.account_official_name as account10_5_, useraccoun_.subtype as subtype11_5_, useraccoun_._type as _type12_5_, useraccoun_.user_id as user_id13_5_ from users_accounts useraccoun_ where useraccoun_.id=?
 [DEBUG] 05-03-2019 20:37:57.096 [main] org.hibernate.persister.entity.AbstractEntityPersister:debugf:394 -  Insert 0: insert into users_accounts (account_id, available_balance, iso_currency_code, current_balance, item_table_id, _limit, mask, account_name, account_official_name, subtype, _type, user_id, id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -676,16 +676,16 @@
 [DEBUG] 05-03-2019 20:37:57.099 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : userId
 [DEBUG] 05-03-2019 20:37:57.100 [main] org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy:buildLoadPlan:150 - Building LoadPlan...
 [DEBUG] 05-03-2019 20:37:57.100 [main] org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor:processQuerySpaceJoins:119 - processing queryspace <gen:0>
-[DEBUG] 05-03-2019 20:37:57.101 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=com.miBudget.v1.entities.UserAccountObject)
+[DEBUG] 05-03-2019 20:37:57.101 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=UserAccountObject)
     - Returns
-       - EntityReturnImpl(entity=com.miBudget.v1.entities.UserAccountObject, querySpaceUid=<gen:0>, path=com.miBudget.v1.entities.UserAccountObject)
+       - EntityReturnImpl(entity=UserAccountObject, querySpaceUid=<gen:0>, path=UserAccountObject)
     - QuerySpaces
-       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.miBudget.v1.entities.UserAccountObject)
+       - EntityQuerySpaceImpl(uid=<gen:0>, entity=UserAccountObject)
           - SQL table alias mapping - useraccoun0_
           - alias suffix - 0_
           - suffixed key columns - {id1_5_0_}
 
-[DEBUG] 05-03-2019 20:37:57.101 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity com.miBudget.v1.entities.UserAccountObject [NONE]: select useraccoun0_.id as id1_5_0_, useraccoun0_.account_id as account_2_5_0_, useraccoun0_.available_balance as availabl3_5_0_, useraccoun0_.iso_currency_code as iso_curr4_5_0_, useraccoun0_.current_balance as current_5_5_0_, useraccoun0_.item_table_id as item_tab6_5_0_, useraccoun0_._limit as _limit7_5_0_, useraccoun0_.mask as mask8_5_0_, useraccoun0_.account_name as account_9_5_0_, useraccoun0_.account_official_name as account10_5_0_, useraccoun0_.subtype as subtype11_5_0_, useraccoun0_._type as _type12_5_0_, useraccoun0_.user_id as user_id13_5_0_ from users_accounts useraccoun0_ where useraccoun0_.id=?
+[DEBUG] 05-03-2019 20:37:57.101 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity UserAccountObject [NONE]: select useraccoun0_.id as id1_5_0_, useraccoun0_.account_id as account_2_5_0_, useraccoun0_.available_balance as availabl3_5_0_, useraccoun0_.iso_currency_code as iso_curr4_5_0_, useraccoun0_.current_balance as current_5_5_0_, useraccoun0_.item_table_id as item_tab6_5_0_, useraccoun0_._limit as _limit7_5_0_, useraccoun0_.mask as mask8_5_0_, useraccoun0_.account_name as account_9_5_0_, useraccoun0_.account_official_name as account10_5_0_, useraccoun0_.subtype as subtype11_5_0_, useraccoun0_._type as _type12_5_0_, useraccoun0_.user_id as user_id13_5_0_ from users_accounts useraccoun0_ where useraccoun0_.id=?
 [DEBUG] 05-03-2019 20:37:57.101 [main] org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl:registerQuerySpace:174 - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@764cba]
 [DEBUG] 05-03-2019 20:37:57.102 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : accountId
 [DEBUG] 05-03-2019 20:37:57.102 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : availableBalance
@@ -701,19 +701,19 @@
 [DEBUG] 05-03-2019 20:37:57.104 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : userId
 [DEBUG] 05-03-2019 20:37:57.104 [main] org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy:buildLoadPlan:150 - Building LoadPlan...
 [DEBUG] 05-03-2019 20:37:57.105 [main] org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor:processQuerySpaceJoins:119 - processing queryspace <gen:0>
-[DEBUG] 05-03-2019 20:37:57.105 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=com.miBudget.v1.entities.UserAccountObject)
+[DEBUG] 05-03-2019 20:37:57.105 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=UserAccountObject)
     - Returns
-       - EntityReturnImpl(entity=com.miBudget.v1.entities.UserAccountObject, querySpaceUid=<gen:0>, path=com.miBudget.v1.entities.UserAccountObject)
+       - EntityReturnImpl(entity=UserAccountObject, querySpaceUid=<gen:0>, path=UserAccountObject)
     - QuerySpaces
-       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.miBudget.v1.entities.UserAccountObject)
+       - EntityQuerySpaceImpl(uid=<gen:0>, entity=UserAccountObject)
           - SQL table alias mapping - useraccoun0_
           - alias suffix - 0_
           - suffixed key columns - {id1_5_0_}
 
-[DEBUG] 05-03-2019 20:37:57.106 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity com.miBudget.v1.entities.UserAccountObject [READ]: select useraccoun0_.id as id1_5_0_, useraccoun0_.account_id as account_2_5_0_, useraccoun0_.available_balance as availabl3_5_0_, useraccoun0_.iso_currency_code as iso_curr4_5_0_, useraccoun0_.current_balance as current_5_5_0_, useraccoun0_.item_table_id as item_tab6_5_0_, useraccoun0_._limit as _limit7_5_0_, useraccoun0_.mask as mask8_5_0_, useraccoun0_.account_name as account_9_5_0_, useraccoun0_.account_official_name as account10_5_0_, useraccoun0_.subtype as subtype11_5_0_, useraccoun0_._type as _type12_5_0_, useraccoun0_.user_id as user_id13_5_0_ from users_accounts useraccoun0_ where useraccoun0_.id=?
-[DEBUG] 05-03-2019 20:37:57.106 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_MERGE on entity com.miBudget.v1.entities.UserAccountObject: select useraccoun0_.id as id1_5_0_, useraccoun0_.account_id as account_2_5_0_, useraccoun0_.available_balance as availabl3_5_0_, useraccoun0_.iso_currency_code as iso_curr4_5_0_, useraccoun0_.current_balance as current_5_5_0_, useraccoun0_.item_table_id as item_tab6_5_0_, useraccoun0_._limit as _limit7_5_0_, useraccoun0_.mask as mask8_5_0_, useraccoun0_.account_name as account_9_5_0_, useraccoun0_.account_official_name as account10_5_0_, useraccoun0_.subtype as subtype11_5_0_, useraccoun0_._type as _type12_5_0_, useraccoun0_.user_id as user_id13_5_0_ from users_accounts useraccoun0_ where useraccoun0_.id=?
-[DEBUG] 05-03-2019 20:37:57.107 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_REFRESH on entity com.miBudget.v1.entities.UserAccountObject: select useraccoun0_.id as id1_5_0_, useraccoun0_.account_id as account_2_5_0_, useraccoun0_.available_balance as availabl3_5_0_, useraccoun0_.iso_currency_code as iso_curr4_5_0_, useraccoun0_.current_balance as current_5_5_0_, useraccoun0_.item_table_id as item_tab6_5_0_, useraccoun0_._limit as _limit7_5_0_, useraccoun0_.mask as mask8_5_0_, useraccoun0_.account_name as account_9_5_0_, useraccoun0_.account_official_name as account10_5_0_, useraccoun0_.subtype as subtype11_5_0_, useraccoun0_._type as _type12_5_0_, useraccoun0_.user_id as user_id13_5_0_ from users_accounts useraccoun0_ where useraccoun0_.id=?
-[DEBUG] 05-03-2019 20:37:57.107 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3794 - Static SQL for entity: com.miBudget.v1.entities.Category
+[DEBUG] 05-03-2019 20:37:57.106 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity UserAccountObject [READ]: select useraccoun0_.id as id1_5_0_, useraccoun0_.account_id as account_2_5_0_, useraccoun0_.available_balance as availabl3_5_0_, useraccoun0_.iso_currency_code as iso_curr4_5_0_, useraccoun0_.current_balance as current_5_5_0_, useraccoun0_.item_table_id as item_tab6_5_0_, useraccoun0_._limit as _limit7_5_0_, useraccoun0_.mask as mask8_5_0_, useraccoun0_.account_name as account_9_5_0_, useraccoun0_.account_official_name as account10_5_0_, useraccoun0_.subtype as subtype11_5_0_, useraccoun0_._type as _type12_5_0_, useraccoun0_.user_id as user_id13_5_0_ from users_accounts useraccoun0_ where useraccoun0_.id=?
+[DEBUG] 05-03-2019 20:37:57.106 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_MERGE on entity UserAccountObject: select useraccoun0_.id as id1_5_0_, useraccoun0_.account_id as account_2_5_0_, useraccoun0_.available_balance as availabl3_5_0_, useraccoun0_.iso_currency_code as iso_curr4_5_0_, useraccoun0_.current_balance as current_5_5_0_, useraccoun0_.item_table_id as item_tab6_5_0_, useraccoun0_._limit as _limit7_5_0_, useraccoun0_.mask as mask8_5_0_, useraccoun0_.account_name as account_9_5_0_, useraccoun0_.account_official_name as account10_5_0_, useraccoun0_.subtype as subtype11_5_0_, useraccoun0_._type as _type12_5_0_, useraccoun0_.user_id as user_id13_5_0_ from users_accounts useraccoun0_ where useraccoun0_.id=?
+[DEBUG] 05-03-2019 20:37:57.107 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_REFRESH on entity UserAccountObject: select useraccoun0_.id as id1_5_0_, useraccoun0_.account_id as account_2_5_0_, useraccoun0_.available_balance as availabl3_5_0_, useraccoun0_.iso_currency_code as iso_curr4_5_0_, useraccoun0_.current_balance as current_5_5_0_, useraccoun0_.item_table_id as item_tab6_5_0_, useraccoun0_._limit as _limit7_5_0_, useraccoun0_.mask as mask8_5_0_, useraccoun0_.account_name as account_9_5_0_, useraccoun0_.account_official_name as account10_5_0_, useraccoun0_.subtype as subtype11_5_0_, useraccoun0_._type as _type12_5_0_, useraccoun0_.user_id as user_id13_5_0_ from users_accounts useraccoun0_ where useraccoun0_.id=?
+[DEBUG] 05-03-2019 20:37:57.107 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3794 - Static SQL for entity: Category
 [DEBUG] 05-03-2019 20:37:57.107 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3799 -  Version select: select id from users_categories where id =?
 [DEBUG] 05-03-2019 20:37:57.108 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3802 -  Snapshot select: select category_.id, category_.amount as amount2_6_, category_.currency as currency3_6_, category_.name as name4_6_, category_.rules as rules5_6_, category_.user_id as user_id6_6_ from users_categories category_ where category_.id=?
 [DEBUG] 05-03-2019 20:37:57.108 [main] org.hibernate.persister.entity.AbstractEntityPersister:debugf:394 -  Insert 0: insert into users_categories (amount, currency, name, rules, user_id, id) values (?, ?, ?, ?, ?, ?)
@@ -727,16 +727,16 @@
 [DEBUG] 05-03-2019 20:37:57.110 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : userId
 [DEBUG] 05-03-2019 20:37:57.110 [main] org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy:buildLoadPlan:150 - Building LoadPlan...
 [DEBUG] 05-03-2019 20:37:57.110 [main] org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor:processQuerySpaceJoins:119 - processing queryspace <gen:0>
-[DEBUG] 05-03-2019 20:37:57.111 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=com.miBudget.v1.entities.Category)
+[DEBUG] 05-03-2019 20:37:57.111 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=Category)
     - Returns
-       - EntityReturnImpl(entity=com.miBudget.v1.entities.Category, querySpaceUid=<gen:0>, path=com.miBudget.v1.entities.Category)
+       - EntityReturnImpl(entity=Category, querySpaceUid=<gen:0>, path=Category)
     - QuerySpaces
-       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.miBudget.v1.entities.Category)
+       - EntityQuerySpaceImpl(uid=<gen:0>, entity=Category)
           - SQL table alias mapping - category0_
           - alias suffix - 0_
           - suffixed key columns - {id1_6_0_}
 
-[DEBUG] 05-03-2019 20:37:57.111 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity com.miBudget.v1.entities.Category [NONE]: select category0_.id as id1_6_0_, category0_.amount as amount2_6_0_, category0_.currency as currency3_6_0_, category0_.name as name4_6_0_, category0_.rules as rules5_6_0_, category0_.user_id as user_id6_6_0_ from users_categories category0_ where category0_.id=?
+[DEBUG] 05-03-2019 20:37:57.111 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity Category [NONE]: select category0_.id as id1_6_0_, category0_.amount as amount2_6_0_, category0_.currency as currency3_6_0_, category0_.name as name4_6_0_, category0_.rules as rules5_6_0_, category0_.user_id as user_id6_6_0_ from users_categories category0_ where category0_.id=?
 [DEBUG] 05-03-2019 20:37:57.112 [main] org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl:registerQuerySpace:174 - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@3872bc37]
 [DEBUG] 05-03-2019 20:37:57.112 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : budgetedAmt
 [DEBUG] 05-03-2019 20:37:57.112 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : currency
@@ -745,19 +745,19 @@
 [DEBUG] 05-03-2019 20:37:57.113 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : userId
 [DEBUG] 05-03-2019 20:37:57.113 [main] org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy:buildLoadPlan:150 - Building LoadPlan...
 [DEBUG] 05-03-2019 20:37:57.113 [main] org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor:processQuerySpaceJoins:119 - processing queryspace <gen:0>
-[DEBUG] 05-03-2019 20:37:57.114 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=com.miBudget.v1.entities.Category)
+[DEBUG] 05-03-2019 20:37:57.114 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=Category)
     - Returns
-       - EntityReturnImpl(entity=com.miBudget.v1.entities.Category, querySpaceUid=<gen:0>, path=com.miBudget.v1.entities.Category)
+       - EntityReturnImpl(entity=Category, querySpaceUid=<gen:0>, path=Category)
     - QuerySpaces
-       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.miBudget.v1.entities.Category)
+       - EntityQuerySpaceImpl(uid=<gen:0>, entity=Category)
           - SQL table alias mapping - category0_
           - alias suffix - 0_
           - suffixed key columns - {id1_6_0_}
 
-[DEBUG] 05-03-2019 20:37:57.114 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity com.miBudget.v1.entities.Category [READ]: select category0_.id as id1_6_0_, category0_.amount as amount2_6_0_, category0_.currency as currency3_6_0_, category0_.name as name4_6_0_, category0_.rules as rules5_6_0_, category0_.user_id as user_id6_6_0_ from users_categories category0_ where category0_.id=?
-[DEBUG] 05-03-2019 20:37:57.115 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_MERGE on entity com.miBudget.v1.entities.Category: select category0_.id as id1_6_0_, category0_.amount as amount2_6_0_, category0_.currency as currency3_6_0_, category0_.name as name4_6_0_, category0_.rules as rules5_6_0_, category0_.user_id as user_id6_6_0_ from users_categories category0_ where category0_.id=?
-[DEBUG] 05-03-2019 20:37:57.115 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_REFRESH on entity com.miBudget.v1.entities.Category: select category0_.id as id1_6_0_, category0_.amount as amount2_6_0_, category0_.currency as currency3_6_0_, category0_.name as name4_6_0_, category0_.rules as rules5_6_0_, category0_.user_id as user_id6_6_0_ from users_categories category0_ where category0_.id=?
-[DEBUG] 05-03-2019 20:37:57.116 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3794 - Static SQL for entity: com.miBudget.v1.entities.ItemAccountObject
+[DEBUG] 05-03-2019 20:37:57.114 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity Category [READ]: select category0_.id as id1_6_0_, category0_.amount as amount2_6_0_, category0_.currency as currency3_6_0_, category0_.name as name4_6_0_, category0_.rules as rules5_6_0_, category0_.user_id as user_id6_6_0_ from users_categories category0_ where category0_.id=?
+[DEBUG] 05-03-2019 20:37:57.115 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_MERGE on entity Category: select category0_.id as id1_6_0_, category0_.amount as amount2_6_0_, category0_.currency as currency3_6_0_, category0_.name as name4_6_0_, category0_.rules as rules5_6_0_, category0_.user_id as user_id6_6_0_ from users_categories category0_ where category0_.id=?
+[DEBUG] 05-03-2019 20:37:57.115 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_REFRESH on entity Category: select category0_.id as id1_6_0_, category0_.amount as amount2_6_0_, category0_.currency as currency3_6_0_, category0_.name as name4_6_0_, category0_.rules as rules5_6_0_, category0_.user_id as user_id6_6_0_ from users_categories category0_ where category0_.id=?
+[DEBUG] 05-03-2019 20:37:57.116 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3794 - Static SQL for entity: ItemAccountObject
 [DEBUG] 05-03-2019 20:37:57.116 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3799 -  Version select: select id from items_accounts where id =?
 [DEBUG] 05-03-2019 20:37:57.116 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3802 -  Snapshot select: select itemaccoun_.id, itemaccoun_.account_id as account_2_2_, itemaccoun_.item_table_id as item_tab3_2_ from items_accounts itemaccoun_ where itemaccoun_.id=?
 [DEBUG] 05-03-2019 20:37:57.116 [main] org.hibernate.persister.entity.AbstractEntityPersister:debugf:394 -  Insert 0: insert into items_accounts (account_id, item_table_id, id) values (?, ?, ?)
@@ -768,34 +768,34 @@
 [DEBUG] 05-03-2019 20:37:57.117 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : itemTableId
 [DEBUG] 05-03-2019 20:37:57.118 [main] org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy:buildLoadPlan:150 - Building LoadPlan...
 [DEBUG] 05-03-2019 20:37:57.118 [main] org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor:processQuerySpaceJoins:119 - processing queryspace <gen:0>
-[DEBUG] 05-03-2019 20:37:57.118 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=com.miBudget.v1.entities.ItemAccountObject)
+[DEBUG] 05-03-2019 20:37:57.118 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=ItemAccountObject)
     - Returns
-       - EntityReturnImpl(entity=com.miBudget.v1.entities.ItemAccountObject, querySpaceUid=<gen:0>, path=com.miBudget.v1.entities.ItemAccountObject)
+       - EntityReturnImpl(entity=ItemAccountObject, querySpaceUid=<gen:0>, path=ItemAccountObject)
     - QuerySpaces
-       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.miBudget.v1.entities.ItemAccountObject)
+       - EntityQuerySpaceImpl(uid=<gen:0>, entity=ItemAccountObject)
           - SQL table alias mapping - itemaccoun0_
           - alias suffix - 0_
           - suffixed key columns - {id1_2_0_}
 
-[DEBUG] 05-03-2019 20:37:57.119 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity com.miBudget.v1.entities.ItemAccountObject [NONE]: select itemaccoun0_.id as id1_2_0_, itemaccoun0_.account_id as account_2_2_0_, itemaccoun0_.item_table_id as item_tab3_2_0_ from items_accounts itemaccoun0_ where itemaccoun0_.id=?
+[DEBUG] 05-03-2019 20:37:57.119 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity ItemAccountObject [NONE]: select itemaccoun0_.id as id1_2_0_, itemaccoun0_.account_id as account_2_2_0_, itemaccoun0_.item_table_id as item_tab3_2_0_ from items_accounts itemaccoun0_ where itemaccoun0_.id=?
 [DEBUG] 05-03-2019 20:37:57.119 [main] org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl:registerQuerySpace:174 - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@2cfa2c4f]
 [DEBUG] 05-03-2019 20:37:57.119 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : accountId
 [DEBUG] 05-03-2019 20:37:57.120 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : itemTableId
 [DEBUG] 05-03-2019 20:37:57.120 [main] org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy:buildLoadPlan:150 - Building LoadPlan...
 [DEBUG] 05-03-2019 20:37:57.120 [main] org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor:processQuerySpaceJoins:119 - processing queryspace <gen:0>
-[DEBUG] 05-03-2019 20:37:57.121 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=com.miBudget.v1.entities.ItemAccountObject)
+[DEBUG] 05-03-2019 20:37:57.121 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=ItemAccountObject)
     - Returns
-       - EntityReturnImpl(entity=com.miBudget.v1.entities.ItemAccountObject, querySpaceUid=<gen:0>, path=com.miBudget.v1.entities.ItemAccountObject)
+       - EntityReturnImpl(entity=ItemAccountObject, querySpaceUid=<gen:0>, path=ItemAccountObject)
     - QuerySpaces
-       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.miBudget.v1.entities.ItemAccountObject)
+       - EntityQuerySpaceImpl(uid=<gen:0>, entity=ItemAccountObject)
           - SQL table alias mapping - itemaccoun0_
           - alias suffix - 0_
           - suffixed key columns - {id1_2_0_}
 
-[DEBUG] 05-03-2019 20:37:57.121 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity com.miBudget.v1.entities.ItemAccountObject [READ]: select itemaccoun0_.id as id1_2_0_, itemaccoun0_.account_id as account_2_2_0_, itemaccoun0_.item_table_id as item_tab3_2_0_ from items_accounts itemaccoun0_ where itemaccoun0_.id=?
-[DEBUG] 05-03-2019 20:37:57.122 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_MERGE on entity com.miBudget.v1.entities.ItemAccountObject: select itemaccoun0_.id as id1_2_0_, itemaccoun0_.account_id as account_2_2_0_, itemaccoun0_.item_table_id as item_tab3_2_0_ from items_accounts itemaccoun0_ where itemaccoun0_.id=?
-[DEBUG] 05-03-2019 20:37:57.122 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_REFRESH on entity com.miBudget.v1.entities.ItemAccountObject: select itemaccoun0_.id as id1_2_0_, itemaccoun0_.account_id as account_2_2_0_, itemaccoun0_.item_table_id as item_tab3_2_0_ from items_accounts itemaccoun0_ where itemaccoun0_.id=?
-[DEBUG] 05-03-2019 20:37:57.123 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3794 - Static SQL for entity: com.miBudget.v1.entities.UsersInstitutionIdsObject
+[DEBUG] 05-03-2019 20:37:57.121 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity ItemAccountObject [READ]: select itemaccoun0_.id as id1_2_0_, itemaccoun0_.account_id as account_2_2_0_, itemaccoun0_.item_table_id as item_tab3_2_0_ from items_accounts itemaccoun0_ where itemaccoun0_.id=?
+[DEBUG] 05-03-2019 20:37:57.122 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_MERGE on entity ItemAccountObject: select itemaccoun0_.id as id1_2_0_, itemaccoun0_.account_id as account_2_2_0_, itemaccoun0_.item_table_id as item_tab3_2_0_ from items_accounts itemaccoun0_ where itemaccoun0_.id=?
+[DEBUG] 05-03-2019 20:37:57.122 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_REFRESH on entity ItemAccountObject: select itemaccoun0_.id as id1_2_0_, itemaccoun0_.account_id as account_2_2_0_, itemaccoun0_.item_table_id as item_tab3_2_0_ from items_accounts itemaccoun0_ where itemaccoun0_.id=?
+[DEBUG] 05-03-2019 20:37:57.123 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3794 - Static SQL for entity: UsersInstitutionIdsObject
 [DEBUG] 05-03-2019 20:37:57.123 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3799 -  Version select: select id from users_institution_ids where id =?
 [DEBUG] 05-03-2019 20:37:57.123 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3802 -  Snapshot select: select usersinsti_.id, usersinsti_.institution_id as institut2_7_, usersinsti_.user_id as user_id3_7_ from users_institution_ids usersinsti_ where usersinsti_.id=?
 [DEBUG] 05-03-2019 20:37:57.124 [main] org.hibernate.persister.entity.AbstractEntityPersister:debugf:394 -  Insert 0: insert into users_institution_ids (institution_id, user_id, id) values (?, ?, ?)
@@ -806,34 +806,34 @@
 [DEBUG] 05-03-2019 20:37:57.125 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : userId
 [DEBUG] 05-03-2019 20:37:57.125 [main] org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy:buildLoadPlan:150 - Building LoadPlan...
 [DEBUG] 05-03-2019 20:37:57.125 [main] org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor:processQuerySpaceJoins:119 - processing queryspace <gen:0>
-[DEBUG] 05-03-2019 20:37:57.126 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=com.miBudget.v1.entities.UsersInstitutionIdsObject)
+[DEBUG] 05-03-2019 20:37:57.126 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=UsersInstitutionIdsObject)
     - Returns
-       - EntityReturnImpl(entity=com.miBudget.v1.entities.UsersInstitutionIdsObject, querySpaceUid=<gen:0>, path=com.miBudget.v1.entities.UsersInstitutionIdsObject)
+       - EntityReturnImpl(entity=UsersInstitutionIdsObject, querySpaceUid=<gen:0>, path=UsersInstitutionIdsObject)
     - QuerySpaces
-       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.miBudget.v1.entities.UsersInstitutionIdsObject)
+       - EntityQuerySpaceImpl(uid=<gen:0>, entity=UsersInstitutionIdsObject)
           - SQL table alias mapping - usersinsti0_
           - alias suffix - 0_
           - suffixed key columns - {id1_7_0_}
 
-[DEBUG] 05-03-2019 20:37:57.126 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity com.miBudget.v1.entities.UsersInstitutionIdsObject [NONE]: select usersinsti0_.id as id1_7_0_, usersinsti0_.institution_id as institut2_7_0_, usersinsti0_.user_id as user_id3_7_0_ from users_institution_ids usersinsti0_ where usersinsti0_.id=?
+[DEBUG] 05-03-2019 20:37:57.126 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity UsersInstitutionIdsObject [NONE]: select usersinsti0_.id as id1_7_0_, usersinsti0_.institution_id as institut2_7_0_, usersinsti0_.user_id as user_id3_7_0_ from users_institution_ids usersinsti0_ where usersinsti0_.id=?
 [DEBUG] 05-03-2019 20:37:57.127 [main] org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl:registerQuerySpace:174 - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@11b455e5]
 [DEBUG] 05-03-2019 20:37:57.127 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : institutionId
 [DEBUG] 05-03-2019 20:37:57.127 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : userId
 [DEBUG] 05-03-2019 20:37:57.127 [main] org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy:buildLoadPlan:150 - Building LoadPlan...
 [DEBUG] 05-03-2019 20:37:57.128 [main] org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor:processQuerySpaceJoins:119 - processing queryspace <gen:0>
-[DEBUG] 05-03-2019 20:37:57.128 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=com.miBudget.v1.entities.UsersInstitutionIdsObject)
+[DEBUG] 05-03-2019 20:37:57.128 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=UsersInstitutionIdsObject)
     - Returns
-       - EntityReturnImpl(entity=com.miBudget.v1.entities.UsersInstitutionIdsObject, querySpaceUid=<gen:0>, path=com.miBudget.v1.entities.UsersInstitutionIdsObject)
+       - EntityReturnImpl(entity=UsersInstitutionIdsObject, querySpaceUid=<gen:0>, path=UsersInstitutionIdsObject)
     - QuerySpaces
-       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.miBudget.v1.entities.UsersInstitutionIdsObject)
+       - EntityQuerySpaceImpl(uid=<gen:0>, entity=UsersInstitutionIdsObject)
           - SQL table alias mapping - usersinsti0_
           - alias suffix - 0_
           - suffixed key columns - {id1_7_0_}
 
-[DEBUG] 05-03-2019 20:37:57.129 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity com.miBudget.v1.entities.UsersInstitutionIdsObject [READ]: select usersinsti0_.id as id1_7_0_, usersinsti0_.institution_id as institut2_7_0_, usersinsti0_.user_id as user_id3_7_0_ from users_institution_ids usersinsti0_ where usersinsti0_.id=?
-[DEBUG] 05-03-2019 20:37:57.129 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_MERGE on entity com.miBudget.v1.entities.UsersInstitutionIdsObject: select usersinsti0_.id as id1_7_0_, usersinsti0_.institution_id as institut2_7_0_, usersinsti0_.user_id as user_id3_7_0_ from users_institution_ids usersinsti0_ where usersinsti0_.id=?
-[DEBUG] 05-03-2019 20:37:57.129 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_REFRESH on entity com.miBudget.v1.entities.UsersInstitutionIdsObject: select usersinsti0_.id as id1_7_0_, usersinsti0_.institution_id as institut2_7_0_, usersinsti0_.user_id as user_id3_7_0_ from users_institution_ids usersinsti0_ where usersinsti0_.id=?
-[DEBUG] 05-03-2019 20:37:57.131 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3794 - Static SQL for entity: com.miBudget.v1.entities.Account
+[DEBUG] 05-03-2019 20:37:57.129 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity UsersInstitutionIdsObject [READ]: select usersinsti0_.id as id1_7_0_, usersinsti0_.institution_id as institut2_7_0_, usersinsti0_.user_id as user_id3_7_0_ from users_institution_ids usersinsti0_ where usersinsti0_.id=?
+[DEBUG] 05-03-2019 20:37:57.129 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_MERGE on entity UsersInstitutionIdsObject: select usersinsti0_.id as id1_7_0_, usersinsti0_.institution_id as institut2_7_0_, usersinsti0_.user_id as user_id3_7_0_ from users_institution_ids usersinsti0_ where usersinsti0_.id=?
+[DEBUG] 05-03-2019 20:37:57.129 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_REFRESH on entity UsersInstitutionIdsObject: select usersinsti0_.id as id1_7_0_, usersinsti0_.institution_id as institut2_7_0_, usersinsti0_.user_id as user_id3_7_0_ from users_institution_ids usersinsti0_ where usersinsti0_.id=?
+[DEBUG] 05-03-2019 20:37:57.131 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3794 - Static SQL for entity: Account
 [DEBUG] 05-03-2019 20:37:57.131 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3799 -  Version select: select account_id from accounts where account_id =?
 [DEBUG] 05-03-2019 20:37:57.132 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3802 -  Snapshot select: select account_.account_id, account_.available_balance as availabl2_0_, account_.iso_currency_code as iso_curr3_0_, account_.current_balance as current_4_0_, account_.item_table_id as item_tab5_0_, account_._limit as _limit6_0_, account_.mask as mask7_0_, account_.account_name as account_8_0_, account_.account_official_name as account_9_0_, account_.subtype as subtype10_0_, account_._type as _type11_0_ from accounts account_ where account_.account_id=?
 [DEBUG] 05-03-2019 20:37:57.132 [main] org.hibernate.persister.entity.AbstractEntityPersister:debugf:394 -  Insert 0: insert into accounts (available_balance, iso_currency_code, current_balance, item_table_id, _limit, mask, account_name, account_official_name, subtype, _type, account_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -852,16 +852,16 @@
 [DEBUG] 05-03-2019 20:37:57.135 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : type
 [DEBUG] 05-03-2019 20:37:57.135 [main] org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy:buildLoadPlan:150 - Building LoadPlan...
 [DEBUG] 05-03-2019 20:37:57.136 [main] org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor:processQuerySpaceJoins:119 - processing queryspace <gen:0>
-[DEBUG] 05-03-2019 20:37:57.136 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=com.miBudget.v1.entities.Account)
+[DEBUG] 05-03-2019 20:37:57.136 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=Account)
     - Returns
-       - EntityReturnImpl(entity=com.miBudget.v1.entities.Account, querySpaceUid=<gen:0>, path=com.miBudget.v1.entities.Account)
+       - EntityReturnImpl(entity=Account, querySpaceUid=<gen:0>, path=Account)
     - QuerySpaces
-       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.miBudget.v1.entities.Account)
+       - EntityQuerySpaceImpl(uid=<gen:0>, entity=Account)
           - SQL table alias mapping - account0_
           - alias suffix - 0_
           - suffixed key columns - {account_1_0_0_}
 
-[DEBUG] 05-03-2019 20:37:57.137 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity com.miBudget.v1.entities.Account [NONE]: select account0_.account_id as account_1_0_0_, account0_.available_balance as availabl2_0_0_, account0_.iso_currency_code as iso_curr3_0_0_, account0_.current_balance as current_4_0_0_, account0_.item_table_id as item_tab5_0_0_, account0_._limit as _limit6_0_0_, account0_.mask as mask7_0_0_, account0_.account_name as account_8_0_0_, account0_.account_official_name as account_9_0_0_, account0_.subtype as subtype10_0_0_, account0_._type as _type11_0_0_ from accounts account0_ where account0_.account_id=?
+[DEBUG] 05-03-2019 20:37:57.137 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity Account [NONE]: select account0_.account_id as account_1_0_0_, account0_.available_balance as availabl2_0_0_, account0_.iso_currency_code as iso_curr3_0_0_, account0_.current_balance as current_4_0_0_, account0_.item_table_id as item_tab5_0_0_, account0_._limit as _limit6_0_0_, account0_.mask as mask7_0_0_, account0_.account_name as account_8_0_0_, account0_.account_official_name as account_9_0_0_, account0_.subtype as subtype10_0_0_, account0_._type as _type11_0_0_ from accounts account0_ where account0_.account_id=?
 [DEBUG] 05-03-2019 20:37:57.137 [main] org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl:registerQuerySpace:174 - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@6d025d1d]
 [DEBUG] 05-03-2019 20:37:57.137 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : availableBalance
 [DEBUG] 05-03-2019 20:37:57.138 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : currencyCode
@@ -875,19 +875,19 @@
 [DEBUG] 05-03-2019 20:37:57.139 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : type
 [DEBUG] 05-03-2019 20:37:57.140 [main] org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy:buildLoadPlan:150 - Building LoadPlan...
 [DEBUG] 05-03-2019 20:37:57.140 [main] org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor:processQuerySpaceJoins:119 - processing queryspace <gen:0>
-[DEBUG] 05-03-2019 20:37:57.141 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=com.miBudget.v1.entities.Account)
+[DEBUG] 05-03-2019 20:37:57.141 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=Account)
     - Returns
-       - EntityReturnImpl(entity=com.miBudget.v1.entities.Account, querySpaceUid=<gen:0>, path=com.miBudget.v1.entities.Account)
+       - EntityReturnImpl(entity=Account, querySpaceUid=<gen:0>, path=Account)
     - QuerySpaces
-       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.miBudget.v1.entities.Account)
+       - EntityQuerySpaceImpl(uid=<gen:0>, entity=Account)
           - SQL table alias mapping - account0_
           - alias suffix - 0_
           - suffixed key columns - {account_1_0_0_}
 
-[DEBUG] 05-03-2019 20:37:57.142 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity com.miBudget.v1.entities.Account [READ]: select account0_.account_id as account_1_0_0_, account0_.available_balance as availabl2_0_0_, account0_.iso_currency_code as iso_curr3_0_0_, account0_.current_balance as current_4_0_0_, account0_.item_table_id as item_tab5_0_0_, account0_._limit as _limit6_0_0_, account0_.mask as mask7_0_0_, account0_.account_name as account_8_0_0_, account0_.account_official_name as account_9_0_0_, account0_.subtype as subtype10_0_0_, account0_._type as _type11_0_0_ from accounts account0_ where account0_.account_id=?
-[DEBUG] 05-03-2019 20:37:57.143 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_MERGE on entity com.miBudget.v1.entities.Account: select account0_.account_id as account_1_0_0_, account0_.available_balance as availabl2_0_0_, account0_.iso_currency_code as iso_curr3_0_0_, account0_.current_balance as current_4_0_0_, account0_.item_table_id as item_tab5_0_0_, account0_._limit as _limit6_0_0_, account0_.mask as mask7_0_0_, account0_.account_name as account_8_0_0_, account0_.account_official_name as account_9_0_0_, account0_.subtype as subtype10_0_0_, account0_._type as _type11_0_0_ from accounts account0_ where account0_.account_id=?
-[DEBUG] 05-03-2019 20:37:57.143 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_REFRESH on entity com.miBudget.v1.entities.Account: select account0_.account_id as account_1_0_0_, account0_.available_balance as availabl2_0_0_, account0_.iso_currency_code as iso_curr3_0_0_, account0_.current_balance as current_4_0_0_, account0_.item_table_id as item_tab5_0_0_, account0_._limit as _limit6_0_0_, account0_.mask as mask7_0_0_, account0_.account_name as account_8_0_0_, account0_.account_official_name as account_9_0_0_, account0_.subtype as subtype10_0_0_, account0_._type as _type11_0_0_ from accounts account0_ where account0_.account_id=?
-[DEBUG] 05-03-2019 20:37:57.144 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3794 - Static SQL for entity: com.miBudget.v1.entities.UsersItemsObject
+[DEBUG] 05-03-2019 20:37:57.142 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity Account [READ]: select account0_.account_id as account_1_0_0_, account0_.available_balance as availabl2_0_0_, account0_.iso_currency_code as iso_curr3_0_0_, account0_.current_balance as current_4_0_0_, account0_.item_table_id as item_tab5_0_0_, account0_._limit as _limit6_0_0_, account0_.mask as mask7_0_0_, account0_.account_name as account_8_0_0_, account0_.account_official_name as account_9_0_0_, account0_.subtype as subtype10_0_0_, account0_._type as _type11_0_0_ from accounts account0_ where account0_.account_id=?
+[DEBUG] 05-03-2019 20:37:57.143 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_MERGE on entity Account: select account0_.account_id as account_1_0_0_, account0_.available_balance as availabl2_0_0_, account0_.iso_currency_code as iso_curr3_0_0_, account0_.current_balance as current_4_0_0_, account0_.item_table_id as item_tab5_0_0_, account0_._limit as _limit6_0_0_, account0_.mask as mask7_0_0_, account0_.account_name as account_8_0_0_, account0_.account_official_name as account_9_0_0_, account0_.subtype as subtype10_0_0_, account0_._type as _type11_0_0_ from accounts account0_ where account0_.account_id=?
+[DEBUG] 05-03-2019 20:37:57.143 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_REFRESH on entity Account: select account0_.account_id as account_1_0_0_, account0_.available_balance as availabl2_0_0_, account0_.iso_currency_code as iso_curr3_0_0_, account0_.current_balance as current_4_0_0_, account0_.item_table_id as item_tab5_0_0_, account0_._limit as _limit6_0_0_, account0_.mask as mask7_0_0_, account0_.account_name as account_8_0_0_, account0_.account_official_name as account_9_0_0_, account0_.subtype as subtype10_0_0_, account0_._type as _type11_0_0_ from accounts account0_ where account0_.account_id=?
+[DEBUG] 05-03-2019 20:37:57.144 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3794 - Static SQL for entity: UsersItemsObject
 [DEBUG] 05-03-2019 20:37:57.144 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3799 -  Version select: select id from users_items where id =?
 [DEBUG] 05-03-2019 20:37:57.144 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3802 -  Snapshot select: select usersitems_.id, usersitems_.item_table_id as item_tab2_8_, usersitems_.user_id as user_id3_8_ from users_items usersitems_ where usersitems_.id=?
 [DEBUG] 05-03-2019 20:37:57.144 [main] org.hibernate.persister.entity.AbstractEntityPersister:debugf:394 -  Insert 0: insert into users_items (item_table_id, user_id, id) values (?, ?, ?)
@@ -898,34 +898,34 @@
 [DEBUG] 05-03-2019 20:37:57.146 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : userId
 [DEBUG] 05-03-2019 20:37:57.146 [main] org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy:buildLoadPlan:150 - Building LoadPlan...
 [DEBUG] 05-03-2019 20:37:57.147 [main] org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor:processQuerySpaceJoins:119 - processing queryspace <gen:0>
-[DEBUG] 05-03-2019 20:37:57.147 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=com.miBudget.v1.entities.UsersItemsObject)
+[DEBUG] 05-03-2019 20:37:57.147 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=UsersItemsObject)
     - Returns
-       - EntityReturnImpl(entity=com.miBudget.v1.entities.UsersItemsObject, querySpaceUid=<gen:0>, path=com.miBudget.v1.entities.UsersItemsObject)
+       - EntityReturnImpl(entity=UsersItemsObject, querySpaceUid=<gen:0>, path=UsersItemsObject)
     - QuerySpaces
-       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.miBudget.v1.entities.UsersItemsObject)
+       - EntityQuerySpaceImpl(uid=<gen:0>, entity=UsersItemsObject)
           - SQL table alias mapping - usersitems0_
           - alias suffix - 0_
           - suffixed key columns - {id1_8_0_}
 
-[DEBUG] 05-03-2019 20:37:57.147 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity com.miBudget.v1.entities.UsersItemsObject [NONE]: select usersitems0_.id as id1_8_0_, usersitems0_.item_table_id as item_tab2_8_0_, usersitems0_.user_id as user_id3_8_0_ from users_items usersitems0_ where usersitems0_.id=?
+[DEBUG] 05-03-2019 20:37:57.147 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity UsersItemsObject [NONE]: select usersitems0_.id as id1_8_0_, usersitems0_.item_table_id as item_tab2_8_0_, usersitems0_.user_id as user_id3_8_0_ from users_items usersitems0_ where usersitems0_.id=?
 [DEBUG] 05-03-2019 20:37:57.148 [main] org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl:registerQuerySpace:174 - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@79d06bbd]
 [DEBUG] 05-03-2019 20:37:57.148 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : itemTableId
 [DEBUG] 05-03-2019 20:37:57.148 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : userId
 [DEBUG] 05-03-2019 20:37:57.148 [main] org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy:buildLoadPlan:150 - Building LoadPlan...
 [DEBUG] 05-03-2019 20:37:57.149 [main] org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor:processQuerySpaceJoins:119 - processing queryspace <gen:0>
-[DEBUG] 05-03-2019 20:37:57.149 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=com.miBudget.v1.entities.UsersItemsObject)
+[DEBUG] 05-03-2019 20:37:57.149 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=UsersItemsObject)
     - Returns
-       - EntityReturnImpl(entity=com.miBudget.v1.entities.UsersItemsObject, querySpaceUid=<gen:0>, path=com.miBudget.v1.entities.UsersItemsObject)
+       - EntityReturnImpl(entity=UsersItemsObject, querySpaceUid=<gen:0>, path=UsersItemsObject)
     - QuerySpaces
-       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.miBudget.v1.entities.UsersItemsObject)
+       - EntityQuerySpaceImpl(uid=<gen:0>, entity=UsersItemsObject)
           - SQL table alias mapping - usersitems0_
           - alias suffix - 0_
           - suffixed key columns - {id1_8_0_}
 
-[DEBUG] 05-03-2019 20:37:57.150 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity com.miBudget.v1.entities.UsersItemsObject [READ]: select usersitems0_.id as id1_8_0_, usersitems0_.item_table_id as item_tab2_8_0_, usersitems0_.user_id as user_id3_8_0_ from users_items usersitems0_ where usersitems0_.id=?
-[DEBUG] 05-03-2019 20:37:57.150 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_MERGE on entity com.miBudget.v1.entities.UsersItemsObject: select usersitems0_.id as id1_8_0_, usersitems0_.item_table_id as item_tab2_8_0_, usersitems0_.user_id as user_id3_8_0_ from users_items usersitems0_ where usersitems0_.id=?
-[DEBUG] 05-03-2019 20:37:57.150 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_REFRESH on entity com.miBudget.v1.entities.UsersItemsObject: select usersitems0_.id as id1_8_0_, usersitems0_.item_table_id as item_tab2_8_0_, usersitems0_.user_id as user_id3_8_0_ from users_items usersitems0_ where usersitems0_.id=?
-[DEBUG] 05-03-2019 20:37:57.152 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3794 - Static SQL for entity: com.miBudget.v1.entities.User
+[DEBUG] 05-03-2019 20:37:57.150 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity UsersItemsObject [READ]: select usersitems0_.id as id1_8_0_, usersitems0_.item_table_id as item_tab2_8_0_, usersitems0_.user_id as user_id3_8_0_ from users_items usersitems0_ where usersitems0_.id=?
+[DEBUG] 05-03-2019 20:37:57.150 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_MERGE on entity UsersItemsObject: select usersitems0_.id as id1_8_0_, usersitems0_.item_table_id as item_tab2_8_0_, usersitems0_.user_id as user_id3_8_0_ from users_items usersitems0_ where usersitems0_.id=?
+[DEBUG] 05-03-2019 20:37:57.150 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_REFRESH on entity UsersItemsObject: select usersitems0_.id as id1_8_0_, usersitems0_.item_table_id as item_tab2_8_0_, usersitems0_.user_id as user_id3_8_0_ from users_items usersitems0_ where usersitems0_.id=?
+[DEBUG] 05-03-2019 20:37:57.152 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3794 - Static SQL for entity: User
 [DEBUG] 05-03-2019 20:37:57.153 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3799 -  Version select: select id from users where id =?
 [DEBUG] 05-03-2019 20:37:57.153 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3802 -  Snapshot select: select user_.id, user_.cellphone as cellphon2_4_, user_.email as email3_4_, user_.first_name as first_na4_4_, user_.last_name as last_nam5_4_, user_.password as password6_4_ from users user_ where user_.id=?
 [DEBUG] 05-03-2019 20:37:57.153 [main] org.hibernate.persister.entity.AbstractEntityPersister:debugf:394 -  Insert 0: insert into users (cellphone, email, first_name, last_name, password, id) values (?, ?, ?, ?, ?, ?)
@@ -939,16 +939,16 @@
 [DEBUG] 05-03-2019 20:37:57.155 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : password
 [DEBUG] 05-03-2019 20:37:57.156 [main] org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy:buildLoadPlan:150 - Building LoadPlan...
 [DEBUG] 05-03-2019 20:37:57.156 [main] org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor:processQuerySpaceJoins:119 - processing queryspace <gen:0>
-[DEBUG] 05-03-2019 20:37:57.157 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=com.miBudget.v1.entities.User)
+[DEBUG] 05-03-2019 20:37:57.157 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=User)
     - Returns
-       - EntityReturnImpl(entity=com.miBudget.v1.entities.User, querySpaceUid=<gen:0>, path=com.miBudget.v1.entities.User)
+       - EntityReturnImpl(entity=User, querySpaceUid=<gen:0>, path=User)
     - QuerySpaces
-       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.miBudget.v1.entities.User)
+       - EntityQuerySpaceImpl(uid=<gen:0>, entity=User)
           - SQL table alias mapping - user0_
           - alias suffix - 0_
           - suffixed key columns - {id1_4_0_}
 
-[DEBUG] 05-03-2019 20:37:57.157 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity com.miBudget.v1.entities.User [NONE]: select user0_.id as id1_4_0_, user0_.cellphone as cellphon2_4_0_, user0_.email as email3_4_0_, user0_.first_name as first_na4_4_0_, user0_.last_name as last_nam5_4_0_, user0_.password as password6_4_0_ from users user0_ where user0_.id=?
+[DEBUG] 05-03-2019 20:37:57.157 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity User [NONE]: select user0_.id as id1_4_0_, user0_.cellphone as cellphon2_4_0_, user0_.email as email3_4_0_, user0_.first_name as first_na4_4_0_, user0_.last_name as last_nam5_4_0_, user0_.password as password6_4_0_ from users user0_ where user0_.id=?
 [DEBUG] 05-03-2019 20:37:57.157 [main] org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl:registerQuerySpace:174 - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@e8ea697]
 [DEBUG] 05-03-2019 20:37:57.158 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : cellphone
 [DEBUG] 05-03-2019 20:37:57.158 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : email
@@ -957,19 +957,19 @@
 [DEBUG] 05-03-2019 20:37:57.159 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : password
 [DEBUG] 05-03-2019 20:37:57.159 [main] org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy:buildLoadPlan:150 - Building LoadPlan...
 [DEBUG] 05-03-2019 20:37:57.160 [main] org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor:processQuerySpaceJoins:119 - processing queryspace <gen:0>
-[DEBUG] 05-03-2019 20:37:57.160 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=com.miBudget.v1.entities.User)
+[DEBUG] 05-03-2019 20:37:57.160 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=User)
     - Returns
-       - EntityReturnImpl(entity=com.miBudget.v1.entities.User, querySpaceUid=<gen:0>, path=com.miBudget.v1.entities.User)
+       - EntityReturnImpl(entity=User, querySpaceUid=<gen:0>, path=User)
     - QuerySpaces
-       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.miBudget.v1.entities.User)
+       - EntityQuerySpaceImpl(uid=<gen:0>, entity=User)
           - SQL table alias mapping - user0_
           - alias suffix - 0_
           - suffixed key columns - {id1_4_0_}
 
-[DEBUG] 05-03-2019 20:37:57.161 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity com.miBudget.v1.entities.User [READ]: select user0_.id as id1_4_0_, user0_.cellphone as cellphon2_4_0_, user0_.email as email3_4_0_, user0_.first_name as first_na4_4_0_, user0_.last_name as last_nam5_4_0_, user0_.password as password6_4_0_ from users user0_ where user0_.id=?
-[DEBUG] 05-03-2019 20:37:57.161 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_MERGE on entity com.miBudget.v1.entities.User: select user0_.id as id1_4_0_, user0_.cellphone as cellphon2_4_0_, user0_.email as email3_4_0_, user0_.first_name as first_na4_4_0_, user0_.last_name as last_nam5_4_0_, user0_.password as password6_4_0_ from users user0_ where user0_.id=?
-[DEBUG] 05-03-2019 20:37:57.162 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_REFRESH on entity com.miBudget.v1.entities.User: select user0_.id as id1_4_0_, user0_.cellphone as cellphon2_4_0_, user0_.email as email3_4_0_, user0_.first_name as first_na4_4_0_, user0_.last_name as last_nam5_4_0_, user0_.password as password6_4_0_ from users user0_ where user0_.id=?
-[DEBUG] 05-03-2019 20:37:57.162 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3794 - Static SQL for entity: com.miBudget.v1.entities.Item
+[DEBUG] 05-03-2019 20:37:57.161 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity User [READ]: select user0_.id as id1_4_0_, user0_.cellphone as cellphon2_4_0_, user0_.email as email3_4_0_, user0_.first_name as first_na4_4_0_, user0_.last_name as last_nam5_4_0_, user0_.password as password6_4_0_ from users user0_ where user0_.id=?
+[DEBUG] 05-03-2019 20:37:57.161 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_MERGE on entity User: select user0_.id as id1_4_0_, user0_.cellphone as cellphon2_4_0_, user0_.email as email3_4_0_, user0_.first_name as first_na4_4_0_, user0_.last_name as last_nam5_4_0_, user0_.password as password6_4_0_ from users user0_ where user0_.id=?
+[DEBUG] 05-03-2019 20:37:57.162 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_REFRESH on entity User: select user0_.id as id1_4_0_, user0_.cellphone as cellphon2_4_0_, user0_.email as email3_4_0_, user0_.first_name as first_na4_4_0_, user0_.last_name as last_nam5_4_0_, user0_.password as password6_4_0_ from users user0_ where user0_.id=?
+[DEBUG] 05-03-2019 20:37:57.162 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3794 - Static SQL for entity: Item
 [DEBUG] 05-03-2019 20:37:57.164 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3799 -  Version select: select item_table_id from items where item_table_id =?
 [DEBUG] 05-03-2019 20:37:57.164 [main] org.hibernate.persister.entity.AbstractEntityPersister:logStaticSQL:3802 -  Snapshot select: select item_.item_table_id, item_.access_token as access_t2_1_, item_.institution_id as institut3_1_, item_.item_id as item_id4_1_ from items item_ where item_.item_table_id=?
 [DEBUG] 05-03-2019 20:37:57.165 [main] org.hibernate.persister.entity.AbstractEntityPersister:debugf:394 -  Insert 0: insert into items (access_token, institution_id, item_id, item_table_id) values (?, ?, ?, ?)
@@ -981,34 +981,34 @@
 [DEBUG] 05-03-2019 20:37:57.167 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : itemId
 [DEBUG] 05-03-2019 20:37:57.167 [main] org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy:buildLoadPlan:150 - Building LoadPlan...
 [DEBUG] 05-03-2019 20:37:57.168 [main] org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor:processQuerySpaceJoins:119 - processing queryspace <gen:0>
-[DEBUG] 05-03-2019 20:37:57.168 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=com.miBudget.v1.entities.Item)
+[DEBUG] 05-03-2019 20:37:57.168 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=Item)
     - Returns
-       - EntityReturnImpl(entity=com.miBudget.v1.entities.Item, querySpaceUid=<gen:0>, path=com.miBudget.v1.entities.Item)
+       - EntityReturnImpl(entity=Item, querySpaceUid=<gen:0>, path=Item)
     - QuerySpaces
-       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.miBudget.v1.entities.Item)
+       - EntityQuerySpaceImpl(uid=<gen:0>, entity=Item)
           - SQL table alias mapping - item0_
           - alias suffix - 0_
           - suffixed key columns - {item_tab1_1_0_}
 
-[DEBUG] 05-03-2019 20:37:57.169 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity com.miBudget.v1.entities.Item [NONE]: select item0_.item_table_id as item_tab1_1_0_, item0_.access_token as access_t2_1_0_, item0_.institution_id as institut3_1_0_, item0_.item_id as item_id4_1_0_ from items item0_ where item0_.item_table_id=?
+[DEBUG] 05-03-2019 20:37:57.169 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity Item [NONE]: select item0_.item_table_id as item_tab1_1_0_, item0_.access_token as access_t2_1_0_, item0_.institution_id as institut3_1_0_, item0_.item_id as item_id4_1_0_ from items item0_ where item0_.item_table_id=?
 [DEBUG] 05-03-2019 20:37:57.169 [main] org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl:registerQuerySpace:174 - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@45bf6f39]
 [DEBUG] 05-03-2019 20:37:57.169 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : accessToken
 [DEBUG] 05-03-2019 20:37:57.170 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : institutionId
 [DEBUG] 05-03-2019 20:37:57.170 [main] org.hibernate.persister.walking.spi.MetamodelGraphWalker:visitAttributeDefinition:146 - Visiting attribute path : itemId
 [DEBUG] 05-03-2019 20:37:57.170 [main] org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy:buildLoadPlan:150 - Building LoadPlan...
 [DEBUG] 05-03-2019 20:37:57.171 [main] org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor:processQuerySpaceJoins:119 - processing queryspace <gen:0>
-[DEBUG] 05-03-2019 20:37:57.172 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=com.miBudget.v1.entities.Item)
+[DEBUG] 05-03-2019 20:37:57.172 [main] org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter:logTree:55 - LoadPlan(entity=Item)
     - Returns
-       - EntityReturnImpl(entity=com.miBudget.v1.entities.Item, querySpaceUid=<gen:0>, path=com.miBudget.v1.entities.Item)
+       - EntityReturnImpl(entity=Item, querySpaceUid=<gen:0>, path=Item)
     - QuerySpaces
-       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.miBudget.v1.entities.Item)
+       - EntityQuerySpaceImpl(uid=<gen:0>, entity=Item)
           - SQL table alias mapping - item0_
           - alias suffix - 0_
           - suffixed key columns - {item_tab1_1_0_}
 
-[DEBUG] 05-03-2019 20:37:57.173 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity com.miBudget.v1.entities.Item [READ]: select item0_.item_table_id as item_tab1_1_0_, item0_.access_token as access_t2_1_0_, item0_.institution_id as institut3_1_0_, item0_.item_id as item_id4_1_0_ from items item0_ where item0_.item_table_id=?
-[DEBUG] 05-03-2019 20:37:57.173 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_MERGE on entity com.miBudget.v1.entities.Item: select item0_.item_table_id as item_tab1_1_0_, item0_.access_token as access_t2_1_0_, item0_.institution_id as institut3_1_0_, item0_.item_id as item_id4_1_0_ from items item0_ where item0_.item_table_id=?
-[DEBUG] 05-03-2019 20:37:57.175 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_REFRESH on entity com.miBudget.v1.entities.Item: select item0_.item_table_id as item_tab1_1_0_, item0_.access_token as access_t2_1_0_, item0_.institution_id as institut3_1_0_, item0_.item_id as item_id4_1_0_ from items item0_ where item0_.item_table_id=?
+[DEBUG] 05-03-2019 20:37:57.173 [main] org.hibernate.loader.entity.plan.EntityLoader:<init>:137 - Static select for entity Item [READ]: select item0_.item_table_id as item_tab1_1_0_, item0_.access_token as access_t2_1_0_, item0_.institution_id as institut3_1_0_, item0_.item_id as item_id4_1_0_ from items item0_ where item0_.item_table_id=?
+[DEBUG] 05-03-2019 20:37:57.173 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_MERGE on entity Item: select item0_.item_table_id as item_tab1_1_0_, item0_.access_token as access_t2_1_0_, item0_.institution_id as institut3_1_0_, item0_.item_id as item_id4_1_0_ from items item0_ where item0_.item_table_id=?
+[DEBUG] 05-03-2019 20:37:57.175 [main] org.hibernate.loader.Loader:<init>:38 - Static select for action ACTION_REFRESH on entity Item: select item0_.item_table_id as item_tab1_1_0_, item0_.access_token as access_t2_1_0_, item0_.institution_id as institut3_1_0_, item0_.item_id as item_id4_1_0_ from items item0_ where item0_.item_table_id=?
 [INFO ] 05-03-2019 20:37:57.248 [main] org.hibernate.orm.connections.access:getIsolatedConnection:47 - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@2f66f0d0] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
 [DEBUG] 05-03-2019 20:37:57.294 [main] org.hibernate.mapping.Table:sqlAlterStrings:516 - No alter strings for table : accounts
 [DEBUG] 05-03-2019 20:37:57.295 [main] org.hibernate.mapping.Table:sqlAlterStrings:516 - No alter strings for table : hibernate_sequence
@@ -1037,6 +1037,6 @@
         version()
 [DEBUG] 05-03-2019 20:37:57.647 [main] org.hibernate.loader.Loader:debugf:384 - Result set row: 0
 [DEBUG] 05-03-2019 20:37:57.647 [main] org.hibernate.loader.Loader:getRow:1538 - Result row: 
-[INFO ] 05-03-2019 20:37:57.654 [main] com.miBudget.v1.utilities.ClientTest:main:33 - MySQL version is 8.0.13
+[INFO ] 05-03-2019 20:37:57.654 [main] ClientTest:main:33 - MySQL version is 8.0.13
 
-[INFO ] 05-03-2019 20:37:57.657 [main] com.miBudget.v1.utilities.ClientTest:main:36 - End client test.
+[INFO ] 05-03-2019 20:37:57.657 [main] ClientTest:main:36 - End client test.

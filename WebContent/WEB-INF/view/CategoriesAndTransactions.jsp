@@ -6,15 +6,18 @@
 <%@ page import="java.util.Iterator" %>
 <%@ page import="java.util.Set" %>
 <%@ page import="java.lang.String" %>
-<%@ page import="com.miBudget.v1.daoimplementations.MiBudgetDAOImpl" %>
-<%@ page import="com.miBudget.v1.daoimplementations.AccountDAOImpl" %>
-<%@ page import="com.miBudget.v1.daoimplementations.ItemDAOImpl" %>
+<%@ page import="com.miBudget.daoimplementations.MiBudgetDAOImpl" %>
+<%@ page import="com.miBudget.daoimplementations.AccountDAOImpl" %>
+<%@ page import="com.miBudget.daoimplementations.ItemDAOImpl" %>
 <%@ page import="com.miBudget.v1.entities.*" %>
-<%@ page import="com.miBudget.v1.entities.Category" %>
+<%@ page import="com.miBudget.entities.Category" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="org.json.*" %>
 <%@ page import="org.json.simple.parser.JSONParser" %>
-<%@ page import="static com.miBudget.v1.servlets.CAT.LOGGER" %>
+<%@ page import="static com.miBudget.servlets.CAT.LOGGER" %>
+<%@ page import="com.miBudget.entities.Transaction" %>
+<%@ page import="com.miBudget.entities.User" %>
+<%@ page import="com.miBudget.entities.Account" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>

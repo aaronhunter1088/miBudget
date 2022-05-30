@@ -131,8 +131,7 @@ public class User implements Serializable {
 	
 	@Column(name="password")
 	private String password;
-	
-	// New
+
 	@Column(name="email")
 	private String email;
 
@@ -144,6 +143,7 @@ public class User implements Serializable {
 	private ArrayList<String> accountIds; // will become budget_ids ...
 
 	@Transient
+<<<<<<< Updated upstream
 	private ArrayList<Transaction> transactions = new ArrayList<>();
 
 	@Transient // will need to persist
@@ -155,6 +155,12 @@ public class User implements Serializable {
 	@Transient // will need to persist
 	private ArrayList<Category> categories;
 
+=======
+	private ArrayList<com.miBudget.v1.entities.Category> categories;
+	/**
+	 * 
+	 */
+>>>>>>> Stashed changes
 	private static final long serialVersionUID = 1L;
 
 	public int getId() {

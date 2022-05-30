@@ -376,8 +376,13 @@ public class ItemDAOImpl {
     		// Users_accounts table
     		// delete from users_accounts where user_id = 20 and institution_id = 'ins_3';
     		session.createQuery("DELETE FROM UserAccountObject " +
+<<<<<<< Updated upstream
     							"WHERE userId = " + user.getId() + " " +
     							"AND itemTableId = " + item.getItemTableId()).executeUpdate();
+=======
+    							"WHERE user_id = " + user.getId() + " " +
+    							"AND item_table_id = " + item.get_id()).executeUpdate();
+>>>>>>> Stashed changes
     		
     		LOGGER.info("... reference(s) deleted from users_accounts table...");
     		t.commit();
@@ -385,8 +390,13 @@ public class ItemDAOImpl {
     		// Users_items table
     		// delete from users_items where item_table_id = 963;
     		session.createQuery("DELETE FROM UsersItemsObject " + 
+<<<<<<< Updated upstream
 			    				"WHERE itemTableId = " + item.getItemTableId()).executeUpdate();
     		LOGGER.info("... reference(s) deleted from users_items table...");
+=======
+			    				"WHERE item_table_id = " + item.get_id()).executeUpdate();
+    		System.out.println("... reference(s) deleted from users_items table...");
+>>>>>>> Stashed changes
 //    		UsersItemsObject usersItemsObj = new UsersItemsObject(item.getItemTableId(), user.getId());
 //    		session.delete(usersItemsObj);
     		t.commit();
@@ -394,8 +404,13 @@ public class ItemDAOImpl {
     		// Items_accounts table
     		// delete from items_accounts where item_table_id = 963;
     		session.createQuery("DELETE FROM ItemAccountObject " + 
+<<<<<<< Updated upstream
 			    				"WHERE itemTableId = " + item.getItemTableId()).executeUpdate();
     		LOGGER.info("... reference(s) deleted from items_accounts table...");
+=======
+			    				"WHERE item_table_id = " + item.get_id()).executeUpdate();
+    		System.out.println("... reference(s) deleted from items_accounts table...");
+>>>>>>> Stashed changes
     		t.commit();
     		session.close();
     		LOGGER.info("4 delete queries executed.");
@@ -503,8 +518,13 @@ public class ItemDAOImpl {
     		// Users_institutions_ids table
     		// delete from users_institution_ids where user_id = 20 and institution_id = 'ins_3';
     		session.createQuery("DELETE FROM UsersItemsObject " + 
+<<<<<<< Updated upstream
     				"WHERE itemTableId = " + item.getItemTableId()).executeUpdate();
     		LOGGER.info("... reference deleted from UsersItems table...");
+=======
+    				"WHERE item_table_id = " + item.get_id()).executeUpdate();
+    		System.out.println("... reference deleted from UsersItems table...");
+>>>>>>> Stashed changes
     		session.getTransaction().commit();
     		return true;
     	} catch (HibernateException e) {

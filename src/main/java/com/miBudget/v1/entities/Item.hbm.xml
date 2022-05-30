@@ -4,8 +4,13 @@
 <!-- Generated Nov 20, 2018 11:32:29 AM by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
     <class name="com.miBudget.v1.entities.Item" table="ITEMS">
+<<<<<<< Updated upstream
         <id name="itemtableid" type="int">
             <column name="itemtableid" />
+=======
+        <id name="get_id" type="int">
+            <column name="item_table_id" />
+>>>>>>> Stashed changes
             <generator class="assigned" />
         </id>
         <property name="institutionid" type="java.lang.String" access="field">

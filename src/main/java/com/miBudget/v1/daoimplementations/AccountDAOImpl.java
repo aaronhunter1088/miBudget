@@ -46,8 +46,13 @@ public class AccountDAOImpl {
     		session = factory.openSession();
     		t = session.beginTransaction();
     		accountIds = (ArrayList<String>) session
+<<<<<<< Updated upstream
     				            .createNativeQuery("SELECT accountid FROM accounts " +
     								               "WHERE itemtableid = " + item.getItemTableId())
+=======
+    				            .createNativeQuery("SELECT account_id FROM accounts " +
+    								               "WHERE item_table_id = " + item.get_id())
+>>>>>>> Stashed changes
     											   .getResultList();
     		LOGGER.info("Query executed!");
     		t.commit();
@@ -507,9 +512,15 @@ public class AccountDAOImpl {
 			// Items_accounts table
 			// delete from items_accounts where item_table_id = 963;
 			session.createQuery("DELETE FROM ItemAccountObject " + 
+<<<<<<< Updated upstream
 			    				"WHERE itemTableId = \'" + item.getItemTableId() + "\'" +
 			    				"AND accountId = \'" + accountId + "\'").executeUpdate();
 			LOGGER.info("... account was deleted from items_accounts table...");
+=======
+			    				"WHERE item_table_id = " + item.get_id() +
+			    				"AND account_id = \'" + accountId + "\'").executeUpdate();
+			System.out.println("... account was deleted from items_accounts table...");
+>>>>>>> Stashed changes
 			t.commit();
 			session.close();
 			return true;
@@ -542,8 +553,13 @@ public class AccountDAOImpl {
     		// Users_institutions_ids table
     		// delete from users_institution_ids where user_id = 20 and institution_id = 'ins_3';
     		session.createQuery("DELETE FROM UserAccountObject " +
+<<<<<<< Updated upstream
 								   "WHERE accountId = \'" + accountId + "\' " +
 					  			   "AND itemTableId = " + item.getItemTableId()).executeUpdate();
+=======
+					"WHERE account_id = \'" + accountId + "\' " +
+					"AND item_table_id = " + item.get_id()).executeUpdate();
+>>>>>>> Stashed changes
 
     		System.out.println("... account was deleted from users_accounts table...");
     		t.commit();

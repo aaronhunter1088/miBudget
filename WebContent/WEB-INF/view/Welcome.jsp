@@ -2,7 +2,7 @@
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ page import="com.miBudget.v1.entities.User" %>
+    <%@ page import="com.miBudget.entities.User" %>
     <%@ page import="javax.servlet.*" %>
     <%@ page import="java.util.List" %>
     <%@ page import="java.util.Arrays" %>

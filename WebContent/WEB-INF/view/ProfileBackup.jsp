@@ -6,12 +6,12 @@
 <%@ page import="java.util.Iterator" %>
 <%@ page import="java.util.Set" %>
 <%@ page import="java.lang.String" %>
-<%@ page import="com.miBudget.v1.daoimplementations.MiBudgetDAOImpl" %>
-<%@ page import="com.miBudget.v1.daoimplementations.AccountDAOImpl" %>
-<%@ page import="com.miBudget.v1.daoimplementations.ItemDAOImpl" %>
-<%@ page import="com.miBudget.v1.entities.Account" %>
-<%@ page import="com.miBudget.v1.entities.User" %>
-<%@ page import="com.miBudget.v1.entities.UserAccountObject" %>
+<%@ page import="com.miBudget.daoimplementations.MiBudgetDAOImpl" %>
+<%@ page import="com.miBudget.daoimplementations.AccountDAOImpl" %>
+<%@ page import="com.miBudget.daoimplementations.ItemDAOImpl" %>
+<%@ page import="com.miBudget.entities.Account" %>
+<%@ page import="com.miBudget.entities.User" %>
+<%@ page import="com.miBudget.entities.UserAccountObject" %>
 <%@ page import="java.util.HashMap" %>
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
