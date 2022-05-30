@@ -9,7 +9,7 @@
 <%@ page import="com.miBudget.daoimplementations.MiBudgetDAOImpl" %>
 <%@ page import="com.miBudget.daoimplementations.AccountDAOImpl" %>
 <%@ page import="com.miBudget.daoimplementations.ItemDAOImpl" %>
-<%@ page import="com.miBudget.v1.entities.*" %>
+<%@ page import="com.miBudget.entities.*" %>
 <%@ page import="com.miBudget.entities.Category" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="org.json.*" %>
@@ -336,7 +336,7 @@
 							session.getAttribute("acctsAndInstitutionIdMap");
 						for (String insId : acctsMap.keySet()) {
 							for (Account acct : acctsMap.get(insId)) {
-								String name = acct.getNameOfAccount(); %>
+								String name = acct.getAccountName(); %>
 					<option label="Account" value="<%= name %>"/>
 					<% } %>
 					<% } %>

@@ -130,8 +130,8 @@
 					ArrayList<Account> acctsList = acctsMap.get(acctsForThisInstitutionId);
 					
 					for (Account acct : acctsList) {
-						String name = acct.getNameOfAccount() != null ? 
-						  			  acct.getNameOfAccount() :
+						String name = acct.getAccountName() != null ?
+						  			  acct.getAccountName() :
 						  			  acct.getOfficialName(); %>
 						<!-- [Name | Mask | Available Balance] | Delete --> 
 						<tr id="acct" class="acct" name="<%= acctsForThisInstitutionId %>"> 

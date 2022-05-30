@@ -3,16 +3,16 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Nov 20, 2018 11:32:29 AM by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
-    <class name="com.miBudget.entities.UsersInstitutionIdsObject" table="usersinstitutionids">
+    <class name="com.miBudget.entities.UsersInstitutionIdsObject" table="users_institution_ids">
         <id name="id" type="int">
-            <column name="userinstititionid" />
+            <column name="id" />
             <generator class="assigned" />
         </id>
         <property name="institutionId" type="java.lang.String">
-            <column name="institutionid" />
+            <column name="institution_id" />
         </property>
         <property name="userId" type="int">
-            <column name="userid" />
+            <column name="user_id" />
         </property>
     </class>
 </hibernate-mapping>

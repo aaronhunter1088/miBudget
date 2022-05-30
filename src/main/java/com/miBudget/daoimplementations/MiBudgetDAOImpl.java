@@ -21,7 +21,7 @@ import com.miBudget.entities.Category;
 import com.miBudget.entities.Item;
 import com.miBudget.entities.User;
 import com.miBudget.entities.UserAccountObject;
-import com.miBudget.entities.UsersItemsObject;
+import com.miBudget.entities.UserItemsObject;
 import com.miBudget.utilities.HibernateUtilities;
 
 
@@ -335,7 +335,7 @@ public class MiBudgetDAOImpl {
 			session = factory.openSession();
 			int user_id = user.getId();
 			t = session.beginTransaction();
-			UsersItemsObject uiObj = new UsersItemsObject(itemTableId, user_id);
+			UserItemsObject uiObj = new UserItemsObject(itemTableId, user_id);
 //			session.createNativeQuery("INSERT INTO users_items ('item_id', 'user_id') " +
 //									  "VALUES (" + item_id + ", " + user_id + ")").executeUpdate();
 //			session.createNativeQuery("UPDATE users " + 

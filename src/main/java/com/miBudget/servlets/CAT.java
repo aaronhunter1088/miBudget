@@ -18,7 +18,7 @@ import com.miBudget.daoimplementations.AccountDAOImpl;
 import com.miBudget.daoimplementations.ItemDAOImpl;
 import com.miBudget.daoimplementations.MiBudgetDAOImpl;
 import com.miBudget.entities.*;
-import com.miBudget.v1.entities.*;
+import com.miBudget.entities.*;
 import com.miBudget.utilities.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -156,9 +156,9 @@ public class CAT extends HttpServlet {
 				ArrayList<UserAccountObject> usersAccts = accountDAOImpl.getAllUserAccountObjectsFromUserAndItemTableId(user, 0);
 				for (UserAccountObject uao : usersAccts) {
 					LOGGER.debug("UserAccountObject: " + uao);
-					if (uao.getNameOfAccount().equals(acctName) ||
+					if (uao.getAccountName().equals(acctName) ||
 						uao.getMask().equals(mask)) {
-						itemTableId = uao.getItemTableId();
+						itemTableId = uao.getItem__id();
 						acctId = uao.getAccountId();
 						break;
 					}

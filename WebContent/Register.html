@@ -10,6 +10,9 @@
 				display: block;
 				margin: 8px;
 			}
+			.button {
+				font-weight: bold;
+			}
 			.cursor {
 		    	cursor:pointer;
 		    }
@@ -31,7 +34,7 @@
 				<hr>
 				<input name="Cellphone" placeholder="Enter cellphone" tabindex="3" type="text"><br>
 				<hr>
-				<input name="Email" placeholder="Enter email" tabindex="4" type="text"> <label id="emailLabel"><b><i>This will be used as a backup!</i><b></b></b> <b><br></b></label>
+				<input name="Email" placeholder="Enter email" tabindex="4" type="text"> <label id="emailLabel"></br><b><i>This will be used as backup!</i></b> </label>
 				<hr>
 				<b><input name="Password" placeholder="Enter password" tabindex="5" type="password"><br></b>
 				<hr>
@@ -42,7 +45,8 @@
 					<b>By creating an account, you agree to our <a href="#" style="color:darkblue" title="TODO: Create a page showing Terms & Conditions!">Terms & Conditions</a>.</b>
 				</p>
 				<div>
-					<b><input class="button cursor" onclick="window.location.replace('index.html')" type="button" value="Cancel"> <button class="cursor" tabindex="6" type="submit" value="SignUp"><b>Sign Up</b></button></b>
+					<b><input class="button cursor" onclick="window.location.replace('index.html')" type="button" value="Cancel" >
+					   <button class="cursor" tabindex="6" type="submit" value="SignUp"><b>Sign Up</b></button></b>
 				</div>
 			</div>
 		</form>

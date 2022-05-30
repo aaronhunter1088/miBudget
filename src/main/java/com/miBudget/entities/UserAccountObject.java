@@ -10,22 +10,22 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="usersaccounts")
+@Table(name="user_accounts")
 public class UserAccountObject implements Serializable {
 	
 	public UserAccountObject() {}
 	
-	public UserAccountObject(int userId, String accountId, int itemTableId, double availableBalance, double currentBalance,
-			double limit, String currencyCode, String nameOfAcct, String officialNameOfAcct,
-			String mask, String type, String subtype) {
+	public UserAccountObject(int userId, String accountId, int item__id, double availableBalance, double currentBalance,
+							 double limit, String currencyCode, String nameOfAcct, String officialNameOfAcct,
+							 String mask, String type, String subtype) {
 		this.userId = userId;
 		this.accountId = accountId;
-		this.itemTableId = itemTableId;
+		this.item__id = item__id;
 		this.availableBalance = availableBalance;
 		this.currentBalance = currentBalance;
 		this.limit = limit;
 		this.currencyCode = currencyCode;
-		this.nameOfAccount = nameOfAcct;
+		this.accountName = nameOfAcct;
 		this.officialName = officialNameOfAcct;
 		this.mask = mask;
 		this.type = type;
@@ -34,39 +34,39 @@ public class UserAccountObject implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="usersaccountsid")
-	private int usersaccountsid;
+	@Column(name="id")
+	private int id;
 	
-	@Column(name="userid")
+	@Column(name="user_id")
 	private int userId;
 	
-	@Column(name="accountid")
+	@Column(name="account_id")
 	private String accountId;
 	
-	@Column(name="availablebalance", precision=10, scale=2)
+	@Column(name="available_balance", precision=10, scale=2)
 	private double availableBalance;
 	
-	@Column(name="currencycode")
+	@Column(name="currency_code")
 	private String currencyCode;
 	
-	@Column(name="currentbalance", precision=10, scale=2)
+	@Column(name="current_balance", precision=10, scale=2)
 	private double currentBalance;
 	
 	@Column(name="_limit", precision=10, scale=2)
 	private double limit;
 	
-	@Column(name="itemtableid")
-	private int itemTableId;
+	@Column(name="item__id")
+	private int item__id;
 	
+	@Column(name="account_name")
+	private String accountName;
+	
+	@Column(name="official_name")
+	private String officialName;
+
 	@Column(name="mask")
 	private String mask;
-	
-	@Column(name="nameofaccount")
-	private String nameOfAccount;
-	
-	@Column(name="officialname")
-	private String officialName;
-	
+
 	@Column(name="_type")
 	private String type;
 	
@@ -107,11 +107,11 @@ public class UserAccountObject implements Serializable {
 	}
 
 	public int getId() {
-		return usersaccountsid;
+		return id;
 	}
 
 	public void setId(int usersaccountsid) {
-		this.usersaccountsid = usersaccountsid;
+		this.id = usersaccountsid;
 	}
 
 	public double getAvailableBalance() {
@@ -138,12 +138,12 @@ public class UserAccountObject implements Serializable {
 		this.currentBalance = currentBalance;
 	}
 
-	public int getItemTableId() {
-		return itemTableId;
+	public int getItem__id() {
+		return item__id;
 	}
 
-	public void setItemTableId(int itemTableId) {
-		this.itemTableId = itemTableId;
+	public void setItem__id(int itemTableId) {
+		this.item__id = itemTableId;
 	}
 
 	public String getMask() {
@@ -154,12 +154,12 @@ public class UserAccountObject implements Serializable {
 		this.mask = mask;
 	}
 
-	public String getNameOfAccount() {
-		return nameOfAccount;
+	public String getAccountName() {
+		return accountName;
 	}
 
-	public void setNameOfAccount(String nameOfAccount) {
-		this.nameOfAccount = nameOfAccount;
+	public void setAccountName(String nameOfAccount) {
+		this.accountName = nameOfAccount;
 	}
 
 	public String getOfficialName() {
@@ -193,16 +193,16 @@ public class UserAccountObject implements Serializable {
 	@Override
 	public String toString() {
 		return "UserAccountObject{" +
-				"usersaccountsid=" + usersaccountsid +
+				"usersaccountsid=" + id +
 				", userId=" + userId +
 				", accountId='" + accountId + '\'' +
 				", availableBalance=" + availableBalance +
 				", currencyCode='" + currencyCode + '\'' +
 				", currentBalance=" + currentBalance +
 				", limit=" + limit +
-				", itemTableId=" + itemTableId +
+				", itemTableId=" + item__id +
 				", mask='" + mask + '\'' +
-				", nameOfAccount='" + nameOfAccount + '\'' +
+				", nameOfAccount='" + accountName + '\'' +
 				", officialName='" + officialName + '\'' +
 				", type='" + type + '\'' +
 				", subType='" + subType + '\'' +

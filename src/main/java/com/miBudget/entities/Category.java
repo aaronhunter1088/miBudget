@@ -1,13 +1,16 @@
 package com.miBudget.entities;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
 import javax.persistence.*;
 
+@Data
 @Entity
-@Table(name="userscategories")
+@Table(name="user_categories")
 public class Category implements Serializable {
 
 	public Category() {}
@@ -42,107 +45,24 @@ public class Category implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="usercategoryid", updatable=false, nullable=false)
+	@Column(name="id", updatable=false, nullable=false)
 	private int id;
 	
 	@Column(name="name")
 	private String name;
 	
-	@Column(name="currency")
+	@Column(name="currency_type")
 	private String currency;
 	
-	@Column(name="budgetedamt")
+	@Column(name="budgeted_amt")
 	private double budgetedAmt;
 
 	@SuppressWarnings("JpaAttributeTypeInspection")
 	@Column(name = "rules")
 	private ArrayList<Rule> rules;
 	
-	@Column(name="userid")
+	@Column(name="user_id")
 	private int userId;
-	
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	
-	public int getId() {
-		return id;
-	}
-
-	public String getName() {
-		return name;
-	}
-	
-	public String getCurrency() {
-		return currency;
-	}
-
-	public double getBudgetedAmt() {
-		return budgetedAmt;
-	}
-
-	public ArrayList<Rule> getRules() {
-		return rules;
-	}
-	
-	public int getUserId() {
-		return userId;
-	}
-	
-	private void setId(int id) {
-		this.id = id;
-	}
-
-	private void setName(String name) {
-		this.name = name;
-	}
-	
-	private void setCurrency(String currency) {
-		this.currency = currency;
-	}
-
-	private void setBudgetedAmt(double budgetedAmt) {
-		this.budgetedAmt = budgetedAmt;
-	}
-
-	private void setRules(ArrayList<Rule> rules) {
-		this.rules = rules;
-	}
-	
-	private void setUserId(int userId) {
-		this.userId = userId;
-	}
-	
-	private void addRule(Rule rule) {
-		if (this.rules == null) {
-			rules = new ArrayList<Rule>();
-		}
-		rules.add(rule);
-	}
-
-	@Override
-	public String toString() {
-		return "Category [id=" + id + ", name=" + name + ", budgetedAmt=" + budgetedAmt + ", rules=" + rules + "]";
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(rules, budgetedAmt, name);
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Category other = (Category) obj;
-		return Objects.equals(rules, other.rules)
-				&& Double.doubleToLongBits(budgetedAmt) == Double.doubleToLongBits(other.budgetedAmt)
-				&& Objects.equals(name, other.name) && Objects.equals(id,  other.id);
-	}
 	
 	public void createRules() {
 		this.rules = new ArrayList<Rule>();

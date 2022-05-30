@@ -1,5 +1,7 @@
 package com.miBudget.entities;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -9,8 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@Data
 @Entity
-@Table(name="usersinstitutionsids")
+@Table(name="users_institutions_ids")
 public class UsersInstitutionIdsObject implements Serializable {
 
 	public UsersInstitutionIdsObject() {}
@@ -28,53 +31,18 @@ public class UsersInstitutionIdsObject implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="userinstitutionid")
+	@Column(name="id")
 	int id;
 	
-	@Column(name="institutionid")
+	@Column(name="institution_id")
 	String institutionId;
 	
-	@Column(name="userid")
+	@Column(name="user_id")
 	int userId;
 	
 	/**
 	 * Default generated
 	 */
 	private static final long serialVersionUID = 1L;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getInstitutionId() {
-		return institutionId;
-	}
-
-	public void setInstitutionId(String institutionId) {
-		this.institutionId = institutionId;
-	}
-
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	@Override
-	public String toString() {
-		return "UsersInstitutionIdsObject [id=" + id + ", institutionId=" + institutionId + ", userId=" + userId + "]";
-	}
-	
-	
 
 }

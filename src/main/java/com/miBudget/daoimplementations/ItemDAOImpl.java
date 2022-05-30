@@ -13,7 +13,7 @@ import org.hibernate.Transaction;
 
 import com.miBudget.entities.Item;
 import com.miBudget.entities.User;
-import com.miBudget.entities.UsersItemsObject;
+import com.miBudget.entities.UserItemsObject;
 import com.miBudget.utilities.HibernateUtilities;
 
 @SuppressWarnings("unchecked")
@@ -56,8 +56,8 @@ public class ItemDAOImpl {
     	return item;
 	}
 	
-	public ArrayList<UsersItemsObject> getAllUserItems(User user) {
-		ArrayList<UsersItemsObject> itemsList = new ArrayList<>();
+	public ArrayList<UserItemsObject> getAllUserItems(User user) {
+		ArrayList<UserItemsObject> itemsList = new ArrayList<>();
 		SessionFactory factory = null;
     	Session session = null;
     	Transaction t = null;
@@ -66,9 +66,9 @@ public class ItemDAOImpl {
     		factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
-			itemsList = (ArrayList<UsersItemsObject>) session
+			itemsList = (ArrayList<UserItemsObject>) session
 					.createNativeQuery("SELECT * FROM usersitems WHERE userid = " + user.getId())
-					.addEntity(UsersItemsObject.class)
+					.addEntity(UserItemsObject.class)
 					.getResultList();
 			t.commit();
 			session.close();
@@ -377,15 +377,15 @@ public class ItemDAOImpl {
     		// delete from users_accounts where user_id = 20 and institution_id = 'ins_3';
     		session.createQuery("DELETE FROM UserAccountObject " +
     							"WHERE userId = " + user.getId() + " " +
-    							"AND itemTableId = " + item.getItemTableId()).executeUpdate();
+    							"AND item__id = " + item.get_id()).executeUpdate();
     		
     		LOGGER.info("... reference(s) deleted from users_accounts table...");
     		t.commit();
     		t = session.beginTransaction();
     		// Users_items table
     		// delete from users_items where item_table_id = 963;
-    		session.createQuery("DELETE FROM UsersItemsObject " + 
-			    				"WHERE itemTableId = " + item.getItemTableId()).executeUpdate();
+    		session.createQuery("DELETE FROM UserItemsObject " +
+			    				"WHERE item__id = " + item.get_id()).executeUpdate();
     		LOGGER.info("... reference(s) deleted from users_items table...");
 //    		UsersItemsObject usersItemsObj = new UsersItemsObject(item.getItemTableId(), user.getId());
 //    		session.delete(usersItemsObj);
@@ -394,7 +394,7 @@ public class ItemDAOImpl {
     		// Items_accounts table
     		// delete from items_accounts where item_table_id = 963;
     		session.createQuery("DELETE FROM ItemAccountObject " + 
-			    				"WHERE itemTableId = " + item.getItemTableId()).executeUpdate();
+			    				"WHERE item__id = " + item.get_id()).executeUpdate();
     		LOGGER.info("... reference(s) deleted from items_accounts table...");
     		t.commit();
     		session.close();
@@ -502,8 +502,8 @@ public class ItemDAOImpl {
     		t = session.beginTransaction();
     		// Users_institutions_ids table
     		// delete from users_institution_ids where user_id = 20 and institution_id = 'ins_3';
-    		session.createQuery("DELETE FROM UsersItemsObject " + 
-    				"WHERE itemTableId = " + item.getItemTableId()).executeUpdate();
+    		session.createQuery("DELETE FROM UserItemsObject " +
+    				"WHERE item__id = " + item.get_id()).executeUpdate();
     		LOGGER.info("... reference deleted from UsersItems table...");
     		session.getTransaction().commit();
     		return true;

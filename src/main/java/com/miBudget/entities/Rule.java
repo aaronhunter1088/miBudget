@@ -1,5 +1,7 @@
 package com.miBudget.entities;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@Data
 @Entity
 @Table(name="rules")
 public class Rule implements Serializable {
@@ -20,7 +23,7 @@ public class Rule implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="rulesid", updatable=false, nullable=false)
+	@Column(name="id", updatable=false, nullable=false)
 	private int id;
 	
 	@Column(name="amount")
@@ -28,56 +31,5 @@ public class Rule implements Serializable {
 	
 	@Column(name="names")
 	private String names;
-
-	private static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public double getAmount() {
-		return amount;
-	}
-
-	public String getNames() {
-		return names;
-	}
-
-	private void setId(int id) {
-		this.id = id;
-	}
-
-	private void setAmount(double amount) {
-		this.amount = amount;
-	}
-
-	private void setNames(String names) {
-		this.names = names;
-	}
-
-	@Override
-	public String toString() {
-		return "Rule [rulesid=" + id + ", amount=" + amount + ", names=" + names + "]";
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(amount, id, names);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Rule other = (Rule) obj;
-		return Double.doubleToLongBits(amount) == Double.doubleToLongBits(other.amount) && id == other.id
-				&& Objects.equals(names, other.names);
-	}
 
 }

@@ -4,10 +4,6 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-/*
- * id : item_table_id : account_id
- */
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,30 +13,33 @@ import javax.persistence.Table;
 
 @Data
 @Entity
-@Table(name="items_accounts")
-public class ItemAccountObject implements Serializable {
+@Table(name="user_items")
+public class UserItemsObject implements Serializable {
 
-	public ItemAccountObject() {}
+	public UserItemsObject() {}
 	
-	public ItemAccountObject(int item__id, String accountId) {
+	public UserItemsObject(int id, int item__id, int userId) {
+		this.id = id;
 		this.item__id = item__id;
-		this.accountId = accountId;
+		this.userId = userId;
+	}
+	
+	public UserItemsObject(int item__id, int userId) {
+		this.item__id = item__id;
+		this.userId = userId;
 	}
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id")
-	private int id;
+	int id;
 	
 	@Column(name="item__id")
-	private int item__id;
+	int item__id;
 	
-	@Column(name="account_id")
-	private String accountId;
-	
-	/**
-	 * Default generated
-	 */
+	@Column(name="user_id")
+	int userId;
+
 	private static final long serialVersionUID = 1L;
 
 }

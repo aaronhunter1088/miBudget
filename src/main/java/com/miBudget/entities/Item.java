@@ -23,8 +23,8 @@ public class Item implements Serializable {
 		this.accessToken = accessToken;
 	}
 	
-	public Item(int itemTableId, String itemId, String accessToken) {
-		this.itemTableId = itemTableId;
+	public Item(int _id, String itemId, String accessToken) {
+		this._id = _id;
 		this.itemId = itemId;
 		this.accessToken = accessToken;
 	}
@@ -41,8 +41,8 @@ public class Item implements Serializable {
 		
 	}
 	
-	public Item(int itemTableId, String itemId, String accessToken, String institutionId) {
-		this.itemTableId = itemTableId;
+	public Item(int _id, String itemId, String accessToken, String institutionId) {
+		this._id = _id;
 		this.institutionId = institutionId;
 		this.itemId = itemId;
 		this.accessToken = accessToken;
@@ -50,24 +50,24 @@ public class Item implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="itemtableid")
-	public int itemTableId;
+	@Column(name="_id")
+	public int _id;
 	
-	@Column(name="institutionid")
+	@Column(name="institution_id")
 	public String institutionId;
 	
-	@Column(name="itemid")
+	@Column(name="item_id")
 	public String itemId;
 	
-	@Column(name="accesstoken")
+	@Column(name="access_token")
 	public String accessToken;
 
-	public int getItemTableId() {
-		return itemTableId;
+	public int get_id() {
+		return _id;
 	}
 
-	public void setItemTableId(int itemTableId) {
-		this.itemTableId = itemTableId;
+	public void set_id(int itemTableId) {
+		this._id = itemTableId;
 	}
 	
 	public String getInstitutionId() {
@@ -101,7 +101,7 @@ public class Item implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Item [itemTableId=" + itemTableId + ", institutionId=" + institutionId + ", itemId=" + itemId
+		return "Item [itemTableId=" + _id + ", institutionId=" + institutionId + ", itemId=" + itemId
 				+ ", accessToken=" + accessToken + "]";
 	}
 	

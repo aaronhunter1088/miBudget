@@ -47,7 +47,7 @@ public class AccountDAOImpl {
     		t = session.beginTransaction();
     		accountIds = (ArrayList<String>) session
     				            .createNativeQuery("SELECT accountid FROM accounts " +
-    								               "WHERE itemtableid = " + item.getItemTableId())
+    								               "WHERE itemtableid = " + item.get_id())
     											   .getResultList();
     		LOGGER.info("Query executed!");
     		t.commit();
@@ -175,12 +175,12 @@ public class AccountDAOImpl {
 			session.saveOrUpdate(new UserAccountObject(
 					user.getId(),
 					account.getAccountId(),
-					account.getItemTableId(),
+					account.getItem__id(),
 					account.getAvailableBalance(),
 					account.getCurrentBalance(),
 					account.getLimit(),
 					account.getCurrencyCode(),
-					account.getNameOfAccount(),
+					account.getAccountName(),
 					account.getOfficialName(),
 					account.getMask(),
 					account.getType(),
@@ -432,7 +432,7 @@ public class AccountDAOImpl {
     		t = session.beginTransaction();
     		session.delete(account);
     		session.getTransaction().commit();
-    		String name = account.getOfficialName() != null ? account.getOfficialName() : account.getNameOfAccount();
+    		String name = account.getOfficialName() != null ? account.getOfficialName() : account.getAccountName();
     		LOGGER.info(name + " was deleted!");
     		session.close();
     		return true;
@@ -472,7 +472,7 @@ public class AccountDAOImpl {
     		//session.createQuery("DELETE FROM account " + 
     		//					"WHERE account_id IN (" + allAccountIdsString + ")");
     		for(int i = 0; i < accounts.size(); i++) {
-    			String delAcct = accounts.get(i).getNameOfAccount();
+    			String delAcct = accounts.get(i).getAccountName();
     			t = session.beginTransaction();
     			session.delete(accounts.get(i));
     			t.commit();
@@ -507,7 +507,7 @@ public class AccountDAOImpl {
 			// Items_accounts table
 			// delete from items_accounts where item_table_id = 963;
 			session.createQuery("DELETE FROM ItemAccountObject " + 
-			    				"WHERE itemTableId = \'" + item.getItemTableId() + "\'" +
+			    				"WHERE item__id = \'" + item.get_id() + "\'" +
 			    				"AND accountId = \'" + accountId + "\'").executeUpdate();
 			LOGGER.info("... account was deleted from items_accounts table...");
 			t.commit();
@@ -543,7 +543,7 @@ public class AccountDAOImpl {
     		// delete from users_institution_ids where user_id = 20 and institution_id = 'ins_3';
     		session.createQuery("DELETE FROM UserAccountObject " +
 								   "WHERE accountId = \'" + accountId + "\' " +
-					  			   "AND itemTableId = " + item.getItemTableId()).executeUpdate();
+					  			   "AND item__id = " + item.get_id()).executeUpdate();
 
     		System.out.println("... account was deleted from users_accounts table...");
     		t.commit();

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.miBudget.entities.User;
+import com.miBudget.enums.AppType;
 import com.miBudget.utilities.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,12 +42,9 @@ public class Profile extends HttpServlet {
 			// Update time
 			session.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr());
 			session.setAttribute("change", "This text will change after the user take actions");
-			boolean setupMode = ((User)session.getAttribute("user")).isSetupMode();
-			LOGGER.debug("is in SetupMode?: " + setupMode);
-			if (setupMode)
-			{
-				session.setAttribute("change", "Once you finish adding accounts, and creating categories, your budget will appear here.");
-			}
+			AppType appType = ((User)session.getAttribute("user")).getAppType();
+			LOGGER.debug("appType : {}", appType);
+			//if (appType){session.setAttribute("change", "Once you finish adding accounts, and creating categories, your budget will appear here.");}
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/Profile.jsp" );
 			dispatcher.forward( request, response );
 		} else {

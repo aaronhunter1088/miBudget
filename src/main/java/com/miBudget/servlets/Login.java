@@ -26,7 +26,7 @@ import com.miBudget.entities.Account;
 import com.miBudget.entities.Item;
 import com.miBudget.entities.Transaction;
 import com.miBudget.entities.User;
-import com.miBudget.entities.UsersItemsObject;
+import com.miBudget.entities.UserItemsObject;
 import com.miBudget.utilities.DateAndTimeUtility;
 
 
@@ -105,13 +105,13 @@ public class Login extends HttpServlet {
 			ArrayList<String> accountIdsList = (ArrayList<String>) accountDAOImpl.getAllAccountsIds(loginUser);
 			loginUser.setAccountIds(accountIdsList);
 			if (loginUser.getCategories().size() == 0) loginUser.createCategories();
-			ArrayList<UsersItemsObject> allUsersItemsList = itemDAOImpl.getAllUserItems(loginUser);
+			ArrayList<UserItemsObject> allUsersItemsList = itemDAOImpl.getAllUserItems(loginUser);
 			
 			// Populate accounts and institutions map
 			HashMap<String, ArrayList<Account>> acctsAndInstitutionIdMap = new HashMap<>();
-			for (UsersItemsObject uiObj : allUsersItemsList) {
-				Item item = itemDAOImpl.getItem(uiObj.getItemTableId() );
-				acctsAndInstitutionIdMap.put(item.getInstitutionId(), accountDAOImpl.getAllAccountsForItem(uiObj.getItemTableId()) );
+			for (UserItemsObject uiObj : allUsersItemsList) {
+				Item item = itemDAOImpl.getItem(uiObj.getItem__id() );
+				acctsAndInstitutionIdMap.put(item.getInstitutionId(), accountDAOImpl.getAllAccountsForItem(uiObj.getItem__id()) );
 			}
 			int accountsTotal = 0;
 			LOGGER.info("acctsAndInstitutionIdMap");
@@ -155,7 +155,7 @@ public class Login extends HttpServlet {
 			session.setAttribute("transactionsList", new JSONArray());
 			session.setAttribute("usersTransactions", new ArrayList<Transaction>()); // meant to be empty at this moment
 			session.setAttribute("usersBills", new ArrayList<Transaction>()); // meant to be empty at this moment
-			if (loginUser.isSetupMode()) session.setAttribute("change", "Once you finish adding accounts, and creating categories, your budget will appear here.");
+			if (session.getAttribute("change").equals("change") ) session.setAttribute("change", "Once you finish adding accounts, and creating categories, your budget will appear here.");
 			else session.setAttribute("change", "This text will change after the user take actions");
 			LOGGER.info("Redirecting to Profile.jsp");
 			LOGGER.info(Constants.end);

@@ -125,7 +125,7 @@ public class Delete extends HttpServlet {
 		deleteResponse.put("itemsAccountsResult", itemsAccountsResult);
 		deleteResponse.put("accountsResult", accountsResult);
 		deleteResponse.put("itemsResult", itemsResult == 1 ? true : false);
-		deleteResponse.put("name", account.getOfficialName().equals(null) ? account.getNameOfAccount() : account.getOfficialName());
+		deleteResponse.put("name", account.getOfficialName().equals(null) ? account.getAccountName() : account.getOfficialName());
 		
 		return deleteResponse;
 	}
@@ -172,7 +172,7 @@ public class Delete extends HttpServlet {
 				@SuppressWarnings("unchecked")
 				HashMap<Integer, ArrayList<Account>> acctsAndInstitutionIdMap = (HashMap<Integer, ArrayList<Account>>) 
 						session.getAttribute("acctsAndInstitutionIdMap");
-				acctsAndInstitutionIdMap.remove(item.getItemTableId());
+				acctsAndInstitutionIdMap.remove(item.get_id());
 				// update session values
 				int numberOfAccounts = accountDAOImpl.getAccountIdsFromUser(user).size();
 				ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
@@ -257,14 +257,14 @@ public class Delete extends HttpServlet {
 				session.setAttribute("institutionIdsList", institutionIdsList);
 				session.setAttribute("institutionIdsListSize", institutionIdsList.size());
 						
-				acctsAndInstitutionIdMap.remove(item.getItemTableId());
+				acctsAndInstitutionIdMap.remove(item.get_id());
 			} else {
 				LOGGER.info("Boolean result is true ELSE");
 				ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
 				session.setAttribute("institutionIdsList", institutionIdsList);
 				session.setAttribute("institutionIdsListSize", institutionIdsList.size());
 						
-				acctsAndInstitutionIdMap.remove(item.getItemTableId());
+				acctsAndInstitutionIdMap.remove(item.get_id());
 			}
 			
 			// If still has 1 or more accounts for an item

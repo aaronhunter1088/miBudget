@@ -58,7 +58,7 @@ public class HibernateUtilities {
 	            		.addAnnotatedClass(UserAccountObject.class)
 	            		.addAnnotatedClass(ItemAccountObject.class)
 	            		.addAnnotatedClass(UsersInstitutionIdsObject.class)
-	            		.addAnnotatedClass(UsersItemsObject.class)
+	            		.addAnnotatedClass(UserItemsObject.class)
 	            		.addAnnotatedClass(Category.class)
 						.addAnnotatedClass(Rule.class);
 				sessionFactory = new Configuration(sources)

@@ -5,35 +5,35 @@
 <hibernate-mapping>
     <class name="com.miBudget.entities.User" table="USER">
         <id name="id" type="int">
-            <column name="userid" />
+            <column name="id" />
             <generator class="assigned" />
         </id>
-        <property name="firstname" type="java.lang.String" access="field">
-            <column name="FIRSTNAME" />
+        <property name="firstName" type="java.lang.String" access="field">
+            <column name="first_name" />
         </property>
-        <property name="lastname" type="java.lang.String" access="field">
-            <column name="LASTNAME" />
+        <property name="lastName" type="java.lang.String" access="field">
+            <column name="last_name" />
         </property>
         <property name="cellphone" type="java.lang.String">
-            <column name="CELLPHONE" />
+            <column name="cellphone" />
         </property>
         <property name="password" type="java.lang.String">
-            <column name="PASSWORD" />
+            <column name="password" />
         </property>
         <property name="email" type="java.lang.String">
-            <column name="EMAIL" />
+            <column name="email" />
+        </property>
+        <property name="appType" type="com.miBudget.enums.AppType">
+            <column name="app_type" />
         </property>
         <list name="accountIds" inverse="false" table="USER" lazy="true" access="field">
             <key>
-                <column name="ID" />
+                <column name="account_ids" />
             </key>
             <list-index></list-index>
             <element type="java.lang.String">
-                <column name="ACCOUNT_IDS" />
+                <column name="account_ids" />
             </element>
         </list>
-        <property name="setupmode" type="java.lang.Boolean">
-            <column name="SETUPMODE" />
-        </property>
     </class>
 </hibernate-mapping>

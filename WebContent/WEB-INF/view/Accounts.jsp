@@ -168,8 +168,8 @@
 						ArrayList<Account> acctsList = acctsMap.get(acctsForThisInstitutionId);
 
 						for (Account acct : acctsList) {
-							String name = acct.getNameOfAccount() != null ?
-									acct.getNameOfAccount() :
+							String name = acct.getAccountName() != null ?
+									acct.getAccountName() :
 									acct.getOfficialName(); %>
 				<!-- [Name | Mask | Available Balance] | Delete -->
 				<tr id="acct" class="acct" name="<%= acctsForThisInstitutionId %>">
@@ -200,7 +200,7 @@
 						<form id="delete2" method="post" onsubmit="return deleteAccount('<%= name %>');" action="Delete">
 							<input type="hidden" name="delete" value="account"></input>
 							<input type="hidden" name="currentId" value="<%= acctsForThisInstitutionId %>"></input>
-							<input type="hidden" name="itemTableId" value="<%= acct.getItemTableId() %>"></input>
+							<input type="hidden" name="itemTableId" value="<%= acct.getItem__id() %>"></input>
 							<input type="hidden" name="accountId" value="<%= acct.getAccountId() %>"></input>
 							<button id="deleteAccountBtn" name="deleteAccountForm" type="submit">Delete Account</button>
 						</form>
