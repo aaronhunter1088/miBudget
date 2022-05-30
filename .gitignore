@@ -1,10 +1,8 @@
 /target/
 /logs
-
-
+/.idea/*
 .classpath
 .DS_Store
 compiler.xml
-.idea/*
 miBudget.iml
 
