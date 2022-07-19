@@ -22,11 +22,8 @@ import org.apache.logging.log4j.Logger;
 public class ForgotPassword extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger LOGGER = null;
-	static {
-		System.setProperty("appName", "miBudget");
-		LOGGER = LogManager.getLogger(ForgotPassword.class);
-	}
+	private static Logger LOGGER = LogManager.getLogger(ForgotPassword.class);
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -48,7 +45,7 @@ public class ForgotPassword extends HttpServlet {
 				} 
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
-				response.sendRedirect("index.jsp");
+				response.sendRedirect("/static/index.html");
 			}
 		}
 		

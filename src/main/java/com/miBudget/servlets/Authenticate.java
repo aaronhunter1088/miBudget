@@ -14,9 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.miBudget.daoimplementations.AccountDAOImpl;
-import com.miBudget.daoimplementations.ItemDAOImpl;
-import com.miBudget.daoimplementations.MiBudgetDAOImpl;
+import com.miBudget.main.MiBudgetState;
 import com.miBudget.utilities.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,19 +48,11 @@ import retrofit2.Response;
 public class Authenticate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
-	private AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
-	private ItemDAOImpl itemDAOImpl = new ItemDAOImpl();
-	
 	private final String client_id = "5ae66fb478f5440010e414ae";
 	//private final String secret = "0e580ef72b47a2e4a7723e8abc7df5";
 	private final String secretD = "c7d7ddb79d5b92aec57170440f7304";
 	
-	private static Logger LOGGER = null;
-	static {
-		System.setProperty("appName", "miBudget");
-		LOGGER = LogManager.getLogger(Authenticate.class);
-	}
+	private static Logger LOGGER = LogManager.getLogger(Authenticate.class);
 	
 	public PlaidClient client() {
 		// Use builder to create a client
@@ -92,9 +82,9 @@ public class Authenticate extends HttpServlet {
 		for (com.miBudget.entities.Account account : accountsRequested) {
 //    		com.miBudget.entities.Account account = iter.next();
     		// update account availableBalance, currentBalance, limit, currencyCode, item, figure out how to unmask mask to reveal last 4 of account
-			verify = accountDAOImpl.addAccountObjectToAccountsTableDatabase(account);
-			verify = accountDAOImpl.addAccountObjectToUsersAccountsTable(account, user);
-    		verify = accountDAOImpl.addAccountIdToItemsAccountsTable(item.get_id(), account.getAccountId());
+			verify = MiBudgetState.getAccountDAOImpl().addAccountObjectToAccountsTableDatabase(account);
+			verify = MiBudgetState.getAccountDAOImpl().addAccountObjectToUsersAccountsTable(account, user);
+    		verify = MiBudgetState.getAccountDAOImpl().addAccountIdToItemsAccountsTable(item.get_id(), account.getAccountId());
     		
 		}
     	if (verify == 0)
@@ -110,7 +100,7 @@ public class Authenticate extends HttpServlet {
      * @return
      */
     public int addInstitutionIdToUsersInstitutionIdsTableInDatabase(String ins_id, User user) {
-    	int verify = miBudgetDAOImpl.addInstitutionIdToDatabase(ins_id, user);
+    	int verify = MiBudgetState.getMiBudgetDAOImpl().addInstitutionIdToDatabase(ins_id, user);
     	return verify;
     }
     
@@ -122,7 +112,7 @@ public class Authenticate extends HttpServlet {
     		boolean brokenLoop = false;
     		int verify = 0;
     		if (usersItemsList.size() == 0) {
-    			verify = miBudgetDAOImpl.addItemToUsersItemsTable(itemTableId, user);
+    			verify = MiBudgetState.getMiBudgetDAOImpl().addItemToUsersItemsTable(itemTableId, user);
     		} else {
     			for (UserItemsObject uiObj : usersItemsList) {
         			if (uiObj.getItem__id() == item.get_id()) {
@@ -132,7 +122,7 @@ public class Authenticate extends HttpServlet {
         			}
         		}
     			if (!brokenLoop)
-    				verify = miBudgetDAOImpl.addItemToUsersItemsTable(itemTableId, user);
+    				verify = MiBudgetState.getMiBudgetDAOImpl().addItemToUsersItemsTable(itemTableId, user);
     		}
     		
     		if (verify == 1)
@@ -154,7 +144,7 @@ public class Authenticate extends HttpServlet {
     
     public List<String> getAllItemIds() {
     	List<String> allItemIdsList = new ArrayList<>();
-		allItemIdsList = itemDAOImpl.getAllItemIds();
+		allItemIdsList = MiBudgetState.getItemDAOImpl().getAllItemIds();
 		return allItemIdsList;
     }
     
@@ -164,7 +154,7 @@ public class Authenticate extends HttpServlet {
      */
     public ArrayList<Item> getAllItems() {
     	ArrayList<Item> allItemsList = new ArrayList<>();
-    	allItemsList = itemDAOImpl.getAllItems();
+    	allItemsList = MiBudgetState.getItemDAOImpl().getAllItems();
     	return allItemsList;
     }
     
@@ -174,7 +164,7 @@ public class Authenticate extends HttpServlet {
      */
     public ArrayList<UserItemsObject> getAllUsersItems(User user) {
     	ArrayList<UserItemsObject> usersItemsList = new ArrayList<>();
-    	usersItemsList = itemDAOImpl.getAllUserItems(user);
+    	usersItemsList = MiBudgetState.getItemDAOImpl().getAllUserItems(user);
     	return usersItemsList;
     }
     
@@ -190,7 +180,7 @@ public class Authenticate extends HttpServlet {
 //        		}
 //        	}
     		LOGGER.info("before save...");
-        	int verify = itemDAOImpl.addItemToDatabase(item);
+        	int verify = MiBudgetState.getItemDAOImpl().addItemToDatabase(item);
         	if (verify == 0)
         		return 0;
         	return 1;
@@ -356,10 +346,10 @@ public class Authenticate extends HttpServlet {
 		User user = (User) session.getAttribute("user");
 		ArrayList<String> currentAccountIdsList = new ArrayList<>();
 		currentAccountIdsList.addAll(user.getAccountIds());
-		ArrayList<com.miBudget.entities.Account> usersCurrentAccountsList = (ArrayList<com.miBudget.entities.Account>) accountDAOImpl.getAllAccounts(user.getAccountIds());
+		ArrayList<com.miBudget.entities.Account> usersCurrentAccountsList = (ArrayList<com.miBudget.entities.Account>) MiBudgetState.getAccountDAOImpl().getAllAccounts(user.getAccountIds());
 		boolean duplicateBank = false;
 		boolean duplicateAcct = false;
-		ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
+		ArrayList<String> institutionIdsList = (ArrayList<String>) MiBudgetState.getMiBudgetDAOImpl().getAllInstitutionIdsFromUser(user);
 		for(String id : institutionIdsList) {
 			if (id.equals(institutionId)) {
 				LOGGER.info(institutionId + " has already been added. We cannot add it again. Checking "
@@ -397,7 +387,7 @@ public class Authenticate extends HttpServlet {
 			// Can continue with authenticate
 		} else if (duplicateBank && after == 0) {
 			LOGGER.info("Trying to add duplicate bank...");
-			int numberOfAccounts = accountDAOImpl.getAccountIdsFromUser(user).size();
+			int numberOfAccounts = MiBudgetState.getAccountDAOImpl().getAccountIdsFromUser(user).size();
 			request.setAttribute("NoOfAccts", numberOfAccounts);
 			response.setStatus(HttpServletResponse.SC_CONFLICT); // TODO: Implement as some 2xx. 4xx is for invalid requests. We don't have that, we just restrict the logic. 
 			response.setContentType("application/text");
@@ -406,7 +396,7 @@ public class Authenticate extends HttpServlet {
 			return "FAIL: Cannot add duplicate bank.";
 		} else if (duplicateBank && duplicateAcct) {
 			LOGGER.info("Trying to add duplicate account(s)...");
-			int numberOfAccounts = accountDAOImpl.getAccountIdsFromUser(user).size();
+			int numberOfAccounts = MiBudgetState.getAccountDAOImpl().getAccountIdsFromUser(user).size();
 			request.setAttribute("NoOfAccts", numberOfAccounts);
 			response.setStatus(HttpServletResponse.SC_CONFLICT); // TODO: Implement as some 2xx. 4xx is for invalid requests. We don't have that, we just restrict the logic. 
 			response.setContentType("application/text");
@@ -443,7 +433,7 @@ public class Authenticate extends HttpServlet {
 				    return "FAIL: did not add " + bankToAdd + " to database.";
 			    else {
 				    LOGGER.info(bankToAdd + " was added to the database.");
-				    bankToAdd.set_id(itemDAOImpl.getItemTableIdForItemId(bankToAdd.getItemId())); // until this point, itemTableId is not set
+				    bankToAdd.set_id(MiBudgetState.getItemDAOImpl().getItemTableIdForItemId(bankToAdd.getItemId())); // until this point, itemTableId is not set
 				    LOGGER.info("updated bankToAdd: " + bankToAdd);
 			    }
 			    
@@ -462,7 +452,7 @@ public class Authenticate extends HttpServlet {
 				    LOGGER.info(bankToAdd.getInstitutionId() + " added to UsersInstitutions table in database");
 			    }
 		    } else {
-		    	bankToAdd.set_id(ItemDAOImpl.getItemTableIdUsingInsId(bankToAdd.getInstitutionId())); // until this point, itemTableId is not set
+		    	bankToAdd.set_id(MiBudgetState.getItemDAOImpl().getItemTableIdUsingInsId(bankToAdd.getInstitutionId())); // until this point, itemTableId is not set
 			    LOGGER.info("updated bankToAdd: " + bankToAdd); // since bank already exists, get itemTableId and set it for this bankToAdd object
 		    }
 //		    bankToAdd = itemDAOImpl.getItemFromUser(institutionId);
@@ -481,8 +471,8 @@ public class Authenticate extends HttpServlet {
 		    
 		    
 		    // Add accountsList to requestSession
-		    user.setAccountIds( (ArrayList<String>)accountDAOImpl.getAllAccountsIds(user)); // update accountIds
-		    usersCurrentAccountsList = (ArrayList<com.miBudget.entities.Account>) accountDAOImpl.getAllAccounts(user.getAccountIds());
+		    user.setAccountIds( (ArrayList<String>) MiBudgetState.getAccountDAOImpl().getAllAccountsIds(user)); // update accountIds
+		    usersCurrentAccountsList = (ArrayList<com.miBudget.entities.Account>) MiBudgetState.getAccountDAOImpl().getAllAccounts(user.getAccountIds());
 		    usersCurrentAccountsList.forEach(account -> {
 			    LOGGER.info(account);
 		    });
@@ -516,7 +506,7 @@ public class Authenticate extends HttpServlet {
 		    //else LOGGER.info("Added the Integer and Accounts pairing to the acctsAndInsitutionIdMap");
 		    session.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
 		  
-		    institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
+		    institutionIdsList = (ArrayList<String>) MiBudgetState.getMiBudgetDAOImpl().getAllInstitutionIdsFromUser(user);
 		    session.setAttribute("institutionIdsList", institutionIdsList);
 		    session.setAttribute("institutionIdsListSize", institutionIdsList.size());
 		  
@@ -530,10 +520,10 @@ public class Authenticate extends HttpServlet {
 		    String strAccounts = (accountsRequestedList.size() == 1) ? " account!" : " accounts!";
 		    session.setAttribute("change", "You have successfully loaded " + accountsRequestedList.size() + strAccounts);
 		    
-		    institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
+		    institutionIdsList = (ArrayList<String>) MiBudgetState.getMiBudgetDAOImpl().getAllInstitutionIdsFromUser(user);
 		    ArrayList<Item> items = new ArrayList<>();
 		    for (String id : institutionIdsList) {
-		    	Item item = itemDAOImpl.getItemFromUser(id);
+		    	Item item = MiBudgetState.getItemDAOImpl().getItemFromUser(id);
 			    LOGGER.info(item);
 			    items.add(item);
 		    }

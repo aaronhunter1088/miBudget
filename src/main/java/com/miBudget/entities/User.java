@@ -2,6 +2,8 @@ package com.miBudget.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.*;
 
@@ -133,7 +135,7 @@ public class User implements Serializable {
 
 	@ElementCollection
 	@Column(name="account_ids")
-	private ArrayList<String> accountIds; // will become budget_ids ...
+	private List<String> accountIds; // will become budget_ids ...
 
 	@Transient
 	private ArrayList<Transaction> transactions = new ArrayList<>();
@@ -149,7 +151,7 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public ArrayList<String> getAccountIds() {
+	public List<String> getAccountIds() {
 		return this.accountIds;
 	}
 	public void setAccountIds(ArrayList<String> accountIds) {
@@ -186,5 +188,29 @@ public class User implements Serializable {
 		categoriesList.add(billsCat);
 		System.out.println("default categories list created for " + this.firstName + " " + this.lastName);
 		this.categories = categoriesList;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		User user = (User) o;
+		return getId() == user.getId() &&
+				Objects.equals(getFirstName(), user.getFirstName()) &&
+				Objects.equals(getLastName(), user.getLastName()) &&
+				Objects.equals(getCellphone(), user.getCellphone()) &&
+				Objects.equals(getPassword(), user.getPassword()) &&
+				Objects.equals(getEmail(), user.getEmail()) &&
+				getAppType() == user.getAppType() &&
+				Objects.equals(getAccountIds(), user.getAccountIds()) &&
+				Objects.equals(getTransactions(), user.getTransactions()) &&
+				Objects.equals(getIgnoredTransactions(), user.getIgnoredTransactions()) &&
+				Objects.equals(getBills(), user.getBills()) &&
+				Objects.equals(getCategories(), user.getCategories());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getId(), getFirstName(), getLastName(), getCellphone(), getPassword(), getEmail(), getAppType(), getAccountIds(), getTransactions(), getIgnoredTransactions(), getBills(), getCategories());
 	}
 }

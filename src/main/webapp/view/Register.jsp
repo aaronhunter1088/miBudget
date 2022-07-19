@@ -123,7 +123,7 @@ function validateFields() {
 		return validate;
 	}
 	else if (email.indexOf('.') <= -1) {
-		alert("Invalid email format. You must have a \'.\' after the domain.");
+		alert("Invalid email format. You must have a \'.\' after the doMiBudget.");
 		return validate;
 	} else {
 		count++; // 4

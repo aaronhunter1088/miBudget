@@ -19,11 +19,8 @@ import org.apache.logging.log4j.Logger;
 public class Logout extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger LOGGER = null;
-	static  {
-		System.setProperty("appName", "miBudget");
-		LOGGER = LogManager.getLogger(Logout.class);
-	}
+	private static Logger LOGGER = LogManager.getLogger(Logout.class);
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -39,7 +36,7 @@ public class Logout extends HttpServlet {
 			LOGGER.info("Redirecting to index.html");
 		}
 		LOGGER.info(Constants.end);
-		response.sendRedirect("index.html");
+		response.sendRedirect("static/index.html");
 	}
 	
 //	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.miBudget.daoimplementations.MiBudgetDAOImpl;
+import com.miBudget.main.MiBudgetState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,13 +24,7 @@ import com.miBudget.entities.User;
 public class CheckInstitutionIds extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
-	
-	private static Logger LOGGER = null;
-	static  {
-		System.setProperty("appName", "miBudget");
-		LOGGER = LogManager.getLogger(CheckInstitutionIds.class);
-	}
+	private static Logger LOGGER = LogManager.getLogger(CheckInstitutionIds.class);
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -69,7 +63,7 @@ public class CheckInstitutionIds extends HttpServlet {
 	
 	public boolean checkInstitutionIds(HttpServletRequest request, User user) {
 		String institution_idIncoming = request.getParameter("institution_id");
-		ArrayList<String> institutionIdsList = (ArrayList<String>) miBudgetDAOImpl.getAllInstitutionIdsFromUser(user);
+		ArrayList<String> institutionIdsList = (ArrayList<String>) MiBudgetState.getMiBudgetDAOImpl().getAllInstitutionIdsFromUser(user);
 		boolean exit = false;
 		Iterator<String> iter = institutionIdsList.iterator();
 		while (iter.hasNext()) {

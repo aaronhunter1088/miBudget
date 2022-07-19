@@ -16,16 +16,16 @@ import com.miBudget.entities.ItemAccountObject;
 import com.miBudget.entities.User;
 import com.miBudget.entities.UserAccountObject;
 import com.miBudget.utilities.HibernateUtilities;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class AccountDAOImpl {
 
-	private static Logger LOGGER = null;
-	static {
-		System.setProperty("appName", "miBudget");
-		LOGGER = LogManager.getLogger(AccountDAOImpl.class);
-	}
-	
-	public AccountDAOImpl() {
+	private static Logger LOGGER = LogManager.getLogger(AccountDAOImpl.class);
+	private SessionFactory factory;
+
+	@Autowired
+	public AccountDAOImpl(SessionFactory factory) {
+		this.factory = factory;
     }
     
 	// TODO: think of a better name and incorporate user.
@@ -38,16 +38,16 @@ public class AccountDAOImpl {
 	public List<String> getAccountIdsFromUser(Item item) {
     	ArrayList<String> accountIds = null;
     	Session session = null;
-    	SessionFactory factory = null;
+
     	Transaction t = null;
     	try {
     		LOGGER.info("Attempting to execute getAccountIdsFromUser...");
-    		factory = HibernateUtilities.getSessionFactory();
+
     		session = factory.openSession();
     		t = session.beginTransaction();
     		accountIds = (ArrayList<String>) session
-    				            .createNativeQuery("SELECT accountid FROM accounts " +
-    								               "WHERE itemtableid = " + item.get_id())
+    				            .createNativeQuery("SELECT account_id FROM accounts " +
+    								               "WHERE item__id = " + item.get_id())
     											   .getResultList();
     		LOGGER.info("Query executed!");
     		t.commit();
@@ -70,17 +70,17 @@ public class AccountDAOImpl {
     @SuppressWarnings("unchecked")
 	public List<String> getAccountIdsFromUser(int userId) {
     	List<String> userAccounts = new ArrayList<>();
-    	SessionFactory factory = null;
+
     	Session session = null;
     	Transaction t = null;
 		try {
 			LOGGER.info("Attempting to execute getAccountIdsFromUser query...");
-			factory = HibernateUtilities.getSessionFactory();
+
 			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> userAccountsFromDB = session
-					   .createNativeQuery("SELECT accountid FROM usersaccounts " +
-					   						 "WHERE userid = \'" + userId + "\'")
+					   .createNativeQuery("SELECT account_id FROM user_accounts " +
+					   						 "WHERE user_id = \'" + userId + "\'")
 					   .getResultList();
 			LOGGER.info("Query executed!");
 			t.commit();
@@ -108,17 +108,17 @@ public class AccountDAOImpl {
     @SuppressWarnings("unchecked")
 	public ArrayList<String> getAccountIdsFromUser(User user) {
     	ArrayList<String> usersAccounts = new ArrayList<>();
-    	SessionFactory factory = null;
+
     	Session session = null;
     	Transaction t = null;
 		try {
 			LOGGER.info("Attempting to execute getAccountIdsForUser + " + user.getFirstName() + " " + user.getLastName() + "...");
-			factory = HibernateUtilities.getSessionFactory();
+
 			session = factory.openSession();
 			t = session.beginTransaction();
 			usersAccounts = (ArrayList<String>) session
-					   .createNativeQuery("SELECT accountid FROM usersaccounts " +
-							   			  "WHERE userid = " + user.getId() )
+					   .createNativeQuery("SELECT account_id FROM user_accounts " +
+							   			  "WHERE user_id = " + user.getId() )
 					   .getResultList();
 			LOGGER.info("Query executed!");
 			t.commit();
@@ -141,13 +141,13 @@ public class AccountDAOImpl {
     }
 
     public int addAccountObjectToAccountsTableDatabase(Account account) {
-    	SessionFactory factory = null;
+
     	Session session = null;
     	Transaction t = null;
     	try {
     		LOGGER.info("Attempting to execute insert account query...");
     		LOGGER.info(account);
-			factory = HibernateUtilities.getSessionFactory();
+
 			session = factory.openSession();
 			t = session.beginTransaction();
 			session.save(account);
@@ -164,12 +164,12 @@ public class AccountDAOImpl {
     }
     
     public int addAccountObjectToUsersAccountsTable(Account account, User user) {
-    	SessionFactory factory = null;
+
     	Session session = null;
     	Transaction t = null;
     	try {
     		LOGGER.info("Attempting to execute addAccountToUsersAccounts Table query...");
-    		factory = HibernateUtilities.getSessionFactory();
+
 			session = factory.openSession();
 			t = session.beginTransaction();
 			session.saveOrUpdate(new UserAccountObject(
@@ -204,8 +204,7 @@ public class AccountDAOImpl {
      * @return
      */
     @SuppressWarnings("unchecked")
-	public List<Account> getAllAccounts(ArrayList<String> accountIds) {
-    	SessionFactory factory = HibernateUtilities.getSessionFactory();
+	public List<Account> getAllAccounts(List<String> accountIds) {
     	Session session = null;
 		Transaction t = null;
 		ArrayList<Account> accountsResult = new ArrayList<>();
@@ -225,7 +224,7 @@ public class AccountDAOImpl {
 			t = session.beginTransaction();
 			accountsResult = (ArrayList<Account>) session
 					.createNativeQuery("SELECT * FROM accounts " +
-									   "WHERE accountid " +
+									   "WHERE account_id " +
 									   "IN (" +  str + ")")
 					.addEntity(Account.class).getResultList();
 			session.getTransaction().commit();
@@ -262,17 +261,17 @@ public class AccountDAOImpl {
     @SuppressWarnings("unchecked")
 	public ArrayList<Account> getAllAccountsForItem(int itemTableId) {
     	ArrayList<Account> accounts = new ArrayList<>();
-    	SessionFactory factory = null;
+
     	Session session = null;
     	Transaction t = null;
     	try {
     		LOGGER.info("Attempting to getAllAccountsForItem using itemTableId query...");
-    		factory = HibernateUtilities.getSessionFactory();
+
 			session = factory.openSession();
 			t = session.beginTransaction();
 			List<Account> userAccountsFromDB = (List<Account>) session
 					   .createNativeQuery("SELECT * FROM accounts " +
-							   		     "WHERE itemtableid = " + itemTableId)
+							   		     "WHERE item__id = " + itemTableId)
 					   .addEntity(Account.class)
 					   .getResultList();
 			LOGGER.info("getAllAccountsForItem query executed!");
@@ -296,27 +295,27 @@ public class AccountDAOImpl {
     }
     
     @SuppressWarnings("unchecked")
-    public static ArrayList<UserAccountObject> getAllUserAccountObjectsFromUserAndItemTableId(User user, int itemTableId) {
+    public ArrayList<UserAccountObject> getAllUserAccountObjectsFromUserAndItemTableId(User user, int itemTableId) {
     	ArrayList<UserAccountObject> accounts = new ArrayList<>();
-    	SessionFactory factory = null;
+
     	Session session = null;
     	Transaction t = null;
     	try {
     		LOGGER.info("Attempting to execute getAllUsersAccounts for " + user.getFirstName() + " " + user.getLastName());
-    		factory = HibernateUtilities.getSessionFactory();
+
 			session = factory.openSession();
 			t = session.beginTransaction();
 			List<UserAccountObject> userAccountsFromDB = null;
 			if (itemTableId == 0) {
 				userAccountsFromDB = (List<UserAccountObject>) session
-						.createNativeQuery("SELECT * FROM usersaccounts " +
-						   		   		   "WHERE userid = " + user.getId())
+						.createNativeQuery("SELECT * FROM user_accounts " +
+						   		   		   "WHERE user_id = " + user.getId())
 						.addEntity(UserAccountObject.class).getResultList();
 			} else {
 				userAccountsFromDB = (List<UserAccountObject>) session
-						.createNativeQuery("SELECT * FROM usersaccounts " +
-								   		   "WHERE userid = " + user.getId() + " " +
-								   		   "AND itemtableid = " + itemTableId)
+						.createNativeQuery("SELECT * FROM user_accounts " +
+								   		   "WHERE user_id = " + user.getId() + " " +
+								   		   "AND item__id = " + itemTableId)
 						.addEntity(UserAccountObject.class).getResultList();
 			}
 			LOGGER.info("Query executed!");
@@ -337,16 +336,16 @@ public class AccountDAOImpl {
     @SuppressWarnings("unchecked")
 	public ArrayList<UserAccountObject> getAllOfUsersAccounts() {
     	ArrayList<UserAccountObject> accounts = new ArrayList<>();
-    	SessionFactory factory = null;
+
     	Session session = null;
     	Transaction t = null;
     	try {
     		LOGGER.info("Attempting to execute getAllOfUsersAccounts query...");
-    		factory = HibernateUtilities.getSessionFactory();
+
 			session = factory.openSession();
 			t = session.beginTransaction();
 			List<UserAccountObject> userAccountsFromDB = session
-					   .createNativeQuery("SELECT * FROM usersaccounts")
+					   .createNativeQuery("SELECT * FROM user_accounts")
 					   .addEntity(UserAccountObject.class)
 					   .getResultList();
 			LOGGER.info("Query executed!");
@@ -369,17 +368,17 @@ public class AccountDAOImpl {
      */
     public List<String> getAllAccountsIds(User user) {
     	List<String> accountIds = new ArrayList<>();
-    	SessionFactory factory = null;
+
     	Session session = null;
     	Transaction t = null;
     	try {
     		LOGGER.info("Attempting to execute getAllAccountIds query...");
-    		factory = HibernateUtilities.getSessionFactory();
+
 			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> userAccountsFromDB = session
-					   .createNativeQuery("SELECT accountid FROM usersaccounts " +
-							   			  "WHERE userid = " + user.getId() )
+					   .createNativeQuery("SELECT account_id FROM user_accounts " +
+							   			  "WHERE user_id = " + user.getId() )
 					   .getResultList();
 			LOGGER.info("Query executed!");
 			t.commit();
@@ -397,13 +396,13 @@ public class AccountDAOImpl {
     }
     
     public int addAccountIdToItemsAccountsTable(int itemTableId, String accountId) {
-    	SessionFactory factory = null;
+
     	Session session = null;
     	Transaction t = null;
     	try {
     		ItemAccountObject iaObj = new ItemAccountObject(itemTableId, accountId);
     		LOGGER.info("Attempting to insert: " + iaObj + " into the ItemsAccounts table...");
-			factory = HibernateUtilities.getSessionFactory();
+
 			session = factory.openSession();
 			t = session.beginTransaction();
 			session.save(iaObj);
@@ -421,13 +420,13 @@ public class AccountDAOImpl {
     
     
     public boolean deleteAccountFromDatabase(Account account) {
-    	SessionFactory factory = null;
+
     	Session session = null;
     	Transaction t = null;
     	
     	try {
     		LOGGER.info("Attempting to execute delete account from database query...");
-    		factory = HibernateUtilities.getSessionFactory();
+
     		session = factory.openSession();
     		t = session.beginTransaction();
     		session.delete(account);
@@ -454,12 +453,12 @@ public class AccountDAOImpl {
      * table from a given Item.
      */
     public int deleteAccountsFromDatabase(ArrayList<Account> accounts) {
-    	SessionFactory factory = null;
+
     	Session session = null;
     	Transaction t = null;
     	try {
     		LOGGER.info("Attempting to execute delete accounts query...");
-    		factory = HibernateUtilities.getSessionFactory();
+
     		session = factory.openSession();
     		
     		//StringBuilder allAccountIdsString = new StringBuilder();
@@ -496,12 +495,12 @@ public class AccountDAOImpl {
     
     
     public boolean deleteFromItemsAccounts(Item item, String accountId) {
-    	SessionFactory factory = null;
+
     	Session session = null;
     	Transaction t = null;
     	try {
     		LOGGER.info("Attempting to delete ItemsAccountsObject from items_accounts table...");
-    		factory = HibernateUtilities.getSessionFactory();
+
     		session = factory.openSession();
 	    	t = session.beginTransaction();
 			// Items_accounts table
@@ -531,12 +530,12 @@ public class AccountDAOImpl {
     
     
     public boolean deleteAccountFromUsersAccounts(String accountId, Item item, User user) {
-    	SessionFactory factory = null;
+
     	Session session = null;
     	Transaction t = null;
     	try {
     		System.out.println("\nAttempting to execute delete account from users_accounts table...");
-    		factory = HibernateUtilities.getSessionFactory();
+
     		session = factory.openSession();
     		t = session.beginTransaction();
     		// Users_institutions_ids table

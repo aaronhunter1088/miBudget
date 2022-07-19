@@ -26,15 +26,8 @@ import retrofit2.Response;
 
 public class ClientTest {
 	
-	public static AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
-	public static ItemDAOImpl itemDAOImpl = new ItemDAOImpl();
-	public static MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
-	
-	private static Logger LOGGER = null;
-	static {
-		System.setProperty("appName", "miBudget");
-	    LOGGER = LogManager.getLogger(ClientTest.class);
-	}
+	private static Logger LOGGER = LogManager.getLogger(ClientTest.class);
+
 	public static void main(String[] args) throws ParseException {
 		// Test MySql connection
 		//testMySql();
@@ -45,7 +38,6 @@ public class ClientTest {
 	
 	public static void testTransactionsProcessor() throws ParseException {
 		TransactionsProcessor transactionsProcessor = new TransactionsProcessor();
-		//public Response<TransactionsGetResponse> getTransactions(String accessToken, String accountId, int transactionsCount)
 		try {
 			Response<TransactionsGetResponse> response = transactionsProcessor.getTransactions("access-development-7e2ed5ce-8d7e-471d-bc24-af1a4156774f",
 					"zJAKN9ak3jsKYPqew3nwuZPgaeNVgzFO6LxkR", 5, null, null);
@@ -60,7 +52,6 @@ public class ClientTest {
 				}
 			}
 		} catch (IOException | MiBudgetError e) {
-			// TODO Auto-generated catch block
 			LOGGER.error(e);
 		}
 	}
@@ -104,7 +95,8 @@ public class ClientTest {
 	
 	public static void testMySql() {
 		try {
-			SessionFactory factory = HibernateUtilities.getSessionFactory();
+			HibernateUtilities hibernate = new HibernateUtilities();
+			SessionFactory factory = hibernate.getSessionFactory();
 			Session hibernateSession = factory.openSession();
 			Transaction t = hibernateSession.beginTransaction();
 			String SQL = "SELECT version()";

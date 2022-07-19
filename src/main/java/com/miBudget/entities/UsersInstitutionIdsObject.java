@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Data
 @Entity
-@Table(name="users_institutions_ids")
+@Table(name="user_institutions_ids")
 public class UsersInstitutionIdsObject implements Serializable {
 
 	public UsersInstitutionIdsObject() {}

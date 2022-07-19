@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Login</title>
+		<link href="../images/wallet.ico" rel="icon" type="image/x-icon">
+		<style>
+			<!-- NEEDED -->
+			body {
+				display: block;
+				margin: 8px;
+			}
+		    ::placeholder {
+		   		color: black;
+		   		font-weight: bold;
+		   		text-align: center;
+			}
+			.button {
+				font-weight: bold;
+			}
+			.cursor {
+			   cursor:pointer;
+			}
+		</style>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+	</head>
+	<body bgcolor="#32CD32">
+		<div id="loginForm">
+			<div class="container" style="text-align: center; display: block; justify-content: space-between; width: 15%">
+				<h1>Login</h1>
+				<input name="validated" type="hidden" value="false"/>
+				<input name="btnSelected" type="hidden" value="Cancel"/>
+				<input name="cellphone" placeholder="Enter cellphone" required tabindex="1" type="text" value=""/>
+				<br>
+				<hr>
+				<input name="password" placeholder="Enter password" required tabindex="2" type="password" value=""/>
+				<br>
+				<hr>
+				<label><input checked="checked" name="remember" type="checkbox"/> Remember me</label>
+				<br>
+				<br>
+			</div>
+			<div class="container" style="text-align: center; display: block; justify-content: space-between; width: 15%">
+				<input type="button" id="cancelBtn" class="button cursor" value="Cancel"/>
+				<input type="button" id="loginBtn" class="button cursor" value="Login"/>
+				<hr>
+				<input type="button" id="forgotPasswordBtn" class="button cursor" value="Forgot Password"/>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(function() {
+				$('.button').removeAttr('disabled');
+				$('#cancelBtn').on('click', function() {
+					window.location.href = './index.html'
+					console.log('clicked Cancel button. Returned to Homepage')
+				});
+				$('#loginBtn').on('click', function() {
+					let loginForm = $("#loginForm")
+					// get cellphone
+					let cellphone = loginForm
+							.find('input[name=cellphone]')
+							.val();
+					// get password
+					let password = loginForm
+							.find('input[name=password]')
+							.val();
+					console.log("cellphone: " + cellphone);
+					console.log("password: " + password);
+					if (validateFields(cellphone, password)) {
+						login(cellphone, password, true);
+					} else {
+						login(cellphone, password, false);
+					}
+				});
+			    $('#forgotPasswordBtn').on('click', function() {
+				   window.location.href = '/view/ForgotPassword.jsp'
+			    })
+			});
+			function validateFields(cellphone, password) {
+				let loginForm = $("#loginForm")
+				let validated = false;
+				if (cellphone === "") {
+					alert("Cellphone cannot be blank.");
+					return validated;
+				}
+				cellphone = cellphone.replaceAll('-', '');
+				if (isNaN(cellphone)) {
+					alert("Invalid cellphone format. Cellphones cannot include letters.");
+					return validated;
+				}
+				else if (cellphone.length !== 10) {
+					alert("Invalid cellphone format. Please provide 10 digits.");
+					return validated;
+				}
+				if (password === "") {
+					alert("Password cannot be blank.");
+					return validated;
+				}
+				validated = true;
+				loginForm.find('input[name=Validated]').val("true");
+				loginForm.find('input[name=btnSelected]').val(loginForm.find('input[name=loginBtn]').text());
+				return validated;
+			}
+			function login(cellphone, password, validated) {
+				$.ajax({
+					type: "POST",
+					url: "/miBudget/login/",
+					data: {
+						cellphone: cellphone,
+						password: password,
+						btnSelected: 'Login',
+						validated: validated
+					},
+					success: function(response) {
+						window.location.href = "../miBudget/view/Welcome.jsp"
+						console.log("success")
+					},
+					error: function(response) {
+						console.log(response);
+						console.log("failed:: " + response.responseText);
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

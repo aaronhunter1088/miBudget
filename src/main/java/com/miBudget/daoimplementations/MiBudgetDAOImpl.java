@@ -9,6 +9,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.miBudget.main.MiBudgetState;
+import lombok.Data;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateError;
@@ -22,17 +24,16 @@ import com.miBudget.entities.Item;
 import com.miBudget.entities.User;
 import com.miBudget.entities.UserAccountObject;
 import com.miBudget.entities.UserItemsObject;
-import com.miBudget.utilities.HibernateUtilities;
-
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class MiBudgetDAOImpl {
 	
-	private static Logger LOGGER = null;
-	static {
-		System.setProperty("appName", "miBudget");
-		LOGGER = LogManager.getLogger(MiBudgetDAOImpl.class);
-	}
-	public MiBudgetDAOImpl() {
+	private static Logger LOGGER = LogManager.getLogger(MiBudgetDAOImpl.class);
+	private SessionFactory factory;
+
+	@Autowired
+	public MiBudgetDAOImpl(SessionFactory factory) {
+		this.factory = factory;
     }
 	
 	// TODO: implement logic to return all categories saved
@@ -51,22 +52,16 @@ public class MiBudgetDAOImpl {
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayList<Category> getAllCategories(User user) {
-		SessionFactory factory = null;
-    	Session session = null;
-    	Transaction t = null;
-		ArrayList<Category> categoriesFromDB = new ArrayList<>();
+		Session session = factory.openSession();
+    	ArrayList<Category> categoriesFromDB = new ArrayList<>();
 		try {
 			LOGGER.info("Attempting to execute getAllCategories for " + user.getFirstName() + " " + user.getLastName());
-			factory = HibernateUtilities.getSessionFactory();
-			session = factory.openSession();
-			t = session.beginTransaction();
 			categoriesFromDB = (ArrayList<Category>) session
 					.createNativeQuery("SELECT * FROM userscategories "
 					   				 + "WHERE userId = " + user.getId())
 					.addEntity(Category.class).getResultList();
 			LOGGER.info("Query executed. categories list populated from MiBudgetDAOImpl.");
 			LOGGER.info("Returning " + categoriesFromDB.size() + " categories for " + user.getFirstName() + " " + user.getLastName());
-			session.getTransaction().commit();
 			session.close();
 			if (categoriesFromDB.size() > 0) {
 				for ( Object category : categoriesFromDB) {
@@ -80,7 +75,6 @@ public class MiBudgetDAOImpl {
 		} catch (Exception e) {
 			LOGGER.error("Error connecting to DB");
 			LOGGER.error(e.getMessage());
-			t.rollback();
 			session.close();
 		} 
 		return categoriesFromDB;
@@ -94,7 +88,6 @@ public class MiBudgetDAOImpl {
 	 * @return
 	 */
 	public HashMap<String, ArrayList<UserAccountObject>> getAcctsAndInstitutionIdMap(User user) {
-		
 		HashMap<String, ArrayList<UserAccountObject>> mapToReturn = new HashMap<>();
 		ArrayList<String> insIdsList = new ArrayList<>();
 		ArrayList<UserAccountObject> acctsList = new ArrayList<>();
@@ -103,8 +96,8 @@ public class MiBudgetDAOImpl {
 			insIdsList = getInstitutionIdsFromUser(user);
 			if (insIdsList.size() != 0) {
 				for (String id : insIdsList) {
-					int itemTableId = ItemDAOImpl.getItemTableIdUsingInsId(id);
-					acctsList = AccountDAOImpl.getAllUserAccountObjectsFromUserAndItemTableId(user, itemTableId);
+					int itemTableId = MiBudgetState.getItemDAOImpl().getItemTableIdUsingInsId(id);
+					acctsList = MiBudgetState.getAccountDAOImpl().getAllUserAccountObjectsFromUserAndItemTableId(user, itemTableId);
 					mapToReturn.put(id, acctsList);
 					//LOGGER.info("id");
 					acctsList.forEach(acct -> {
@@ -112,11 +105,13 @@ public class MiBudgetDAOImpl {
 					});
 					//LOGGER.info("");
 				}
-			} else {
+			}
+			else {
 				return mapToReturn; // empty
 			}
 			
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
     		LOGGER.error("An exception occurred!");
 			LOGGER.error(e.getMessage());
 		}
@@ -124,14 +119,12 @@ public class MiBudgetDAOImpl {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static ArrayList<String> getInstitutionIdsFromUser(User user) {
-		SessionFactory factory = null;
-    	Session session = null;
+	public ArrayList<String> getInstitutionIdsFromUser(User user) {
+		Session session = null;
     	Transaction t = null;
 		ArrayList<String> institutionIds = new ArrayList<>();
 		try {
 			//LOGGER.info("Attempting to get all the institutionids for " + user.getFirstName() + " " + user.getLastName());
-			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
 			institutionIds = (ArrayList<String>) session
@@ -162,13 +155,11 @@ public class MiBudgetDAOImpl {
     
     @SuppressWarnings("unchecked")
 	public ArrayList<String> getAllInstitutionIdsFromUser(User user) {
-    	SessionFactory factory = null;
     	Session session = null;
     	Transaction t = null;
 		ArrayList<String> institutionIds = new ArrayList<>();
 		try {
 			LOGGER.info("Attempting to execute getAllInstitutionIds query...");
-			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
 			institutionIds = (ArrayList<String>) session
@@ -195,12 +186,10 @@ public class MiBudgetDAOImpl {
 	
     // SQL Implementation
     public int addInstitutionIdToDatabase(String insId, User user) {
-    	SessionFactory factory = null;
     	Session session = null;
     	Transaction t = null;
     	try {
 			LOGGER.info("Attempting to execute insert institutionid query...");
-			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
 			session.createNativeQuery("INSERT INTO usersinstitutionsids (institutionid, userid) " +
@@ -225,11 +214,9 @@ public class MiBudgetDAOImpl {
     
     // POJO Implementation
     public int addUserToDatabase(User user) {
-    	SessionFactory factory = null;
     	Session session = null;
     	Transaction t = null;
     	try {
-    		factory = HibernateUtilities.getSessionFactory();
     		session = factory.openSession();
     		t = session.beginTransaction();
     		session.save(user);
@@ -252,20 +239,13 @@ public class MiBudgetDAOImpl {
     
 	public List<String> getAllCellphones() {
 		List<String> cellphones = new ArrayList<>();
-		SessionFactory factory = null;
-    	Session session = null;
-    	Transaction t = null;
+		Session session = factory.openSession();
 		try {
 			LOGGER.info("Attempting to execute query...");
-			factory = HibernateUtilities.getSessionFactory();
-			session = factory.openSession();
-			t = session.beginTransaction();
-			// TODO: Check query. Appears to not be working
-			List<?> cellphonesFromDB = session
+			List<String> cellphonesFromDB = (List<String>) session
 					   .createNativeQuery("SELECT cellphone FROM users")
 					   .getResultList();
 			LOGGER.info("Query executed!");
-			t.commit();
 			session.close();
 			Iterator<?> iterator = cellphonesFromDB.iterator();
 			if (iterator.hasNext()) {
@@ -280,9 +260,7 @@ public class MiBudgetDAOImpl {
 			LOGGER.info("cellphones list populated from MiBudgetDAOImpl");
 			return cellphones;
 		} catch (Exception e) {
-			LOGGER.error("Error connecting to DB");
-			LOGGER.error(e.getMessage());
-			t.rollback();
+			LOGGER.error("Error connecting to DB", e);
 			session.close();
 		}
 		return cellphones;
@@ -292,29 +270,27 @@ public class MiBudgetDAOImpl {
 	public List<User> getAllUsers() {
 		List<User> users = new ArrayList<>();
 		List<User> usersNoAccounts = new ArrayList<>();
-		SessionFactory factory = null;
 		Session session = null;
     	Transaction t = null;
     	try {
     		LOGGER.info("Attempting to execute getAllUsers query...");
-    		factory = HibernateUtilities.getSessionFactory();
-			session = factory.openSession();
+    		session = factory.openSession();
 			t = session.beginTransaction();
 			usersNoAccounts = (List<User>) session.createNativeQuery("SELECT * FROM users")
 										.addEntity(User.class).getResultList();
 			session.getTransaction().commit();
 			session.close();
 			LOGGER.info("Query executed! " + usersNoAccounts.size() + " users retrieved.");
-			AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
 			// Populate users accountId's if they have any
 			for (User user : usersNoAccounts) {
-				ArrayList<String> accountIds = (ArrayList<String>) accountDAOImpl.getAccountIdsFromUser(user);
+				ArrayList<String> accountIds = (ArrayList<String>) MiBudgetState.getAccountDAOImpl().getAccountIdsFromUser(user);
 				user.setAccountIds(accountIds);
 				user.createCategories();
 				LOGGER.info("userFromDB: " + user);
 				users.add(user);
 			}
-		} catch (HibernateException e) {
+		}
+		catch (HibernateException e) {
     		LOGGER.error("Error during retrieval of next account or adding account to accounts list.");
 			LOGGER.error(e.getMessage());
 			LOGGER.error(e.getCause());
@@ -326,12 +302,10 @@ public class MiBudgetDAOImpl {
 
 	// Logic for Items we create
 	public int addItemToUsersItemsTable(int itemTableId, User user) {
-		SessionFactory factory = null;
-    	Session session = null;
+		Session session = null;
     	Transaction t = null;
 		try {
 			LOGGER.info("Attempting to execute addItemToUsersItemsTable query...");
-			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			int user_id = user.getId();
 			t = session.beginTransaction();
@@ -361,12 +335,10 @@ public class MiBudgetDAOImpl {
 	
 	public List<Item> getAllItemIds() {
 		List<Item> items = new ArrayList<>();
-		SessionFactory factory = null;
-    	Session session = null;
+		Session session = null;
     	Transaction t = null;
 		try {
 			LOGGER.info("Attempting to execute query...");
-			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> idsFromDB = session
@@ -402,12 +374,10 @@ public class MiBudgetDAOImpl {
 
 	public List<String> getAllItemIdsFromUser(User user) {
 		List<String> itemIds = new ArrayList<>();
-		SessionFactory factory = null;
-    	Session session = null;
+		Session session = null;
     	Transaction t = null;
 		try {
 			LOGGER.info("Attempting to execute query getAllItemsFromUser...");
-			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> item_idsFromDB = session
@@ -461,22 +431,20 @@ public class MiBudgetDAOImpl {
 	public Item getItemFromDatabase(String institution_id) {
 		LOGGER.info("Attempting to getItemFromDatabase using institutionId query...");
 		Item item = null;
-		SessionFactory factory = null;
-    	Session session = null;
+		Session session = null;
     	Transaction t = null;
 		try {
-			factory = HibernateUtilities.getSessionFactory();
 			session = factory.openSession();
 			t = session.beginTransaction();
-			List<?> itemTableId = session.createNativeQuery("SELECT itemtableid " +
+			List<?> itemTableId = session.createNativeQuery("SELECT _id " +
 													   "FROM items " +
-													   "WHERE institutionid = '" + institution_id + "'").getResultList();
-			List<?> itemId = session.createNativeQuery("SELECT itemid " +
+													   "WHERE institution_id = '" + institution_id + "'").getResultList();
+			List<?> itemId = session.createNativeQuery("SELECT item_id " +
 													   "FROM items " +
-													   "WHERE institutionid = '" + institution_id + "'").getResultList();
-			List<?> accessToken = session.createNativeQuery("SELECT accesstoken " +
+													   "WHERE institution_id = '" + institution_id + "'").getResultList();
+			List<?> accessToken = session.createNativeQuery("SELECT access_token " +
 															"FROM items " +
-															"WHERE institutionid = '" + institution_id + "'").getResultList();
+															"WHERE institution_id = '" + institution_id + "'").getResultList();
 //			Item item = session.createNativeQuery("SELECT * FROM " + 
 //												  "WHERE ")
 			item = new Item(Integer.parseInt(itemTableId.get(0).toString()), itemId.get(0).toString(), 

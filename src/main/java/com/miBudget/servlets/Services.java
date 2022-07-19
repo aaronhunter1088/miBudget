@@ -12,8 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.miBudget.daoimplementations.MiBudgetDAOImpl;
+import com.miBudget.main.MiBudgetState;
 import com.miBudget.services.UserServices;
+import com.miBudget.utilities.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -62,10 +63,9 @@ public class Services extends HttpServlet implements UserServices {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		LOGGER.info("--- START ---");
+		LOGGER.info(Constants.start);
 		LOGGER.info("Inside Services doGet servlet.");
 		HttpSession session = request.getSession(false);
-		MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
 		
 		String method = request.getParameter("method");
 		if (session == null)
@@ -81,18 +81,18 @@ public class Services extends HttpServlet implements UserServices {
 		if (method != null) {
 			LOGGER.info("Method: {}", method);
 			switch (method) {
-				case "getAllCategories" :   categoriesList = miBudgetDAOImpl.getAllCategories(user);
+				case "getAllCategories" :   categoriesList = MiBudgetState.getMiBudgetDAOImpl().getAllCategories(user);
 											res = changeToJsonString(categoriesList);
 											break;
-				case "getAcctsAndInstitutionIdMap" : acctsAndInstitutionIdMap = miBudgetDAOImpl.getAcctsAndInstitutionIdMap(user);
+				case "getAcctsAndInstitutionIdMap" : acctsAndInstitutionIdMap = MiBudgetState.getMiBudgetDAOImpl().getAcctsAndInstitutionIdMap(user);
 													 res = changeToJsonString(acctsAndInstitutionIdMap);
 													 break;
-				case "getTransactions" : transactionsList = miBudgetDAOImpl.getTransactions(request);
+				case "getTransactions" : transactionsList = MiBudgetState.getMiBudgetDAOImpl().getTransactions(request);
 										 res = changeToJsonString(transactionsList);
 										 break;
 				case "getAllUsersByCellPhone" : getAllUsersByCellphone(session);
 
-				case "clearTransactions" : res = miBudgetDAOImpl.clearTransactions(session);
+				case "clearTransactions" : res = MiBudgetState.getMiBudgetDAOImpl().clearTransactions(session);
 										   break;
 
 				default : LOGGER.error("Unknown method: " + method);
@@ -104,7 +104,7 @@ public class Services extends HttpServlet implements UserServices {
 			response.getWriter().append(res);
 			response.setStatus(HttpServletResponse.SC_OK);
 		}
-		LOGGER.info("--- END ---");
+		LOGGER.info(Constants.end);
 	}
 
 	/**

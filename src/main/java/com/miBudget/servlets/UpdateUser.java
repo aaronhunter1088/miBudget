@@ -20,11 +20,8 @@ import org.apache.logging.log4j.Logger;
 public class UpdateUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	private static Logger LOGGER = null;
-	static {
-		System.setProperty("appName", "miBudget");
-		LOGGER = LogManager.getLogger(UpdateUser.class);
-	}
+	private static Logger LOGGER = LogManager.getLogger(UpdateUser.class);
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -32,9 +29,7 @@ public class UpdateUser extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-    
-    
-    
+
     private List<String> getInstitutionIds() {
     	LOGGER.info("Returning all institution ids from db for this user.");
 		ArrayList<String> testList = new ArrayList<>();

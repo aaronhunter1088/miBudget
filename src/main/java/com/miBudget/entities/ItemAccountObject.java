@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 @Data
 @Entity
-@Table(name="items_accounts")
+@Table(name="item_accounts")
 public class ItemAccountObject implements Serializable {
 
 	public ItemAccountObject() {}

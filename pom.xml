@@ -2,19 +2,25 @@
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-  
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.7.1</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
     <groupId>com.miBudget</groupId>
     <artifactId>miBudget</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>miBudget</name>
   
   	<properties>
-  		
+  		<java.version>11</java.version>
+		<outputDirectory>${basedir}/dist</outputDirectory>
   	</properties>
   	
     <dependencies>
-	    <!-- https://mvnrepository.com/artifact/com.plaid/plaid-java -->
+		<!-- https://mvnrepository.com/artifact/com.plaid/plaid-java -->
 		<dependency>
 		    <groupId>com.plaid</groupId>
 		    <artifactId>plaid-java</artifactId>
@@ -31,7 +37,7 @@
 		    <groupId>net.bytebuddy</groupId>
 		    <artifactId>byte-buddy</artifactId>
 		    <version>1.9.5</version>
-		</dependency> 
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.fasterxml/classmate -->
 		<dependency>
 		    <groupId>com.fasterxml</groupId>
@@ -133,12 +139,6 @@
 		    <artifactId>json-simple</artifactId>
 		    <version>1.1.1</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.antlr/antlr4 -->
-		<dependency>
-		    <groupId>org.antlr</groupId>
-		    <artifactId>antlr4</artifactId>
-		    <version>4.7.1</version>
-		</dependency>
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
 		    <groupId>mysql</groupId>
@@ -166,156 +166,35 @@
 		    <version>5.3.2</version>
 		    <scope>test</scope>
 		</dependency>
-	    <!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-annotations-api -->
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
 		<dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>tomcat-annotations-api</artifactId>
-		    <version>9.0.13</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>5.3.20</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-catalina-ant -->
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
 		<dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>tomcat-catalina-ant</artifactId>
-		    <version>9.0.13</version>
-		    <scope>runtime</scope>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>5.3.20</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-catalina-ha -->
 		<dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>tomcat-catalina-ha</artifactId>
-		    <version>9.0.13</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-tribes -->
 		<dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>tomcat-tribes</artifactId>
-		    <version>9.0.13</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-catalina -->
 		<dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>tomcat-catalina</artifactId>
-		    <version>9.0.13</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.eclipse.jdt/ecj -->
-		<dependency>
-		    <groupId>org.eclipse.jdt</groupId>
-		    <artifactId>ecj</artifactId>
-		    <version>3.15.1</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-el-api -->
-		<dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>tomcat-el-api</artifactId>
-		    <version>9.0.13</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jasper-el -->
-		<dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>tomcat-jasper-el</artifactId>
-		    <version>9.0.13</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jasper -->
-		<dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>tomcat-jasper</artifactId>
-		    <version>9.0.13</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jaspic-api -->
-		<dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>tomcat-jaspic-api</artifactId>
-		    <version>9.0.13</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jsp-api -->
-		<dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>tomcat-jsp-api</artifactId>
-		    <version>9.0.13</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-servlet-api -->
-		<dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>tomcat-servlet-api</artifactId>
-		    <version>9.0.13</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-api -->
-		<dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>tomcat-api</artifactId>
-		    <version>9.0.13</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-coyote -->
-		<dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>tomcat-coyote</artifactId>
-		    <version>9.0.13</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-dbcp -->
-		<dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>tomcat-dbcp</artifactId>
-		    <version>9.0.13</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-i18n-es -->
-		<dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>tomcat-i18n-es</artifactId>
-		    <version>9.0.13</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-i18n-fr -->
-		<dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>tomcat-i18n-fr</artifactId>
-		    <version>9.0.13</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-i18n-ja -->
-		<dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>tomcat-i18n-ja</artifactId>
-		    <version>9.0.13</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jdbc -->
-		<dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>tomcat-jdbc</artifactId>
-		    <version>9.0.13</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jni -->
-		<dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>tomcat-jni</artifactId>
-		    <version>9.0.13</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-util-scan -->
-		<dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>tomcat-util-scan</artifactId>
-		    <version>9.0.13</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-util -->
-		<dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>tomcat-util</artifactId>
-		    <version>9.0.13</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-websocket -->
-		<dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>tomcat-websocket</artifactId>
-		    <version>9.0.13</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-websocket-api -->
-		<dependency>
-		    <groupId>org.apache.tomcat</groupId>
-		    <artifactId>tomcat-websocket-api</artifactId>
-		    <version>9.0.13</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.sun.xml.fastinfoset/FastInfoset -->
-		<dependency>
-		    <groupId>com.sun.xml.fastinfoset</groupId>
-		    <artifactId>FastInfoset</artifactId>
-		    <version>1.2.15</version>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-core</artifactId>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
 		<dependency>
@@ -328,7 +207,7 @@
            <artifactId>log4j-web</artifactId>
            <version>2.6.2</version>
         </dependency>
-        
+
         <!-- https://mvnrepository.com/artifact/org.json/json -->
 		<dependency>
 		    <groupId>org.json</groupId>
@@ -355,80 +234,176 @@
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<testSourceDirectory>src/test/java</testSourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/main/webapp</directory>
+				<includes>
+					<include>**/**</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+		</resources>
 
 		<plugins>
+			<!-- Surefire plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.19.1</version>
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+				</configuration>
+			</plugin>
+			<!-- War plugin -->
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.0.0</version>
+			   <configuration>
+				   <attachClasses>true</attachClasses>
+				   <webXml>${basedir}/src/main/webapp/WEB-INF/web.xml</webXml>
+				   <warSourceDirectory>src/main/webapp</warSourceDirectory>
+				   <outputDirectory>${outputDirectory}</outputDirectory>
+			   </configuration>
+			</plugin>
+			<!-- Compiler plugin -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+			<!-- Antrun plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>initialize</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<mkdir dir="${project.build.directory}"/>
+								<tstamp>
+									<format property="last.updated" pattern="yyyy-MM-dd hh:mm:ss a z" timezone="CST"/>
+								</tstamp>
+								<!--suppress UnresolvedMavenProperty -->
+								<echo file="${outputDirectory}/build.properties" message="build.time=${last.updated}"/>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Properties plugin: creates build.properties file -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.0-alpha-2</version>
+				<executions>
+					<execution>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>read-project-properties</goal>
+						</goals>
+						<configuration>
+							<files>
+								<file>${outputDirectory}/build.properties</file>
+							</files>
+							<target>
+								<echo>BuildTime : ${build.time}</echo>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Binds to Package phase, but will not run... -->
+			<!-- When creating a jar, update MANIFEST.MF file and place JAR in specified outputDirectory -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.2.0</version>
+				<executions>
+					<execution>
+						<id>make-a-jar</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
 
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.19.1</version>
-					<configuration>
-						<testFailureIgnore>true</testFailureIgnore>
-					</configuration>
-				</plugin>
+				<configuration>
+					<finalName>${name}</finalName>
+					<outputDirectory>${outputDirectory}</outputDirectory>
+					<archive>
+						<index>true</index>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addClasspath>true</addClasspath>
+							<mainClass>com.miBudget.main.Main</mainClass>
+						</manifest>
+						<manifestEntries>
+							<Implementation-Version>${project.version}</Implementation-Version>
+							<Creation-Time-Format>yyyy-MM-dd hh:mm:ss a z</Creation-Time-Format>
+							<!--suppress UnresolvedMavenProperty -->
+							<Creation-Time>${build.time}</Creation-Time>
+							<mainClass>com.miBudget.main.Main</mainClass>
+						</manifestEntries>
+					</archive>
+					<includes>
+						<include>**/**</include>
+					</includes>
+				</configuration>
+			</plugin>
+			<!-- Assembly:Single creates runnable jar with dependencies
+			     Run Command: mvn clean compile assembly:single or
+			     Plugins -> assembly:single -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.3.0</version>
+				<configuration>
+					<archive>
+						<index>true</index>
+						<manifest>
+							<classpathPrefix>lib/</classpathPrefix>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addClasspath>true</addClasspath>
+							<mainClass>com.miBudget.main.Main</mainClass>
+						</manifest>
+						<manifestEntries>
+							<Implementation-Version>${project.version}</Implementation-Version>
+							<Creation-Time-Format>yyyy-MM-dd hh:mm:ss a z</Creation-Time-Format>
+							<!--suppress UnresolvedMavenProperty -->
+							<Creation-Time>${build.time}</Creation-Time>
+							<mainClass>com.miBudget.main.Main</mainClass>
+						</manifestEntries>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<finalName>${name}-${version}</finalName>
+					<outputDirectory>${outputDirectory}</outputDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
-				<plugin>
-				   <artifactId>maven-war-plugin</artifactId>
-				   <version>3.0.0</version>
-				   <configuration>
-					   <warSourceDirectory>WebContent</warSourceDirectory>
-				   </configuration>
-				</plugin>
-
-				<plugin>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.8.0</version>
-					<configuration>
-						<source>1.8</source>
-						<target>1.8</target>
-					</configuration>
-				</plugin>
-
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>properties-maven-plugin</artifactId>
-					<version>1.0-alpha-2</version>
-					<executions>
-						<execution>
-							<phase>generate-resources</phase>
-							<goals>
-								<goal>read-project-properties</goal>
-							</goals>
-							<configuration>
-								<files>
-									<file>${basedir}/target/filter.properties</file>
-								</files>
-								<tasks>
-									<echo>BuildTime : ${build.time}</echo>
-								</tasks>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-antrun-plugin</artifactId>
-					<executions>
-						<execution>
-							<phase>initialize</phase>
-							<goals>
-								<goal>run</goal>
-							</goals>
-							<configuration>
-								<tasks>
-									<mkdir dir="${project.build.directory}"/>
-									<tstamp>
-										<format property="last.updated" pattern="MM-dd-YYYY hh:mm:ss"/>
-									</tstamp>
-									<echo file="${basedir}/target/filter.properties" message="build.time=${last.updated}"/>
-								</tasks>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-
-			</plugins>
+		</plugins>
 	</build>
   
 </project>

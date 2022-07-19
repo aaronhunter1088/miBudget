@@ -10,20 +10,48 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public class HibernateUtilities {
-	
-	public HibernateUtilities() {}
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
-	public static SessionFactory sessionFactory = null;
-	public static StandardServiceRegistryBuilder standardServiceRegistryBuilder = new StandardServiceRegistryBuilder();
-	public static StandardServiceRegistry serviceRegistry = standardServiceRegistryBuilder.build();
-	private static boolean newSessionFactory = false;
-	private static Logger LOGGER = null;
-	static {
-		System.setProperty("appName", "miBudget");
-		LOGGER = LogManager.getLogger(HibernateUtilities.class);
+public class HibernateUtilities {
+	private static Logger LOGGER = LogManager.getLogger(HibernateUtilities.class);
+
+	public static SessionFactory sessionFactory;
+	public static StandardServiceRegistryBuilder standardServiceRegistryBuilder;
+	public static StandardServiceRegistry serviceRegistry;
+
+	public HibernateUtilities() {
+		standardServiceRegistryBuilder = new StandardServiceRegistryBuilder();
+		serviceRegistry = standardServiceRegistryBuilder.build();
 	}
-	
+	public SessionFactory getSessionFactory() {
+		try {
+			if (sessionFactory == null) {
+				MetadataSources sources = new MetadataSources(serviceRegistry)
+						.addAnnotatedClass(User.class)
+						.addAnnotatedClass(Item.class)
+						.addAnnotatedClass(Account.class)
+						.addAnnotatedClass(UserAccountObject.class)
+						.addAnnotatedClass(ItemAccountObject.class)
+						.addAnnotatedClass(UsersInstitutionIdsObject.class)
+						.addAnnotatedClass(UserItemsObject.class)
+						.addAnnotatedClass(Category.class)
+						.addAnnotatedClass(Rule.class);
+				sessionFactory = new Configuration(sources)
+						.configure()
+						.buildSessionFactory();
+			}
+			return sessionFactory;
+		} catch (HibernateException he) {
+			LOGGER.error("Failed to get a connection: {}", he.getMessage(), he);
+			throw he;
+		} catch (Exception e) {
+			LOGGER.error("Error trying to create sessionFactory", e);
+			throw e;
+		}
+	}
+
 	public static void destroyServiceRegistry() {
        if (serviceRegistry != null) {
           StandardServiceRegistryBuilder.destroy(serviceRegistry);
@@ -39,7 +67,8 @@ public class HibernateUtilities {
 	 */
 	public static void shutdown() {
 		if (sessionFactory.isOpen()) {
-			sessionFactory.close();
+			//sessionFactory.getCurrentSession().close();
+			sessionFactory = null;
 			LOGGER.info("sessionFactory closed.");
 		}  
 		if (serviceRegistry != null) {
@@ -47,54 +76,5 @@ public class HibernateUtilities {
 			LOGGER.info("serviceRegistry destroyed.");
 		}
 	}
-	
-	public static SessionFactory getSessionFactory() {
-		try {
-			if (sessionFactory == null) {
-				MetadataSources sources = new MetadataSources(serviceRegistry)
-	            		.addAnnotatedClass(User.class)
-	            		.addAnnotatedClass(Item.class)
-	            		.addAnnotatedClass(Account.class)
-	            		.addAnnotatedClass(UserAccountObject.class)
-	            		.addAnnotatedClass(ItemAccountObject.class)
-	            		.addAnnotatedClass(UsersInstitutionIdsObject.class)
-	            		.addAnnotatedClass(UserItemsObject.class)
-	            		.addAnnotatedClass(Category.class)
-						.addAnnotatedClass(Rule.class);
-				sessionFactory = new Configuration(sources)
-	            		.configure("hibernate.cfg.xml")
-	            		.buildSessionFactory();
-				newSessionFactory = true;
-	         }
-		} catch (HibernateException e) {
-			LOGGER.error("Hibernate threw an error.");
-			LOGGER.error(e.getMessage());
-			StackTraceElement[] ste = e.getStackTrace();
-			for (int i = 0; i < ste.length; i++) {
-				LOGGER.error(ste[i]);
-			}
-			//newSessionFactory = false;
-		} catch (Exception e) {
-			LOGGER.error("Error trying to create sessionFactory");
-			LOGGER.error(e.getMessage());
-			StackTraceElement[] ste = e.getStackTrace();
-			for (int i = 0; i < ste.length; i++) {
-				LOGGER.error(ste[i]);
-			}
-			//newSessionFactory = false;
-		} finally {
-			if (serviceRegistry != null) {
-				StandardServiceRegistryBuilder.destroy(serviceRegistry);
-			}
-			if (newSessionFactory) 
-				LOGGER.info("Returning new sessionFactory...");
-			else if (!newSessionFactory || sessionFactory != null) {
-				LOGGER.error("sessionFactory was not created due to an error.");
-				return null;
-			} else
-				LOGGER.debug("sessionFactory already created.");
-		}
-		
-		return sessionFactory;
-	}
+
 }

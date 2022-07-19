@@ -14,11 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.miBudget.daoimplementations.AccountDAOImpl;
-import com.miBudget.daoimplementations.ItemDAOImpl;
-import com.miBudget.daoimplementations.MiBudgetDAOImpl;
 import com.miBudget.entities.*;
-import com.miBudget.entities.*;
+import com.miBudget.main.MiBudgetState;
 import com.miBudget.utilities.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -32,7 +29,6 @@ import com.plaid.client.response.TransactionsGetResponse;
 
 import retrofit2.Response;
 
-
 /**
  * Servlet implementation class CAT
  */
@@ -40,19 +36,11 @@ import retrofit2.Response;
 public class CAT extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl();
-	private ItemDAOImpl itemDAOImpl = new ItemDAOImpl();
-	private AccountDAOImpl accountDAOImpl = new AccountDAOImpl();
-	
 	private final String clientId = "5ae66fb478f5440010e414ae";
 	private final String secret = "0e580ef72b47a2e4a7723e8abc7df5"; 
 	private final String secretD = "c7d7ddb79d5b92aec57170440f7304";
 	
-	public static Logger LOGGER = null;
-	static  {
-		System.setProperty("appName", "miBudget");
-		LOGGER = LogManager.getLogger(CAT.class);
-	}
+	public static Logger LOGGER = LogManager.getLogger(CAT.class);
 	
     public final PlaidClient client() {
 		// Use builder to create a client
@@ -63,7 +51,6 @@ public class CAT extends HttpServlet {
 				  .build();
 		return client;
 	}
-	
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -77,7 +64,6 @@ public class CAT extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-
 	{
 		LOGGER.info(Constants.start);
 		LOGGER.info("Inside the Categories and Transactions or, CAT doGet() servlet.");
@@ -89,7 +75,7 @@ public class CAT extends HttpServlet {
 			LOGGER.info("redirecting to cat.jsp");
 		} else {
 			LOGGER.error("session=null? : {} isUserLoggedIn? : {}", requestSession==null?true:false, requestSession.getAttribute("isUserLoggedIn"));
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "index.html" );
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("static/index.html");
 			dispatcher.forward( request, response );
 		}
 		LOGGER.info(Constants.end);
@@ -153,7 +139,7 @@ public class CAT extends HttpServlet {
 				LOGGER.debug("mask: " + mask);
 				int itemTableId = 0;
 				// get all users accounts
-				ArrayList<UserAccountObject> usersAccts = accountDAOImpl.getAllUserAccountObjectsFromUserAndItemTableId(user, 0);
+				ArrayList<UserAccountObject> usersAccts = MiBudgetState.getAccountDAOImpl().getAllUserAccountObjectsFromUserAndItemTableId(user, 0);
 				for (UserAccountObject uao : usersAccts) {
 					LOGGER.debug("UserAccountObject: " + uao);
 					if (uao.getAccountName().equals(acctName) ||
@@ -168,7 +154,7 @@ public class CAT extends HttpServlet {
 				} catch (Exception e) { transactionsRequested = 50; }
 				if (transactionsRequested > 50) transactionsRequested = 50;
 				
-				String accessToken = itemDAOImpl.getItem(itemTableId).getAccessToken();
+				String accessToken = MiBudgetState.getItemDAOImpl().getItem(itemTableId).getAccessToken();
 				String fromDate = request.getParameter("FromDate");
 				LOGGER.debug("requested from date: {}", fromDate);
 				startDate = (fromDate == null || StringUtils.equals(fromDate, "")) ?

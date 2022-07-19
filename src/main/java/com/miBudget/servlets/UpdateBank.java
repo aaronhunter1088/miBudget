@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.miBudget.daoimplementations.ItemDAOImpl;
+import com.miBudget.main.MiBudgetState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,16 +29,12 @@ import retrofit2.Response;
 @WebServlet("/updatebank")
 public class UpdateBank extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private ItemDAOImpl itemDAOImpl = new ItemDAOImpl();
 	private final String clientId = "5ae66fb478f5440010e414ae";
 	//private final String secret = "0e580ef72b47a2e4a7723e8abc7df5"; 
 	private final String secretD = "c7d7ddb79d5b92aec57170440f7304";
 	
-	private static Logger LOGGER = null;
-	static {
-		System.setProperty("appName", "miBudget");
-		LOGGER = LogManager.getLogger(UpdateBank.class);
-	}
+	private static Logger LOGGER = LogManager.getLogger(UpdateBank.class);
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -86,7 +82,7 @@ public class UpdateBank extends HttpServlet {
 		HttpSession session = null;
 		LOGGER.info("Retrieving public token...");
 		String institutionId = request.getParameter("institutionId");
-		String accessToken = itemDAOImpl.getAccessToken(institutionId);
+		String accessToken = MiBudgetState.getItemDAOImpl().getAccessToken(institutionId);
 		ItemGetRequest itemReq = new ItemGetRequest(accessToken);
 		Response<ItemGetResponse> itemRes = client().service().itemGet(itemReq).execute();
 		ItemStatus itemStatus = null;

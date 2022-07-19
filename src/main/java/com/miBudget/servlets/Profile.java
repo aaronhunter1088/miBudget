@@ -25,11 +25,7 @@ import com.miBudget.utilities.DateAndTimeUtility;
 public class Profile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private static Logger LOGGER = null;
-	static {
-		System.setProperty("appName", "miBudget");
-		LOGGER = LogManager.getLogger(Profile.class);
-	}
+	private static Logger LOGGER = LogManager.getLogger(Profile.class);
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{

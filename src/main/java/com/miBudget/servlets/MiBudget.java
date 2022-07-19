@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.miBudget.utilities.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,16 +19,13 @@ import org.apache.logging.log4j.Logger;
 public class MiBudget extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger LOGGER = null;
-	static {
-		System.setProperty("appName", "miBudget");
-		LOGGER = LogManager.getLogger(MiBudget.class);
-	}
+	private static Logger LOGGER = LogManager.getLogger(MiBudget.class);
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		LOGGER.info("--- START ---");
+		LOGGER.info(Constants.start);
 		LOGGER.info("Inside MiBudget doGet() servlet.");
 		HttpSession session = request.getSession(true);
 		LOGGER.info("session : " + session);
@@ -45,14 +43,14 @@ public class MiBudget extends HttpServlet {
 			}
 			else {
 				LOGGER.info("Sending request to index.html.");
-				LOGGER.info("--- END 1---");
-				response.sendRedirect("index.html");
+				LOGGER.info(Constants.end);
+				response.sendRedirect("static/index.html");
 			}
 		}
 		else {
 			LOGGER.info("Sending request to index.html.");
-			LOGGER.info("--- END 2---");
-			response.sendRedirect("index.html");
+			LOGGER.info(Constants.end);
+			response.sendRedirect("static/index.html");
 		}
 		
 		
