@@ -19,6 +19,7 @@
 /Users/michaelball/IdeaProjects/miBudget/src/main/java/com/miBudget/utilities/ResponseParser.java
 /Users/michaelball/IdeaProjects/miBudget/src/main/java/com/miBudget/daoimplementations/AccountDAOImpl.java
 /Users/michaelball/IdeaProjects/miBudget/src/main/java/com/miBudget/servlets/Delete.java
+/Users/michaelball/IdeaProjects/miBudget/src/main/java/com/miBudget/controllers/LogoutController.java
 /Users/michaelball/IdeaProjects/miBudget/src/main/java/com/miBudget/entities/UsersInstitutionIdsObject.java
 /Users/michaelball/IdeaProjects/miBudget/src/main/java/com/miBudget/servlets/CheckInstitutionIds.java
 /Users/michaelball/IdeaProjects/miBudget/src/main/java/com/miBudget/servlets/Authenticate.java

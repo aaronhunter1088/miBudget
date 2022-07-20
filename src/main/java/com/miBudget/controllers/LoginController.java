@@ -1,43 +1,46 @@
 package com.miBudget.controllers;
 
 import com.miBudget.entities.*;
-import com.miBudget.main.MiBudgetState;
+import com.miBudget.core.MiBudgetState;
 import com.miBudget.utilities.Constants;
 import com.miBudget.utilities.DateAndTimeUtility;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.apache.logging.log4j.web.WebLoggerContextUtils.getServletContext;
-
 @Controller
 @RequestMapping("/login")
 @CrossOrigin(origins = "*")
 public class LoginController extends MiBudgetController {
-    private static Logger LOGGER = LogManager.getLogger(LoginController.class);
+    private static final Logger LOGGER = LogManager.getLogger(LoginController.class);
 
     public LoginController() {super();}
 
+    @RequestMapping(path="/", method=RequestMethod.GET)
+    public void begin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getServletContext().getRequestDispatcher("/index.html").forward(request, response);
+    }
+
     @RequestMapping(path="/test", method=RequestMethod.GET)
-    public ResponseEntity<String> testMe() {
-        return ResponseEntity.ok("Test works");
+    @ResponseBody
+    public void testMe() {
+        Response.ok("Login works").build();
     }
 
     @RequestMapping(path= "/", method=RequestMethod.POST)
@@ -120,7 +123,7 @@ public class LoginController extends MiBudgetController {
                 session = request.getSession(true);
             }
             // Update time
-            ArrayList<String> institutionIdsList = (ArrayList<String>) MiBudgetState.getMiBudgetDAOImpl().getAllInstitutionIdsFromUser(loginUser);
+            ArrayList<String> institutionIdsList = MiBudgetState.getMiBudgetDAOImpl().getAllInstitutionIdsFromUser(loginUser);
             session.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
             session.setAttribute("institutionIdsList", institutionIdsList);
             session.setAttribute("institutionIdsListSize", institutionIdsList.size());
@@ -144,13 +147,20 @@ public class LoginController extends MiBudgetController {
             //dispatcher.forward(request, response);
 //            request.getServletContext().getRequestDispatcher("/Welcome.jsp")
 //                    .forward(request, response);
-            ResponseEntity.ok();
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.setContentType("application/json");
+            response.getWriter().append("Success: Redirecting to Welcome.jsp");
         }
         else {
             LOGGER.info("Redirecting to Register.jsp");
             LOGGER.info(Constants.end);
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/Register.jsp" );
-            dispatcher.forward( request, response );
+            //RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/Register.jsp" );
+            //dispatcher.forward( request, response );
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.setContentType("application/json");
+            response.getWriter().append("Fail: Redirecting to Register.html");
         }
+        response.getWriter().flush();
+        //return Response.status(response.getStatus()).entity(response.getWriter().toString()).build();
     }
 }

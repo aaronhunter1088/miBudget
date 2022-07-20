@@ -45,7 +45,7 @@ public class ForgotPassword extends HttpServlet {
 				} 
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
-				response.sendRedirect("/static/index.html");
+				response.sendRedirect("/index.html");
 			}
 		}
 		

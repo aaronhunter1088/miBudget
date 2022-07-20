@@ -9,8 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.miBudget.main.MiBudgetState;
-import lombok.Data;
+import com.miBudget.core.MiBudgetState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateError;
@@ -51,9 +50,9 @@ public class MiBudgetDAOImpl {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public ArrayList<Category> getAllCategories(User user) {
+	public List<Category> getAllCategories(User user) {
 		Session session = factory.openSession();
-    	ArrayList<Category> categoriesFromDB = new ArrayList<>();
+    	List<Category> categoriesFromDB = new ArrayList<>();
 		try {
 			LOGGER.info("Attempting to execute getAllCategories for " + user.getFirstName() + " " + user.getLastName());
 			categoriesFromDB = (ArrayList<Category>) session
@@ -96,7 +95,7 @@ public class MiBudgetDAOImpl {
 			insIdsList = getInstitutionIdsFromUser(user);
 			if (insIdsList.size() != 0) {
 				for (String id : insIdsList) {
-					int itemTableId = MiBudgetState.getItemDAOImpl().getItemTableIdUsingInsId(id);
+					long itemTableId = MiBudgetState.getItemDAOImpl().getItemTableIdUsingInsId(id);
 					acctsList = MiBudgetState.getAccountDAOImpl().getAllUserAccountObjectsFromUserAndItemTableId(user, itemTableId);
 					mapToReturn.put(id, acctsList);
 					//LOGGER.info("id");
@@ -163,8 +162,8 @@ public class MiBudgetDAOImpl {
 			session = factory.openSession();
 			t = session.beginTransaction();
 			institutionIds = (ArrayList<String>) session
-					   .createNativeQuery("SELECT institutionid FROM usersinstitutionsids "
-					   					+ "WHERE userid = " + user.getId()).getResultList();
+					   .createNativeQuery("SELECT institution_id FROM user_institutions_ids "
+					   					+ "WHERE user_id = " + user.getId()).getResultList();
 			LOGGER.info("Query executed. institutionIds list populated from MiBudgetDAOImpl.");
 			LOGGER.info("Returning " + institutionIds.size() + " institution ids for " + user.getFirstName() + " " + user.getLastName());
 			session.getTransaction().commit();
@@ -192,7 +191,7 @@ public class MiBudgetDAOImpl {
 			LOGGER.info("Attempting to execute insert institutionid query...");
 			session = factory.openSession();
 			t = session.beginTransaction();
-			session.createNativeQuery("INSERT INTO usersinstitutionsids (institutionid, userid) " +
+			session.createNativeQuery("INSERT INTO user_institution_ids (institution_id, user_id) " +
 									  "VALUES ('" + insId + "', " + user.getId() + ")").executeUpdate(); // recall Strings need quotes around them. numbers don't
 			t.commit();
 			LOGGER.info("Institution saved"); // "Institution save using session.save(item)"
@@ -301,13 +300,13 @@ public class MiBudgetDAOImpl {
 	}
 
 	// Logic for Items we create
-	public int addItemToUsersItemsTable(int itemTableId, User user) {
+	public int addItemToUsersItemsTable(long itemTableId, User user) {
 		Session session = null;
     	Transaction t = null;
 		try {
 			LOGGER.info("Attempting to execute addItemToUsersItemsTable query...");
 			session = factory.openSession();
-			int user_id = user.getId();
+			long user_id = user.getId();
 			t = session.beginTransaction();
 			UserItemsObject uiObj = new UserItemsObject(itemTableId, user_id);
 //			session.createNativeQuery("INSERT INTO users_items ('item_id', 'user_id') " +
@@ -342,13 +341,13 @@ public class MiBudgetDAOImpl {
 			session = factory.openSession();
 			t = session.beginTransaction();
 			List<?> idsFromDB = session
-					   				.createNativeQuery("SELECT itemid FROM items")
+					   				.createNativeQuery("SELECT item_id FROM items")
 					   				.getResultList();
 			List<?> institutionIdsFromDB = session
-								    .createNativeQuery("SELECT institutionid FROM items")
+								    .createNativeQuery("SELECT institution_id FROM items")
 								    .getResultList();
 			List<?> accessTokensFromDB = session
-									.createNativeQuery("SELECT accesstoken FROM items")
+									.createNativeQuery("SELECT access_token FROM items")
 									.getResultList();
 			
 			LOGGER.info("3 Queries executed!");

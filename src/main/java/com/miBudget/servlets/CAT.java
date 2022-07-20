@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 import javax.servlet.RequestDispatcher;
@@ -14,8 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.miBudget.core.MiBudgetError;
 import com.miBudget.entities.*;
-import com.miBudget.main.MiBudgetState;
+import com.miBudget.core.MiBudgetState;
 import com.miBudget.utilities.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -70,12 +72,12 @@ public class CAT extends HttpServlet {
 		HttpSession requestSession = request.getSession(false);
 		if (requestSession != null && (Boolean)requestSession.getAttribute("isUserLoggedIn") == true) {
 			requestSession.setAttribute("change", "This text will change after taking an action.");
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/CategoriesAndTransactions.jsp" );
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/view/CategoriesAndTransactions.jsp");
 			dispatcher.forward( request, response );
 			LOGGER.info("redirecting to cat.jsp");
 		} else {
 			LOGGER.error("session=null? : {} isUserLoggedIn? : {}", requestSession==null?true:false, requestSession.getAttribute("isUserLoggedIn"));
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("static/index.html");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("index.html");
 			dispatcher.forward( request, response );
 		}
 		LOGGER.info(Constants.end);
@@ -137,14 +139,14 @@ public class CAT extends HttpServlet {
 				String mask = acctName.substring(acctName.length()-4);
 				LOGGER.debug("acctName: " + acctName);
 				LOGGER.debug("mask: " + mask);
-				int itemTableId = 0;
+				long itemTableId = 0;
 				// get all users accounts
 				ArrayList<UserAccountObject> usersAccts = MiBudgetState.getAccountDAOImpl().getAllUserAccountObjectsFromUserAndItemTableId(user, 0);
 				for (UserAccountObject uao : usersAccts) {
 					LOGGER.debug("UserAccountObject: " + uao);
 					if (uao.getAccountName().equals(acctName) ||
 						uao.getMask().equals(mask)) {
-						itemTableId = uao.getItem__id();
+						itemTableId = uao.getItemId();
 						acctId = uao.getAccountId();
 						break;
 					}
@@ -199,10 +201,7 @@ public class CAT extends HttpServlet {
 						for (TransactionsGetResponse.Transaction transactionGetResponse : plaidTransactions) {
 							// Make a new miBudget location from object
 							Location miBudgetLocation = convertLocation(transactionGetResponse.getLocation());
-							Date transactionDate = null;
-							try {
-								transactionDate = sdf.parse(transactionGetResponse.getDate());
-							} catch (ParseException pe) { LOGGER.error("Failed to parse transactionDate"); }
+							LocalDate transactionDate = LocalDate.parse(transactionGetResponse.getDate());
 							finalTransactionsList.add(new Transaction(
 									transactionGetResponse.getTransactionId(),
 									transactionGetResponse.getAccountId(),
@@ -242,14 +241,14 @@ public class CAT extends HttpServlet {
 						response.setStatus(HttpServletResponse.SC_OK);
 					}
 					LOGGER.info(Constants.end);
-					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/CategoriesAndTransactions.jsp" );
+					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/view/CategoriesAndTransactions.jsp");
 					dispatcher.forward( request, response );
 				}
 				else
 				{
 					LOGGER.info("failed to get transactions");
 					LOGGER.info(Constants.end);
-					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/CategoriesAndTransactions.jsp" );
+					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/view/CategoriesAndTransactions.jsp");
 					dispatcher.forward( request, response );
 				} // transactionsGet error
 			}
@@ -262,7 +261,7 @@ public class CAT extends HttpServlet {
 					session.setAttribute("change", "You have recalled your ignored transactions");
 				response.setStatus(HttpServletResponse.SC_OK);
 				LOGGER.info(Constants.end);
-				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/CategoriesAndTransactions.jsp" );
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/view/CategoriesAndTransactions.jsp");
 				dispatcher.forward( request, response );
 			}
 			else if (methodName.equals("ignore"))
@@ -273,7 +272,7 @@ public class CAT extends HttpServlet {
 				for (Transaction t : transactions) {
 					if (t.getTransactionId().equals(incomingTransactionId)) {
 						transaction = t;
-						ArrayList<Transaction> ignoredTransactionsList = user.getIgnoredTransactions();
+						List<Transaction> ignoredTransactionsList = user.getIgnoredTransactions();
 						if (!ignoredTransactionsList.contains(transaction)) {
 							ignoredTransactionsList.add(transaction);
 							transactions.remove(transaction);
@@ -296,7 +295,7 @@ public class CAT extends HttpServlet {
 				response.setContentType("plain/text");
 				//jsonObject = new JSONObject().append("usersTransactions", transactions);
 				response.getWriter().append("You have successfully ignored the transaction: " + transaction.getName() + " with an amount of " + transaction.getAmount() + ".");
-				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/CategoriesAndTransactions.jsp" );
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/view/CategoriesAndTransactions.jsp");
 				dispatcher.forward( request, response );
 			}
 			else if (methodName.equals("bill"))
@@ -307,7 +306,7 @@ public class CAT extends HttpServlet {
 				for (Transaction t : transactions) {
 					if (t.getTransactionId().equals(transactionId)) {
 						transaction = t;
-						ArrayList<Transaction> usersBills = user.getBills();
+						List<Transaction> usersBills = user.getBills();
 						if (!usersBills.contains(transaction)) {
 							usersBills.add(transaction);
 							LOGGER.info("adding transaction as bill: {}", transaction);

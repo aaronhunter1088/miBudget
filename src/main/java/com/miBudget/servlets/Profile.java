@@ -41,7 +41,7 @@ public class Profile extends HttpServlet {
 			AppType appType = ((User)session.getAttribute("user")).getAppType();
 			LOGGER.debug("appType : {}", appType);
 			//if (appType){session.setAttribute("change", "Once you finish adding accounts, and creating categories, your budget will appear here.");}
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/Profile.jsp" );
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/view/Profile.jsp");
 			dispatcher.forward( request, response );
 		} else {
 			// User is not logged in or the session is null
@@ -68,7 +68,7 @@ public class Profile extends HttpServlet {
         	// Update time
         	session.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr());
         	session.setAttribute("change", "This text will change after the user take actions");
-        	getServletContext().getRequestDispatcher("/WEB-INF/view/Profile.jsp").forward(request, response);
+        	getServletContext().getRequestDispatcher("/view/Profile.jsp").forward(request, response);
 			LOGGER.info(Constants.end);
         }  
         else { 

@@ -51,7 +51,7 @@
 			$(function() {
 				$('.button').removeAttr('disabled');
 				$('#cancelBtn').on('click', function() {
-					window.location.href = './index.html'
+					window.location.href = '../index.html'
 					console.log('clicked Cancel button. Returned to Homepage')
 				});
 				$('#loginBtn').on('click', function() {
@@ -105,19 +105,26 @@
 				$.ajax({
 					type: "POST",
 					url: "/miBudget/login/",
+					async: true,
 					data: {
 						cellphone: cellphone,
 						password: password,
 						btnSelected: 'Login',
 						validated: validated
 					},
-					success: function(response) {
-						window.location.href = "../miBudget/view/Welcome.jsp"
+					success: function() {
 						console.log("success")
 					},
-					error: function(response) {
-						console.log(response);
-						console.log("failed:: " + response.responseText);
+					statusCode: {
+						200: function() {
+							window.location.href = "/miBudget/view/Welcome.jsp"
+						},
+						400: function() {
+							window.location.href = "../miBudget/static/Register.html"
+						},
+						404: function() {
+							alert('not found');
+						}
 					}
 				});
 			}

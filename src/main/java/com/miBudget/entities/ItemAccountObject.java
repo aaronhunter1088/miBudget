@@ -20,27 +20,15 @@ import javax.persistence.Table;
 @Table(name="item_accounts")
 public class ItemAccountObject implements Serializable {
 
-	public ItemAccountObject() {}
-	
-	public ItemAccountObject(int item__id, String accountId) {
-		this.item__id = item__id;
-		this.accountId = accountId;
-	}
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id")
-	private int id;
-	
-	@Column(name="item__id")
-	private int item__id;
-	
-	@Column(name="account_id")
+	private Long id;
+	private Long itemId;
 	private String accountId;
-	
-	/**
-	 * Default generated
-	 */
-	private static final long serialVersionUID = 1L;
 
+	public ItemAccountObject() {}
+	public ItemAccountObject(Long itemId, String accountId) {
+		this.itemId = itemId;
+		this.accountId = accountId;
+	}
 }

@@ -41,7 +41,7 @@ com/miBudget/entities/Account.class
 com/miBudget/utilities/HibernateUtilities.class
 com/miBudget/servlets/ForgotPassword.class
 com/miBudget/entities/UserItemsObject.class
-com/miBudget/servlets/Login.class
+com/miBudget/controllers/LogoutController.class
 com/miBudget/servlets/Services.class
 com/miBudget/enums/AppType.class
 com/miBudget/entities/Item.class

@@ -36,7 +36,7 @@ public class Logout extends HttpServlet {
 			LOGGER.info("Redirecting to index.html");
 		}
 		LOGGER.info(Constants.end);
-		response.sendRedirect("static/index.html");
+		response.sendRedirect("index.html");
 	}
 	
 //	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

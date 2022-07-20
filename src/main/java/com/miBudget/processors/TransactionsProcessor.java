@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.miBudget.entities.MiBudgetError;
+import com.miBudget.core.MiBudgetError;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

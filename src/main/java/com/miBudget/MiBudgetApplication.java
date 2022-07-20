@@ -13,24 +13,4 @@ public class MiBudgetApplication extends SpringBootServletInitializer implements
         SpringApplication.run(MiBudgetApplication.class, args);
     }
 
-//    @Override
-//    public void onStartup(ServletContext servletContext) throws ServletException {
-//        // Create a dispatcher servlet object
-//        XmlWebApplicationContext webApplicationContext = new XmlWebApplicationContext();
-//        webApplicationContext.setConfigLocation(
-//                "classpath:application-properties");
-//        DispatcherServlet dispatcherServlet = new DispatcherServlet(webApplicationContext);
-//
-//        // Register Dispatcher Servlet with Servlet Context
-//        ServletRegistration
-//                .Dynamic myCustomDispatcherServlet = servletContext
-//                .addServlet("dispatcherServlet", dispatcherServlet);
-//
-//        // Setting load on startup
-//        myCustomDispatcherServlet.setLoadOnStartup(1);
-//
-//        // Adding mapping URL
-//        myCustomDispatcherServlet.addMapping("/miBudget/login/*");
-//        myCustomDispatcherServlet.addMapping("/miBudget/register/*");
-//    }
 }

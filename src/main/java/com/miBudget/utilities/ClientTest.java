@@ -2,14 +2,11 @@ package com.miBudget.utilities;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.miBudget.daoimplementations.AccountDAOImpl;
-import com.miBudget.daoimplementations.ItemDAOImpl;
-import com.miBudget.daoimplementations.MiBudgetDAOImpl;
-import com.miBudget.entities.MiBudgetError;
+import com.miBudget.core.MiBudgetError;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -76,7 +73,7 @@ public class ClientTest {
 					transaction.getAmount(), 
 					convertLocation(transaction.getLocation()), 
 					transaction.getCategory(), 
-					new SimpleDateFormat("yyyy-dd-MM").parse(transaction.getDate())
+					LocalDate.parse(transaction.getDate())
 				);
 			listOfConvertedTransactions.add(newTransaction);
 		}

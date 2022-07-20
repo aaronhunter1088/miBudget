@@ -151,7 +151,7 @@
 					 		</td>
 					 		<!-- Whitespace -->	
 					 		<td>
-					 			<%= acct.getType() %>
+					 			<%= acct.get_type() %>
 					 		</td>
 					 		<!-- Whitespace -->	
 					 		<td> 

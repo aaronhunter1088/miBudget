@@ -15,7 +15,6 @@ import com.miBudget.entities.Item;
 import com.miBudget.entities.ItemAccountObject;
 import com.miBudget.entities.User;
 import com.miBudget.entities.UserAccountObject;
-import com.miBudget.utilities.HibernateUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class AccountDAOImpl {
@@ -47,7 +46,7 @@ public class AccountDAOImpl {
     		t = session.beginTransaction();
     		accountIds = (ArrayList<String>) session
     				            .createNativeQuery("SELECT account_id FROM accounts " +
-    								               "WHERE item__id = " + item.get_id())
+    								               "WHERE item__id = " + item.getId())
     											   .getResultList();
     		LOGGER.info("Query executed!");
     		t.commit();
@@ -175,15 +174,15 @@ public class AccountDAOImpl {
 			session.saveOrUpdate(new UserAccountObject(
 					user.getId(),
 					account.getAccountId(),
-					account.getItem__id(),
+					account.getItemId(),
 					account.getAvailableBalance(),
 					account.getCurrentBalance(),
-					account.getLimit(),
+					account.get_limit(),
 					account.getCurrencyCode(),
 					account.getAccountName(),
 					account.getOfficialName(),
 					account.getMask(),
-					account.getType(),
+					account.get_type(),
 					account.getSubType()
 					));
 			LOGGER.info("Inserted account into UsersAccounts.");
@@ -259,7 +258,7 @@ public class AccountDAOImpl {
     }
     
     @SuppressWarnings("unchecked")
-	public ArrayList<Account> getAllAccountsForItem(int itemTableId) {
+	public ArrayList<Account> getAllAccountsForItem(Long itemTableId) {
     	ArrayList<Account> accounts = new ArrayList<>();
 
     	Session session = null;
@@ -295,7 +294,7 @@ public class AccountDAOImpl {
     }
     
     @SuppressWarnings("unchecked")
-    public ArrayList<UserAccountObject> getAllUserAccountObjectsFromUserAndItemTableId(User user, int itemTableId) {
+    public ArrayList<UserAccountObject> getAllUserAccountObjectsFromUserAndItemTableId(User user, long itemTableId) {
     	ArrayList<UserAccountObject> accounts = new ArrayList<>();
 
     	Session session = null;
@@ -314,8 +313,8 @@ public class AccountDAOImpl {
 			} else {
 				userAccountsFromDB = (List<UserAccountObject>) session
 						.createNativeQuery("SELECT * FROM user_accounts " +
-								   		   "WHERE user_id = " + user.getId() + " " +
-								   		   "AND item__id = " + itemTableId)
+								   		   "WHERE userId = " + user.getId() + " " +
+								   		   "AND itemId = " + itemTableId)
 						.addEntity(UserAccountObject.class).getResultList();
 			}
 			LOGGER.info("Query executed!");
@@ -395,7 +394,7 @@ public class AccountDAOImpl {
     	return accountIds;
     }
     
-    public int addAccountIdToItemsAccountsTable(int itemTableId, String accountId) {
+    public int addAccountIdToItemsAccountsTable(long itemTableId, String accountId) {
 
     	Session session = null;
     	Transaction t = null;
@@ -506,7 +505,7 @@ public class AccountDAOImpl {
 			// Items_accounts table
 			// delete from items_accounts where item_table_id = 963;
 			session.createQuery("DELETE FROM ItemAccountObject " + 
-			    				"WHERE item__id = \'" + item.get_id() + "\'" +
+			    				"WHERE itemId = \'" + item.getId() + "\'" +
 			    				"AND accountId = \'" + accountId + "\'").executeUpdate();
 			LOGGER.info("... account was deleted from items_accounts table...");
 			t.commit();
@@ -542,7 +541,7 @@ public class AccountDAOImpl {
     		// delete from users_institution_ids where user_id = 20 and institution_id = 'ins_3';
     		session.createQuery("DELETE FROM UserAccountObject " +
 								   "WHERE accountId = \'" + accountId + "\' " +
-					  			   "AND item__id = " + item.get_id()).executeUpdate();
+					  			   "AND item__id = " + item.getId()).executeUpdate();
 
     		System.out.println("... account was deleted from users_accounts table...");
     		t.commit();

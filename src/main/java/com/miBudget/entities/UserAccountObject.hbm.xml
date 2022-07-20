@@ -23,7 +23,7 @@
         <property name="currentBalance" type="double">
             <column name="current_balance" />
         </property>
-        <property name="limit" type="double" access="field">
+        <property name="_limit" type="double" access="field">
             <column name="_limit" />
         </property>
         <property name="item__id" type="int">
@@ -38,7 +38,7 @@
         <property name="officialName" type="java.lang.String">
             <column name="official_name" />
         </property>
-        <property name="type" type="java.lang.String">
+        <property name="get_type" type="java.lang.String">
             <column name="_type" />
         </property>
         <property name="subType" type="java.lang.String">

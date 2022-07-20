@@ -1,18 +1,18 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Nov 20, 2018 11:32:29 AM by Hibernate Tools 3.5.0.Final -->
-<hibernate-mapping>
-    <class name="com.miBudget.entities.ItemAccountObject" table="items_accounts">
-        <id name="id" type="int">
-            <column name="id" />
-            <generator class="assigned" />
-        </id>
-        <property name="item__id" type="int">
-            <column name="item__id" />
-        </property>
-        <property name="accountId" type="int">
-            <column name="account_id" />
-        </property>
-    </class>
-</hibernate-mapping>
+<!--<?xml version="1.0"?>-->
+<!--<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"-->
+<!--"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">-->
+<!--&lt;!&ndash; Generated Nov 20, 2018 11:32:29 AM by Hibernate Tools 3.5.0.Final &ndash;&gt;-->
+<!--<hibernate-mapping>-->
+<!--    <class name="com.miBudget.entities.ItemAccountObject" table="items_accounts">-->
+<!--        <id name="id" type="int">-->
+<!--            <column name="id" />-->
+<!--            <generator class="assigned" />-->
+<!--        </id>-->
+<!--        <property name="item__id" type="int">-->
+<!--            <column name="item__id" />-->
+<!--        </property>-->
+<!--        <property name="accountId" type="int">-->
+<!--            <column name="account_id" />-->
+<!--        </property>-->
+<!--    </class>-->
+<!--</hibernate-mapping>-->

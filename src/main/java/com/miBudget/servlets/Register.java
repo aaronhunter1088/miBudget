@@ -5,14 +5,12 @@ import java.util.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.miBudget.entities.Transaction;
-import com.miBudget.main.MiBudgetState;
+import com.miBudget.core.MiBudgetState;
 import com.miBudget.utilities.Constants;
 import com.miBudget.utilities.DateAndTimeUtility;
 import com.miBudget.utilities.MiBudgetError;
@@ -27,11 +25,9 @@ import org.json.JSONObject;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import static com.miBudget.utilities.Constants.end;
 import static com.miBudget.utilities.Constants.start;
-import static org.apache.logging.log4j.web.WebLoggerContextUtils.getServletContext;
 
 //@WebServlet("/register")
 //@RestController("/register")
@@ -47,13 +43,13 @@ public class Register {
 		String btnSelected = request.getParameter("btnSelected");
 		if (btnSelected.equals(Constants.cancel)) {
 			LOGGER.info("Redirecting to index.html.");
-			getServletContext().getRequestDispatcher("./index.html").forward(request, response);
+			request.getServletContext().getRequestDispatcher("./index.html").forward(request, response);
 		} else if (btnSelected.equals("Register")) {
 			LOGGER.info("Redirecting to Register.html.");
-			getServletContext().getRequestDispatcher("./Register.html").forward(request, response);
+			request.getServletContext().getRequestDispatcher("./Register.html").forward(request, response);
 		} else {
 			LOGGER.info("Redirecting to Login.html.");
-			getServletContext().getRequestDispatcher("./Login.html").forward(request, response);
+			request.getServletContext().getRequestDispatcher("./Login.html").forward(request, response);
 		}
 		LOGGER.info(end);
 	}
@@ -138,7 +134,7 @@ public class Register {
 					request.setAttribute("Cellphone", userProvidedCellphone);
 					request.setAttribute("Password", password);
 //				response.sendRedirect("Login.html");
-					getServletContext().getRequestDispatcher("/view/Login.jsp")
+					request.getServletContext().getRequestDispatcher("/view/Login.jsp")
 							.forward(request, response);
 //				response.sendRedirect(request.getContextPath() + "/Login.jsp");
 					// TODO: Eventually change this logic to instead of redirecting, to straight logging in and redirecting to Welcome.jsp
@@ -147,7 +143,7 @@ public class Register {
 					LOGGER.debug("TODO: Fix redirecting");
 					request.setAttribute("Cellphone", userProvidedCellphone);
 					request.setAttribute("Password", password);
-					getServletContext().getRequestDispatcher("/view/Login.jsp")
+					request.getServletContext().getRequestDispatcher("/view/Login.jsp")
 							.forward(request, response);
 					// TODO: Display message to user before or after informing them of the validation results.
 				} else if (!isRegistered && !validated) {
@@ -158,7 +154,7 @@ public class Register {
 					request.setAttribute("Email", email);
 					request.setAttribute("Password", password);
 					request.setAttribute("PasswordRepeat", passwordRepeat);
-					getServletContext().getRequestDispatcher("/view/Register.jsp")
+					request.getServletContext().getRequestDispatcher("/view/Register.jsp")
 							.forward(request, response);
 					// TODO: Print out a message to the user from the validation results.
 				} else if (!isRegistered && validated) {
@@ -201,9 +197,9 @@ public class Register {
 					requestSession.setAttribute("usersTransactions", new ArrayList<Transaction>()); // meant to be empty at this moment
 					LOGGER.info("Redirecting to Profile.jsp");
 					LOGGER.info(end);
-					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/view/Profile.jsp");
+					RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/view/Profile.jsp");
 					dispatcher.forward(request, response);
-					//getServletContext().getRequestDispatcher("/Profile.jsp")
+					//request.getServletContext().getRequestDispatcher("/Profile.jsp")
 					//	.forward(request, response);
 					//response.sendRedirect("Welcome.jsp");
 				}

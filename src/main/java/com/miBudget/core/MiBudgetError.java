@@ -1,4 +1,4 @@
-package com.miBudget.entities;
+package com.miBudget.core;
 
 public class MiBudgetError extends Exception
 {

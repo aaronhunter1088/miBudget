@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.miBudget.main.MiBudgetState;
+import com.miBudget.core.MiBudgetState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -33,7 +33,7 @@ public class ItemDAOImpl {
 	 * @param itemTableId
 	 * @return
 	 */
-	public Item getItem(int itemTableId) {
+	public Item getItem(long itemTableId) {
 		Item item = new Item();
     	
     	Session session = null;
@@ -145,7 +145,7 @@ public class ItemDAOImpl {
 		return itemsList;
     }
     
-	public int getItemTableIdUsingInsId(String insId) {
+	public Long getItemTableIdUsingInsId(String insId) {
     	
     	Session session = null;
     	Transaction t = null;
@@ -155,22 +155,22 @@ public class ItemDAOImpl {
     		session = factory.openSession();
     		t = session.beginTransaction();
     		List<?> singleItemTableIdList = session
-    				.createNativeQuery("SELECT _id FROM items " +
+    				.createNativeQuery("SELECT id FROM items " +
     								   "WHERE institution_id = '" + insId + "'") // integer doesn't need quotes. string values do!
     				.getResultList();
     		LOGGER.info("singleItemTableIdList: " + singleItemTableIdList.get(0));
     		t.commit();
     		session.close();
-    		return (Integer) singleItemTableIdList.get(0);
+    		return ((Item)singleItemTableIdList.get(0)).getId();
     	} catch (Exception e) {
     		e.printStackTrace(System.out);
     		t.rollback();
     		session.close();
     	}
-    	return 0;
+    	return 0L;
     }
 	
-    public int getItemTableIdForItemId(String itemId) {
+    public Long getItemTableIdForItemId(String itemId) {
     	
     	Session session = null;
     	Transaction t = null;
@@ -186,13 +186,13 @@ public class ItemDAOImpl {
     		LOGGER.info("singleItemIdList: " + singleItemIdList.get(0));
     		t.commit();
     		session.close();
-    		return (Integer) singleItemIdList.get(0);
+    		return ((Item)singleItemIdList.get(0)).getId();
     	} catch (Exception e) {
     		e.printStackTrace(System.out);
     		t.rollback();
     		session.close();
     	}
-    	return 0;
+    	return 0L;
     }
     
     public List<String> getAllItemIds() {
@@ -379,7 +379,7 @@ public class ItemDAOImpl {
     		// delete from users_accounts where user_id = 20 and institution_id = 'ins_3';
     		session.createQuery("DELETE FROM UserAccountObject " +
     							"WHERE userId = " + user.getId() + " " +
-    							"AND item__id = " + item.get_id()).executeUpdate();
+    							"AND item__id = " + item.getId()).executeUpdate();
     		
     		LOGGER.info("... reference(s) deleted from users_accounts table...");
     		t.commit();
@@ -387,7 +387,7 @@ public class ItemDAOImpl {
     		// Users_items table
     		// delete from users_items where item_table_id = 963;
     		session.createQuery("DELETE FROM UserItemsObject " +
-			    				"WHERE item__id = " + item.get_id()).executeUpdate();
+			    				"WHERE item__id = " + item.getId()).executeUpdate();
     		LOGGER.info("... reference(s) deleted from users_items table...");
 //    		UsersItemsObject usersItemsObj = new UsersItemsObject(item.getItemTableId(), user.getId());
 //    		session.delete(usersItemsObj);
@@ -396,7 +396,7 @@ public class ItemDAOImpl {
     		// Items_accounts table
     		// delete from items_accounts where item_table_id = 963;
     		session.createQuery("DELETE FROM ItemAccountObject " + 
-			    				"WHERE item__id = " + item.get_id()).executeUpdate();
+			    				"WHERE itemId = " + item.getId()).executeUpdate();
     		LOGGER.info("... reference(s) deleted from items_accounts table...");
     		t.commit();
     		session.close();
@@ -505,7 +505,7 @@ public class ItemDAOImpl {
     		// Users_institutions_ids table
     		// delete from users_institution_ids where user_id = 20 and institution_id = 'ins_3';
     		session.createQuery("DELETE FROM UserItemsObject " +
-    				"WHERE item__id = " + item.get_id()).executeUpdate();
+    				"WHERE item__id = " + item.getId()).executeUpdate();
     		LOGGER.info("... reference deleted from UsersItems table...");
     		session.getTransaction().commit();
     		return true;

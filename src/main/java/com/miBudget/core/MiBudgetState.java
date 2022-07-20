@@ -1,4 +1,4 @@
-package com.miBudget.main;
+package com.miBudget.core;
 
 import com.miBudget.daoimplementations.AccountDAOImpl;
 import com.miBudget.daoimplementations.ItemDAOImpl;
@@ -7,9 +7,6 @@ import com.miBudget.utilities.HibernateUtilities;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.SessionFactory;
-import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 public class MiBudgetState {
     private static Logger LOGGER = LogManager.getLogger(MiBudgetState.class);

@@ -20,83 +20,33 @@
   	</properties>
   	
     <dependencies>
+		<!-- https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api -->
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+			<version>2.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-common</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>provided</scope>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.plaid/plaid-java -->
 		<dependency>
 		    <groupId>com.plaid</groupId>
 		    <artifactId>plaid-java</artifactId>
 		    <version>3.0.5</version>
 		</dependency>
-	  	<!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa -->
 		<dependency>
-		    <groupId>com.mchange</groupId>
-		    <artifactId>c3p0</artifactId>
-		    <version>0.9.5.2</version>
-		</dependency>
-	  	<!-- https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy -->
-		<dependency>
-		    <groupId>net.bytebuddy</groupId>
-		    <artifactId>byte-buddy</artifactId>
-		    <version>1.9.5</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.fasterxml/classmate -->
-		<dependency>
-		    <groupId>com.fasterxml</groupId>
-		    <artifactId>classmate</artifactId>
-		    <version>1.4.0</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.geolatte</groupId>
-		    <artifactId>geolatte-geom</artifactId>
-		    <version>1.4.0</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-c3p0 -->
-		<dependency>
-		    <groupId>org.hibernate</groupId>
-		    <artifactId>hibernate-c3p0</artifactId>
-		    <version>5.4.0.CR2</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.hibernate.common/hibernate-commons-annotations -->
-		<dependency>
-		    <groupId>org.hibernate.common</groupId>
-		    <artifactId>hibernate-commons-annotations</artifactId>
-		    <version>5.1.0.Final</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
-		<dependency>
-		    <groupId>org.hibernate</groupId>
-		    <artifactId>hibernate-core</artifactId>
-		    <version>5.4.0.CR2</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-envers -->
-		<dependency>
-		    <groupId>org.hibernate</groupId>
-		    <artifactId>hibernate-envers</artifactId>
-		    <version>5.4.0.CR2</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-jpamodelgen -->
-		<dependency>
-		    <groupId>org.hibernate</groupId>
-		    <artifactId>hibernate-jpamodelgen</artifactId>
-		    <version>5.4.0.CR2</version>
-		    <scope>provided</scope>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-osgi -->
-		<dependency>
-		    <groupId>org.hibernate</groupId>
-		    <artifactId>hibernate-osgi</artifactId>
-		    <version>5.4.0.CR2</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-proxool -->
-		<dependency>
-		    <groupId>org.hibernate</groupId>
-		    <artifactId>hibernate-proxool</artifactId>
-		    <version>5.4.0.CR2</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-spatial -->
-		<dependency>
-		    <groupId>org.hibernate</groupId>
-		    <artifactId>hibernate-spatial</artifactId>
-		    <version>5.4.0.CR2</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
 		    <groupId>org.jboss</groupId>
@@ -145,20 +95,6 @@
 		    <artifactId>mysql-connector-java</artifactId>
 		    <version>8.0.13</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.osgi/org.osgi.compendium -->
-		<dependency>
-		    <groupId>org.osgi</groupId>
-		    <artifactId>org.osgi.compendium</artifactId>
-		    <version>5.0.0</version>
-		    <scope>provided</scope>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.osgi/osgi.core -->
-		<dependency>
-		    <groupId>org.osgi</groupId>
-		    <artifactId>osgi.core</artifactId>
-		    <version>6.0.0</version>
-		    <scope>provided</scope>
-		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
 		<dependency>
 		    <groupId>org.junit.jupiter</groupId>
@@ -196,25 +132,12 @@
 			<groupId>org.springframework.session</groupId>
 			<artifactId>spring-session-core</artifactId>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
-		<dependency>
-		    <groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-core</artifactId>
-		    <version>2.11.2</version>
-		</dependency>
-		<dependency>
-           <groupId>org.apache.logging.log4j</groupId>
-           <artifactId>log4j-web</artifactId>
-           <version>2.6.2</version>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/org.json/json -->
 		<dependency>
 		    <groupId>org.json</groupId>
 		    <artifactId>json</artifactId>
 		    <version>20180813</version>
 		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -227,8 +150,6 @@
 			<version>RELEASE</version>
 			<scope>compile</scope>
 		</dependency>
-
-
 	</dependencies>
   
 	<build>

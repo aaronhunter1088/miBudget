@@ -24,7 +24,7 @@ public class DateAndTimeUtility {
 		int hour = time.getHour() > 12 ? time.getHour() - 12 : time.getHour();
 		int minute = time.getMinute();
 		int second = time.getSecond();
-		int ampm = hour < 12 ? 0 : 1;
+		int ampm = time.getHour() < 12 ? 0 : 1;
 		String dateStr = numberDate <= 9 ? "0" + numberDate : Integer.toString(numberDate);
 		String hourStr = hour <= 9 ? "0" + hour : Integer.toString(hour);
 		String minuteStr = minute <= 9 ? "0" + minute : Integer.toString(minute);

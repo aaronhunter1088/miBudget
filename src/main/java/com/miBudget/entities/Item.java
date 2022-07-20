@@ -1,5 +1,6 @@
 package com.miBudget.entities;
 
+import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.Entity;
@@ -12,23 +13,28 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 
+@Data
 @Entity
 @Table(name="items")
 public class Item implements Serializable {
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	public Long id;
+	public String institutionId;
+	public String itemId;
+	public String accessToken;
+
 	public Item() {}
-	
 	public Item(String itemId, String accessToken) {
 		this.itemId = itemId;
 		this.accessToken = accessToken;
 	}
-	
-	public Item(int _id, String itemId, String accessToken) {
-		this._id = _id;
+	public Item(long id, String itemId, String accessToken) {
+		this.id = id;
 		this.itemId = itemId;
 		this.accessToken = accessToken;
 	}
-	
 	public Item(String itemId, String accessToken, String institutionId) {
 		if (StringUtils.isNotEmpty(accessToken) && StringUtils.isNotEmpty(itemId) && StringUtils.isNotEmpty(institutionId)) {
 			this.itemId = itemId;
@@ -40,75 +46,10 @@ public class Item implements Serializable {
 		}
 		
 	}
-	
-	public Item(int _id, String itemId, String accessToken, String institutionId) {
-		this._id = _id;
+	public Item(long id, String itemId, String accessToken, String institutionId) {
+		this.id = id;
 		this.institutionId = institutionId;
 		this.itemId = itemId;
 		this.accessToken = accessToken;
 	}
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="_id")
-	public int _id;
-	
-	@Column(name="institution_id")
-	public String institutionId;
-	
-	@Column(name="item_id")
-	public String itemId;
-	
-	@Column(name="access_token")
-	public String accessToken;
-
-	public int get_id() {
-		return _id;
-	}
-
-	public void set_id(int itemTableId) {
-		this._id = itemTableId;
-	}
-	
-	public String getInstitutionId() {
-		return institutionId;
-	}
-	
-	public void setInstitutionId(String institutionId) {
-		this.institutionId = institutionId;
-	}
-
-	public String getItemId() {
-		return itemId;
-	}
-
-	public void setItemId(String itemId) {
-		this.itemId = itemId;
-	}
-
-	public String getAccessToken() {
-		return accessToken;
-	}
-
-	public void setAccessToken(String accessToken) {
-		this.accessToken = accessToken;
-	}
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	@Override
-	public String toString() {
-		return "Item [itemTableId=" + _id + ", institutionId=" + institutionId + ", itemId=" + itemId
-				+ ", accessToken=" + accessToken + "]";
-	}
-	
 }
-
-/**
- * We are leaving out request_id because this is a session related object, not necessarily 
- * related to the Item we just created, just when the Item was created. Therefore, it is 
- * left out of the creation of this Item.
- */

@@ -14,15 +14,15 @@
   <!-- JDBC connection pool settings ... using built-in test pool -->
   <property name="connection.pool_size">200</property>
   <!-- Related to the mapping start -->
-  <mapping class="com.miBudget.entities.User" resource="com/miBudget/entities/User.hbm.xml"/>
-  <mapping class="com.miBudget.entities.Item" resource="com/miBudget/entities/Item.hbm.xml"/>
-  <mapping class="com.miBudget.entities.Account" resource="com/miBudget/entities/Account.hbm.xml"/>
-  <mapping class="com.miBudget.entities.UserAccountObject" resource="com/miBudget/entities/UserAccountObject.hbm.xml"/>
-  <mapping class="com.miBudget.entities.ItemAccountObject" resource="com/miBudget/entities/ItemAccountObject.hbm.xml"/>
-  <mapping class="com.miBudget.entities.UsersInstitutionIdsObject" resource="com/miBudget/entities/UsersInstitutionIdsObject.hbm.xml"/>
-  <mapping class="com.miBudget.entities.UserItemsObject" resource="com/miBudget/entities/UsersItemsObject.hbm.xml"/>
-  <mapping class="com.miBudget.entities.Rule" resource="com/miBudget/entities/Rule.hbm.xml"/>
-  <mapping class="com.miBudget.entities.Category" resource="com/miBudget/entities/Category.hbm.xml"/>
+<!--  <mapping class="com.miBudget.entities.User" resource="com/miBudget/entities/User.hbm.xml"/>-->
+<!--  <mapping class="com.miBudget.entities.Item" resource="com/miBudget/entities/Item.hbm.xml"/>-->
+<!--  <mapping class="com.miBudget.entities.Account" resource="com/miBudget/entities/Account.hbm.xml"/>-->
+<!--  <mapping class="com.miBudget.entities.UserAccountObject" resource="com/miBudget/entities/UserAccountObject.hbm.xml"/>-->
+<!--  <mapping class="com.miBudget.entities.ItemAccountObject" resource="com/miBudget/entities/ItemAccountObject.hbm.xml"/>-->
+<!--  <mapping class="com.miBudget.entities.UsersInstitutionIdsObject" resource="com/miBudget/entities/UsersInstitutionIdsObject.hbm.xml"/>-->
+<!--  <mapping class="com.miBudget.entities.UserItemsObject" resource="com/miBudget/entities/UsersItemsObject.hbm.xml"/>-->
+<!--  <mapping class="com.miBudget.entities.Rule" resource="com/miBudget/entities/Rule.hbm.xml"/>-->
+<!--  <mapping class="com.miBudget.entities.Category" resource="com/miBudget/entities/Category.hbm.xml"/>-->
   <!-- Related to the mapping end -->
  </session-factory>
 </hibernate-configuration>

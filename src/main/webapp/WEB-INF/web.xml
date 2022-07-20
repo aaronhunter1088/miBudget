@@ -10,7 +10,8 @@
     <absolute-ordering/>
 
     <welcome-file-list>
-    	<welcome-file>miBudget/static/index.html</welcome-file>
+        <welcome-file>/</welcome-file>
+    	<welcome-file>/miBudget/index.html</welcome-file>
     </welcome-file-list>
     <!-- Processes application requests -->
     <!-- Login -->

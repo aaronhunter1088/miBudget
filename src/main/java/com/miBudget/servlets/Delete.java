@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.miBudget.main.MiBudgetState;
+import com.miBudget.core.MiBudgetState;
 import com.miBudget.utilities.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -163,7 +163,7 @@ public class Delete extends HttpServlet {
 				@SuppressWarnings("unchecked")
 				HashMap<Integer, ArrayList<Account>> acctsAndInstitutionIdMap = (HashMap<Integer, ArrayList<Account>>) 
 						session.getAttribute("acctsAndInstitutionIdMap");
-				acctsAndInstitutionIdMap.remove(item.get_id());
+				acctsAndInstitutionIdMap.remove(item.getId());
 				// update session values
 				int numberOfAccounts = MiBudgetState.getAccountDAOImpl().getAccountIdsFromUser(user).size();
 				ArrayList<String> institutionIdsList = (ArrayList<String>) MiBudgetState.getMiBudgetDAOImpl().getAllInstitutionIdsFromUser(user);
@@ -248,14 +248,14 @@ public class Delete extends HttpServlet {
 				session.setAttribute("institutionIdsList", institutionIdsList);
 				session.setAttribute("institutionIdsListSize", institutionIdsList.size());
 						
-				acctsAndInstitutionIdMap.remove(item.get_id());
+				acctsAndInstitutionIdMap.remove(item.getId());
 			} else {
 				LOGGER.info("Boolean result is true ELSE");
 				ArrayList<String> institutionIdsList = (ArrayList<String>) MiBudgetState.getMiBudgetDAOImpl().getAllInstitutionIdsFromUser(user);
 				session.setAttribute("institutionIdsList", institutionIdsList);
 				session.setAttribute("institutionIdsListSize", institutionIdsList.size());
 						
-				acctsAndInstitutionIdMap.remove(item.get_id());
+				acctsAndInstitutionIdMap.remove(item.getId());
 			}
 			
 			// If still has 1 or more accounts for an item
@@ -270,7 +270,7 @@ public class Delete extends HttpServlet {
 		//response.setContentType("application/html");
 		//response.sendRedirect("Accounts.jsp");
 		response.setStatus(HttpServletResponse.SC_OK);
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/Accounts.jsp" );
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/view/Accounts.jsp");
 		dispatcher.forward( request, response );
 	}
 

@@ -2,8 +2,8 @@ package com.miBudget.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,8 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.miBudget.main.MiBudgetState;
-import com.miBudget.services.UserServices;
+import com.miBudget.core.MiBudgetState;
 import com.miBudget.utilities.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +27,7 @@ import com.google.gson.Gson;
  * Servlet implementation class Services
  */
 @WebServlet("/Services")
-public class Services extends HttpServlet implements UserServices {
+public class Services extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	private static Logger LOGGER = null;
@@ -73,9 +72,9 @@ public class Services extends HttpServlet implements UserServices {
 		User user = (User) session.getAttribute("user");
 		
 		// Lists for requests
-		ArrayList<Category> categoriesList = null;
-		ArrayList<Transaction> transactionsList = null;
-		HashMap<String, ArrayList<UserAccountObject>> acctsAndInstitutionIdMap = null;
+		List<Category> categoriesList = null;
+		List<Transaction> transactionsList = null;
+		Map<String, ArrayList<UserAccountObject>> acctsAndInstitutionIdMap = null;
 		String res = new String();
 		
 		if (method != null) {
@@ -115,7 +114,6 @@ public class Services extends HttpServlet implements UserServices {
 		this.doGet(request, response);
 	}
 
-	@Override
 	public List<String> getAllUsersByCellphone(HttpSession session) {
 		return null;
 	}

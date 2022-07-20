@@ -1,6 +1,6 @@
 package com.miBudget.controllers;
 
-import com.miBudget.main.MiBudgetState;
+import com.miBudget.core.MiBudgetState;
 
 public abstract class MiBudgetController {
 

@@ -3,22 +3,17 @@ package com.miBudget.controllers;
 import com.miBudget.entities.Account;
 import com.miBudget.entities.Transaction;
 import com.miBudget.entities.User;
-import com.miBudget.main.MiBudgetState;
-import com.miBudget.utilities.Constants;
+import com.miBudget.core.MiBudgetState;
 import com.miBudget.utilities.DateAndTimeUtility;
 import com.miBudget.utilities.MiBudgetError;
-import okhttp3.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.MappingException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletContext;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,7 +38,7 @@ public class RegisterController extends MiBudgetController {
 
     @RequestMapping(path="/test", method=RequestMethod.GET)
     public ResponseEntity<String> testMe() {
-        return ResponseEntity.ok("Test works");
+        return ResponseEntity.ok("Register works");
     }
 
     @RequestMapping(path="/signup", method=RequestMethod.POST)
@@ -126,7 +121,7 @@ public class RegisterController extends MiBudgetController {
                     request.setAttribute("Cellphone", userProvidedCellphone);
                     request.setAttribute("Password", password);
 //				response.sendRedirect("Login.html");
-                    request.getServletContext().getRequestDispatcher("./view/Login.jsp")
+                    request.getServletContext().getRequestDispatcher("view/Login.jsp")
                             .forward(request, response);
 //				response.sendRedirect(request.getContextPath() + "/Login.jsp");
                     // TODO: Eventually change this logic to instead of redirecting, to straight logging in and redirecting to Welcome.jsp
@@ -135,7 +130,7 @@ public class RegisterController extends MiBudgetController {
                     LOGGER.debug("TODO: Fix redirecting");
                     request.setAttribute("Cellphone", userProvidedCellphone);
                     request.setAttribute("Password", password);
-                    request.getServletContext().getRequestDispatcher("./view/Login.jsp")
+                    request.getServletContext().getRequestDispatcher("view/Login.jsp")
                             .forward(request, response);
                     // TODO: Display message to user before or after informing them of the validation results.
                 } else if (!isRegistered && !validated) {
@@ -146,7 +141,7 @@ public class RegisterController extends MiBudgetController {
                     request.setAttribute("Email", email);
                     request.setAttribute("Password", password);
                     request.setAttribute("PasswordRepeat", passwordRepeat);
-                    request.getServletContext().getRequestDispatcher("./view/Register.jsp")
+                    request.getServletContext().getRequestDispatcher("view/Register.jsp")
                             .forward(request, response);
                     // TODO: Print out a message to the user from the validation results.
                 } else if (!isRegistered && validated) {
@@ -189,19 +184,21 @@ public class RegisterController extends MiBudgetController {
                     requestSession.setAttribute("usersTransactions", new ArrayList<Transaction>()); // meant to be empty at this moment
                     LOGGER.info("Redirecting to Profile.jsp");
                     LOGGER.info(end);
-                    RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("./view/Profile.jsp");
-                    dispatcher.forward(request, response);
+//                    RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("view/Profile.jsp");
+//                    dispatcher.forward(request, response);
                     //getServletContext().getRequestDispatcher("/Profile.jsp")
                     //	.forward(request, response);
                     //response.sendRedirect("Welcome.jsp");
+                    response.setStatus(HttpServletResponse.SC_OK);
+                    response.setContentType("application/json");
+                    response.getWriter().append("Success: Redirecting to Welcome.jsp");
                 }
-            } catch (MiBudgetError me) {
-                LOGGER.error(me.getMessage());
-            } catch (MappingException e) {
-                LOGGER.error("Failed to redirect user...");
-                LOGGER.error(e);
+            }
+            catch (Exception e) {
                 LOGGER.error(e.getMessage());
-                LOGGER.error(e.getStackTrace());
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                response.setContentType("application/json");
+                response.getWriter().append("Fail: Redirecting to Register.html");
             }
         }
         LOGGER.info(end);

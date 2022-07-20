@@ -44,13 +44,13 @@ public class MiBudget extends HttpServlet {
 			else {
 				LOGGER.info("Sending request to index.html.");
 				LOGGER.info(Constants.end);
-				response.sendRedirect("static/index.html");
+				response.sendRedirect("index.html");
 			}
 		}
 		else {
 			LOGGER.info("Sending request to index.html.");
 			LOGGER.info(Constants.end);
-			response.sendRedirect("static/index.html");
+			response.sendRedirect("index.html");
 		}
 		
 		

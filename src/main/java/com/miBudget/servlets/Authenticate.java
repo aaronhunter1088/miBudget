@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.miBudget.main.MiBudgetState;
+import com.miBudget.core.MiBudgetState;
 import com.miBudget.utilities.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -84,7 +84,7 @@ public class Authenticate extends HttpServlet {
     		// update account availableBalance, currentBalance, limit, currencyCode, item, figure out how to unmask mask to reveal last 4 of account
 			verify = MiBudgetState.getAccountDAOImpl().addAccountObjectToAccountsTableDatabase(account);
 			verify = MiBudgetState.getAccountDAOImpl().addAccountObjectToUsersAccountsTable(account, user);
-    		verify = MiBudgetState.getAccountDAOImpl().addAccountIdToItemsAccountsTable(item.get_id(), account.getAccountId());
+    		verify = MiBudgetState.getAccountDAOImpl().addAccountIdToItemsAccountsTable(item.getId(), account.getAccountId());
     		
 		}
     	if (verify == 0)
@@ -107,7 +107,7 @@ public class Authenticate extends HttpServlet {
     public int addItemToUsersItemsInDatabase(ArrayList<UserItemsObject> usersItemsList, Item item, User user) {
     	try {
 //    		itemTableId = itemDAOImpl.getItemTableIdForItemId(item.getItemId());
-    		int itemTableId = item.get_id();
+    		long itemTableId = item.getId();
     		
     		boolean brokenLoop = false;
     		int verify = 0;
@@ -115,7 +115,7 @@ public class Authenticate extends HttpServlet {
     			verify = MiBudgetState.getMiBudgetDAOImpl().addItemToUsersItemsTable(itemTableId, user);
     		} else {
     			for (UserItemsObject uiObj : usersItemsList) {
-        			if (uiObj.getItem__id() == item.get_id()) {
+        			if (uiObj.getItem__id() == item.getId()) {
         				// we cannot add a bank again to a specific users list of items
         				brokenLoop = true;
         				break;
@@ -317,12 +317,12 @@ public class Authenticate extends HttpServlet {
 						acctObj.setAccountId(getResA.getAccountId());
 						acctObj.setAvailableBalance(getResA.getBalances().getAvailable() != null ? getResA.getBalances().getAvailable() : 0.00);
 						acctObj.setCurrentBalance(getResA.getBalances().getCurrent() != null ? getResA.getBalances().getCurrent() : 0.00);
-						acctObj.setLimit(getResA.getBalances().getLimit() != null ? getResA.getBalances().getLimit() : 0.00);
+						acctObj.set_limit(getResA.getBalances().getLimit() != null ? getResA.getBalances().getLimit() : 0.00);
 						acctObj.setCurrencyCode(getResA.getBalances().getIsoCurrencyCode() != null ? getResA.getBalances().getIsoCurrencyCode() : "Unknown Currency");
 						acctObj.setMask(getResA.getMask());
 						acctObj.setAccountName(getResA.getName());
 						acctObj.setOfficialName(getResA.getOfficialName() != null ? getResA.getOfficialName() : "");
-						acctObj.setType(getResA.getType());
+						acctObj.set_type(getResA.getType());
 						acctObj.setSubType(getResA.getSubtype());
 						LOGGER.info("Adding acctObj to accountsList...");
 						accountsRequestedList.add(acctObj);
@@ -409,7 +409,7 @@ public class Authenticate extends HttpServlet {
 		if (publicTokenExchangeResponse.isSuccessful() && acctsGetRes.isSuccessful()) {
 			LOGGER.info("Responses code:\n\tPublic Token Exchange: " + publicTokenExchangeResponse.code() + "\n\tAccountsGet: " + acctsGetRes.code());
 			try {
-			    if (user.getFirstName().equals(null)) {}
+			    if (user.getFirstName() == null) {}
 		    } catch (NullPointerException e) {
 			    return "FAIL: No user!";
 		    }
@@ -433,7 +433,7 @@ public class Authenticate extends HttpServlet {
 				    return "FAIL: did not add " + bankToAdd + " to database.";
 			    else {
 				    LOGGER.info(bankToAdd + " was added to the database.");
-				    bankToAdd.set_id(MiBudgetState.getItemDAOImpl().getItemTableIdForItemId(bankToAdd.getItemId())); // until this point, itemTableId is not set
+				    bankToAdd.setId(MiBudgetState.getItemDAOImpl().getItemTableIdForItemId(bankToAdd.getItemId())); // until this point, itemTableId is not set
 				    LOGGER.info("updated bankToAdd: " + bankToAdd);
 			    }
 			    
@@ -452,14 +452,14 @@ public class Authenticate extends HttpServlet {
 				    LOGGER.info(bankToAdd.getInstitutionId() + " added to UsersInstitutions table in database");
 			    }
 		    } else {
-		    	bankToAdd.set_id(MiBudgetState.getItemDAOImpl().getItemTableIdUsingInsId(bankToAdd.getInstitutionId())); // until this point, itemTableId is not set
+		    	bankToAdd.setId(MiBudgetState.getItemDAOImpl().getItemTableIdUsingInsId(bankToAdd.getInstitutionId())); // until this point, itemTableId is not set
 			    LOGGER.info("updated bankToAdd: " + bankToAdd); // since bank already exists, get itemTableId and set it for this bankToAdd object
 		    }
 //		    bankToAdd = itemDAOImpl.getItemFromUser(institutionId);
 		    // Add accounts to users profile
 //		    int itemTableId = itemDAOImpl.getItemTableIdForItemId(bankToAdd.getItemId());
 		    accountsRequestedList.forEach(account -> {
-			    account.setItem__id(bankToAdd.get_id());
+			    account.setItemId(bankToAdd.getId());
 		    });
 		    // Need the above lines to set item_table_id for the accounts. they all have the same item
 		    // But need to set to proper item_table_id that was set.
@@ -576,7 +576,7 @@ public class Authenticate extends HttpServlet {
 			response.setStatus(HttpServletResponse.SC_CONFLICT); // TODO: Implement as some 2xx. 4xx is for invalid requests. We don't have that, we just restrict the logic.
 		}
 		LOGGER.info(Constants.end);
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/Accounts.jsp" );
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/view/Accounts.jsp");
 		dispatcher.forward( request, response );
 	}
 	

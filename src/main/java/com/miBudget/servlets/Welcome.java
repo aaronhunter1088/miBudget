@@ -1,12 +1,10 @@
 package com.miBudget.servlets;
 
-import com.miBudget.utilities.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +23,7 @@ public class Welcome extends HttpServlet {
     {
         LOGGER.info(start);
         LOGGER.info("Inside the getWelcomePage() method.");
-        getServletContext().getRequestDispatcher( "view/Welcome.jsp" ).forward(request, response);
+        getServletContext().getRequestDispatcher("view/Welcome.jsp").forward(request, response);
         LOGGER.info(end);
     }
 

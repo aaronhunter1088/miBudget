@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.miBudget.entities.Account;
-import com.miBudget.main.MiBudgetState;
+import com.miBudget.core.MiBudgetState;
 import com.miBudget.utilities.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -109,7 +109,7 @@ public class Accounts extends HttpServlet {
 			requestSession.setAttribute("ErrMapForItems", errMapForItems);
 			LOGGER.info("Redirecting to Accounts.jsp.");
 			LOGGER.info(Constants.end);
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher( "/WEB-INF/view/Accounts.jsp" );
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/view/Accounts.jsp");
 			dispatcher.forward( request, response );
 			//response.sendRedirect("Accounts.jsp");
 		} else {
@@ -117,7 +117,7 @@ public class Accounts extends HttpServlet {
 			LOGGER.info("isUserLoggedIn: " + requestSession.getAttribute("isUserLoggedIn") );
 			LOGGER.info("Redirecting to Login.html");
 			LOGGER.info("--- END ---");
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("static/index.html");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("index.html");
 			dispatcher.forward( request, response );
 		}
 	}
