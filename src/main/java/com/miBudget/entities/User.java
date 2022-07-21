@@ -28,7 +28,6 @@ public class User implements Serializable {
 		this.cellphone = cellphone;
 		this.password = password;
 		createCategories();
-		this.ignoredTransactions = new ArrayList<>();
 	}
 	
 	/**
@@ -99,7 +98,6 @@ public class User implements Serializable {
 		this.cellphone = cellphone;
 		this.password = password;
 		this.email = email;
-		this.accountIds = accountIds;
 	}
 	
 	@Id
@@ -112,11 +110,11 @@ public class User implements Serializable {
 	private String password;
 	private String email;
 	private AppType appType; // free or paid
-	private List<String> accountIds = new ArrayList<>(); // will become budget_ids ...
-	private List<Transaction> transactions = new ArrayList<>();
-	private List<Transaction> ignoredTransactions = new ArrayList<>();
-	private List<Transaction> bills = new ArrayList<>();
-	private List<Category> categories = new ArrayList<>();
+//	private List<String> accountIds = new ArrayList<>(); // will become budget_ids ...
+//	private List<Transaction> transactions = new ArrayList<>();
+//	private List<Transaction> ignoredTransactions = new ArrayList<>();
+//	private List<Transaction> bills = new ArrayList<>();
+//	private List<Category> categories = new ArrayList<>();
 
 	public void createCategories() {
 		ArrayList<Category> categoriesList = new ArrayList<>();
@@ -134,7 +132,7 @@ public class User implements Serializable {
 		categoriesList.add(subscriptionsCat);
 		Category billsCat = new Category("Bill", "USD", 1000.00);
 		categoriesList.add(billsCat);
-		this.categories = categoriesList;
+		//this.categories = categoriesList;
 	}
 
 	@Override
@@ -147,8 +145,4 @@ public class User implements Serializable {
 				Objects.equals(getPassword(), user.getPassword()) );
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(getId(), getFirstName(), getLastName(), getCellphone(), getPassword(), getEmail(), getAppType(), getAccountIds(), getTransactions(), getIgnoredTransactions(), getBills(), getCategories());
-	}
 }

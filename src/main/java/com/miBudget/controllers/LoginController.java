@@ -85,10 +85,10 @@ public class LoginController extends MiBudgetController {
         }
         // if logInUser does not have a first name, then they are a new user
         // else, logInUser will be fully populated and this is a returning user
-        if (loginCredentials == true) {
+        if (loginCredentials) {
             ArrayList<String> accountIdsList = (ArrayList<String>) MiBudgetState.getAccountDAOImpl().getAllAccountsIds(loginUser);
-            loginUser.setAccountIds(accountIdsList);
-            if (loginUser.getCategories().size() == 0) loginUser.createCategories();
+            //loginUser.setAccountIds(accountIdsList);
+            //if (loginUser.getCategories().size() == 0) loginUser.createCategories();
             ArrayList<UserItemsObject> allUsersItemsList = MiBudgetState.getItemDAOImpl().getAllUserItems(loginUser);
 
             // Populate accounts and institutions map

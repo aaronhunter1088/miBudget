@@ -68,7 +68,7 @@ public class MiBudgetDAOImpl {
 				}
 			} else {
 				LOGGER.info(user.getFirstName() + " " + user.getLastName() + " hasn't saved any categories yet. Getting default list");
-				categoriesFromDB = user.getCategories();
+				//categoriesFromDB = user.getCategories();
 			}
 			return categoriesFromDB;
 		} catch (Exception e) {
@@ -220,11 +220,11 @@ public class MiBudgetDAOImpl {
     		t = session.beginTransaction();
     		session.save(user);
     		t.commit();
-    		for (Category c : user.getCategories()) {
-    			t = session.beginTransaction();
-    			session.save(c);
-    			session.getTransaction().commit();
-    		}
+//    		for (Category c : user.getCategories()) {
+//    			t = session.beginTransaction();
+//    			session.save(c);
+//    			session.getTransaction().commit();
+//    		}
     		session.close();
 			return 1; // good
 		} catch (Exception e) {
@@ -268,26 +268,25 @@ public class MiBudgetDAOImpl {
 	@SuppressWarnings("unchecked")
 	public List<User> getAllUsers() {
 		List<User> users = new ArrayList<>();
-		List<User> usersNoAccounts = new ArrayList<>();
 		Session session = null;
     	Transaction t = null;
     	try {
     		LOGGER.info("Attempting to execute getAllUsers query...");
     		session = factory.openSession();
 			t = session.beginTransaction();
-			usersNoAccounts = (List<User>) session.createNativeQuery("SELECT * FROM users")
+			users = (List<User>) session.createNativeQuery("SELECT * FROM users")
 										.addEntity(User.class).getResultList();
 			session.getTransaction().commit();
 			session.close();
-			LOGGER.info("Query executed! " + usersNoAccounts.size() + " users retrieved.");
+			LOGGER.info("Query executed! " + users.size() + " users retrieved.");
 			// Populate users accountId's if they have any
-			for (User user : usersNoAccounts) {
-				ArrayList<String> accountIds = (ArrayList<String>) MiBudgetState.getAccountDAOImpl().getAccountIdsFromUser(user);
-				user.setAccountIds(accountIds);
-				user.createCategories();
-				LOGGER.info("userFromDB: " + user);
-				users.add(user);
-			}
+//			for (User user : usersNoAccounts) {
+//				ArrayList<String> accountIds = (ArrayList<String>) MiBudgetState.getAccountDAOImpl().getAccountIdsFromUser(user);
+//				user.setAccountIds(accountIds);
+//				user.createCategories();
+//				LOGGER.info("userFromDB: " + user);
+//				users.add(user);
+//			}
 		}
 		catch (HibernateException e) {
     		LOGGER.error("Error during retrieval of next account or adding account to accounts list.");
@@ -471,7 +470,7 @@ public class MiBudgetDAOImpl {
 		if (session.getId() != null)
 		{
 			User user = (User) session.getAttribute("user");
-			user.setTransactions(new ArrayList<>());
+			//user.setTransactions(new ArrayList<>());
 			session.setAttribute("usersTransactions", new ArrayList<>());
 		}
 		else return "{\"message\": \"session is null\"";
