@@ -68,8 +68,6 @@
 					console.log("password: " + password);
 					if (validateFields(cellphone, password)) {
 						login(cellphone, password, true);
-					} else {
-						login(cellphone, password, false);
 					}
 				});
 			    $('#forgotPasswordBtn').on('click', function() {
@@ -124,6 +122,9 @@
 						},
 						404: function() {
 							alert('not found');
+						},
+						500: function(data) {
+							alert(data);
 						}
 					}
 				});

@@ -43,9 +43,6 @@ public class HibernateUtilities {
 						.buildSessionFactory();
 			}
 			return sessionFactory;
-		} catch (HibernateException he) {
-			LOGGER.error("Failed to get a connection: {}", he.getMessage(), he);
-			throw he;
 		} catch (Exception e) {
 			LOGGER.error("Error trying to create sessionFactory", e);
 			throw e;

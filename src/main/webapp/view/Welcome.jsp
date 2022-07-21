@@ -70,11 +70,11 @@
             LocalTime time = LocalTime.now();
             int hours = time.getHour();
             if (hours >= 0 && hours < 12) { %>
-                <h1 id="greeting" class="font1">Good morning, <i>${Firstname} ${Lastname}</i></h1>
+                <h1 id="greeting" class="font1">Good morning, <i>${user.getFirstName()} ${user.getLastName()}</i></h1>
             <% } else if (hours >= 12 && hours < 16) { %>
-                <h1 id="greeting" class="font1">Good afternoon, <i>${Firstname} ${Lastname}</i></h1>
+                <h1 id="greeting" class="font1">Good afternoon, <i>${user.getFirstName()} ${user.getLastName()}</i></h1>
             <% } else { %>
-                <h1 id="greeting" class="font1">Good evening, <i>${Firstname} ${Lastname}</i></h1>
+                <h1 id="greeting" class="font1">Good evening, <i>${user.getFirstName()} ${user.getLastName()}</i></h1>
             <% }
         %>
         <br/>

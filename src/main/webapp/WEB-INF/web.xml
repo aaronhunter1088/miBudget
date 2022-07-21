@@ -10,11 +10,9 @@
     <absolute-ordering/>
 
     <welcome-file-list>
-        <welcome-file>/</welcome-file>
     	<welcome-file>/miBudget/index.html</welcome-file>
     </welcome-file-list>
     <!-- Processes application requests -->
-    <!-- Login -->
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

@@ -9,10 +9,11 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name="accounts")
-public class Account implements Serializable {
+public class Account {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@SequenceGenerator(name="accounts_sequence", sequenceName="accounts_sequence", allocationSize = 1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="accounts_sequence")
 	private Long id;
 	private String accountId;
 	private Long itemId;
@@ -29,6 +30,7 @@ public class Account implements Serializable {
 	@Column(name="_type")
 	private String _type;
 	private String subType;
+	private Long userId;
 
 	public Account() {}
 	

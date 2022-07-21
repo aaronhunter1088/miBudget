@@ -30,7 +30,9 @@
 /Users/michaelball/IdeaProjects/miBudget/src/main/java/com/miBudget/entities/User.java
 /Users/michaelball/IdeaProjects/miBudget/src/main/java/com/miBudget/utilities/CorsFilter.java
 /Users/michaelball/IdeaProjects/miBudget/src/main/java/com/miBudget/servlets/MiBudget.java
+/Users/michaelball/IdeaProjects/miBudget/src/main/java/com/miBudget/services/UserServiceImpl.java
 /Users/michaelball/IdeaProjects/miBudget/src/main/java/com/miBudget/daoimplementations/MiBudgetDAOImpl.java
+/Users/michaelball/IdeaProjects/miBudget/src/main/java/com/miBudget/services/UserService.java
 /Users/michaelball/IdeaProjects/miBudget/src/main/java/com/miBudget/entities/Item.java
 /Users/michaelball/IdeaProjects/miBudget/src/main/java/com/miBudget/dao/UserDAO.java
 /Users/michaelball/IdeaProjects/miBudget/src/main/java/com/miBudget/utilities/HibernateUtilities.java

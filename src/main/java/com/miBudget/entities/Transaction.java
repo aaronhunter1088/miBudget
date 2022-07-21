@@ -66,7 +66,7 @@ public class Transaction implements Serializable {
 	private String name; /* the name is where the transaction took place */
 	private double amount;
 	private Location location;
-	private List<String> defaultCategories;
+	//private List<String> defaultCategories;
 	private LocalDate date;
 	
 	public Transaction() {}
@@ -77,7 +77,7 @@ public class Transaction implements Serializable {
 		this.name = name;
 		this.amount = amount;
 		this.location = location;
-		this.defaultCategories = defaultCategories;
+		//this.defaultCategories = defaultCategories;
 		this.date = date;
 	}
 	
@@ -94,7 +94,7 @@ public class Transaction implements Serializable {
 		this.name = name;
 		this.amount = amount;
 		this.location = location;
-		this.defaultCategories = defaultCategories;
+		//this.defaultCategories = defaultCategories;
 	}
 	
 	/**

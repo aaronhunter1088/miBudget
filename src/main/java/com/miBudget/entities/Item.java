@@ -3,15 +3,9 @@ package com.miBudget.entities;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import java.io.Serializable;
-
-import javax.persistence.Column;
 
 @Data
 @Entity
@@ -19,11 +13,13 @@ import javax.persistence.Column;
 public class Item implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	public Long id;
-	public String institutionId;
-	public String itemId;
-	public String accessToken;
+	@SequenceGenerator(name="items_sequence", sequenceName="items_sequence", allocationSize = 1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="items_sequence")
+	private Long id;
+	private String institutionId;
+	private String itemId;
+	private String accessToken;
+	private Long userId;
 
 	public Item() {}
 	public Item(String itemId, String accessToken) {

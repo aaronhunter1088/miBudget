@@ -42,6 +42,8 @@ com/miBudget/dao/UserDAO.class
 com/miBudget/servlets/Register.class
 com/miBudget/dao/MiBudgetDAO.class
 com/miBudget/entities/UserAccountObject.class
+com/miBudget/services/UserService.class
+com/miBudget/services/UserServiceImpl.class
 com/miBudget/utilities/Constants.class
 com/miBudget/utilities/DateAndTimeUtility.class
 com/miBudget/processors/TransactionsProcessor.class

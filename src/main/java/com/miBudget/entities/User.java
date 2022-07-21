@@ -1,8 +1,6 @@
 package com.miBudget.entities;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.*;
@@ -15,7 +13,7 @@ import static com.miBudget.enums.AppType.FREE;
 @Data
 @Entity
 @Table(name="users")
-public class User implements Serializable {
+public class User {
 
 	public User() {}
 	
@@ -101,8 +99,8 @@ public class User implements Serializable {
 	}
 	
 	@Id
-	@SequenceGenerator(name="user_sequence", sequenceName="user_sequence", allocationSize = 1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="user_sequence")
+	@SequenceGenerator(name="users_sequence", sequenceName="users_sequence", allocationSize = 1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="users_sequence")
 	private Long id;
 	private String firstName;
 	private String lastName;
@@ -110,11 +108,9 @@ public class User implements Serializable {
 	private String password;
 	private String email;
 	private AppType appType; // free or paid
-//	private List<String> accountIds = new ArrayList<>(); // will become budget_ids ...
-//	private List<Transaction> transactions = new ArrayList<>();
-//	private List<Transaction> ignoredTransactions = new ArrayList<>();
-//	private List<Transaction> bills = new ArrayList<>();
-//	private List<Category> categories = new ArrayList<>();
+	@Transient
+	private Budget budget;
+
 
 	public void createCategories() {
 		ArrayList<Category> categoriesList = new ArrayList<>();

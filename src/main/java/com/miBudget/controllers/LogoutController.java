@@ -19,10 +19,10 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/logout")
 @CrossOrigin(origins = "*")
-public class LogoutController extends MiBudgetController {
+public class LogoutController {
     private static Logger LOGGER = LogManager.getLogger(LogoutController.class);
 
-    public LogoutController() {super();}
+    public LogoutController() {}
 
     @RequestMapping(path="/test", method= RequestMethod.GET)
     @ResponseBody
