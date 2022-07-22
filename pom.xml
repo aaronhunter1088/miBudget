@@ -240,6 +240,19 @@
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
 					<execution>
+						<id>1</id>
+						<phase>generate-resources</phase>
+						<configuration>
+							<files>
+								<file>${outputDirectory}/build.properties</file>
+							</files>
+							<target>
+								<echo>BuildTime : ${build.time}</echo>
+							</target>
+						</configuration>
+					</execution>
+					<execution>
+						<id>2</id>
 						<phase>initialize</phase>
 						<goals>
 							<goal>run</goal>
@@ -258,27 +271,27 @@
 				</executions>
 			</plugin>
 			<!-- Properties plugin: creates build.properties file -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>properties-maven-plugin</artifactId>
-				<version>1.0-alpha-2</version>
-				<executions>
-					<execution>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>read-project-properties</goal>
-						</goals>
-						<configuration>
-							<files>
-								<file>${outputDirectory}/build.properties</file>
-							</files>
-							<target>
-								<echo>BuildTime : ${build.time}</echo>
-							</target>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>org.codehaus.mojo</groupId>-->
+<!--				<artifactId>properties-maven-plugin</artifactId>-->
+<!--				<version>1.0-alpha-2</version>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<phase>generate-resources</phase>-->
+<!--						<goals>-->
+<!--							<goal>read-project-properties</goal>-->
+<!--						</goals>-->
+<!--						<configuration>-->
+<!--							<files>-->
+<!--								<file>${outputDirectory}/build.properties</file>-->
+<!--							</files>-->
+<!--							<target>-->
+<!--								<echo>BuildTime : ${build.time}</echo>-->
+<!--							</target>-->
+<!--						</configuration>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
 			<!-- Binds to Package phase, but will not run... -->
 			<!-- When creating a jar, update MANIFEST.MF file and place JAR in specified outputDirectory -->
 			<plugin>
@@ -296,7 +309,7 @@
 				</executions>
 
 				<configuration>
-					<finalName>${name}</finalName>
+					<finalName>${project.name}</finalName>
 					<outputDirectory>${outputDirectory}</outputDirectory>
 					<archive>
 						<index>true</index>
@@ -345,7 +358,7 @@
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
-					<finalName>${name}-${version}</finalName>
+					<finalName>${project.name}-${project.version}</finalName>
 					<outputDirectory>${outputDirectory}</outputDirectory>
 				</configuration>
 				<executions>
