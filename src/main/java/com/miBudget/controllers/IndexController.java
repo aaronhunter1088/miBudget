@@ -16,14 +16,14 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/miBudget")
 @CrossOrigin(origins = "*")
-public class MiBudgetController {
-    private static final Logger LOGGER = LogManager.getLogger(MiBudgetController.class);
+public class IndexController {
+    private static final Logger LOGGER = LogManager.getLogger(IndexController.class);
 
-    public MiBudgetController() {}
+    public IndexController() {}
 
     @RequestMapping(path="/test", method=RequestMethod.GET)
     public Response testMe() {
-        return Response.ok("MiBudget works").build();
+        return Response.ok("index works").build();
     }
 
     @RequestMapping(path="/", method= RequestMethod.GET)

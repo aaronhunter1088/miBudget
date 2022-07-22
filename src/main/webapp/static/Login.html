@@ -64,14 +64,14 @@
 					let password = loginForm
 							.find('input[name=password]')
 							.val();
-					console.log("cellphone: " + cellphone);
-					console.log("password: " + password);
+					//console.log("cellphone: " + cellphone);
+					//console.log("password: " + password);
 					if (validateFields(cellphone, password)) {
 						login(cellphone, password, true);
 					}
 				});
 			    $('#forgotPasswordBtn').on('click', function() {
-				   window.location.href = '/view/ForgotPassword.jsp'
+				   window.location.href = '/miBudget/view/ForgotPassword.jsp'
 			    })
 			});
 			function validateFields(cellphone, password) {
@@ -114,17 +114,20 @@
 						console.log("success")
 					},
 					statusCode: {
-						200: function() {
-							window.location.href = "/miBudget/view/Welcome.jsp"
+						200: function(data) {
+							//console.log(data); is jsp
+							document.open();
+							document.write(data);
+							document.close();
 						},
 						400: function() {
 							window.location.href = "/miBudget/static/Register.html"
 						},
-						404: function() {
-							alert('not found');
+						404: function(data) {
+							console.log(data);
 						},
 						500: function(data) {
-							alert(data);
+							console.log(data);
 						}
 					}
 				});

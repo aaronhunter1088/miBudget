@@ -117,11 +117,10 @@ public class LoginController {
                     request.getSession().invalidate();
                 }
                 session = request.getSession(true);
-                // TODO: Fix
                 session.setAttribute("institutionIdsAndAccounts", institutionIdsAndAccounts);
                 //session.setAttribute("institutionIdsList", institutionIdsList);
                 //session.setAttribute("institutionIdsListSize", institutionIdsList.size());
-                session.setAttribute("session", session); // just a check
+                //session.setAttribute("session", session); // just a check
                 //session.setAttribute("sessionId", session.getId()); // just a check
                 session.setAttribute("isUserLoggedIn", true); // just a check
                 //session.setAttribute("Firstname", loginUser.getFirstName());
@@ -134,16 +133,15 @@ public class LoginController {
                 session.setAttribute("usersTransactions", new ArrayList<Transaction>()); // meant to be empty at this moment
                 session.setAttribute("usersBills", new ArrayList<Transaction>()); // meant to be empty at this moment
                 session.setAttribute("change", "Once you finish adding accounts, and creating categories, your budget will appear here.");
-                LOGGER.info("Redirecting to Welcome.jsp");
+                LOGGER.info("Redirecting to Homepage.jsp");
+                LOGGER.debug("contextPath: {}", request.getContextPath()); //  /miBudget
                 LOGGER.info(Constants.end);
-                // call Profile.doGet here
-                //RequestDispatcher dispatcher = request.getRequestDispatcher( "../view/Welcome.jsp" );
-                //dispatcher.forward(request, response);
-//            request.getServletContext().getRequestDispatcher("/Welcome.jsp")
-//                    .forward(request, response);
+
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.setContentType("application/json");
-                response.getWriter().append("Success: Redirecting to Welcome.jsp");
+                response.getWriter().append("Success: Logging into Homepage.jsp");
+                request.getServletContext().getRequestDispatcher("/WEB-INF/view/Homepage.jsp" ).forward(request, response);
+                response.getWriter().flush();
             }
             else {
                 LOGGER.info("Redirecting to Register.jsp");
@@ -153,14 +151,14 @@ public class LoginController {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.setContentType("application/json");
                 response.getWriter().append("Fail: Redirecting to Register.html");
+                response.getWriter().flush();
             }
         } catch (Exception e) {
             LOGGER.info("Exception e:" + e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.setContentType("application/json");
             response.getWriter().append("Failed: ").append(e.getMessage());
+            response.getWriter().flush();
         }
-        response.getWriter().flush();
-        //return Response.status(response.getStatus()).entity(response.getWriter().toString()).build();
     }
 }
