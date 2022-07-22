@@ -128,7 +128,7 @@ public class RegisterController {
                 requestSession.setAttribute("institutionIdsAndAccounts", institutionIdsAndAccounts);
                 //requestSession.setAttribute("institutionIdsList", institutionIdsList);
                 //requestSession.setAttribute("institutionIdsListSize", institutionIdsList.size());
-                requestSession.setAttribute("session", requestSession); // just a check
+                //requestSession.setAttribute("session", requestSession); // just a check
                 //requestSession.setAttribute("sessionId", requestSession.getId()); // just a check
                 requestSession.setAttribute("isUserLoggedIn", true); // just a check
                 //requestSession.setAttribute("Firstname", regUser.getFirstName());
@@ -139,11 +139,13 @@ public class RegisterController {
                 requestSession.setAttribute("getTransactions", new JSONObject());
                 requestSession.setAttribute("transactionsList", new JSONArray());
                 requestSession.setAttribute("usersTransactions", new ArrayList<Transaction>()); // meant to be empty at this moment
-                LOGGER.info("Redirecting to Profile.jsp");
+                LOGGER.info("Redirecting to Homepage.jsp");
                 LOGGER.info(end);
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.setContentType("application/json");
-                response.getWriter().append("Success: Redirecting to Welcome.jsp");
+                response.getWriter().append("Success: Redirecting to Homepage.jsp");
+                request.getServletContext().getRequestDispatcher("/WEB-INF/view/Homepage.jsp" ).forward(request, response);
+                response.getWriter().flush();
             }
         }
         catch (Exception e) {
