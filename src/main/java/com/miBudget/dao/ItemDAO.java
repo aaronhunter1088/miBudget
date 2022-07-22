@@ -10,6 +10,8 @@ import java.util.List;
 
 @Repository
 public interface ItemDAO extends JpaRepository<Item, Long> {
-    @Query("SELECT i from Item i where i.userId = :userId")
+    @Query("SELECT i from Item i WHERE i.userId = :userId")
     List<Item> findItemByUserId(@Param("userId") Long userId);
+    @Query("SELECT i.id from Item i WHERE i.userId = :userId")
+    List<Long> findItemIdByUserId(Long userId);
 }

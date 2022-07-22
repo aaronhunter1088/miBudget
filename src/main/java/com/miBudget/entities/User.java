@@ -15,6 +15,19 @@ import static com.miBudget.enums.AppType.FREE;
 @Table(name="users")
 public class User {
 
+	@Id
+	@SequenceGenerator(name="users_sequence", sequenceName="users_sequence", allocationSize = 1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="users_sequence")
+	private Long id;
+	private String firstName;
+	private String lastName;
+	private String cellphone;
+	private String password;
+	private String email;
+	private AppType appType; // free or paid
+	@Transient
+	private Budget budget;
+
 	public User() {}
 	
 	/**
@@ -97,19 +110,6 @@ public class User {
 		this.password = password;
 		this.email = email;
 	}
-	
-	@Id
-	@SequenceGenerator(name="users_sequence", sequenceName="users_sequence", allocationSize = 1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="users_sequence")
-	private Long id;
-	private String firstName;
-	private String lastName;
-	private String cellphone;
-	private String password;
-	private String email;
-	private AppType appType; // free or paid
-	@Transient
-	private Budget budget;
 
 
 	public void createCategories() {

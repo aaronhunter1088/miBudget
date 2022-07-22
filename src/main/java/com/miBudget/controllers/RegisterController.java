@@ -1,14 +1,15 @@
 package com.miBudget.controllers;
 
+import com.miBudget.core.MiBudgetError;
 import com.miBudget.dao.UserDAO;
 import com.miBudget.entities.Account;
 import com.miBudget.entities.Transaction;
 import com.miBudget.entities.User;
-import com.miBudget.core.MiBudgetState;
+import com.miBudget.utilities.Constants;
 import com.miBudget.utilities.DateAndTimeUtility;
-import com.miBudget.utilities.MiBudgetError;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.util.Strings;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.PersistenceException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import static com.miBudget.utilities.Constants.end;
 import static com.miBudget.utilities.Constants.start;
@@ -41,119 +44,151 @@ public class RegisterController {
         this.userDAO = userDAO;
     }
 
-    @RequestMapping(path="/test", method=RequestMethod.GET)
+    @RequestMapping(path = "/test", method = RequestMethod.GET)
     public ResponseEntity<String> testMe() {
         return ResponseEntity.ok("Register works");
     }
 
-    @RequestMapping(path="/signup", method=RequestMethod.POST)
-    public void signup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-    {
-        LOGGER.info(start);
-        LOGGER.info("RegisterController:signup");
+    @RequestMapping(path = "/signup", method = RequestMethod.POST)
+    public void signup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            String firstname = request.getParameter("firstName");
-            String lastname = request.getParameter("lastName");
-            String cellphone = request.getParameter("cellphone");
-            String email = request.getParameter("email");
-            String password = request.getParameter("password");
-            String passwordRepeat = request.getParameter("passwordRepeat");
+            LOGGER.info(start);
+            LOGGER.info("RegisterController:signup");
+            String usersFirstName = request.getParameter("firstName");
+            String usersLastName = request.getParameter("lastName");
+            String usersCellphone = request.getParameter("cellphone");
+            String usersEmail = request.getParameter("email");
+            String usersPassword = request.getParameter("password");
+            String usersPasswordRepeat = request.getParameter("passwordRepeat");
             boolean validated = Boolean.parseBoolean(request.getParameter("validated")); // used to do server side validation if user turned off JavaScript
+            LOGGER.info("firstName: {}", usersFirstName);
+            LOGGER.info("lastName: {}", usersLastName);
+            LOGGER.info("cellphone: {}", usersCellphone);
+            LOGGER.info("email: {}", usersEmail);
+            LOGGER.info("password: {}", usersPassword);
+            LOGGER.info("passwordRepeat: {}", usersPasswordRepeat);
             LOGGER.info("validated: " + validated);
-            boolean isRegistered = false;
-            // If validated comes back as false, fail
-            if (!validated) {
-                throw new Exception("Client-side validation not performed");
-            } // end server-side validation
-            // check if user is not in list of current users
-            // Create a service to get all users in DB
-            // Create a list object to save new service call to retrieve all users
-            LOGGER.info("Before list is populated...");
-            List<User> allUsersList = userDAO.findAll();
-            // Create a new user
-            // User user = new User(allUsersListByCellphone.size()+1, firstname, lastname, cellphone, password);
-            User regUser = new User(firstname, lastname, cellphone, password, email);
-            LOGGER.info("user created...");
-            LOGGER.info(regUser);
-            for (User user : allUsersList) {
-                if (user.equals(regUser)) {
-                    LOGGER.info("a 'new user' is attempting to create a new account but they already exists.");
-                    isRegistered = true;
+            User registeringUser = new User(usersFirstName, usersLastName, usersCellphone, usersPassword, usersEmail);
+            List<String> allCellphones = userDAO.findAllCellphones();
+            boolean existingUser = false;
+            for (String cellphone : allCellphones) {
+                if (cellphone.equals(registeringUser.getCellphone())) {
+                    LOGGER.info("registering user already exists!");
+                    existingUser = true;
+                    registeringUser = userDAO.findUserByCellphone(cellphone);
+                    break;
                 }
             }
-            LOGGER.info("isRegistered: " + isRegistered);
-            if (isRegistered && validated) {
-                LOGGER.info("A registered user tried to re-Register with valid inputs. Redirecting to Login page.");
-                LOGGER.info("isRegistered: " + isRegistered);
-                request.setAttribute("Cellphone", cellphone);
-                request.setAttribute("Password", password);
-//				response.sendRedirect("Login.html");
-                request.getServletContext().getRequestDispatcher("view/Login.jsp")
-                        .forward(request, response);
-//				response.sendRedirect(request.getContextPath() + "/Login.jsp");
-                // TODO: Eventually change this logic to instead of redirecting, to straight logging in and redirecting to Welcome.jsp
-            }
-            else if (isRegistered && !validated) {
-                // TODO: Make API call to /login
-                LOGGER.info("A registered user tried to re-Register with invalid inputs! Redirecting to Login page.");
-                LOGGER.debug("TODO: Fix redirecting");
-                request.setAttribute("Cellphone", cellphone);
-                request.setAttribute("Password", password);
-                request.getServletContext().getRequestDispatcher("view/Login.jsp")
-                        .forward(request, response);
-            }
-            else if (!isRegistered && !validated) {
-                LOGGER.info("An unregistered user tried to Register but provided invalid inputs! Redirecting to Register page.");
-                request.setAttribute("Firstname", firstname);
-                request.setAttribute("Lastname", lastname);
-                request.setAttribute("Cellphone", cellphone);
-                request.setAttribute("Email", email);
-                request.setAttribute("Password", password);
-                request.setAttribute("PasswordRepeat", passwordRepeat);
-                request.getServletContext().getRequestDispatcher("view/Register.jsp")
-                        .forward(request, response);
-                // TODO: Print out a message to the user from the validation results.
-            }
-            else if (!isRegistered && validated) {
-                LOGGER.info("An unregistered user is attempting to Register. They have valid inputs! Redirecting to Profile page.");
-                // use MiBudgetState.getMiBudgetDAOImpl() to save user
-                if (userDAO.save(regUser) == null) {
-                    LOGGER.warn("Failed to add user to database.");
-                    throw new MiBudgetError("Failed to add user to database.");
+            LOGGER.info("existingUser: {} | validated: {}", existingUser, validated);
+            if (existingUser && validated) {
+                LOGGER.info("Tried to re-Register with validated inputs. Redirecting to Login page.");
+                login(request, response, registeringUser);
+            } else if (!existingUser && !validated) {
+                LOGGER.info("Inputs are invalidated. Validating");
+                if (validateUserInputs(usersFirstName, usersLastName, usersCellphone, usersEmail, usersPassword, usersPasswordRepeat)) {
+                    LOGGER.info("Success: Valid inputs");
+                    completeRegistration(request, response, registeringUser);
+                } else {
+                    LOGGER.info("Inputs are invalid");
+                    LOGGER.info(Constants.end);
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.setContentType("application/json");
+                    response.getWriter().append("Fail: Redirecting to Register.html");
+                    response.getWriter().flush();
                 }
-                HttpSession requestSession = request.getSession(true);
-                LOGGER.info("requestSessionId: " + requestSession.getId());
-                HashMap<String, ArrayList<Account>> institutionIdsAndAccounts = new HashMap<>();
-                //ArrayList<String> institutionIdsList = (ArrayList<String>) MiBudgetState.getMiBudgetDAOImpl().getAllInstitutionIdsFromUser(regUser);
-                requestSession.setAttribute("institutionIdsAndAccounts", institutionIdsAndAccounts);
-                //requestSession.setAttribute("institutionIdsList", institutionIdsList);
-                //requestSession.setAttribute("institutionIdsListSize", institutionIdsList.size());
-                //requestSession.setAttribute("session", requestSession); // just a check
-                //requestSession.setAttribute("sessionId", requestSession.getId()); // just a check
-                requestSession.setAttribute("isUserLoggedIn", true); // just a check
-                //requestSession.setAttribute("Firstname", regUser.getFirstName());
-                //requestSession.setAttribute("Lastname", regUser.getLastName());
-                requestSession.setAttribute("user", regUser);
-                requestSession.setAttribute("accountsSize", 0);
-                requestSession.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr());
-                requestSession.setAttribute("getTransactions", new JSONObject());
-                requestSession.setAttribute("transactionsList", new JSONArray());
-                requestSession.setAttribute("usersTransactions", new ArrayList<Transaction>()); // meant to be empty at this moment
-                LOGGER.info("Redirecting to Homepage.jsp");
-                LOGGER.info(end);
-                response.setStatus(HttpServletResponse.SC_OK);
-                response.setContentType("application/json");
-                response.getWriter().append("Success: Redirecting to Homepage.jsp");
-                request.getServletContext().getRequestDispatcher("/WEB-INF/view/Homepage.jsp" ).forward(request, response);
-                response.getWriter().flush();
+            } else { // not an existing user and inputs are validated
+                completeRegistration(request, response, registeringUser);
             }
         }
         catch (Exception e) {
             LOGGER.error(e.getMessage());
+            LOGGER.info(end);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.setContentType("application/json");
             response.getWriter().append("Failed to register: ").append(e.getMessage());
         }
+    }
+
+    /**
+     * Server-side validation of inputs for a new user
+     * @param firstName
+     * @param lastName
+     * @param cellphone
+     * @param email
+     * @param password
+     * @param passwordRepeat
+     * @return
+     */
+    private boolean validateUserInputs(String firstName, String lastName, String cellphone, String email, String password, String passwordRepeat) {
+        LOGGER.info("Performing server-side validation");
+        // Firstname
+        if (Strings.isBlank(firstName)) {
+            LOGGER.error("First name is not valid. Please check its value.");
+            return false;
+        }
+        // Lastname
+        if (Strings.isBlank(lastName)) {
+            LOGGER.error("Last name is not valid. Please check its value.");
+            return false;
+        }
+        // Cellphone
+        cellphone = Objects.requireNonNull(cellphone.replaceAll("-", ""));
+        if (cellphone.length() != 10) {
+            LOGGER.error("Cellphone is not valid. Please check its value.");
+            return false;
+        }
+        // Email
+        if (!email.contains("@") && !email.contains(".")) {
+            LOGGER.error("Email is not valid. Please check its value.");
+            return false;
+        }
+        // Password & Password-repeat
+        if ((Strings.isBlank(password) || Strings.isBlank("")) && !Objects.equals(password, passwordRepeat)) {
+            // if password or passwordRepeat are blank AND if they are not equal to each other
+            LOGGER.error("Password or PasswordRepeat are blank or do not match. Please check the values.");
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Saves a new user and then logs them in
+     * @param request
+     * @param response
+     * @param registeringUser
+     * @throws MiBudgetError
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void completeRegistration(HttpServletRequest request, HttpServletResponse response, User registeringUser) throws MiBudgetError, ServletException, IOException {
+        LOGGER.info("Unregistered user with valid inputs. Registering user");
+        userDAO.save(registeringUser);
+        login(request, response, registeringUser);
+    }
+
+    /**
+     * Sets the session for the registering user and redirects to the Homepage
+     * @param request
+     * @param response
+     * @param registeringUser
+     * @throws IOException
+     * @throws ServletException
+     */
+    private void login(HttpServletRequest request, HttpServletResponse response, User registeringUser) throws IOException, ServletException {
+        HttpSession session = request.getSession(true);
+        session.setAttribute("institutionIdsAndAccounts", new HashMap<>());
+        session.setAttribute("user", registeringUser);
+        session.setAttribute("accountsSize", 0);
+        session.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr());
+        session.setAttribute("getTransactions", new JSONObject());
+        session.setAttribute("transactionsList", new JSONArray());
+        session.setAttribute("usersTransactions", new ArrayList<Transaction>()); // meant to be empty at this moment
+        LOGGER.info("Redirecting to Homepage.jsp");
         LOGGER.info(end);
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType("application/json");
+        response.getWriter().append("Success: Redirecting to Homepage.jsp");
+        request.getServletContext().getRequestDispatcher("/WEB-INF/view/Homepage.jsp" ).forward(request, response);
+        response.getWriter().flush();
     }
 }

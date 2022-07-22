@@ -3,17 +3,18 @@ package com.miBudget.servlets;
 import java.io.IOException;
 import java.util.*;
 
+import javax.persistence.PersistenceException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.miBudget.core.MiBudgetError;
 import com.miBudget.entities.Transaction;
 import com.miBudget.core.MiBudgetState;
 import com.miBudget.utilities.Constants;
 import com.miBudget.utilities.DateAndTimeUtility;
-import com.miBudget.utilities.MiBudgetError;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.MappingException;
@@ -165,7 +166,7 @@ public class Register {
 						LOGGER.info("User added to database!");
 					else {
 						LOGGER.warn("Failed to add user to database.");
-						throw new MiBudgetError("Failed to add user to database.");
+						throw new MiBudgetError("Failed to add user to database.", new PersistenceException());
 					}
 					requestSession = request.getSession(true);
 

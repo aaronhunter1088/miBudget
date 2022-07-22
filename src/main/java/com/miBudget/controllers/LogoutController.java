@@ -34,17 +34,11 @@ public class LogoutController {
     public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOGGER.info(Constants.start);
         LOGGER.info("LogoutController:logout");
-        HttpSession session = request.getSession(true);
-        if (session != null && (Boolean) session.getAttribute("isUserLoggedIn")) {
-            session.setAttribute("isUserLoggedIn", false);
-            LOGGER.info("requestSessionId: " + session.getId() + " invalidated!");
-            session.invalidate();
-        } else { // there should not be an else needed here.
-            LOGGER.info("Redirecting to index.html");
+        if (request.getSession() != null || request.getSession().getAttribute("user") != null) {
+            LOGGER.info("session invalidated");
+            request.getSession().invalidate();
         }
         LOGGER.info(Constants.end);
-        //response.sendRedirect("static/index.html");
-        //return MiBudgetResponse.ok("index.html");
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("application/json");
         response.getWriter().append("Success: Redirecting to index.html");

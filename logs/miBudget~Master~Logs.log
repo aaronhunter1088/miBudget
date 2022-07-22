@@ -5997,3 +5997,21 @@ Caused by: java.sql.SQLSyntaxErrorException: You have an error in your SQL synta
 [INFO ] 05-29-2021 10:49:32.167 [main] DateAndTimeUtility:getDateAndTimeAsStr:38 - dateAndTime: SATURDAY MAY 29, 2021 10:49:32 AM
 [INFO ] 05-29-2021 11:04:52.454 [main] DateAndTimeUtility:getDateAndTimeAsStr:38 - dateAndTime: SATURDAY MAY 29, 2021 11:04:52 AM
 [INFO ] 11-05-2021 21:15:40.931 [main] DateAndTimeUtility:getDateAndTimeAsStr:38 - dateAndTime: FRIDAY NOVEMBER 05, 2021 09:15:40 AM
+[INFO ] 07-22-2022 12:40:42 PM [main] com.miBudget.utilities.DateAndTimeUtility:getDateAndTimeAsStr:16 - dateAndTime: 2022-07-22T12:40:42.024946
+[INFO ] 07-22-2022 12:42:45 PM [main] com.miBudget.utilities.DateAndTimeUtility:getDateAndTimeAsStr:34 - localDateTime: 2022-07-22T12:42:45.194649
+[INFO ] 07-22-2022 12:43:16 PM [main] com.miBudget.utilities.DateAndTimeUtility:getDateAndTimeAsStr:34 - localDateTime: 2022-07-22T12:43:16.818308
+[INFO ] 07-22-2022 12:43:37 PM [main] com.miBudget.utilities.DateAndTimeUtility:getDateAndTimeAsStr:34 - localDateTime: 2022-07-22T12:43:37.321590
+[INFO ] 07-22-2022 12:44:30 PM [main] com.miBudget.utilities.DateAndTimeUtility:getDateAndTimeAsStr:34 - localDateTime: 2022-07-22T12:44:30.020635
+[INFO ] 07-22-2022 12:44:42 PM [main] com.miBudget.utilities.DateAndTimeUtility:getDateAndTimeAsStr:34 - localDateTime: 2022-07-22T12:44:42.699436
+[INFO ] 07-22-2022 12:45:39 PM [main] com.miBudget.utilities.DateAndTimeUtility:getDateAndTimeAsStr:34 - localDateTime: 2022-07-22T12:45:39.717067
+[INFO ] 07-22-2022 12:45:49 PM [main] com.miBudget.utilities.DateAndTimeUtility:getDateAndTimeAsStr:34 - localDateTime: 2022-07-22T12:45:49.609269
+[INFO ] 07-22-2022 12:46:19 PM [main] com.miBudget.utilities.DateAndTimeUtility:getDateAndTimeAsStr:34 - localDateTime: 2022-07-22T12:46:19.668814
+[INFO ] 07-22-2022 12:46:33 PM [main] com.miBudget.utilities.DateAndTimeUtility:getDateAndTimeAsStr:34 - localDateTime: 2022-07-22T12:46:33.259786
+[INFO ] 07-22-2022 12:46:48 PM [main] com.miBudget.utilities.DateAndTimeUtility:getDateAndTimeAsStr:34 - localDateTime: 2022-07-22T12:46:48.721421
+[INFO ] 07-22-2022 12:47:18 PM [main] com.miBudget.utilities.DateAndTimeUtility:getDateAndTimeAsStr:34 - localDateTime: 2022-07-22T12:47:18.332643
+[INFO ] 07-22-2022 12:47:28 PM [main] com.miBudget.utilities.DateAndTimeUtility:getDateAndTimeAsStr:34 - localDateTime: 2022-07-22T12:47:28.384540
+[INFO ] 07-22-2022 12:48:21 PM [main] com.miBudget.utilities.DateAndTimeUtility:getDateAndTimeAsStr:34 - localDateTime: 2022-07-22T12:48:21.159885
+[INFO ] 07-22-2022 12:48:29 PM [main] com.miBudget.utilities.DateAndTimeUtility:getDateAndTimeAsStr:34 - localDateTime: 2022-07-22T12:48:29.262293
+[INFO ] 07-22-2022 12:48:37 PM [main] com.miBudget.utilities.DateAndTimeUtility:getDateAndTimeAsStr:34 - localDateTime: 2022-07-22T12:48:37.932973
+[INFO ] 07-22-2022 12:50:00 PM [main] com.miBudget.utilities.DateAndTimeUtility:getDateAndTimeAsStr:34 - localDateTime: FRIDAY JULY 22, 2022 12:50:000 PM
+[INFO ] 07-22-2022 12:50:46 PM [main] com.miBudget.utilities.DateAndTimeUtility:getDateAndTimeAsStr:34 - localDateTime: FRIDAY JULY 22, 2022 12:50 PM

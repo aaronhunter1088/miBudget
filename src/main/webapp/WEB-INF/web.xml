@@ -32,6 +32,11 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
+    <context-param>
+        <param-name>isLog4jAutoInitializationDisabled</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
     <!-- Cors -->
     <filter>
         <filter-name>CorsFilter</filter-name>
