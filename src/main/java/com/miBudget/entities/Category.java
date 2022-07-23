@@ -3,6 +3,7 @@ package com.miBudget.entities;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -19,19 +20,19 @@ public class Category implements Serializable {
 	private Long id;
 	private String name;
 	private String currency;
-	private double budgetedAmt;
+	private BigDecimal budgetedAmt;
 	private Long userId;
 	private Long budgetId;
 
 	public Category() {}
 	
-	public Category(String name, double amount, Long userId) {
+	public Category(String name, BigDecimal amount, Long userId) {
 		this.name = name;
 		this.budgetedAmt = amount;
 		this.userId = userId;
 	}
 	
-	public Category(String name, String currency, double amount, Long userId, Long budgetId) {
+	public Category(String name, String currency, BigDecimal amount, Long userId, Long budgetId) {
 		this.name = name;
 		this.budgetedAmt = amount;
 		this.currency = currency;

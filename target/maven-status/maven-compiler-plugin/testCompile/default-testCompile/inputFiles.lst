@@ -1,4 +1,5 @@
-/Users/michaelball/IdeaProjects/miBudget/src/test/java/com/miBudget/logging/test/Log4j2Test.java
-/Users/michaelball/IdeaProjects/miBudget/src/test/java/com/miBudget/servlets/test/ServletLoggingTest.java
-/Users/michaelball/IdeaProjects/miBudget/src/test/java/com/miBudget/servlets/test/LoginTest.java
-/Users/michaelball/IdeaProjects/miBudget/src/test/java/com/miBudget/database/test/DatabaseConnectionTest.java
+/Users/michaelball/IdeaProjects/miBudget/src/test/java/com/miBudget/utilities/HibernateConnectionTest.java
+/Users/michaelball/IdeaProjects/miBudget/src/test/java/com/miBudget/utilities/EmailUtilityTest.java
+/Users/michaelball/IdeaProjects/miBudget/src/test/java/com/miBudget/processors/TransactionsProcessorTest.java
+/Users/michaelball/IdeaProjects/miBudget/src/test/java/com/miBudget/utilities/Log4j2Test.java
+/Users/michaelball/IdeaProjects/miBudget/src/test/java/com/miBudget/utilities/DateAndTimeUtilityTest.java

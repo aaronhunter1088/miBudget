@@ -1,9 +1,9 @@
 package com.miBudget.controllers;
 
 import com.miBudget.core.MiBudgetError;
-import com.miBudget.dao.BudgetDAO;
-import com.miBudget.dao.CategoryDAO;
-import com.miBudget.dao.UserDAO;
+import com.miBudget.daos.BudgetDAO;
+import com.miBudget.daos.CategoryDAO;
+import com.miBudget.daos.UserDAO;
 import com.miBudget.entities.Budget;
 import com.miBudget.entities.Category;
 import com.miBudget.entities.Transaction;
@@ -183,7 +183,7 @@ public class RegisterController {
         budget = budgetDAO.findBudgetByUserId(registeringUser.getId()).get(0); // will only be one at this moment
         List<Category> defaultCategories = budget.setupDefaultCategories(registeringUser.getId(), budget.getId());
         budget.setCategories(defaultCategories);
-        budget.setAmount(BigDecimal.valueOf(budget.getCategories().stream().mapToDouble(Category::getBudgetedAmt).sum()));
+        budget.setAmount(budget.getCategories().stream().map(Category::getBudgetedAmt).reduce(BigDecimal.ZERO, BigDecimal::add));
         // Update budget
         budgetDAO.save(budget);
         //categoryDAO.saveAll(defaultCategories); Don't save Main budget categories. Main budget categories holds ALL categories

@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<meta charset="ISO-8859-1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Login</title>
 		<link href="../images/wallet.ico" rel="icon" type="image/x-icon">
 		<style>
@@ -71,8 +71,45 @@
 					}
 				});
 			    $('#forgotPasswordBtn').on('click', function() {
-				   window.location.href = '/miBudget/view/ForgotPassword.jsp'
-			    })
+					let loginForm = $("#loginForm")
+					let cellphone = loginForm
+							.find('input[name=cellphone]')
+							.val();
+					if (cellphone === "") {
+						alert("Enter your cellphone and click Forgot Password again.");
+						return false;
+					}
+					$.ajax({
+						type: "POST",
+						url: "/miBudget/password/forgot",
+						async: true,
+						data: {
+							cellphone: cellphone,
+							btnSelected: 'Forgot Password'
+						},
+						success: function() {
+							console.log("success")
+						},
+						statusCode: {
+							200: function(data) {
+								window.location.reload();
+								alert("An email has been sent with your existing password.")
+							},
+							400: function() {
+								window.location.reload();
+								alert("No user was found based on the given cellphone: " + cellphone)
+							},
+							404: function(data) {
+								console.log("Failed with a 404");
+								console.log(data);
+							},
+							500: function(data) {
+								console.log("Failed with a 500");
+								console.log(data);
+							}
+						}
+					});
+				});
 			});
 			function validateFields(cellphone, password) {
 				let loginForm = $("#loginForm")
@@ -115,11 +152,13 @@
 					},
 					statusCode: {
 						200: function(data) {
-							//console.log(data); is jsp
-							// document.open();
-							// document.write(data);
-							// document.close();
-							window.location.href = "/miBudget/WEB-INF/Homepage.jsp"
+							//console.log(data); //is jsp
+							document.open();
+							document.write(data);
+							document.close();
+							//window.location.load();
+							//window.location.replace("/miBudget/WEB-INF/views/Homepage.jsp")
+							//window.location.href = "/miBudget/WEB-INF/views/Homepage.jsp"
 						},
 						400: function() {
 							window.location.href = "/miBudget/static/Register.html"

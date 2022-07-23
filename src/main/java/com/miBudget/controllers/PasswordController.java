@@ -1,6 +1,6 @@
 package com.miBudget.controllers;
 
-import com.miBudget.dao.UserDAO;
+import com.miBudget.daos.UserDAO;
 import com.miBudget.entities.Email;
 import com.miBudget.entities.User;
 import com.miBudget.utilities.EmailUtility;

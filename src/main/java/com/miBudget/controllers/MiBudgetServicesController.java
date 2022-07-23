@@ -1,11 +1,12 @@
 package com.miBudget.controllers;
 
 
-import com.miBudget.dao.*;
+import com.miBudget.daos.*;
 import com.miBudget.entities.Account;
 import com.miBudget.entities.Budget;
 import com.miBudget.entities.Category;
 import com.miBudget.entities.Item;
+import com.miBudget.utilities.JsonUtility;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,20 +56,19 @@ public class MiBudgetServicesController {
         return Response.ok(institutionIdsAndAccounts).build();
     }
 
-    @RequestMapping(path="/budgets/{usersId}/{mainBudgetId}/categories", method = RequestMethod.GET)
+    @RequestMapping(path="/budgets/{userId}/{mainBudgetId}/categories", method = RequestMethod.GET)
     public Response getAllCategories(
             @PathVariable("userId") Long userId,
-            @PathVariable("usersMainBudgetId") Long usersMainBudgetId) {
+            @PathVariable("mainBudgetId") Long mainBudgetId) {
         List<Category> allCategories = new ArrayList<>();
-        //Budget parentBudget = budgetDAO.findBudgetByMainBudgetId(usersMainBudgetId);
-        List<Budget> children = budgetDAO.findBudgetByUserId(userId); // all budgets. need just children
-        children.stream().filter(child -> !child.getId().equals(usersMainBudgetId)).collect(Collectors.toList());
-        //List<Long> childrenBudgetIds = parentBudget.getChildBudgetIds();
-        for(Budget childBudget : children) {
-            //Budget childBudget = budgetDAO.findBudgetById(childBudgetId);
-            //childrenBudgetIds.add(childBudget.getId());
-            allCategories.addAll(childBudget.getCategories());
+        List<Budget> children = budgetDAO.findBudgetByUserId(userId)
+                .stream()
+                .filter(budget -> !Objects.equals(budget.getId(), mainBudgetId))
+                .collect(Collectors.toList());
+        for (Budget child : children) {
+            allCategories.addAll(categoryDAO.findAllByBudgetId(child.getId()));
         }
-        return Response.ok(allCategories).build();
+        String result = JsonUtility.changeToJsonString(allCategories);
+        return Response.ok(result).build();
     }
 }

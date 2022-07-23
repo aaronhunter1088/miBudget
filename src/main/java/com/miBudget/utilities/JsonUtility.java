@@ -12,7 +12,7 @@ public class JsonUtility {
      * @param src
      * @return
      */
-    public String changeToJsonString(Object src) {
+    public static String changeToJsonString(Object src) {
         Gson gson = new Gson();
         String srcAsJson = gson.toJson(src);
         LOGGER.info("Object as Json String");

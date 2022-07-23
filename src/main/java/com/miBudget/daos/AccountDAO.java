@@ -1,4 +1,4 @@
-package com.miBudget.dao;
+package com.miBudget.daos;
 
 import com.miBudget.entities.Account;
 import org.springframework.data.jpa.repository.JpaRepository;

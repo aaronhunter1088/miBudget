@@ -1,6 +1,6 @@
 package com.miBudget.services;
 
-import com.miBudget.dao.UserDAO;
+import com.miBudget.daos.UserDAO;
 import com.miBudget.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

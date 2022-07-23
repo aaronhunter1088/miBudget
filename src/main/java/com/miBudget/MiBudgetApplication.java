@@ -30,7 +30,7 @@ import java.util.Properties;
 @EnableTransactionManagement()
 @ComponentScan(basePackages = {"com.miBudget.controllers", "com.miBudget.services"})
 //@EntityScan(basePackages = {"com.miBudget.entities"})
-@EnableJpaRepositories(basePackages = "com.miBudget.dao", entityManagerFactoryRef="entityManagerFactory")
+@EnableJpaRepositories(basePackages = "com.miBudget.daos", entityManagerFactoryRef="entityManagerFactory")
 @SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
 public class MiBudgetApplication extends SpringBootServletInitializer implements WebApplicationInitializer {
 

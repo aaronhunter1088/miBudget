@@ -1,9 +1,6 @@
 package com.miBudget.controllers;
 
-import com.miBudget.dao.AccountDAO;
-import com.miBudget.dao.BudgetDAO;
-import com.miBudget.dao.ItemDAO;
-import com.miBudget.dao.UserDAO;
+import com.miBudget.daos.*;
 import com.miBudget.entities.*;
 import com.miBudget.core.Constants;
 import com.miBudget.utilities.DateAndTimeUtility;
@@ -21,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/login")
@@ -32,13 +30,15 @@ public class LoginController {
     private final AccountDAO accountDAO;
     private final ItemDAO itemDAO;
     private final BudgetDAO budgetDAO;
+    private final CategoryDAO categoryDAO;
 
     @Autowired
-    public LoginController(UserDAO userDAO, AccountDAO accountDAO, ItemDAO itemDAO, BudgetDAO budgetDAO) {
+    public LoginController(UserDAO userDAO, AccountDAO accountDAO, ItemDAO itemDAO, BudgetDAO budgetDAO, CategoryDAO categoryDAO) {
         this.userDAO = userDAO;
         this.accountDAO = accountDAO;
         this.itemDAO = itemDAO;
         this.budgetDAO = budgetDAO;
+        this.categoryDAO = categoryDAO;
     }
 
     @RequestMapping(path="/test", method=RequestMethod.GET)
@@ -64,8 +64,22 @@ public class LoginController {
                     LOGGER.info("login user's cellphone found in list");
                     loginUser = userDAO.findUserByCellphone(cellphone); // user's name is set
                     // POPULATE USER BUDGET ATTRIBUTES
-                    Budget usersBudget = budgetDAO.findBudgetByMainBudgetId(loginUser.getMainBudgetId());
-                    loginUser.setBudget(usersBudget);
+                    final Long mainBudgetId = loginUser.getMainBudgetId();
+                    Budget usersMainBudget = budgetDAO.findBudgetByMainBudgetId(loginUser.getMainBudgetId());
+                    List<Budget> children = budgetDAO.findBudgetByUserId(loginUser.getId())
+                            .stream()
+                            .filter(budget -> !Objects.equals(budget.getId(), mainBudgetId))
+                            .collect(Collectors.toList());
+                    List<Category> allCategories = new ArrayList<>();
+                    List<Long> childrenIds = new ArrayList<>();
+                    for (Budget child : children) {
+                        allCategories.addAll(categoryDAO.findAllByBudgetId(child.getId()));
+                        childrenIds.add(child.getId());
+                    }
+                    usersMainBudget.setCategories(allCategories);
+                    usersMainBudget.setChildBudgetIds(childrenIds);
+                    loginUser.setBudget(usersMainBudget);
+
                     List<Long> accountIdsList = accountDAO.findAccountIdByUserId(loginUser.getId());
                     List<Long> itemsIdsList = itemDAO.findItemIdByUserId(loginUser.getId());
                     // Populate institutionIdsAndAccounts map

@@ -44,32 +44,32 @@ public class Budget {
         this.userId = budget.getUserId();
         this.name = budget.getName();
         this.categories = budget.getCategories();
-        this.amount = BigDecimal.valueOf(categories.stream().mapToDouble(Category::getBudgetedAmt).sum());
+        this.amount = categories.stream().map(Category::getBudgetedAmt).reduce(BigDecimal.ZERO, BigDecimal::add);
         this.childBudgetIds = null;
     }
     // Child Budget: Created by user at will.
     public Budget(Budget budget, String name, List<Category> categories) {
         this.name = name;
         this.categories = categories;
-        this.amount = BigDecimal.valueOf(categories.stream().mapToDouble(Category::getBudgetedAmt).sum());
+        this.amount = categories.stream().map(Category::getBudgetedAmt).reduce(BigDecimal.ZERO, BigDecimal::add);
         this.childBudgetIds = null;
     }
 
     public List<Category> setupDefaultCategories(Long userId, Long budgetId) {
         ArrayList<Category> categoriesList = new ArrayList<>();
-        Category morgtageCat = new Category("Mortgage", "USD", 1500.00, userId, budgetId);
-        categoriesList.add(morgtageCat);
-        Category utilitiesCat = new Category("Utilities", "USD", 500.00, userId, budgetId);
+        Category mortgageCat = new Category("Mortgage", "USD", new BigDecimal("1500.00"), userId, budgetId);
+        categoriesList.add(mortgageCat);
+        Category utilitiesCat = new Category("Utilities", "USD", new BigDecimal("500.00"), userId, budgetId);
         categoriesList.add(utilitiesCat);
-        Category transportCat = new Category("Transportation", "USD", 1000.00, userId, budgetId);
+        Category transportCat = new Category("Transportation", "USD", new BigDecimal("1000.00"), userId, budgetId);
         categoriesList.add(transportCat);
-        Category insuranceCat = new Category("Insurance", "USD", 200.00, userId, budgetId);
+        Category insuranceCat = new Category("Insurance", "USD", new BigDecimal("200.00"), userId, budgetId);
         categoriesList.add(insuranceCat);
-        Category foodCat = new Category("Food", "USD", 500.00, userId, budgetId);
+        Category foodCat = new Category("Food", "USD", new BigDecimal("500.00"), userId, budgetId);
         categoriesList.add(foodCat);
-        Category subscriptionsCat = new Category("Subscriptions", "USD", 500.0, userId, budgetId);
+        Category subscriptionsCat = new Category("Subscriptions", "USD", new BigDecimal("500.0"), userId, budgetId);
         categoriesList.add(subscriptionsCat);
-        Category billsCat = new Category("Bill", "USD", 1000.00, userId, budgetId);
+        Category billsCat = new Category("Bill", "USD", new BigDecimal("1000.00"), userId, budgetId);
         categoriesList.add(billsCat);
         return categoriesList;
     }
