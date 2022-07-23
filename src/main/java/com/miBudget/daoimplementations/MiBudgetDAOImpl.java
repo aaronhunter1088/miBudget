@@ -21,8 +21,6 @@ import org.hibernate.Transaction;
 import com.miBudget.entities.Category;
 import com.miBudget.entities.Item;
 import com.miBudget.entities.User;
-import com.miBudget.entities.UserAccountObject;
-import com.miBudget.entities.UserItemsObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class MiBudgetDAOImpl {

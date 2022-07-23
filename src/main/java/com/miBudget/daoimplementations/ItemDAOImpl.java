@@ -14,7 +14,6 @@ import org.hibernate.Transaction;
 
 import com.miBudget.entities.Item;
 import com.miBudget.entities.User;
-import com.miBudget.entities.UserItemsObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @SuppressWarnings("unchecked")

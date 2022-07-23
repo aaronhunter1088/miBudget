@@ -20,7 +20,6 @@ import org.apache.logging.log4j.Logger;
 import com.miBudget.entities.Category;
 import com.miBudget.entities.Transaction;
 import com.miBudget.entities.User;
-import com.miBudget.entities.UserAccountObject;
 import com.google.gson.Gson;
 
 /**
