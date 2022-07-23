@@ -24,6 +24,8 @@ public class User {
 	private String cellphone;
 	private String password;
 	private String email;
+	private Long mainBudgetId;
+	@Enumerated(EnumType.ORDINAL)
 	private AppType appType; // free or paid
 	@Transient
 	private Budget budget;
@@ -31,29 +33,13 @@ public class User {
 	public User() {}
 	
 	/**
-	 * If you need to validate a user, you can use this constructor.
+	 * Used when logging in
 	 * @param cellphone
 	 * @param password
 	 */
 	public User(String cellphone, String password) {
 		this.cellphone = cellphone;
 		this.password = password;
-		createCategories();
-	}
-	
-	/**
-	 * To create a user, please provide in the following order:
-	 * @param firstName
-	 * @param lastName
-	 * @param cellphone
-	 * @param password
-	 */
-	public User(String firstName, String lastName, String cellphone, String password) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.cellphone = cellphone;
-		this.password = password;
-		createCategories();
 	}
 	
 	/**
@@ -64,71 +50,13 @@ public class User {
 	 * @param password
 	 * @param email
 	 */
-	public User(String firstName, String lastName, String cellphone, String password, String email) {
+	public User(String firstName, String lastName, String cellphone, String password, String email, AppType appType) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.cellphone = cellphone;
 		this.password = password;
 		this.email = email;
-		this.appType = FREE;
-		createCategories();
-	}
-	
-	/**
-	 * To create a user with no accounts, please provide in the following order:
-	 * @param id
-	 * @param firstName
-	 * @param lastName
-	 * @param cellphone
-	 * @param password
-	 */
-	public User(Long id, String firstName, String lastName, String cellphone, String password, String email) {
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.cellphone = cellphone;
-		this.password = password;
-		this.email = email;
-		createCategories();
-	}
-	
-	/**
-	 * To create a user with accounts, please provide in the following order:
-	 * @param id
-	 * @param firstName
-	 * @param lastName
-	 * @param cellphone
-	 * @param password
-	 * @param email
-	 * @param accountIds
-	 */
-	public User(Long id, String firstName, String lastName, String cellphone, String password, String email, ArrayList<String> accountIds) {
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.cellphone = cellphone;
-		this.password = password;
-		this.email = email;
-	}
-
-
-	public void createCategories() {
-		ArrayList<Category> categoriesList = new ArrayList<>();
-		Category morgtageCat = new Category("Mortgage", "USD", 1500.00);
-		categoriesList.add(morgtageCat);
-		Category utilitiesCat = new Category("Utilities", "USD", 500.00);
-		categoriesList.add(utilitiesCat);
-		Category transportCat = new Category("Transportation", "USD", 1000.00);
-		categoriesList.add(transportCat);
-		Category insuranceCat = new Category("Insurance", "USD", 200.00);
-		categoriesList.add(insuranceCat);
-		Category foodCat = new Category("Food", "USD", 500.00);
-		categoriesList.add(foodCat);
-		Category subscriptionsCat = new Category("Subscriptions", "USD", 500.00);
-		categoriesList.add(subscriptionsCat);
-		Category billsCat = new Category("Bill", "USD", 1000.00);
-		categoriesList.add(billsCat);
-		//this.categories = categoriesList;
+		this.appType = appType;
 	}
 
 	@Override

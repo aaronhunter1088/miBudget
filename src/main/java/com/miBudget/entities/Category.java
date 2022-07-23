@@ -10,7 +10,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name="user_categories")
+@Table(name="categories")
 public class Category implements Serializable {
 
 	public Category() {}
@@ -57,7 +57,7 @@ public class Category implements Serializable {
 	@Column(name="budgeted_amt")
 	private double budgetedAmt;
 
-	@SuppressWarnings("JpaAttributeTypeInspection")
+	//@SuppressWarnings("JpaAttributeTypeInspection")
 	@Column(name = "rules")
 	private ArrayList<Rule> rules;
 	

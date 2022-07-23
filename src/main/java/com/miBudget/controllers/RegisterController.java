@@ -1,10 +1,13 @@
 package com.miBudget.controllers;
 
 import com.miBudget.core.MiBudgetError;
+import com.miBudget.dao.BudgetDAO;
+import com.miBudget.dao.CategoryDAO;
 import com.miBudget.dao.UserDAO;
-import com.miBudget.entities.Account;
+import com.miBudget.entities.Budget;
 import com.miBudget.entities.Transaction;
 import com.miBudget.entities.User;
+import com.miBudget.enums.AppType;
 import com.miBudget.utilities.Constants;
 import com.miBudget.utilities.DateAndTimeUtility;
 import org.apache.logging.log4j.LogManager;
@@ -15,18 +18,15 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.PersistenceException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static com.miBudget.utilities.Constants.end;
 import static com.miBudget.utilities.Constants.start;
@@ -38,10 +38,14 @@ public class RegisterController {
     private static Logger LOGGER = LogManager.getLogger(RegisterController.class);
 
     private final UserDAO userDAO;
+    private final BudgetDAO budgetDAO;
+    private final CategoryDAO categoryDAO;
 
     @Autowired
-    public RegisterController(UserDAO userDAO) {
+    public RegisterController(UserDAO userDAO, BudgetDAO budgetDAO, CategoryDAO categoryDAO) {
         this.userDAO = userDAO;
+        this.budgetDAO = budgetDAO;
+        this.categoryDAO = categoryDAO;
     }
 
     @RequestMapping(path = "/test", method = RequestMethod.GET)
@@ -50,7 +54,7 @@ public class RegisterController {
     }
 
     @RequestMapping(path = "/signup", method = RequestMethod.POST)
-    public void signup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void signup(HttpServletRequest request, HttpServletResponse response) throws Exception {
         try {
             LOGGER.info(start);
             LOGGER.info("RegisterController:signup");
@@ -68,7 +72,7 @@ public class RegisterController {
             LOGGER.info("password: {}", usersPassword);
             LOGGER.info("passwordRepeat: {}", usersPasswordRepeat);
             LOGGER.info("validated: " + validated);
-            User registeringUser = new User(usersFirstName, usersLastName, usersCellphone, usersPassword, usersEmail);
+            User registeringUser = new User(usersFirstName, usersLastName, usersCellphone, usersPassword, usersEmail, AppType.FREE);
             List<String> allCellphones = userDAO.findAllCellphones();
             boolean existingUser = false;
             for (String cellphone : allCellphones) {
@@ -97,6 +101,7 @@ public class RegisterController {
                     response.getWriter().flush();
                 }
             } else { // not an existing user and inputs are validated
+                LOGGER.info("Unregistered user with valid inputs. Registering user");
                 completeRegistration(request, response, registeringUser);
             }
         }
@@ -152,7 +157,8 @@ public class RegisterController {
     }
 
     /**
-     * Saves a new user and then logs them in
+     * Saves a new user, sets up their budget, prepares the session
+     * and, finally logs them in
      * @param request
      * @param response
      * @param registeringUser
@@ -160,10 +166,28 @@ public class RegisterController {
      * @throws ServletException
      * @throws IOException
      */
-    private void completeRegistration(HttpServletRequest request, HttpServletResponse response, User registeringUser) throws MiBudgetError, ServletException, IOException {
-        LOGGER.info("Unregistered user with valid inputs. Registering user");
-        userDAO.save(registeringUser);
+    private void completeRegistration(HttpServletRequest request, HttpServletResponse response, User registeringUser) throws Exception {
+        setupUser(registeringUser);
         login(request, response, registeringUser);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    protected void setupUser(User registeringUser) {
+        // Save user
+        userDAO.save(registeringUser);
+        // Create and save Budget for user. A budget can consist of one or many Budgets
+        Budget budget = new Budget(registeringUser.getId());
+        budgetDAO.save(budget);
+        budget = budgetDAO.findBudgetByUserId(registeringUser.getId());
+        Budget innerBudget = new Budget(budget);
+        budgetDAO.save(innerBudget);
+        innerBudget = budgetDAO.findBudgetById(budget.getId()+1L).get(0);
+        budget.setChildBudgetIds(List.of(innerBudget.getId()));
+        registeringUser.setBudget(budget);
+        registeringUser.setMainBudgetId(budget.getId());
+        categoryDAO.saveAll(budget.getCategories());
+        // Update user
+        userDAO.save(registeringUser);
     }
 
     /**
@@ -183,12 +207,13 @@ public class RegisterController {
         session.setAttribute("getTransactions", new JSONObject());
         session.setAttribute("transactionsList", new JSONArray());
         session.setAttribute("usersTransactions", new ArrayList<Transaction>()); // meant to be empty at this moment
+        session.setAttribute("changingText", "Great job, you're in. Next thing to do is to add Accounts.");
         LOGGER.info("Redirecting to Homepage.jsp");
         LOGGER.info(end);
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("application/json");
         response.getWriter().append("Success: Redirecting to Homepage.jsp");
-        request.getServletContext().getRequestDispatcher("/WEB-INF/view/Homepage.jsp" ).forward(request, response);
+        request.getServletContext().getRequestDispatcher("/WEB-INF/views/Homepage.jsp").forward(request, response);
         response.getWriter().flush();
     }
 }

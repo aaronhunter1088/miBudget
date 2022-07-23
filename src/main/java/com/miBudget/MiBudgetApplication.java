@@ -21,15 +21,18 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 
 import javax.sql.DataSource;
 import java.util.Properties;
 
 //@EnableWebMvc
-@EnableAutoConfiguration
+//@EnableAutoConfiguration enabled by SpringBootApplication
 @EnableSpringDataWebSupport
 @Configuration
 @EnableCaching
@@ -74,6 +77,15 @@ public class MiBudgetApplication extends SpringBootServletInitializer implements
         em.setJpaProperties(additionalProps());
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         return em;
+    }
+
+    @Bean
+    public InternalResourceViewResolver getViewResolver(){
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setViewClass(JstlView.class);
+        viewResolver.setPrefix("/WEB-INF/views/");
+        viewResolver.setSuffix(".jsp");
+        return viewResolver;
     }
 
 }

@@ -1,0 +1,4 @@
+com/miBudget/database/test/DatabaseConnectionTest.class
+com/miBudget/logging/test/Log4j2Test.class
+com/miBudget/servlets/test/ServletLoggingTest.class
+com/miBudget/servlets/test/LoginTest.class

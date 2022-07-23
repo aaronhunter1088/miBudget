@@ -12,8 +12,10 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -64,7 +66,7 @@ public class LoginController {
                     LOGGER.info("login user's cellphone found in list");
                     loginUser = userDAO.findUserByCellphone(cellphone); // user's name is set
                     // POPULATE USER BUDGET ATTRIBUTES
-                    Budget usersBudget = budgetDAO.findBudgetByUserId(loginUser.getId());
+                    Budget usersBudget = budgetDAO.findBudgetByMainBudgetId(loginUser.getMainBudgetId());
                     loginUser.setBudget(usersBudget);
                     List<Long> accountIdsList = accountDAO.findAccountIdByUserId(loginUser.getId());
                     List<Long> itemsIdsList = itemDAO.findItemIdByUserId(loginUser.getId());
@@ -88,15 +90,19 @@ public class LoginController {
                     session.setAttribute("transactionsList", new JSONArray());
                     session.setAttribute("usersTransactions", new ArrayList<Transaction>()); // meant to be empty at this moment
                     session.setAttribute("usersBills", new ArrayList<Transaction>()); // meant to be empty at this moment
-                    session.setAttribute("change", "Once you finish adding accounts, and creating categories, your budget will appear here.");
+                    if (accountsTotal == 0) { session.setAttribute("changingText", ":( You can't create a Budget with no Accounts. Go add Accounts next."); }
+                    else {
+                        // Can change the changingText when they log in based on conditions
+                        session.setAttribute("changingText", "Wonderful, you've added an Account or two. Now, update your budget with custom Categories");
+                    }
+                    LOGGER.info("Redirecting to Homepage.jsp");
                     LOGGER.info(Constants.end);
                     response.setStatus(HttpServletResponse.SC_OK);
                     response.setContentType("application/json");
                     response.getWriter().append("Success: Logging into Homepage.jsp");
-                    request.getServletContext().getRequestDispatcher("/WEB-INF/view/Homepage.jsp" ).forward(request, response);
+                    request.getServletContext().getRequestDispatcher("/WEB-INF/views/Homepage.jsp").forward(request, response);
                     response.getWriter().flush();
-                    existingUser = true;
-                    break;
+                    return;
                 }
             }
             if (!existingUser) {

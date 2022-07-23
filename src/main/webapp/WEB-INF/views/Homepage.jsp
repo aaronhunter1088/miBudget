@@ -21,6 +21,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <!-- Pie chart -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <style>
         /* Needed */
         body {
@@ -105,11 +107,13 @@
 &nbsp;&nbsp;&nbsp;&nbsp;
 <div style="display: inline-block; vertical-align: top;">
     <div style="display: block;">
-        <p id="changingText" class="changingText">${change}</p>
+        <p id="changingText" class="changingText">${changingText}</p>
     </div>
-    <div style="display: block;">
-        <img src="/miBudget/images/budgetconstructionimage.jpg" alt="budget under construction" width="150px" height="150px">
-    </div>
+<%--    <div style="display: block;">--%>
+<%--        <img src="/miBudget/images/budgetconstructionimage.jpg" alt="budget under construction" width="150px" height="150px">--%>
+<%--    </div>--%>
+    <div id="piechart"></div>
+    <!-- https://www.w3schools.com/howto/howto_google_charts.asp -->
 </div>
 <br/>
 <!-- Next line -->
@@ -117,10 +121,67 @@
 
 <script>
     $(function () {
+        console.log("starting onReady function...")
+        let categoriesMap = function () {
+            let categoriesMap = new Map();
+            $.ajax({
+                type: "POST",
+                url: "/miBudget/budgets/{${user.getMainBudgetId()}/categories",
+                async: true,
+                success: function() {
+                    console.log("success")
+                },
+                statusCode: {
+                    200: function(data) {
+                        data = JSON.parse(data);
+                        for (var i = 0; i < data.length; i++) {
+                            var categoryName = data[i].name;
+                            var categoryBudgetAmout = data[i].budgetedAmt;
+                            var categoryCurrencyType = data[i].currency;
+                            console.log(categoryName);
+                            console.log(categoryBudgetAmout);
+                            console.log(categoryCurrencyType);
+                            categoriesMap.set(categoryName, {name: categoryName,
+                                amount: categoryBudgetAmout, currency: categoryCurrencyType});
+                        }
+                    },
+                    400: function() {
+                        window.location.href = "/miBudget/static/Register.html"
+                    },
+                    404: function(data) {
+                        console.log(data);
+                    },
+                    500: function(data) {
+                        console.log(data);
+                    }
+                }
+            });
+            $.ajax({
+                'type': "GET",
+                'url': "Services",
+                'data': { 'method': 'getAllCategories' },
+                'success': function (data) {
+                    //console.log("successful retrieval of categories");
+                    //console.log(data);
+                    data = JSON.parse(data);
+                    for (var i = 0; i < data.length; i++) {
+                        var _name = data[i].name;
+                        var _budgetAmt = data[i].budgetedAmt;
+                        var _currency = data[i].currency;
+                        console.log(_name);
+                        console.log(_budgetAmt);
+                        console.log(_currency);
+
+                        category = {name: _name, amount: _budgetAmt, currency: _currency};
+                        categoriesM.set(_name, category);
+                    }
+                }
+            });
+            return categoriesM;
+        }(jQuery);
+        window.history.pushState("http://localhost:8080", "Homepage", "/miBudget/Homepage.html");
         let defaultText = 'This text will change after the user take actions';
-        let setupText = 'Once you finish adding accounts, and creating categories, your budget will appear here.';
-        //let currentText = $("[id='changingText']").text();
-        $("[id='changingText']").fadeOut(20000, function () {
+        $("[id='changingText']").fadeOut(10000, function () {
             $("[id='changingText']").show().text(defaultText)
                 .css({'font-weight': 'bold'});
         });
@@ -155,7 +216,28 @@
         }).always(function (response) {
         });
     }
+    // Load google charts
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    // Draw the chart and set the chart values
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+        ['Task', 'Hours per Day'],
+        ['Work', 8],
+        ['Friends', 2],
+        ['Eat', 2],
+        ['TV', 2],
+        ['Gym', 2],
+        ['Sleep', 8]
+        ]);
 
+        // Optional; add a title and set the width and height of the chart
+        var options = {'title':'My Average Day', 'width':550, 'height':400};
+
+        // Display the chart inside the <div> element with id="piechart"
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+    }
 </script>
 </body>
 <footer id="date" class="footer">${dateAndTime}</footer>

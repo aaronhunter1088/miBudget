@@ -87,11 +87,11 @@
 					let passwordRepeat = registerForm
 							.find('input[name=passwordRepeat]')
 							.val();
-					console.log(firstName);
-					console.log(lastName);
-					console.log(cellphone);
-					console.log(email);
-					console.log(password);
+					//console.log(firstName);
+					//console.log(lastName);
+					//console.log(cellphone);
+					//console.log(email);
+					//console.log(password);
 					if (validateFields(firstName, lastName, cellphone, email, password, passwordRepeat)) {
 						register(firstName, lastName, cellphone, email, password, passwordRepeat, true);
 					} else {
@@ -159,14 +159,19 @@
 						console.log("success")
 					},
 					statusCode: {
-						200: function() {
-							window.location.href = "/miBudget/view/Welcome.jsp"
+						200: function(data) {
+							document.open();
+							document.write(data);
+							document.close();
 						},
 						400: function() {
 							window.location.href = "../miBudget/static/Register.html"
 						},
 						404: function() {
 							alert('not found');
+						},
+						500: function(data) {
+							console.log(data);
 						}
 					}
 				});
