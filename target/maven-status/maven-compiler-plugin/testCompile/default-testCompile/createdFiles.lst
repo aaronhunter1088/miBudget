@@ -1,0 +1,5 @@
+com/miBudget/utilities/DateAndTimeUtilityTest.class
+com/miBudget/processors/TransactionsProcessorTest.class
+com/miBudget/utilities/EmailUtilityTest.class
+com/miBudget/utilities/Log4j2Test.class
+com/miBudget/utilities/HibernateConnectionTest.class

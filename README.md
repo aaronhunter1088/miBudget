@@ -1,5 +1,6 @@
 # miBudget
 
+=======
 This is, by far, the biggest project I have taken on all by myself. The purpose of this project is to demonstrate my Java programming skills, my web design and markup skills, my ability to connect to a database and do what you do with data in a database, use another developed API to get bank information securely, and much more (Github, terminal usage, thought out designs for objects and logic...)
 
 Currently a work in progress, the purpose of this website is to allow a user to:

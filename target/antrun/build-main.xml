@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-antrun-" default="main">
+  <target name="main">
+    <mkdir dir="/Users/michaelball/IdeaProjects/miBudget/target" />
+    <tstamp>
+      <format timezone="CST" property="last.updated" pattern="yyyy-MM-dd hh:mm:ss a z" />
+    </tstamp>
+    <echo file="/Users/michaelball/IdeaProjects/miBudget/dist/build.properties" message="build.time=${last.updated}" />
+  </target>
+</project>
