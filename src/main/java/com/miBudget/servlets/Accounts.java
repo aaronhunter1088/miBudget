@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.miBudget.entities.Account;
-import com.miBudget.core.MiBudgetState;
 import com.miBudget.core.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -72,9 +71,9 @@ public class Accounts extends HttpServlet {
 			ArrayList<String> ids = (ArrayList<String>) requestSession.getAttribute("institutionIdsList");
 			ArrayList<Item> items = new ArrayList<>();
 			for (String id : ids) {
-				Item item = MiBudgetState.getItemDAOImpl().getItemFromUser(id);
-				LOGGER.info("Retrieved " + item);
-				items.add(item);
+				//Item item = MiBudgetState.getItemDAOImpl().getItemFromUser(id);
+				//LOGGER.info("Retrieved " + item);
+				//items.add(item);
 			}
 			String errMsg = "";
 			for(int i = 0; i < items.size(); i++) {

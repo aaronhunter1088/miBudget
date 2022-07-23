@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.miBudget.core.MiBudgetState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -82,37 +81,37 @@ public class UpdateBank extends HttpServlet {
 		HttpSession session = null;
 		LOGGER.info("Retrieving public token...");
 		String institutionId = request.getParameter("institutionId");
-		String accessToken = MiBudgetState.getItemDAOImpl().getAccessToken(institutionId);
-		ItemGetRequest itemReq = new ItemGetRequest(accessToken);
-		Response<ItemGetResponse> itemRes = client().service().itemGet(itemReq).execute();
+		//String accessToken = MiBudgetState.getItemDAOImpl().getAccessToken(institutionId);
+		//ItemGetRequest itemReq = new ItemGetRequest(accessToken);
+		//Response<ItemGetResponse> itemRes = client().service().itemGet(itemReq).execute();
 		ItemStatus itemStatus = null;
-		if (itemRes.isSuccessful()) {
-			itemStatus = itemRes.body().getItem();
-			LOGGER.info("itemStatus: " + itemStatus);
-		}
+//		if (itemRes.isSuccessful()) {
+//			itemStatus = itemRes.body().getItem();
+//			LOGGER.info("itemStatus: " + itemStatus);
+//		}
 		//SandboxPublicTokenCreateRequest req = new SandboxPublicTokenCreateRequest(accessToken, Arrays.asList(Product.TRANSACTIONS));
-		ItemPublicTokenCreateRequest req = new ItemPublicTokenCreateRequest(accessToken);
-		Response<ItemPublicTokenCreateResponse> res = client().service().itemPublicTokenCreate(req).execute();
-		if (res.isSuccessful()) {
-			session = request.getSession(false);
-			// Might need to add logic to update ErrMapForItems
-			//User user = (User) session.getAttribute("user");
-			
-			// update ErrMapForItems
-		    @SuppressWarnings("unchecked")
-			HashMap<String, Boolean> errMapForItems = (HashMap<String, Boolean>) session.getAttribute("ErrMapForItems");
-		    errMapForItems.put(institutionId, false);
-		    session.setAttribute("ErrMapForItems", errMapForItems);
-		    session.setAttribute("change", "You successfully re-authorized your bank! It's good to go.");
-		    LOGGER.info("public_token: " + res.body().getPublicToken());
-			LOGGER.info("Public token retrieved. Returning to Profile.jsp");
-			LOGGER.info("UpdateBank Response: Good");
-			response.setStatus(HttpServletResponse.SC_OK);
-			response.setContentType("application/text");
-			response.getWriter().append(res.body().getPublicToken().trim());
-			response.getWriter().flush();
-			
-		}
+		//ItemPublicTokenCreateRequest req = new ItemPublicTokenCreateRequest(accessToken);
+		//Response<ItemPublicTokenCreateResponse> res = client().service().itemPublicTokenCreate(req).execute();
+//		if (res.isSuccessful()) {
+//			session = request.getSession(false);
+//			// Might need to add logic to update ErrMapForItems
+//			//User user = (User) session.getAttribute("user");
+//
+//			// update ErrMapForItems
+//		    @SuppressWarnings("unchecked")
+//			HashMap<String, Boolean> errMapForItems = (HashMap<String, Boolean>) session.getAttribute("ErrMapForItems");
+//		    errMapForItems.put(institutionId, false);
+//		    session.setAttribute("ErrMapForItems", errMapForItems);
+//		    session.setAttribute("change", "You successfully re-authorized your bank! It's good to go.");
+//		    LOGGER.info("public_token: " + res.body().getPublicToken());
+//			LOGGER.info("Public token retrieved. Returning to Profile.jsp");
+//			LOGGER.info("UpdateBank Response: Good");
+//			response.setStatus(HttpServletResponse.SC_OK);
+//			response.setContentType("application/text");
+//			response.getWriter().append(res.body().getPublicToken().trim());
+//			response.getWriter().flush();
+//
+//		}
 		
 	}
 }

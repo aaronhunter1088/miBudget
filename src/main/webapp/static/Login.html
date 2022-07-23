@@ -70,9 +70,7 @@
 						login(cellphone, password, true);
 					}
 				});
-			    $('#forgotPasswordBtn').on('click', function() {
-				   window.location.href = '../WEB-INF/views/ForgotPassword.jsp'
-			    })
+			    $('#forgotPasswordBtn').on('click', forgotPassword())
 			});
 			function validateFields(cellphone, password) {
 				let loginForm = $("#loginForm")
@@ -130,6 +128,46 @@
 							console.log(data);
 						},
 						500: function(data) {
+							console.log(data);
+						}
+					}
+				});
+			}
+			function forgotPassword() {
+				let loginForm = $("#loginForm")
+				let cellphone = loginForm
+						.find('input[name=cellphone]')
+						.val();
+				if (cellphone === "") {
+					alert("Enter your cellphone and click Forgot Password again.");
+					return false;
+				}
+				$.ajax({
+					type: "POST",
+					url: "/miBudget/password/forgot",
+					async: true,
+					data: {
+						cellphone: cellphone,
+						btnSelected: 'Forgot Password'
+					},
+					success: function() {
+						console.log("success")
+					},
+					statusCode: {
+						200: function(data) {
+							window.location.reload();
+							alert("An email has been sent with your existing password.")
+						},
+						400: function() {
+							window.location.reload();
+							alert("No user was found based on the given cellphone: " + cellphone)
+						},
+						404: function(data) {
+							console.log("Failed with a 404");
+							console.log(data);
+						},
+						500: function(data) {
+							console.log("Failed with a 500");
 							console.log(data);
 						}
 					}

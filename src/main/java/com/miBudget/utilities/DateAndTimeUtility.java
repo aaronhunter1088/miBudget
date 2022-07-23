@@ -8,7 +8,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class DateAndTimeUtility {
-
 	private static Logger LOGGER = LogManager.getLogger(DateAndTimeUtility.class);
 
 	public static String getDateAndTimeAsStr() {
@@ -34,10 +33,4 @@ public class DateAndTimeUtility {
 		LOGGER.info("localDateTime: " + localDateTime); // localDateTime: FRIDAY JULY 22, 2022 12:50:000 PM
 		return localDateTime.toString();
 	}
-	
-	public static void main(String[] args)
-	{
-		getDateAndTimeAsStr();
-	}
-
 }

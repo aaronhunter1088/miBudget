@@ -1,4 +1,4 @@
-package com.miBudget.logging.test;
+package com.miBudget.utilities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

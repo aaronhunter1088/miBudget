@@ -121,6 +121,64 @@
 
 <script>
     $(function () {
+        console.log("starting onReady function...")
+        let categoriesMap = function () {
+            let categoriesMap = new Map();
+            $.ajax({
+                type: "POST",
+                url: "/miBudget/budgets/{${user.getMainBudgetId()}/categories",
+                async: true,
+                success: function() {
+                    console.log("success")
+                },
+                statusCode: {
+                    200: function(data) {
+                        data = JSON.parse(data);
+                        for (var i = 0; i < data.length; i++) {
+                            var categoryName = data[i].name;
+                            var categoryBudgetAmout = data[i].budgetedAmt;
+                            var categoryCurrencyType = data[i].currency;
+                            console.log(categoryName);
+                            console.log(categoryBudgetAmout);
+                            console.log(categoryCurrencyType);
+                            categoriesMap.set(categoryName, {name: categoryName,
+                                amount: categoryBudgetAmout, currency: categoryCurrencyType});
+                        }
+                    },
+                    400: function() {
+                        window.location.href = "/miBudget/static/Register.html"
+                    },
+                    404: function(data) {
+                        console.log(data);
+                    },
+                    500: function(data) {
+                        console.log(data);
+                    }
+                }
+            });
+            $.ajax({
+                'type': "GET",
+                'url': "Services",
+                'data': { 'method': 'getAllCategories' },
+                'success': function (data) {
+                    //console.log("successful retrieval of categories");
+                    //console.log(data);
+                    data = JSON.parse(data);
+                    for (var i = 0; i < data.length; i++) {
+                        var _name = data[i].name;
+                        var _budgetAmt = data[i].budgetedAmt;
+                        var _currency = data[i].currency;
+                        console.log(_name);
+                        console.log(_budgetAmt);
+                        console.log(_currency);
+
+                        category = {name: _name, amount: _budgetAmt, currency: _currency};
+                        categoriesM.set(_name, category);
+                    }
+                }
+            });
+            return categoriesM;
+        }(jQuery);
         window.history.pushState("http://localhost:8080", "Homepage", "/miBudget/Homepage.html");
         let defaultText = 'This text will change after the user take actions';
         $("[id='changingText']").fadeOut(10000, function () {
