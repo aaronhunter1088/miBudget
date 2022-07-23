@@ -6,12 +6,9 @@
 <%@ page import="java.util.Iterator" %>
 <%@ page import="java.util.Set" %>
 <%@ page import="java.lang.String" %>
-<%@ page import="com.miBudget.daoimplementations.MiBudgetDAOImpl" %>
-<%@ page import="com.miBudget.daoimplementations.AccountDAOImpl" %>
-<%@ page import="com.miBudget.daoimplementations.ItemDAOImpl" %>
+<%@ page import="com.miBudget.dao.*" %>
 <%@ page import="com.miBudget.entities.Account" %>
 <%@ page import="com.miBudget.entities.User" %>
-<%@ page import="com.miBudget.entities.UserAccountObject" %>
 <%@ page import="java.util.HashMap" %>
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -19,7 +16,7 @@
 	<head>
 		<%--<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">--%>
 		<%--<link rel="icon" type="image/x-icon" href="images/wallet.ico">--%>
-		<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset=utf-8" http-equiv="Content-Type">
 		<link href="images/wallet.ico" rel="icon" type="image/x-icon">
 		<title>Accounts</title>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
@@ -86,9 +83,10 @@
 		<h1 class="font1">Accounts Page for <i>${Firstname} ${Lastname}</i></h1>
 		<br/>
 		<% User user = (User)session.getAttribute("user"); %>
-		<% MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl(); %>
-		<% AccountDAOImpl accountDAOImpl = new AccountDAOImpl(); %>
-		<% ItemDAOImpl itemsDAOImpl = new ItemDAOImpl(); %>
+		<% UserDAO userDAO;
+		   ItemDAO itemDAO;
+		   AccountDAO accountDAO;
+		   BudgetDAO budgetDAO; %>
 
 		<div style="display: inline-block;">
 			<form action="profile" method="get">
@@ -119,7 +117,7 @@
 			<table class="outerTable" id="outerTable">
 				<%
 					Iterator institutionIdsIter = institutionsIdsList.iterator();
-					Iterator accountIdsIter = ((List)user.getAccountIds()).iterator();
+					Iterator accountIdsIter = accountDAO.findAccountIdByUserId(user.getId())).iterator();
 					HashMap<String, Boolean> errMapForItems = (HashMap) session.getAttribute("ErrMapForItems");
 					// Load Map of ItemGetResponses here
 					while (institutionIdsIter.hasNext()) {

@@ -22,11 +22,11 @@ public class EmailUtilityTest {
     public void emailUtilitySendsEmail() {
         String resetPasswordLink = "miBudget.com/password-reset";
         StringBuffer message = new StringBuffer();
-        message.append("Hi there, ").append("User").append(", ").append("\\n");
-        message.append("We have recovered your password: ").append("password").append("\\n");
-        message.append("Please try to log back in. If that still doesn't work, you can click the following link to reset your password: ").append("\\n");
+        message.append("Hi there ").append("User").append(", ").append("\n");
+        message.append("We have recovered your password: ").append("password").append("\n");
+        message.append("Please try to log back in. If that still doesn't work, you can click the following link to reset your password: ").append("\n");
         message.append(resetPasswordLink);
-        Email testMe = new Email("aaronhunter@live.com", "aaronhunter@live.com", "Test email", "Test message");
+        Email testMe = new Email("aaronhunter@live.com", "aaronhunter@live.com", "Test Password Recovery", message.toString());
         try {
             emailUtility.sendEmail(testMe);
         } catch (Exception messagingException) {

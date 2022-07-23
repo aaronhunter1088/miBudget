@@ -52,7 +52,7 @@ public class LoginController {
         try {
             LOGGER.info(Constants.start);
             LOGGER.info("LoginController:login");
-            String usersCellphone = request.getParameter("cellphone");
+            String usersCellphone = request.getParameter("cellphone").replaceAll("-","");
             String usersPassword = request.getParameter("password");
             LOGGER.info("cellphone: " + usersCellphone);
             LOGGER.info("password: " + usersPassword);

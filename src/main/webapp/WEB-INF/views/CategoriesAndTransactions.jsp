@@ -6,22 +6,19 @@
 <%@ page import="java.util.Iterator" %>
 <%@ page import="java.util.Set" %>
 <%@ page import="java.lang.String" %>
-<%@ page import="com.miBudget.daoimplementations.MiBudgetDAOImpl" %>
-<%@ page import="com.miBudget.daoimplementations.AccountDAOImpl" %>
-<%@ page import="com.miBudget.daoimplementations.ItemDAOImpl" %>
+<%@ page import="com.miBudget.dao.*" %>
 <%@ page import="com.miBudget.entities.*" %>
 <%@ page import="com.miBudget.entities.Category" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="org.json.*" %>
 <%@ page import="org.json.simple.parser.JSONParser" %>
-<%@ page import="static com.miBudget.servlets.CAT.LOGGER" %>
 <%@ page import="com.miBudget.entities.Transaction" %>
 <%@ page import="com.miBudget.entities.User" %>
 <%@ page import="com.miBudget.entities.Account" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset=utf-8" http-equiv="Content-Type">
 		<link href="images/wallet.ico" rel="icon" type="image/x-icon">
 		<title>Categories and Transactions</title>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
@@ -154,9 +151,12 @@
 		<h1 class="font1">Categories and Transactions for <i>${Firstname} ${Lastname}</i></h1>
 		<br/>
 		<% User user = (User)session.getAttribute("user"); %>
-		<% MiBudgetDAOImpl miBudgetDAOImpl = new MiBudgetDAOImpl(); %>
-		<% AccountDAOImpl accountDAOImpl = new AccountDAOImpl(); %>
-		<% ItemDAOImpl itemsDAOImpl = new ItemDAOImpl(); %>
+		<% UserDAO userDAO;
+			ItemDAO itemDAO;
+			AccountDAO accountDAO;
+			BudgetDAO budgetDAO;
+			CategoryDAO categoryDAO;
+		    TransactionDAO transactionDAO; %>
 
 		<div style="display: inline-block;">
 			<form action="profile" method="get">
