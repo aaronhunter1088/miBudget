@@ -8,7 +8,7 @@ import com.miBudget.entities.Budget;
 import com.miBudget.entities.Transaction;
 import com.miBudget.entities.User;
 import com.miBudget.enums.AppType;
-import com.miBudget.utilities.Constants;
+import com.miBudget.core.Constants;
 import com.miBudget.utilities.DateAndTimeUtility;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,8 +28,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
 
-import static com.miBudget.utilities.Constants.end;
-import static com.miBudget.utilities.Constants.start;
+import static com.miBudget.core.Constants.end;
+import static com.miBudget.core.Constants.start;
 
 @Controller
 @RequestMapping("/register")

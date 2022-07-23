@@ -1,4 +1,4 @@
-package com.miBudget.utilities;
+package com.miBudget.core;
 
 public class Constants {
 

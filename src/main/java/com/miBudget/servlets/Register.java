@@ -13,7 +13,7 @@
 //import com.miBudget.core.MiBudgetError;
 //import com.miBudget.entities.Transaction;
 //import com.miBudget.core.MiBudgetState;
-//import com.miBudget.utilities.Constants;
+//import com.miBudget.core.Constants;
 //import com.miBudget.utilities.DateAndTimeUtility;
 //import org.apache.logging.log4j.LogManager;
 //import org.apache.logging.log4j.Logger;
@@ -27,8 +27,8 @@
 //import org.springframework.web.bind.annotation.GetMapping;
 //import org.springframework.web.bind.annotation.PostMapping;
 //
-//import static com.miBudget.utilities.Constants.end;
-//import static com.miBudget.utilities.Constants.start;
+//import static com.miBudget.core.Constants.end;
+//import static com.miBudget.core.Constants.start;
 //
 ////@WebServlet("/register")
 ////@RestController("/register")

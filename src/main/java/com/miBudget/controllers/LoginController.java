@@ -5,17 +5,15 @@ import com.miBudget.dao.BudgetDAO;
 import com.miBudget.dao.ItemDAO;
 import com.miBudget.dao.UserDAO;
 import com.miBudget.entities.*;
-import com.miBudget.utilities.Constants;
+import com.miBudget.core.Constants;
 import com.miBudget.utilities.DateAndTimeUtility;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

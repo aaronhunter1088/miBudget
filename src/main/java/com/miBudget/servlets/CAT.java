@@ -18,7 +18,7 @@
 //import com.miBudget.core.MiBudgetError;
 //import com.miBudget.entities.*;
 //import com.miBudget.core.MiBudgetState;
-//import com.miBudget.utilities.Constants;
+//import com.miBudget.core.Constants;
 //import org.apache.commons.lang3.StringUtils;
 //import org.apache.logging.log4j.LogManager;
 //import org.apache.logging.log4j.Logger;

@@ -14,7 +14,7 @@
 //import javax.servlet.http.HttpSession;
 //
 //import com.miBudget.core.MiBudgetState;
-//import com.miBudget.utilities.Constants;
+//import com.miBudget.core.Constants;
 //import org.apache.logging.log4j.LogManager;
 //import org.apache.logging.log4j.Logger;
 //import org.json.JSONArray;
@@ -31,8 +31,8 @@
 //import org.springframework.web.bind.annotation.PostMapping;
 //import org.springframework.web.bind.annotation.RestController;
 //
-//import static com.miBudget.utilities.Constants.end;
-//import static com.miBudget.utilities.Constants.start;
+//import static com.miBudget.core.Constants.end;
+//import static com.miBudget.core.Constants.start;
 //
 //
 ///**

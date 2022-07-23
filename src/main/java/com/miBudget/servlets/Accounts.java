@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import com.miBudget.entities.Account;
 import com.miBudget.core.MiBudgetState;
-import com.miBudget.utilities.Constants;
+import com.miBudget.core.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

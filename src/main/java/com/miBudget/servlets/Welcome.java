@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.miBudget.utilities.Constants.end;
-import static com.miBudget.utilities.Constants.start;
+import static com.miBudget.core.Constants.end;
+import static com.miBudget.core.Constants.start;
 
 @RestController("/welcome")
 public class Welcome extends HttpServlet {
