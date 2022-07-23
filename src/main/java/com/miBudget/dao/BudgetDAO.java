@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface BudgetDAO extends JpaRepository<Budget, Long> {
     @Query("SELECT b FROM Budget b WHERE userId = :userId")
-    Budget findBudgetByUserId(Long userId);
+    List<Budget> findBudgetByUserId(Long userId);
     @Query("SELECT b FROM Budget b WHERE id = :id")
-    List<Budget> findBudgetById(Long id);
+    Budget findBudgetById(Long id);
     @Query("SELECT b FROM Budget b WHERE id = :mainBudgetId")
     Budget findBudgetByMainBudgetId(Long mainBudgetId);
 }

@@ -5,6 +5,7 @@ import com.miBudget.dao.BudgetDAO;
 import com.miBudget.dao.CategoryDAO;
 import com.miBudget.dao.UserDAO;
 import com.miBudget.entities.Budget;
+import com.miBudget.entities.Category;
 import com.miBudget.entities.Transaction;
 import com.miBudget.entities.User;
 import com.miBudget.enums.AppType;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 import static com.miBudget.core.Constants.end;
@@ -177,11 +179,19 @@ public class RegisterController {
         userDAO.save(registeringUser);
         // Create and save Budget for user. A budget can consist of one or many Budgets
         Budget budget = new Budget(registeringUser.getId());
+        budgetDAO.save(budget); // needed to populate ID
+        budget = budgetDAO.findBudgetByUserId(registeringUser.getId()).get(0); // will only be one at this moment
+        List<Category> defaultCategories = budget.setupDefaultCategories(registeringUser.getId(), budget.getId());
+        budget.setCategories(defaultCategories);
+        budget.setAmount(BigDecimal.valueOf(budget.getCategories().stream().mapToDouble(Category::getBudgetedAmt).sum()));
+        // Update budget
         budgetDAO.save(budget);
-        budget = budgetDAO.findBudgetByUserId(registeringUser.getId());
+        //categoryDAO.saveAll(defaultCategories); Don't save Main budget categories. Main budget categories holds ALL categories
         Budget innerBudget = new Budget(budget);
         budgetDAO.save(innerBudget);
-        innerBudget = budgetDAO.findBudgetById(budget.getId()+1L).get(0);
+        innerBudget = budgetDAO.findBudgetById(budget.getId()+1L);
+        for (Category childCategory : innerBudget.getCategories()) {childCategory.setBudgetId(innerBudget.getId());}
+        categoryDAO.saveAll(innerBudget.getCategories());
         budget.setChildBudgetIds(List.of(innerBudget.getId()));
         registeringUser.setBudget(budget);
         registeringUser.setMainBudgetId(budget.getId());

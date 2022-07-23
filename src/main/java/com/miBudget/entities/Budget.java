@@ -35,8 +35,8 @@ public class Budget {
     public Budget(Long userId) {
         this.userId = userId; // tie to a user
         name = "Primary Budget";
-        categories = createDefaultCategories();
-        amount = BigDecimal.valueOf(categories.stream().mapToDouble(Category::getBudgetedAmt).sum());
+        //categories = createDefaultCategories(userId);
+        //amount = BigDecimal.valueOf(categories.stream().mapToDouble(Category::getBudgetedAmt).sum());
         childBudgetIds = new ArrayList<>();
     }
     // Child Budget: Created by parent when parent is created. Child Budgets cannot have children
@@ -55,21 +55,21 @@ public class Budget {
         this.childBudgetIds = null;
     }
 
-    private List<Category> createDefaultCategories() {
+    public List<Category> setupDefaultCategories(Long userId, Long budgetId) {
         ArrayList<Category> categoriesList = new ArrayList<>();
-        Category morgtageCat = new Category("Mortgage", "USD", 1500.00);
+        Category morgtageCat = new Category("Mortgage", "USD", 1500.00, userId, budgetId);
         categoriesList.add(morgtageCat);
-        Category utilitiesCat = new Category("Utilities", "USD", 500.00);
+        Category utilitiesCat = new Category("Utilities", "USD", 500.00, userId, budgetId);
         categoriesList.add(utilitiesCat);
-        Category transportCat = new Category("Transportation", "USD", 1000.00);
+        Category transportCat = new Category("Transportation", "USD", 1000.00, userId, budgetId);
         categoriesList.add(transportCat);
-        Category insuranceCat = new Category("Insurance", "USD", 200.00);
+        Category insuranceCat = new Category("Insurance", "USD", 200.00, userId, budgetId);
         categoriesList.add(insuranceCat);
-        Category foodCat = new Category("Food", "USD", 500.00);
+        Category foodCat = new Category("Food", "USD", 500.00, userId, budgetId);
         categoriesList.add(foodCat);
-        Category subscriptionsCat = new Category("Subscriptions", "USD", 500.00);
+        Category subscriptionsCat = new Category("Subscriptions", "USD", 500.0, userId, budgetId);
         categoriesList.add(subscriptionsCat);
-        Category billsCat = new Category("Bill", "USD", 1000.00);
+        Category billsCat = new Category("Bill", "USD", 1000.00, userId, budgetId);
         categoriesList.add(billsCat);
         return categoriesList;
     }
