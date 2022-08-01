@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-         pageEncoding="ISO-8859-1" %>
+<%@ include file="/WEB-INF/views/include.jsp"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ page import="com.miBudget.entities.User" %>
 <%@ page import="javax.servlet.*" %>
 <%@ page import="java.time.*" %>
@@ -9,7 +9,7 @@
     <head>
         <title>Homepage</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" charset=utf-8" http-equiv="Content-Type">
-        <link href="../../images/wallet.ico" rel="icon" type="image/x-icon">
+        <link href="../../../resources/static/images/wallet.ico" rel="icon" type="image/x-icon">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -92,32 +92,17 @@
         <% }
         %>
         <br/>
-        <div style="display: inline-block;">
-
-            <form action="accounts" method="get">
-                <%--<input style="cursor:pointer;" type="submit" value="Accounts"/>--%>
-                <button type="submit">Accounts</button>
-            </form>
+        <div style="display: inline-block; width:30%">
+            <button id="accountsBtn" type="submit">Accounts</button>
             <hr/>
-            <!-- <a href="">Categories</a> -->
-            <form action="cat" method="get">
-                <button type="submit">Categories and Transactions</button>
-            </form>
-            <%--<input type="button" value="Categories and Transactions" onclick="goToCat()" >--%>
+            <button id="catBtn" type="submit">Categories and Transactions</button>
             <hr/>
-            <input style="cursor:pointer;" type="submit" value="Goals"/>
+            <input id="goalsBtn" style="cursor:pointer;" type="submit" value="Goals"/>
             <hr/>
-            <!-- Add this button to the profile page -->
-            <div id="logout">
-                <input type="button" id="logoutBtn" class="button cursor" value="Log out"/>
-            </div>
+            <input id="logoutBtn"  type="button" class="button cursor" value="Log out"/>
             <hr/>
-            <br/>
-            <br/>
-            <%--			</div>--%>
         </div>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <div style="display: inline-block; vertical-align:top; width:400px;">
+        <div style="display: inline-block; vertical-align:top; width:70%;">
             <div style="display: block; width: 100%;">
                 <p id="changingText" class="changingText">${changingText}</p>
             </div>
@@ -130,8 +115,9 @@
         <script>
         $(function () {
             console.log("starting onReady function...")
+            //window.location.replace("testing")
             let arrayOfCategories = [];
-            let categoriesFunction = function () {
+            let setupPieChart = function () {
                 var userId = '<%= ((User)session.getAttribute("user")).getId() %>'
                 var mainBudgetId = '<%= ((User)session.getAttribute("user")).getMainBudgetId() %>';
                 // let categoriesMap = new Map();
@@ -217,11 +203,39 @@
                 });
                 return arrayOfCategories;
             }(jQuery);
-            window.history.pushState("http://localhost:8080", "Homepage", "/miBudget/Homepage.html");
+            //window.history.pushState("http://localhost:8080", "Homepage", "/miBudget/WEB-INF/views/Homepage.jsp");
             let defaultText = 'This text will change after the user take actions';
             $("[id='changingText']").fadeOut(10000, function () {
                 $("[id='changingText']").show().text(defaultText)
                     .css({'font-weight': 'bold'});
+            });
+            $('#accountsBtn').on("click", function() {
+                $.ajax({
+                    type: "Get",
+                    url: "/miBudget/accounts/",
+                    data: {}
+                }).success(function (response) {
+                    console.log("Success: Go to Accounts")
+                    document.open();
+                    document.write(response);
+                    document.close();
+                }).error(function (response) {
+                    console.log(response)
+                });
+            })
+            $('#catBtn').on("click", function() {
+                $.ajax({
+                    type: "Get",
+                    url: "/miBudget/categoriesAndTransactions/",
+                    data: {}
+                }).success(function (response) {
+                    console.log("Success: Go to CategoriesAndTransactions")
+                    document.open();
+                    document.write(response);
+                    document.close();
+                }).error(function (response) {
+                    console.log(response)
+                });
             });
             $('#logoutBtn').on("click", function() {
                 $.ajax({
@@ -229,7 +243,7 @@
                     url: "/miBudget/logout/",
                     statusCode: {
                         200: function() {
-                            window.location.href = "/miBudget/index.html"
+                            window.location.href = "index.jsp"
                         },
                         400: function() {
                             alert("400")
@@ -240,22 +254,8 @@
                     }
                 });
             });
-            // Populate piechart
-
         });
-        function goToCat() {
-            $.ajax({
-                type: "Get",
-                url: "/miBudget/cat",
-                data: {}
-            }).success(function (response) {
-            }).error(function (response) {
-                console.log(response)
-            }).done(function () {
-            }).fail(function () {
-            }).always(function (response) {
-            });
-        }
+
     </script>
     </body>
     <footer id="date" class="footer">${dateAndTime}</footer>

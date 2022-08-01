@@ -17,8 +17,6 @@ import org.apache.logging.log4j.util.Strings;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,8 +31,7 @@ import java.util.*;
 import static com.miBudget.core.Constants.end;
 import static com.miBudget.core.Constants.start;
 
-@Controller
-@RequestMapping("/register")
+@RestController
 @CrossOrigin(origins = "*")
 public class RegisterController {
     private static Logger LOGGER = LogManager.getLogger(RegisterController.class);
@@ -50,12 +47,12 @@ public class RegisterController {
         this.categoryDAO = categoryDAO;
     }
 
-    @RequestMapping(path = "/test", method = RequestMethod.GET)
-    public ResponseEntity<String> testMe() {
-        return ResponseEntity.ok("Register works");
-    }
+//    @RequestMapping(path="/register", method=RequestMethod.GET)
+//    public String goToRegister() {
+//        return "Register";
+//    }
 
-    @RequestMapping(path = "/signup", method = RequestMethod.POST)
+    @RequestMapping(path = "/", method = RequestMethod.POST)
     public void signup(HttpServletRequest request, HttpServletResponse response) throws Exception {
         try {
             LOGGER.info(start);

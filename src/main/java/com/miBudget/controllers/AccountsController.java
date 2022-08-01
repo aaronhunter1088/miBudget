@@ -9,12 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
-@RequestMapping("/homepage")
+@RequestMapping("/accounts")
 @CrossOrigin(origins = "*")
-public class HomepageController {
+public class AccountsController {
 
-    @RequestMapping(path="/", method=RequestMethod.GET)
-    public String goToHomepage(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return "Homepage";
+    @RequestMapping(path="/", method= RequestMethod.GET)
+    public String goToAccounts(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return "/static/Accounts.jsp";
     }
 }

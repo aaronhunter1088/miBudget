@@ -29,11 +29,6 @@ public class PasswordController {
         emailUtility = new EmailUtility();
     }
 
-    @RequestMapping(path="/test", method=RequestMethod.GET)
-    public Response testMe() {
-        return Response.ok("Password works").build();
-    }
-
     @RequestMapping(path="/forgot", method= RequestMethod.GET)
     public Response forgotPassword(HttpServletRequest request, HttpServletResponse response) throws Exception {
         try {

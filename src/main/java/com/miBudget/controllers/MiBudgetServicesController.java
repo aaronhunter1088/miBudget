@@ -39,11 +39,6 @@ public class MiBudgetServicesController {
         this.transactionDAO = transactionDAO;
     }
 
-    @RequestMapping(path = "/test", method = RequestMethod.GET)
-    public Response testMe() {
-        return Response.ok("MiBudgetServicesController works").build();
-    }
-
     @RequestMapping(path = "/{userId}", method = RequestMethod.GET)
     public Response getInstitutionIdsAndAccountsMap(@PathVariable("userId") String userId) {
         List<Long> itemsIdsList = itemDAO.findItemIdByUserId(Long.valueOf(userId));

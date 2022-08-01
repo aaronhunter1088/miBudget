@@ -3,25 +3,34 @@ package com.miBudget.controllers;
 import com.miBudget.daos.*;
 import com.miBudget.entities.*;
 import com.miBudget.core.Constants;
+import com.miBudget.servlets.Login;
 import com.miBudget.utilities.DateAndTimeUtility;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.ModelAndViewDefiningException;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/login")
 @CrossOrigin(origins = "*")
 public class LoginController {
     private static final Logger LOGGER = LogManager.getLogger(LoginController.class);
@@ -41,12 +50,12 @@ public class LoginController {
         this.categoryDAO = categoryDAO;
     }
 
-    @RequestMapping(path="/test", method=RequestMethod.GET)
-    public Response testMe() {
-        return Response.ok("Login works").build();
-    }
+//    @RequestMapping(path="/login", method=RequestMethod.GET)
+//    public String goToLogin() {
+//        return "Login";
+//    }
 
-    @RequestMapping(path= "/", method=RequestMethod.POST)
+    @RequestMapping(path="/login", method=RequestMethod.POST)
     public void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         try {
@@ -93,7 +102,7 @@ public class LoginController {
                     }
                     LOGGER.info("institutionIdsAndAccounts size: " + institutionIdsAndAccounts.size());
                     HttpSession session = request.getSession(true);
-                    session.setAttribute("institutionIdsAndAccountIds", institutionIdsAndAccounts);
+                    session.setAttribute("institutionIdsAndAccounts", institutionIdsAndAccounts);
                     session.setAttribute("loggedIn", true); // just a check
                     session.setAttribute("user", loginUser);
                     session.setAttribute("accountsSize", accountsTotal);
@@ -112,9 +121,12 @@ public class LoginController {
                     response.setStatus(HttpServletResponse.SC_OK);
                     response.setContentType("application/json");
                     response.getWriter().append("Success: Logging into Homepage.jsp");
-                    request.getServletContext().getRequestDispatcher("/WEB-INF/views/Homepage.jsp").forward(request, response);
-                    response.getWriter().flush();
-                    return;
+                    //request.getRequestDispatcher("/Homepage").forward(request, response);
+                    //request.getServletContext().getRequestDispatcher("/Homepage.jsp").forward(request, response);
+                    //response.sendRedirect("/Homepage.jsp");
+                    //response.getWriter().flush();
+                    existingUser = true;
+                    break;
                 }
             }
             if (!existingUser) {

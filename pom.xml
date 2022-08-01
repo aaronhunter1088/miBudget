@@ -15,7 +15,7 @@
     <name>miBudget</name>
   
   	<properties>
-  		<java.version>11</java.version>
+  		<java.version>18</java.version>
 		<outputDirectory>${basedir}/dist</outputDirectory>
   	</properties>
   	
@@ -31,7 +31,6 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>6.1.1.Final</version>
 			<type>pom</type>
-			<!--			<version>5.6.9.Final</version>-->
 		</dependency>
 <!--		<dependency>-->
 <!--			<groupId>org.hibernate</groupId>-->
@@ -43,10 +42,6 @@
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>
 			<version>2.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jersey.core</groupId>
-			<artifactId>jersey-common</artifactId>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
 		<dependency>
@@ -76,36 +71,27 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-rest</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>5.3.20</version>
+		</dependency>
 
-		<dependency>
-		    <groupId>org.jboss</groupId>
-		    <artifactId>jandex</artifactId>
-		    <version>2.0.5.Final</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
-		<dependency>
-		    <groupId>org.javassist</groupId>
-		    <artifactId>javassist</artifactId>
-		    <version>3.24.0-GA</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/javax.interceptor/javax.interceptor-api -->
-		<dependency>
-		    <groupId>javax.interceptor</groupId>
-		    <artifactId>javax.interceptor-api</artifactId>
-		    <version>1.2.2</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api -->
-		<dependency>
-		    <groupId>javax.persistence</groupId>
-		    <artifactId>javax.persistence-api</artifactId>
-		    <version>2.2</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.jboss.spec.javax.transaction/jboss-transaction-api_1.2_spec -->
-		<dependency>
-		    <groupId>org.jboss.spec.javax.transaction</groupId>
-		    <artifactId>jboss-transaction-api_1.2_spec</artifactId>
-		    <version>1.1.1.Final</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-thymeleaf</artifactId>-->
+<!--		</dependency>-->
+
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
@@ -132,12 +118,7 @@
 		    <version>5.3.2</version>
 		    <scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>5.3.20</version>
-		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
 <!--		<dependency>-->
 <!--			<groupId>org.springframework</groupId>-->
@@ -188,19 +169,7 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
+			<version>1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.mail</groupId>
@@ -227,7 +196,7 @@
 			<resource>
 				<directory>src/main/resources</directory>
 				<includes>
-					<include>**/*.*</include>
+					<include>**/**</include>
 				</includes>
 			</resource>
 		</resources>

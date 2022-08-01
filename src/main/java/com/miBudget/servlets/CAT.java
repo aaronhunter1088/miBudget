@@ -77,7 +77,7 @@
 //			LOGGER.info("redirecting to cat.jsp");
 //		} else {
 //			LOGGER.error("session=null? : {} isUserLoggedIn? : {}", requestSession==null?true:false, requestSession.getAttribute("isUserLoggedIn"));
-//			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("index.html");
+//			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("index.jsp");
 //			dispatcher.forward( request, response );
 //		}
 //		LOGGER.info(Constants.end);

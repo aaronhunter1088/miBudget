@@ -31,7 +31,7 @@ public class EmailUtility {
         properties.put("mail.smtp.auth", true);
         properties.put("mail.smtp.starttls.enable", true);
         properties.put("mail.smtp.user", "aaronhunter@live.com");
-        properties.put("mail.smtp.password", "summer18");
+        properties.put("mail.smtp.password", "****");
         properties.put("mail.smtp.ssl.trust", "smtp.mailtrap.io");
         properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         return properties;

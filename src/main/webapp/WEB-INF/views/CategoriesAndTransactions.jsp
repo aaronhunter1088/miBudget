@@ -1,20 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.Arrays" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.Iterator" %>
-<%@ page import="java.util.Set" %>
 <%@ page import="java.lang.String" %>
 <%@ page import="com.miBudget.daos.*" %>
 <%@ page import="com.miBudget.entities.*" %>
 <%@ page import="com.miBudget.entities.Category" %>
-<%@ page import="java.util.HashMap" %>
 <%@ page import="org.json.*" %>
 <%@ page import="org.json.simple.parser.JSONParser" %>
 <%@ page import="com.miBudget.entities.Transaction" %>
 <%@ page import="com.miBudget.entities.User" %>
 <%@ page import="com.miBudget.entities.Account" %>
+<%@ page import="java.util.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -148,22 +143,11 @@
 		</style>
 	</head>
 	<body style="height: 800px;">
-		<h1 class="font1">Categories and Transactions for <i>${Firstname} ${Lastname}</i></h1>
+		<h1 class="font1">Categories and Transactions for <i>${user.getFirstName()} ${user.getLastName()}</i></h1>
 		<br/>
 		<% User user = (User)session.getAttribute("user"); %>
-		<% UserDAO userDAO;
-			ItemDAO itemDAO;
-			AccountDAO accountDAO;
-			BudgetDAO budgetDAO;
-			CategoryDAO categoryDAO;
-		    TransactionDAO transactionDAO; %>
-
-		<div style="display: inline-block;">
-			<form action="profile" method="get">
-				<button type="submit">Profile Page</button>
-			</form>
-			<hr/>
-		</div>
+		<button id="homepageBtn" type="submit">Homepage</button>
+		<hr/>
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		<div style="display: inline-block; vertical-align: top;" class="container">
 			<div style="display: block;" class="container">
@@ -260,7 +244,7 @@
 				<div class="input-control">
 					<input id="currentCategory"  class="form-control" list="categories1" type="text" style="width:244px; width:99%;" placeholder="Choose a Category" tabindex="1" name="categoryName" required/>
 					<datalist id="categories1">
-						<% ArrayList<Category> categoriesList = miBudgetDAOImpl.getAllCategories(user);
+						<% List<Category> categoriesList = user.getBudget().getCategories();
 							for (Category cat : categoriesList) { %>
 						<option value="<%= cat.getName() %>"></option>
 								<% } %>
@@ -353,12 +337,12 @@
 					<input type="hidden" name="validated" value="false"/>
 					<input type="hidden" name="formId" value="transactions"/>
 					<input type="hidden" name="methodName" value="get transactions"/>
-					<input type="hidden" name="ignoredTransactions" value="<%= user.getIgnoredTransactions().isEmpty() ? 0 : user.getIgnoredTransactions().size() %>"/>
+					<input type="hidden" name="ignoredTransactions" value="<%= user.getIgnoredTransactions() == null || user.getIgnoredTransactions().isEmpty() ? 0 : user.getIgnoredTransactions().size() %>"/>
 					<div style="display: flex; flex-direction: row;">
 						<input type="text" id="numberOfTrans" name="numberOfTrans" class="form-control" style="width:50px; text-align:center; display: block;" title="Enter the number of transactions <=50 you wish to receive" placeholder="#"/>
 						<input id="currentAccount" name="currentAccount" value="" title="Choose an Account to pull transactions from" class="form-control" list="accounts" autocomplete="off" type="text" style="width:75%; text-align:center;" placeholder="Choose an Account" tabindex="1" required/>
 						<datalist id="accounts">
-							<% HashMap<String, ArrayList<Account>> acctsMap = (HashMap<String, ArrayList<Account>>) session.getAttribute("acctsAndInstitutionIdMap");
+							<% Map<String, List<Account>> acctsMap = (HashMap<String, List<Account>>) session.getAttribute("institutionIdsAndAccounts");
 								for (String insId : acctsMap.keySet()) {
 									for (Account acct : acctsMap.get(insId)) {
 										String name = acct.getAccountName(); %>
@@ -427,8 +411,7 @@
 		<br/>
 		<br/>
 		<script>
-			function performTransactionAction()
-			{
+			function performTransactionAction() {
 				let cat1 = $("#categorySelected option:selected").val();
 				let cat2 = $("#categorySelected option:selected").value;
 				let cat3 = $("#categorySelected option:selected").text;
@@ -631,26 +614,26 @@
 					var list = [];
 					var map = new Map();
 					var acctsAndInsIdMap = new Map();
-				    $.ajax({
-				        'type': "GET",
-				        'url': "Services",
-				        'data': { 'method': 'getAcctsAndInstitutionIdMap' },
-				        'success': function (data) {
-					        console.log("successful retrieval of acctAndInstitutionIdMap");
-					        //console.log(JSON.parse(data));
-							map = JSON.parse(data);
-					        var mapIter = Object.keys(JSON.parse(data));
-					        
-				            for (const key in map) {
-								for (const acct in map[key]) {
-									//console.log(map[key][acct]);
-									list.push(map[key][acct]);
-									//console.log('list: ' + list);
-								}
-								acctsAndInsIdMap.set(key, list);
-				            }
-				        }
-				    });
+				    // $.ajax({
+				    //     'type': "GET",
+				    //     'url': "Services",
+				    //     'data': { 'method': 'getinstitutionIdsAndAccounts' },
+				    //     'success': function (data) {
+					//         console.log("successful retrieval of acctAndInstitutionIdMap");
+					//         //console.log(JSON.parse(data));
+					// 		map = JSON.parse(data);
+					//         var mapIter = Object.keys(JSON.parse(data));
+					//
+				    //         for (const key in map) {
+					// 			for (const acct in map[key]) {
+					// 				//console.log(map[key][acct]);
+					// 				list.push(map[key][acct]);
+					// 				//console.log('list: ' + list);
+					// 			}
+					// 			acctsAndInsIdMap.set(key, list);
+				    //         }
+				    //     }
+				    // });
 				    return acctsAndInsIdMap;
 				}(jQuery);
 				//console.log('acctsAndInsIdMap');
@@ -666,29 +649,29 @@
 				
 				let categoriesMap = function () {
 				    var categoriesM = new Map();
-				    $.ajax({
-				        'type': "GET",
-				        'url': "Services",
-				        'data': { 'method': 'getAllCategories' },
-				        'success': function (data) {
-					        //console.log("successful retrieval of categories");
-					        //console.log(data);
-					        data = JSON.parse(data);
-				            for (var i = 0; i < data.length; i++) {
-								var _name = data[i].name;
-								var _budgetAmt = data[i].budgetedAmt;
-								var _currency = data[i].currency;
-								console.log(_name);
-								console.log(_budgetAmt);
-								console.log(_currency);
-		
-								category = {name: _name, amount: _budgetAmt, currency: _currency};
-								categoriesM.set(_name, category); 
-				            }
-				        }
-				    });
+				    // $.ajax({
+				    //     'type': "GET",
+				    //     'url': "Services",
+				    //     'data': { 'method': 'getAllCategories' },
+				    //     'success': function (data) {
+					//         //console.log("successful retrieval of categories");
+					//         //console.log(data);
+					//         data = JSON.parse(data);
+				    //         for (var i = 0; i < data.length; i++) {
+					// 			var _name = data[i].name;
+					// 			var _budgetAmt = data[i].budgetedAmt;
+					// 			var _currency = data[i].currency;
+					// 			console.log(_name);
+					// 			console.log(_budgetAmt);
+					// 			console.log(_currency);
+					//
+					// 			category = {name: _name, amount: _budgetAmt, currency: _currency};
+					// 			categoriesM.set(_name, category);
+				    //         }
+				    //     }
+				    // });
 				    return categoriesM;
-				} /**(jQuery); */
+				}(jQuery);
 				//console.log('categoriesMap: ' + categoriesMap);
 				//console.log(categoriesMap);
 				
@@ -804,14 +787,38 @@
 				.click(function() {
 					$("#displayTransactionsDiv").empty();
 					// clear transactions from user and session
+					// $.ajax({
+					// 	'type': "GET",
+					// 	'url': "Services",
+					// 	'data': { 'method': 'clearTransactions' },
+					// 	'success': function (data) {
+					// 		//console.log("successful retrieval of categories");
+					// 		//console.log(data);
+					// 		console.log("cleared transactions from user: " + JSON.parse(data));
+					// 	}
+					// });
+				});
+
+				$('#homepageBtn').on("click", function() {
 					$.ajax({
-						'type': "GET",
-						'url': "Services",
-						'data': { 'method': 'clearTransactions' },
-						'success': function (data) {
-							//console.log("successful retrieval of categories");
-							//console.log(data);
-							console.log("cleared transactions from user: " + JSON.parse(data));
+						type: "Get",
+						url: "/miBudget/homepage/",
+						statusCode: {
+							200: function(response) {
+								console.log("Success: Go to Homepage")
+								document.open();
+								document.write(response);
+								document.close();
+							},
+							400: function() {
+								console.log("400: Bad request")
+							},
+							404: function() {
+								console.log('404: not found');
+							},
+							500: function() {
+								console.log('500: ISE')
+							}
 						}
 					});
 				});

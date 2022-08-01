@@ -116,7 +116,7 @@ public class Accounts extends HttpServlet {
 			LOGGER.info("isUserLoggedIn: " + requestSession.getAttribute("isUserLoggedIn") );
 			LOGGER.info("Redirecting to Login.html");
 			LOGGER.info("--- END ---");
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("index.html");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("WEB-INF/index.jsp");
 			dispatcher.forward( request, response );
 		}
 	}
@@ -131,7 +131,7 @@ public class Accounts extends HttpServlet {
 		HttpSession requestSession = request.getSession(false);  
         if (requestSession != null && (Boolean)requestSession.getAttribute("isUserLoggedIn") == true){  
         	LOGGER.info("stored requestSessionId: " + requestSession.getAttribute("requestSessionId"));
-        	requestSession.setAttribute("acctsAndInstitutionIdMap", new HashMap<String, List<Account>>() );
+        	requestSession.setAttribute("institutionIdsAndAccounts", new HashMap<String, List<Account>>() );
         	//RequestDispatcher view = request.getRequestDispatcher("/Profile.html");
         	//view.forward(request, response); // doesn't take the session
         	LOGGER.info("--- END ---");

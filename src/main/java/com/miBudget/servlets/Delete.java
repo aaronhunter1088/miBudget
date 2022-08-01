@@ -161,14 +161,14 @@
 //			if (isRemoved == true) {
 //				//ArrayList<UsersItemsObject> usersItemsList = itemDAOImpl.getAllUserItems((User)session.getAttribute("user"));
 //				@SuppressWarnings("unchecked")
-//				HashMap<Integer, ArrayList<Account>> acctsAndInstitutionIdMap = (HashMap<Integer, ArrayList<Account>>)
-//						session.getAttribute("acctsAndInstitutionIdMap");
-//				acctsAndInstitutionIdMap.remove(item.getId());
+//				HashMap<Integer, ArrayList<Account>> institutionIdsAndAccounts = (HashMap<Integer, ArrayList<Account>>)
+//						session.getAttribute("institutionIdsAndAccounts");
+//				institutionIdsAndAccounts.remove(item.getId());
 //				// update session values
 //				int numberOfAccounts = MiBudgetState.getAccountDAOImpl().getAccountIdsFromUser(user).size();
 //				ArrayList<String> institutionIdsList = (ArrayList<String>) MiBudgetState.getMiBudgetDAOImpl().getAllInstitutionIdsFromUser(user);
 //				session.setAttribute("institutionIdsList", institutionIdsList);
-//				session.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
+//				session.setAttribute("institutionIdsAndAccounts", institutionIdsAndAccounts);
 //				session.setAttribute("institutionIdsListSize", institutionIdsList.size());
 //				session.setAttribute("accountsSize", numberOfAccounts);
 //			} else {
@@ -226,18 +226,18 @@
 //			Account account = MiBudgetState.getAccountDAOImpl().getAllAccounts(acctIdToDeleteList).get(0);
 //			HashMap<String, Object> deleteAccountResponse = deleteAccount(request, response);
 //
-//			HashMap<String, ArrayList<Account>> acctsAndInstitutionIdMap =
-//					(HashMap<String, ArrayList<Account>>) session.getAttribute("acctsAndInstitutionIdMap");
+//			HashMap<String, ArrayList<Account>> institutionIdsAndAccounts =
+//					(HashMap<String, ArrayList<Account>>) session.getAttribute("institutionIdsAndAccounts");
 //			ArrayList<Account> newAcctList = new ArrayList<>();
-//			newAcctList = acctsAndInstitutionIdMap.get(institutionId);
+//			newAcctList = institutionIdsAndAccounts.get(institutionId);
 //			newAcctList.remove(account);
-//			acctsAndInstitutionIdMap.put(institutionId, newAcctList);
+//			institutionIdsAndAccounts.put(institutionId, newAcctList);
 //			LOGGER.info("newAcctList size: " + newAcctList.size());
 //
-//			LOGGER.info("Updated acctsAndInstitutionIdMap");
-//			for (String key : acctsAndInstitutionIdMap.keySet()) {
+//			LOGGER.info("Updated institutionIdsAndAccounts");
+//			for (String key : institutionIdsAndAccounts.keySet()) {
 //				LOGGER.info("key: " + key);
-//				for (Account a : acctsAndInstitutionIdMap.get(key)) {
+//				for (Account a : institutionIdsAndAccounts.get(key)) {
 //					LOGGER.info("\t" + a);
 //				}
 //			}
@@ -248,20 +248,20 @@
 //				session.setAttribute("institutionIdsList", institutionIdsList);
 //				session.setAttribute("institutionIdsListSize", institutionIdsList.size());
 //
-//				acctsAndInstitutionIdMap.remove(item.getId());
+//				institutionIdsAndAccounts.remove(item.getId());
 //			} else {
 //				LOGGER.info("Boolean result is true ELSE");
 //				ArrayList<String> institutionIdsList = (ArrayList<String>) MiBudgetState.getMiBudgetDAOImpl().getAllInstitutionIdsFromUser(user);
 //				session.setAttribute("institutionIdsList", institutionIdsList);
 //				session.setAttribute("institutionIdsListSize", institutionIdsList.size());
 //
-//				acctsAndInstitutionIdMap.remove(item.getId());
+//				institutionIdsAndAccounts.remove(item.getId());
 //			}
 //
 //			// If still has 1 or more accounts for an item
 //			// insIdsList, acctsAndInsIdMap, and accounts sizes don't change
 //			session.setAttribute("change", "You have successfully deleted your " + deleteAccountResponse.get("name") + " account.");
-//			session.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
+//			session.setAttribute("institutionIdsAndAccounts", institutionIdsAndAccounts);
 //
 //			session.setAttribute("accountsSize", (Integer)session.getAttribute("accountsSize")-1);
 //

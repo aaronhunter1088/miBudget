@@ -12,4 +12,6 @@ import java.util.List;
 public interface CategoryDAO extends JpaRepository<Category, Long> {
     @Query("SELECT c FROM Category c WHERE c.budgetId = :budgetId")
     List<Category> findAllByBudgetId(Long budgetId);
+    @Query("SELECT c FROM Category c WHERE c.userId = :userId")
+    List<Category> findAllByUserId(Long userId);
 }

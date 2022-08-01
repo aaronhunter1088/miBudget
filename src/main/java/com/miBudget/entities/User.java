@@ -1,10 +1,14 @@
 package com.miBudget.entities;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.*;
 
+import com.miBudget.daos.BudgetDAO;
+import com.miBudget.daos.CategoryDAO;
+import com.miBudget.daos.UserDAO;
 import com.miBudget.enums.AppType;
 import lombok.Data;
 
@@ -28,7 +32,10 @@ public class User {
 	@Enumerated(EnumType.ORDINAL)
 	private AppType appType; // free or paid
 	@Transient
-	private Budget budget;
+	private Budget budget; // stored in Budgets but not saved as part of the user
+	@Transient
+	private List<Transaction> ignoredTransactions;
+	// Holds instances of DAOs to retrieve user specific information
 
 	public User() {}
 	
@@ -40,6 +47,7 @@ public class User {
 	public User(String cellphone, String password) {
 		this.cellphone = cellphone;
 		this.password = password;
+		this.ignoredTransactions = new ArrayList<>();
 	}
 	
 	/**
@@ -57,6 +65,7 @@ public class User {
 		this.password = password;
 		this.email = email;
 		this.appType = appType;
+		this.ignoredTransactions = new ArrayList<>();
 	}
 
 	@Override

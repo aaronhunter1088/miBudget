@@ -9,12 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
-@RequestMapping("/homepage")
+@RequestMapping("/categoriesAndTransactions")
 @CrossOrigin(origins = "*")
-public class HomepageController {
+public class CategoriesAndTransactionsController {
 
-    @RequestMapping(path="/", method=RequestMethod.GET)
-    public String goToHomepage(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return "Homepage";
+    @RequestMapping(path="/", method= RequestMethod.GET)
+    public String goToCategoriesAndTransactions(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return "/static/CategoriesAndTransactions.jsp";
+        //Forwarding to [/WEB-INF/views/CategoriesAndTransactions.jsp]
     }
 }

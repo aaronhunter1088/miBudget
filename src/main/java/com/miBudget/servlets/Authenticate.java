@@ -479,32 +479,32 @@
 //
 //		    // Create a Map of itemIds, and list of appropriate accounts
 //		    @SuppressWarnings("unchecked")
-//		    HashMap<String, ArrayList<com.miBudget.entities.Account>> acctsAndInstitutionIdMap =
-//		  	    (HashMap<String, ArrayList<com.miBudget.entities.Account>>) session.getAttribute("acctsAndInstitutionIdMap");
+//		    HashMap<String, ArrayList<com.miBudget.entities.Account>> institutionIdsAndAccounts =
+//		  	    (HashMap<String, ArrayList<com.miBudget.entities.Account>>) session.getAttribute("institutionIdsAndAccounts");
 //		    ArrayList<com.miBudget.entities.Account> newAccountsList = new ArrayList<>();
-//		    newAccountsList = acctsAndInstitutionIdMap.get(institutionId);
+//		    newAccountsList = institutionIdsAndAccounts.get(institutionId);
 //		    if (newAccountsList == null) newAccountsList = new ArrayList<com.miBudget.entities.Account>();
-//		    LOGGER.info("acctsAndInstitutionIdMap");
-//		    for(String insId : acctsAndInstitutionIdMap.keySet()) {
+//		    LOGGER.info("institutionIdsAndAccounts");
+//		    for(String insId : institutionIdsAndAccounts.keySet()) {
 //			    LOGGER.info("key: " + insId);
-//			    for (com.miBudget.entities.Account acct : acctsAndInstitutionIdMap.get(insId)) {
+//			    for (com.miBudget.entities.Account acct : institutionIdsAndAccounts.get(insId)) {
 //				    LOGGER.info("\t" + acct);
 //			    }
 //		    }
 //		    accountsRequestedList.forEach(account -> {
 //				LOGGER.info(an.getAndAdd(1) + ") " + account.toString());
 //			});
-//		    LOGGER.info("Adding " + institutionId + " and the following accounts to acctsAndInstitutionIdMap");
+//		    LOGGER.info("Adding " + institutionId + " and the following accounts to institutionIdsAndAccounts");
 //		    for (com.miBudget.entities.Account account : accountsRequestedList) {
 //			    LOGGER.info("account: " + account);
 //			    newAccountsList.add(account);
 //		    }
 //
-//		    Object resultOfPutInMap = acctsAndInstitutionIdMap.put(institutionId, newAccountsList);
+//		    Object resultOfPutInMap = institutionIdsAndAccounts.put(institutionId, newAccountsList);
 //		    LOGGER.info("resultOfPutInMap: " + resultOfPutInMap);
 //		    //if (resultOfPutInMap != null) LOGGER.info("Some item and its accounts were just overwritten!!");
 //		    //else LOGGER.info("Added the Integer and Accounts pairing to the acctsAndInsitutionIdMap");
-//		    session.setAttribute("acctsAndInstitutionIdMap", acctsAndInstitutionIdMap);
+//		    session.setAttribute("institutionIdsAndAccounts", institutionIdsAndAccounts);
 //
 //		    institutionIdsList = (ArrayList<String>) MiBudgetState.getMiBudgetDAOImpl().getAllInstitutionIdsFromUser(user);
 //		    session.setAttribute("institutionIdsList", institutionIdsList);

@@ -117,7 +117,7 @@
 			<table class="outerTable" id="outerTable">
 				<%
 					Iterator institutionIdsIter = institutionsIdsList.iterator();
-					Iterator accountIdsIter = accountDAO.findAccountIdByUserId(user.getId())).iterator();
+					Iterator accountIdsIter = (Iterator) accountDAO.findAccountIdByUserId(user.getId()).iterator();
 					HashMap<String, Boolean> errMapForItems = (HashMap) session.getAttribute("ErrMapForItems");
 					// Load Map of ItemGetResponses here
 					while (institutionIdsIter.hasNext()) {
@@ -160,7 +160,7 @@
 				</tr>
 				<%
 					HashMap<String, ArrayList<Account>> acctsMap = (HashMap<String, ArrayList<Account>>)
-							session.getAttribute("acctsAndInstitutionIdMap"); // recall Integer is itemTableId
+							session.getAttribute("institutionIdsAndAccounts"); // recall Integer is itemTableId
 					Set<String> acctsMapKeySet = acctsMap.keySet();
 					for (String acctsForThisInstitutionId : acctsMapKeySet) {
 						ArrayList<Account> acctsList = acctsMap.get(acctsForThisInstitutionId);

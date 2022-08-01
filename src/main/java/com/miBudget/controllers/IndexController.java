@@ -2,6 +2,7 @@ package com.miBudget.controllers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,22 +13,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 @RestController
-@RequestMapping("/miBudget")
 @CrossOrigin(origins = "*")
 public class IndexController {
     private static final Logger LOGGER = LogManager.getLogger(IndexController.class);
 
     public IndexController() {}
 
-    @RequestMapping(path="/test", method=RequestMethod.GET)
-    public Response testMe() {
-        return Response.ok("index works").build();
-    }
+//    @RequestMapping(path="/", method=RequestMethod.GET)
+//    public String goToIndex() throws IOException {
+//        return "index";
+//    }
 
-    @RequestMapping(path="/", method= RequestMethod.GET)
-    public void miBudget(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getServletContext().getRequestDispatcher("/index.html").forward(request, response);
-    }
+//    @RequestMapping(path="/login", method=RequestMethod.GET)
+//    public String goToLogin() throws IOException {
+//        return "Login";
+//    }
 }

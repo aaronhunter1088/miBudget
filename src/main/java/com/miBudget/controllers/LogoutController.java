@@ -23,12 +23,6 @@ public class LogoutController {
 
     public LogoutController() {}
 
-    @RequestMapping(path="/test", method= RequestMethod.GET)
-    @ResponseBody
-    public void testMe() {
-        ResponseEntity.ok("Logout works");
-    }
-
     @RequestMapping(path= "/", method=RequestMethod.POST)
     public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOGGER.info(Constants.start);
@@ -40,7 +34,7 @@ public class LogoutController {
         LOGGER.info(Constants.end);
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("application/json");
-        response.getWriter().append("Success: Redirecting to index.html");
+        response.getWriter().append("Success: Redirecting to index.jsp");
         response.getWriter().flush();
     }
 

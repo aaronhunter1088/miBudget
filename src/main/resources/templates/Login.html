@@ -3,7 +3,7 @@
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Login</title>
-		<link href="../images/wallet.ico" rel="icon" type="image/x-icon">
+		<link href="../../webapp/images/wallet.ico" rel="icon" type="image/x-icon">
 		<style>
 			<!-- NEEDED -->
 			body {
@@ -25,11 +25,11 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
 	</head>
 	<body bgcolor="#32CD32">
-		<div id="loginForm">
+		<form id="loginForm" action="/Login" method="POST">
 			<div class="container" style="text-align: center; display: block; justify-content: space-between; width: 15%">
 				<h1>Login</h1>
 				<input name="validated" type="hidden" value="false"/>
-				<input name="btnSelected" type="hidden" value="Cancel"/>
+				<input name="btnSelected" type="hidden" value=""/>
 				<input name="cellphone" placeholder="Enter cellphone" required tabindex="1" type="text" value=""/>
 				<br>
 				<hr>
@@ -42,34 +42,37 @@
 			</div>
 			<div class="container" style="text-align: center; display: block; justify-content: space-between; width: 15%">
 				<input type="button" id="cancelBtn" class="button cursor" value="Cancel"/>
-				<input type="button" id="loginBtn" class="button cursor" value="Login"/>
+<!--				<input type="submit" id="loginBtn" class="button cursor" value="Submit" onclick="return validateFields();"/>-->
+				<button type="submit" id="loginBtn" class="button cursor" onclick="return validateFields();">Submit</button>
 				<hr>
 				<input type="button" id="forgotPasswordBtn" class="button cursor" value="Forgot Password"/>
 			</div>
-		</div>
+		</form>
 		<script type="text/javascript">
 			$(function() {
-				$('.button').removeAttr('disabled');
+				$('.button').removeAttr('disabled')
+
 				$('#cancelBtn').on('click', function() {
-					window.location.href = '../index.html'
+					window.location.href = '../WEB-INF/index.jsp'
 					console.log('clicked Cancel button. Returned to Homepage')
 				});
-				$('#loginBtn').on('click', function() {
-					let loginForm = $("#loginForm")
-					// get cellphone
-					let cellphone = loginForm
-							.find('input[name=cellphone]')
-							.val();
-					// get password
-					let password = loginForm
-							.find('input[name=password]')
-							.val();
-					//console.log("cellphone: " + cellphone);
-					//console.log("password: " + password);
-					if (validateFields(cellphone, password)) {
-						login(cellphone, password, true);
-					}
-				});
+				// $('#loginBtn').on('click', function() {
+				// 	let loginForm = $("#loginForm")
+				// 	// get cellphone
+				// 	let cellphone = loginForm
+				// 			.find('input[name=cellphone]')
+				// 			.val();
+				// 	// get password
+				// 	let password = loginForm
+				// 			.find('input[name=password]')
+				// 			.val();
+				// 	//console.log("cellphone: " + cellphone);
+				// 	//console.log("password: " + password);
+				// 	if (validateFields(cellphone, password)) {
+				// 		//login(cellphone, password, true);
+				// 		return true;
+				// 	} else return false;
+				// });
 			    $('#forgotPasswordBtn').on('click', function() {
 					let loginForm = $("#loginForm")
 					let cellphone = loginForm
@@ -111,30 +114,41 @@
 					});
 				});
 			});
-			function validateFields(cellphone, password) {
+			function validateFields() {
 				let loginForm = $("#loginForm")
-				let validated = false;
+				// get cellphone
+				let cellphone = loginForm
+						.find('input[name=cellphone]')
+						.val();
+				// get password
+				let password = loginForm
+						.find('input[name=password]')
+						.val();
+				if (validateLoginFields(cellphone, password)) {
+					loginForm.find('input[name=Validated]').val("true");
+					loginForm.find('input[name=btnSelected]').val(loginForm.find('input[name=loginBtn]').text());
+					return true;
+				} else return false;
+			}
+			function validateLoginFields(cellphone, password) {
 				if (cellphone === "") {
 					alert("Cellphone cannot be blank.");
-					return validated;
+					return false;
 				}
 				cellphone = cellphone.replaceAll('-', '');
 				if (isNaN(cellphone)) {
 					alert("Invalid cellphone format. Cellphones cannot include letters.");
-					return validated;
+					return false;
 				}
 				else if (cellphone.length !== 10) {
 					alert("Invalid cellphone format. Please provide 10 digits.");
-					return validated;
+					return false;
 				}
 				if (password === "") {
 					alert("Password cannot be blank.");
-					return validated;
+					return false;
 				}
-				validated = true;
-				loginForm.find('input[name=Validated]').val("true");
-				loginForm.find('input[name=btnSelected]').val(loginForm.find('input[name=loginBtn]').text());
-				return validated;
+				return true;
 			}
 			function login(cellphone, password, validated) {
 				$.ajax({
@@ -148,20 +162,21 @@
 						validated: validated
 					},
 					success: function() {
-						console.log("success")
+						console.log("Login success")
 					},
 					statusCode: {
-						200: function(data) {
-							//console.log(data); //is jsp
-							document.open();
-							document.write(data);
-							document.close();
-							//window.location.load();
-							//window.location.replace("/miBudget/WEB-INF/views/Homepage.jsp")
-							//window.location.href = "/miBudget/WEB-INF/views/Homepage.jsp"
+						200: function() {
+							$.ajax({
+								type: "GET",
+								url: "/miBudget/homepage/",
+								async: true,
+								success: function() {
+									console.log("Homepage success")
+								}
+							});
 						},
 						400: function() {
-							window.location.href = "/miBudget/static/Register.html"
+							window.location.href = "Register.html"
 						},
 						404: function(data) {
 							console.log(data);
