@@ -15,7 +15,6 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @RestController
-@RequestMapping("/password")
 @CrossOrigin(origins = "*")
 public class PasswordController {
     private static final Logger LOGGER = LogManager.getLogger(LoginController.class);
@@ -29,7 +28,7 @@ public class PasswordController {
         emailUtility = new EmailUtility();
     }
 
-    @RequestMapping(path="/forgot", method= RequestMethod.GET)
+    @RequestMapping(path="/forgot-password", method= RequestMethod.GET)
     public Response forgotPassword(HttpServletRequest request, HttpServletResponse response) throws Exception {
         try {
             List<String> allCellphones = userDAO.findAllCellphones();

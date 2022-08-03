@@ -1,15 +1,14 @@
-<%@ include file="/WEB-INF/views/include.jsp"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
+<%@ include file="/WEB-INF/views/include.jsp" %>
 <%@ page import="com.miBudget.entities.User" %>
 <%@ page import="javax.servlet.*" %>
 <%@ page import="java.time.*" %>
 <%@ page import="java.util.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html lang="en">
     <head>
-        <title>Homepage</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset=utf-8" http-equiv="Content-Type">
-        <link href="../../../resources/static/images/wallet.ico" rel="icon" type="image/x-icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/images/wallet.ico"/>
+        <title>Homepage Springboot</title>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -93,13 +92,13 @@
         %>
         <br/>
         <div style="display: inline-block; width:30%">
-            <button id="accountsBtn" type="submit">Accounts</button>
+            <input id="accountsBtn" type="button" class="button cursor" value="Accounts"/>
             <hr/>
-            <button id="catBtn" type="submit">Categories and Transactions</button>
+            <input id="catBtn" type="button" class="button cursor" value="Categories and Transactions"/>
             <hr/>
-            <input id="goalsBtn" style="cursor:pointer;" type="submit" value="Goals"/>
+            <input id="goalsBtn" type="button" class="button cursor" value="Goals"/>
             <hr/>
-            <input id="logoutBtn"  type="button" class="button cursor" value="Log out"/>
+            <input id="logoutBtn" type="button" class="button cursor" value="Log out"/>
             <hr/>
         </div>
         <div style="display: inline-block; vertical-align:top; width:70%;">
@@ -112,138 +111,134 @@
         </div>
         <br/>
 
-        <script>
-        $(function () {
-            console.log("starting onReady function...")
-            //window.location.replace("testing")
-            let arrayOfCategories = [];
-            let setupPieChart = function () {
-                var userId = '<%= ((User)session.getAttribute("user")).getId() %>'
-                var mainBudgetId = '<%= ((User)session.getAttribute("user")).getMainBudgetId() %>';
-                // let categoriesMap = new Map();
-                // $.ajax({
-                //     type: "GET",
-                //     url: "/miBudget/services/budgets/"+userId+'/'+mainBudgetId+"/categories",
-                //     async: true,
-                //     success: function() {
-                //         console.log("success from /miBudget/services/budgets/"+userId+'/'+mainBudgetId+"/categories")
-                //     },
-                //     statusCode: {
-                //         200: function(data) {
-                //             console.log(data);
-                //             data = JSON.parse(data.entity);
-                //             for (var i = 0; i < data.length; i++) {
-                //                 var categoryName = data[i].name;
-                //                 var categoryCurrencyType = data[i].currency;
-                //                 var categoryBudgetAmount = data[i].budgetedAmt;
-                //                 console.log(categoryName);
-                //                 console.log(categoryBudgetAmount);
-                //                 console.log(categoryCurrencyType);
-                //                 categoriesMap.set(categoryName, {name: categoryName,
-                //                     amount: categoryBudgetAmount, currency: categoryCurrencyType});
-                //             }
-                //         },
-                //         400: function(data) {
-                //             console.log(data);
-                //         },
-                //         404: function(data) {
-                //             console.log(data);
-                //         },
-                //         500: function(data) {
-                //             console.log(data);
-                //         }
-                //     }
-                // });
+        <script type="text/javascript">
+            $(function () {
+                console.log("starting onReady function...")
+                //window.location.replace("testing")
+                let arrayOfCategories = [];
+                let setupPieChart = function () {
+                    var userId = '<%= ((User)session.getAttribute("user")).getId() %>'
+                    var mainBudgetId = '<%= ((User)session.getAttribute("user")).getMainBudgetId() %>';
+                    // let categoriesMap = new Map();
+                    // $.ajax({
+                    //     type: "GET",
+                    //     url: "/miBudget/services/budgets/"+userId+'/'+mainBudgetId+"/categories",
+                    //     async: true,
+                    //     success: function() {
+                    //         console.log("success from /miBudget/services/budgets/"+userId+'/'+mainBudgetId+"/categories")
+                    //     },
+                    //     statusCode: {
+                    //         200: function(data) {
+                    //             console.log(data);
+                    //             data = JSON.parse(data.entity);
+                    //             for (var i = 0; i < data.length; i++) {
+                    //                 var categoryName = data[i].name;
+                    //                 var categoryCurrencyType = data[i].currency;
+                    //                 var categoryBudgetAmount = data[i].budgetedAmt;
+                    //                 console.log(categoryName);
+                    //                 console.log(categoryBudgetAmount);
+                    //                 console.log(categoryCurrencyType);
+                    //                 categoriesMap.set(categoryName, {name: categoryName,
+                    //                     amount: categoryBudgetAmount, currency: categoryCurrencyType});
+                    //             }
+                    //         },
+                    //         400: function(data) {
+                    //             console.log(data);
+                    //         },
+                    //         404: function(data) {
+                    //             console.log(data);
+                    //         },
+                    //         500: function(data) {
+                    //             console.log(data);
+                    //         }
+                    //     }
+                    // });
+                    $.ajax({
+                        type: "GET",
+                        url: "/miBudget/services/budgets/"+userId+'/'+mainBudgetId+"/categories",
+                        async: true,
+                        success: function() {
+                            console.log("success from /miBudget/services/budgets/"+userId+'/'+mainBudgetId+"/categories")
+                        },
+                        statusCode: {
+                            200: function(data) {
+                                console.log("200")
+                                data = JSON.parse(data.entity);
+                                arrayOfCategories = data;
+                                console.log(data);
+                                var chartData = [];
+                                for (var i = 0; i < data.length; i++) {
+                                    var parsed = data[i];
+                                    var categoryName = parsed.name;
+                                    var categoryCurrencyType = parsed.currency;
+                                    var categoryBudgetAmount = parsed.budgetedAmt;
+                                    //console.log(categoryName);
+                                    //console.log(categoryBudgetAmount);
+                                    //console.log(categoryCurrencyType);
+                                    chartData[i] = {"name": categoryName, "amount": categoryBudgetAmount + ' ' + categoryCurrencyType}
+                                }
+                                let chart = am4core.create(
+                                    document.getElementById("piechart"),
+                                    am4charts.PieChart
+                                );
+                                chart.legend = new am4charts.Legend();
+                                chart.data = chartData;
+                                // Add and configure Series
+                                let pieSeries = chart.series.push(new am4charts.PieSeries());
+                                // Setting up data fields in Pie series
+                                pieSeries.dataFields.category = "name";
+                                pieSeries.dataFields.value = "amount";
+                            },
+                            400: function(data) {
+                                console.log(data);
+                            },
+                            404: function(data) {
+                                console.log(data);
+                            },
+                            500: function(data) {
+                                console.log(data);
+                            }
+                        }
+                    });
+                    return arrayOfCategories;
+                }(jQuery);
+                let defaultText = 'This text will change after the user take actions';
+                $("[id='changingText']").fadeOut(10000, function () {
+                    $("[id='changingText']").show().text(defaultText)
+                        .css({'font-weight': 'bold'});
+                });
+                $('#accountsBtn').on("click", function() {
+                    console.log("Clicked Accounts button")
+                    window.location.href = "${pageContext.request.contextPath}/accounts"
+                })
+                $('#catBtn').on("click", function() {
+                    console.log("Clicked Categories and Transactions button")
+                    window.location.href = "${pageContext.request.contextPath}/cat"
+                });
+                $('#logoutBtn').on("click", function() {
+                    logoutAjax();
+                });
+            });
+            function logoutAjax() {
                 $.ajax({
-                    type: "GET",
-                    url: "/miBudget/services/budgets/"+userId+'/'+mainBudgetId+"/categories",
-                    async: true,
-                    success: function() {
-                        console.log("success from /miBudget/services/budgets/"+userId+'/'+mainBudgetId+"/categories")
+                    headers: {
+                        accept: "application/json",
+                        contentType: "application/json"
                     },
+                    type: "POST",
+                    url: "${pageContext.request.contextPath}/logout",
+                    async: true,
+                    dataType: "application/json",
+                    crossDomain: true,
+                    data: {},
                     statusCode: {
                         200: function(data) {
-                            console.log("200")
-                            data = JSON.parse(data.entity);
-                            arrayOfCategories = data;
-                            console.log(data);
-                            var chartData = [];
-                            for (var i = 0; i < data.length; i++) {
-                                var parsed = data[i];
-                                var categoryName = parsed.name;
-                                var categoryCurrencyType = parsed.currency;
-                                var categoryBudgetAmount = parsed.budgetedAmt;
-                                //console.log(categoryName);
-                                //console.log(categoryBudgetAmount);
-                                //console.log(categoryCurrencyType);
-                                chartData[i] = {"name": categoryName, "amount": categoryBudgetAmount + ' ' + categoryCurrencyType}
-                            }
-                            let chart = am4core.create(
-                                document.getElementById("piechart"),
-                                am4charts.PieChart
-                            );
-                            chart.legend = new am4charts.Legend();
-                            chart.data = chartData;
-                            // Add and configure Series
-                            let pieSeries = chart.series.push(new am4charts.PieSeries());
-                            // Setting up data fields in Pie series
-                            pieSeries.dataFields.category = "name";
-                            pieSeries.dataFields.value = "amount";
+                            console.log(JSON.stringify(data));
+                            window.location.href = "${pageContext.request.contextPath}/"
                         },
-                        400: function(data) {
-                            console.log(data);
-                        },
-                        404: function(data) {
-                            console.log(data);
-                        },
-                        500: function(data) {
-                            console.log(data);
-                        }
-                    }
-                });
-                return arrayOfCategories;
-            }(jQuery);
-            //window.history.pushState("http://localhost:8080", "Homepage", "/miBudget/WEB-INF/views/Homepage.jsp");
-            let defaultText = 'This text will change after the user take actions';
-            $("[id='changingText']").fadeOut(10000, function () {
-                $("[id='changingText']").show().text(defaultText)
-                    .css({'font-weight': 'bold'});
-            });
-            $('#accountsBtn').on("click", function() {
-                $.ajax({
-                    type: "Get",
-                    url: "/miBudget/accounts/",
-                    data: {}
-                }).success(function (response) {
-                    console.log("Success: Go to Accounts")
-                    document.open();
-                    document.write(response);
-                    document.close();
-                }).error(function (response) {
-                    console.log(response)
-                });
-            })
-            $('#catBtn').on("click", function() {
-                $.ajax({
-                    type: "Get",
-                    url: "/miBudget/categoriesAndTransactions/",
-                    data: {}
-                }).success(function (response) {
-                    console.log("Success: Go to CategoriesAndTransactions")
-                    document.open();
-                    document.write(response);
-                    document.close();
-                }).error(function (response) {
-                    console.log(response)
-                });
-            });
-            $('#logoutBtn').on("click", function() {
-                $.ajax({
-                    type: "POST",
-                    url: "/miBudget/logout/",
-                    statusCode: {
-                        200: function() {
-                            window.location.href = "index.jsp"
+                        204: function(data) {
+                            console.log(JSON.stringify(data));
+                            window.location.href = "${pageContext.request.contextPath}/"
                         },
                         400: function() {
                             alert("400")
@@ -253,10 +248,8 @@
                         }
                     }
                 });
-            });
-        });
-
-    </script>
+            }
+        </script>
     </body>
     <footer id="date" class="footer">${dateAndTime}</footer>
 </html>

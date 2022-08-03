@@ -801,8 +801,8 @@
 
 				$('#homepageBtn').on("click", function() {
 					$.ajax({
-						type: "Get",
-						url: "/miBudget/homepage/",
+						type: "GET",
+						url: "${pageContext.request.contextPath}/homepage/",
 						statusCode: {
 							200: function(response) {
 								console.log("Success: Go to Homepage")

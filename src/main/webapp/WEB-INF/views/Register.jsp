@@ -143,8 +143,16 @@
   }
   function register(firstName, lastName, cellphone, email, password, passwordRepeat, validated) {
     $.ajax({
+      headers: {
+        accept: "application/json",
+        contentType: "application/json"
+        // csrfHeader: csrfToken
+      },
       type: "POST",
-      url: "/miBudget/register",
+      url: "${pageContext.request.contextPath}/register",
+      async: true,
+      dataType: "application/json",
+      crossDomain: true,
       data: {
         firstName: firstName,
         lastName: lastName,
@@ -155,23 +163,19 @@
         btnSelected: 'Register',
         validated: validated
       },
-      success: function() {
-        console.log("success")
-      },
       statusCode: {
         200: function(data) {
-          document.open();
-          document.write(data);
-          document.close();
+          console.log(JSON.stringify(data));
+          window.location.href = "${pageContext.request.contextPath}/homepage";
         },
-        400: function() {
-          window.location.href = "Register.html"
+        400: function(data) {
+          alert("Failed to register user: " + JSON.stringify(data));
         },
-        404: function() {
-          alert('not found');
+        404: function(data) {
+          alert("Not found: " + JSON.stringify(data));
         },
         500: function(data) {
-          console.log(data);
+          console.log(JSON.stringify(data));
         }
       }
     });

@@ -47,12 +47,7 @@ public class RegisterController {
         this.categoryDAO = categoryDAO;
     }
 
-//    @RequestMapping(path="/register", method=RequestMethod.GET)
-//    public String goToRegister() {
-//        return "Register";
-//    }
-
-    @RequestMapping(path = "/", method = RequestMethod.POST)
+    @RequestMapping(path = "/register", method = RequestMethod.POST)
     public void signup(HttpServletRequest request, HttpServletResponse response) throws Exception {
         try {
             LOGGER.info(start);
@@ -220,7 +215,7 @@ public class RegisterController {
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("application/json");
         response.getWriter().append("Success: Redirecting to Homepage.jsp");
-        request.getServletContext().getRequestDispatcher("/WEB-INF/views/Homepage.jsp").forward(request, response);
+        //request.getServletContext().getRequestDispatcher("/WEB-INF/views/Homepage.jsp").forward(request, response);
         response.getWriter().flush();
     }
 }

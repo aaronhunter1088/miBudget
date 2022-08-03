@@ -1,24 +1,17 @@
 package com.miBudget.controllers;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.logging.LogManager;
 
 @Controller
 @CrossOrigin(origins = "*")
 public class WebController {
     private static Logger LOGGER = LoggerFactory.getLogger(WebController.class);
 
-    @RequestMapping(path="/")
+    @RequestMapping(value="/")
     public String goToIndex() {
         return "index";
     }
@@ -31,5 +24,20 @@ public class WebController {
     @RequestMapping(path="/register")
     public String goToRegister() {
         return "Register";
+    }
+
+    @RequestMapping(path="/homepage")
+    public String goToHomepage() {
+        return "Homepage";
+    }
+
+    @RequestMapping(path="/accounts")
+    public String goToAccounts() {
+        return "Accounts";
+    }
+
+    @RequestMapping(path="/cat")
+    public String goToCategoriesAndTransactions() {
+        return "CategoriesAndTransactions";
     }
 }

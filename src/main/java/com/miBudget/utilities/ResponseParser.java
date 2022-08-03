@@ -21,12 +21,9 @@ import com.miBudget.entities.Transaction;
  */
 public class ResponseParser {
 
-	private static Logger LOGGER = null;
+	private static Logger LOGGER = LogManager.getLogger(ResponseParser.class);
 	private static Scanner input = new Scanner(System.in);
-	static {
-		System.setProperty("appName", "miBudget");
-		LOGGER = LogManager.getLogger(ResponseParser.class);
-	}
+
 	public static void main(String[] args) {
 		String jsonInput = null;
 		try {
