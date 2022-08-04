@@ -36,7 +36,7 @@ public class User {
 	@Transient
 	private List<String> ignoredTransactions;
 	@Transient
-	private List<Long> accountIds;
+	private List<Account> accounts;
 	// Holds instances of DAOs to retrieve user specific information
 
 	public User() {}

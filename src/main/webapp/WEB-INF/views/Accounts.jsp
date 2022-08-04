@@ -95,33 +95,33 @@
 		<div class="mainTable" id="accountsTable">
 			<table class="outerTable" id="outerTable">
 				<%
-					Iterator<String> institutionIdsIter = institutionsIdsAndAccounts.keySet().iterator();
 					Map<String, Boolean> errMapForItems = (Map) session.getAttribute("errMapForItems");
 					// Load Map of ItemGetResponses here
 					List<Item> items = (List) session.getAttribute("items");
-					while (institutionIdsIter.hasNext()) {
-						String institutionId = institutionIdsIter.next();
-						Item item = items.stream().filter(iTem -> iTem.getInstitutionId().equals(institutionId)).findFirst().orElse(null);
+					for(Item item : items) {
 				%>
 				<!--BANK: [Bank Logo | Update | Delete] --> <!-- var firstRowText = $("[id='bank']").attr('id'); -->
-				<tr id="bankRow" name="<%= item.getBankName() %>">
-					<td id="logoCell" name="<%= item.getBankName() %>">
-						<%= institutionId %> <!-- change to Logo -->
+				<tr id="bankRow">
+					<td id="logoCell">
+						<%= item.getBankName() %> <!-- change to Logo -->
 					</td>
 					<!-- Whitespace -->
 					<!--  Change this button to ONLY show if there is an error.  -->
-					<td id="updateBtnCell" name="<%= errMapForItems.get(institutionId) %>">
-						<!-- Update button -->
-						<input id="link-update-button" name="<%= institutionId %>" type="button" value="Update bank"/>
-						<%--<button class="updateButton" id="link-update-button" name="<%= currentId %>"><b>Update Bank</b></button>--%>
+					<td id="updateBtnCell" name="<%= errMapForItems.get(item.getInstitutionId()) %>">
+						<form id="updateBankForm">
+							<input type="hidden" name="action" value="update_bank"/>
+							<input type="hidden" name="institutionId" value="<%= item.getInstitutionId() %>"/>
+							<input type="hidden" name="bankName" value="<%= item.getBankName() %>"/>
+							<input id="updateBankBtn" type="button" value="Update bank"/>
+						</form>
 					</td>
 					<!-- Whitespace -->
-					<td id="deleteBtnCell" name="<%= institutionId %>">
-						<!-- Delete button -->
-						<form id="delete1">
-							<input type="hidden" name="delete" value="bank"/>
-							<input type="hidden" name="currentId" value="<%= institutionId %>"/>
-							<input id="deleteBankBtn" type="button" onclick="deleteBank('<%= institutionId %>');" value="Delete bank"/>
+					<td id="deleteBtnCell">
+						<form id="deleteBankForm">
+							<input type="hidden" name="action" value="delete_bank"/>
+							<input type="hidden" name="institutionId" value="<%= item.getInstitutionId() %>"/>
+							<input type="hidden" name="bankName" value="<%= item.getBankName() %>"/>
+							<input id="deleteBankBtn" type="button" value="Delete bank"/>
 						</form>
 					</td>
 				</tr>
@@ -321,7 +321,7 @@
 					}); // end handler
 					handler.open();
 				});
-				$("[id='link-update-button']").on('click', function(e) {
+				$('#updateBankBtn').on('click', function() {
 					let institutionIdName = $(this).attr('name');
 					let publicToken;
 					let updateHandler;
@@ -352,7 +352,51 @@
 					}
 					console.log('end update button here');
 				}); // end link-update-button.on('click')
-
+				$('#deleteBankBtn').on('click', function() {
+					let action = $("[id='deleteBankForm']").find('input:nth-child(1)').text();
+					let institutionId = $("[id='deleteBankForm']").find('input:nth-child(2)').text();
+					let bankName = $("[id='deleteBankForm']").find('input:nth-child(3)').text(); //getInstitutionNameFromId(institutionId);
+					let buttonSelectedText = $("[id='deleteBankForm']").find('input:nth-child(4)').text();
+					let ans = '';
+					console.log('bankName: ' + bankName);
+					ans = prompt('WARNING! You are about to delete your \'' + bankName + '\' bank. Are you sure you want to continue? Enter: \'Yes\' to confirm.', '');
+					if (ans === 'Yes'.toLowerCase() || ans === 'Y'.toLowerCase())
+					{
+						console.log('Deleting one ' + bankName + ' account.');
+						$.ajax({
+							headers: {
+								accept: "application/json",
+								contentType: "application/json"
+							},
+							type: "POST",
+							url: "${pageContext.request.contextPath}/delete-item",
+							async: true,
+							dataType: "application/json",
+							crossDomain: true,
+							data: {
+								action: action,
+								institutionId: institutionId,
+								bankName: bankName,
+								btnSelected: buttonSelectedText,
+							},
+							statusCode: {
+								200: function(data) {
+									console.log(JSON.stringify(data))
+									location.reload();
+								},
+								400: function() {
+									console.log(JSON.stringify(data))
+								},
+								404: function(data) {
+									console.log(JSON.stringify(data));
+								},
+								500: function(data) {
+									console.log(JSON.stringify(data));
+								}
+							}
+						});
+					}
+				});
 
 				var text = $("[id='changingText']").text();
 				var usersAccounts = <%= user.getAccountIds().size() %>;
@@ -377,32 +421,36 @@
 						$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
 								.css({'font-weight': 'bold'});
 					});
-				} else if (text === errText2) {
+				}
+				else if (text === errText2) {
 					$("[id='changingText']").text("Add your Accounts by clicking the \"Link Account\" button");
 					$("[id='changingText']").fadeOut(8000, function () {
 						$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
 								.css({'font-weight': 'bold'});
 					});
-				} else if ( matchGoodText2 == goodText2 ) {
+				}
+				else if ( matchGoodText2 == goodText2 ) {
 					$("[id='changingText']").fadeOut(8000, function() {
 						$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
 								.css({ 'font-weight' : 'bold'});
 					});
-				} else if ( matchDeleteText == deleteText) {
+				}
+				else if ( matchDeleteText == deleteText) {
 					$("[id='changingText']").fadeOut(8000, function() {
 						$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
 								.css({ 'font-weight' : 'bold'});
 					});
-				} else if (text != 'This text will change after using the Plaid Link Initializer.') {
+				}
+				else if (text != 'This text will change after using the Plaid Link Initializer.') {
 					// Default
 					$("[id='changingText']").fadeOut(20000, function() {
 						$("[id='changingText']").show().text('This text will change after using the Plaid Link Initializer.')
 								.css({ 'font-weight' : 'bold'});
 					});
-				} else {
+				}
+				else {
 					// Don't fade the text
 				}
-
 				hideInnerTable();
 				updateAccountsTable();
 				updateBanksTable();
@@ -418,19 +466,6 @@
 			function replaceAll(str, find, replace) {
 			    return str.replace(new RegExp(find, 'g'), replace);
 			};
-			function deleteBank(institutionId) {
-				var bankName = getInstitutionNameFromId(institutionId);
-				var ans = "";
-				//console.log('bankName: ' + bankName);
-				ans = prompt('WARNING! You are about to delete your \'' + bankName + '\' bank. Are you sure you want to continue? Enter: \'Yes\' to confirm.', '');
-				//console.log('answer: ' + ans);
-
-				if (ans == 'Yes'.toLowerCase() && ans != null) {
-					console.log('Making a post request to Delete to delete this single ' + bankName + ' account.');
-					return true;
-				}
-				return false;
-			}; 
 			function deleteAccount(acctName) {
 				var ans = "";
 				ans = prompt('WARNING! You are about to delete your ' + acctName + ' account. Are you sure you want to continue? Enter: \'Yes\' to confirm.','');
@@ -449,13 +484,10 @@
 		        $('#changingText').text('You have successfully loaded ' + metadata_accounts_length + strAccounts);
 			};
 			function updateBanksTable() {
-				//console.log('Inside updateBanksTable()...');
-				var firstRowText = $("[id='bank']").attr('id');
-				//console.log(firstRowText == 'bank' ? 'ROW ATTAINED!' : 'DO NOT HAVE ROW')  ;
 				$("[id='bankRow']").each(function() {
-					var bankName = $(this).find('td:nth-child(1)').attr('name');
 					var row = $(this);
-					var col1 = $(this).find('td:nth-child(1)');
+					var col1 = $(this).find('td:nth-child(1)'); // Will be the Logo
+					var bankName = col1.text();
 					var col2 = $(this).find('td:nth-child(2)'); // Update button
 					var col3 = $(this).find('td:nth-child(3)'); // Delete button
 					//console.log("cell value: " + institutionId);
@@ -463,71 +495,55 @@
 					//console.log("button name is: " + nameOfButton); // expecting true or false
 					//if (institutionId == "") { $(this).html(''); }
 					// will do for all update buttons
-					if (col2.attr('name') == "true") { col2.show(); }
+					if (col2.attr('name') === "true") { col2.show(); }
 					else { col2.hide(); }
-					
+					// will do for all images
 					switch (bankName) {
-						case "Bank of America"  : $(this).find('td:nth-child(1)').html('<img src="${pageContext.request.contextPath}/images/bankofamerica.jpg" alt="Bank_of_America"/>');
+						case "Bank of America"  : col1.html('<img src="${pageContext.request.contextPath}/images/bankofamerica.jpg" alt="Bank_of_America"/>');
 										break;
-						case "BB&T"  : $(this).find('td:nth-child(1)').html('<img src="${pageContext.request.contextPath}/images/bb&t.jpg" alt="BB&T"/>');
+						case "BB&T"  : col1.html('<img src="${pageContext.request.contextPath}/images/bb&t.jpg" alt="BB&T"/>');
 										break;
 						case "Chase"  : col1.html('<img src="${pageContext.request.contextPath}/images/chase.jpg" alt="Chase"/>');
 										break;
-						case "Wells Fargo"  : $(this).find('td:nth-child(1)').html('<img src="${pageContext.request.contextPath}/images/wellsfargo.jpg" alt="Wells_Fargo"/>');
+						case "Wells Fargo"  : col1.html('<img src="${pageContext.request.contextPath}/images/wellsfargo.jpg" alt="Wells_Fargo"/>');
 										break;
-						case "Citi"  : row.attr('name', 'Citi');
-										col1.html('<img src="${pageContext.request.contextPath}/images/citi.jpg" alt="Citi"/>');
+						case "Citi"  : col1.html('<img src="${pageContext.request.contextPath}/images/citi.jpg" alt="Citi"/>');
 										break;
-						case "US Bank"  : $(this).find('td:nth-child(1)').html('<img src="${pageContext.request.contextPath}/images/usbank.jpg" alt="US Bank"/>');
+						case "US Bank"  : col1.html('<img src="${pageContext.request.contextPath}/images/usbank.jpg" alt="US Bank"/>');
 										break;
-						case "USAA"  : $(this).find('td:nth-child(1)').html('<img src="${pageContext.request.contextPath}/images/usaa.jpg" alt="USAA"/>');
+						case "USAA"  : col1.html('<img src="${pageContext.request.contextPath}/images/usaa.jpg" alt="USAA"/>');
 										break;
-						case "Capital One"  : $(this).find('td:nth-child(1)').html('<img src="${pageContext.request.contextPath}/images/capitalone.jpg" alt="Capital_One"/>');
+						case "Capital One"  : col1.html('<img src="${pageContext.request.contextPath}/images/capitalone.jpg" alt="Capital_One"/>');
 										break;
-						case "American Express" : $(this).find('td:nth-child(1)').html('<img src="${pageContext.request.contextPath}/images/amex.jpg" alt="American_Express"/>');
+						case "American Express" : col1.html('<img src="${pageContext.request.contextPath}/images/amex.jpg" alt="American_Express"/>');
 										break;
-						case "Charles Schwab" : $(this).find('td:nth-child(1)').html('<img src="${pageContext.request.contextPath}/images/charlesschwab.jpg" alt="Charles_Schwab"/>');
+						case "Charles Schwab" : col1.html('<img src="${pageContext.request.contextPath}/images/charlesschwab.jpg" alt="Charles_Schwab"/>');
 										break;
-						case "Fidelity" : $(this).find('td:nth-child(1)').html('<img src="${pageContext.request.contextPath}/images/fidelity.jpg" alt="Fidelity"/>');
+						case "Fidelity" : col1.html('<img src="${pageContext.request.contextPath}/images/fidelity.jpg" alt="Fidelity"/>');
 										break;
-						case "PNC" : $(this).find('td:nth-child(1)').html('<img src="${pageContext.request.contextPath}/images/pnc.jpg" alt="PNC"/>');
+						case "PNC" : col1.html('<img src="${pageContext.request.contextPath}/images/pnc.jpg" alt="PNC"/>');
 										break;
-						case "TDBank" : $(this).find('td:nth-child(1)').html('<img src="${pageContext.request.contextPath}/images/tdbank.jpg" alt="TD_Bank"/>');
+						case "TDBank" : col1.html('<img src="${pageContext.request.contextPath}/images/tdbank.jpg" alt="TD_Bank"/>');
 										break;
-						case "Navy Federal" : $(this).find('td:nth-child(1)').html('<img src="${pageContext.request.contextPath}/images/navyfederal.jpg" alt="Navy_Federal"/>');
+						case "Navy Federal" : col1.html('<img src="${pageContext.request.contextPath}/images/navyfederal.jpg" alt="Navy_Federal"/>');
 										break;
-						case "Sun Trust" : $(this).find('td:nth-child(1)').html('<img src="${pageContext.request.contextPath}/images/suntrust.jpg" alt="Sun_Trust"/>');
+						case "Sun Trust" : col1.html('<img src="${pageContext.request.contextPath}/images/suntrust.jpg" alt="Sun_Trust"/>');
 										break;
-						case "Regions" : $(this).find('td:nth-child(1)').html('<img src="${pageContext.request.contextPath}/images/regions.jpg" alt="Regions"/>');
+						case "Regions" : col1.html('<img src="${pageContext.request.contextPath}/images/regions.jpg" alt="Regions"/>');
 										break;
-						case "Citizens Bank" : $(this).find('td:nth-child(1)').html('<img src="${pageContext.request.contextPath}/images/citizensbank.jpg" alt="Citizens_Bank"/>');
+						case "Citizens Bank" : col1.html('<img src="${pageContext.request.contextPath}/images/citizensbank.jpg" alt="Citizens_Bank"/>');
 										break;
-						case "Huntington" : $(this).find('td:nth-child(1)').html('<img src="${pageContext.request.contextPath}/images/huntington.jpg" alt="Huntington"/>');
+						case "Huntington" : col1.html('<img src="${pageContext.request.contextPath}/images/huntington.jpg" alt="Huntington"/>');
 										break;
 						default  : console.log('unknown institution.');
-										break;
 					}
-					// will do for all images
-					var col2 = $(this).find('td:nth-child(2)'); // Update button
-					var col3 = $(this).find('td:nth-child(3)'); // Delete button
-					var col3Form = col3.find("#delete"); // Delete form 
-					var code = col1.html().split(" ",3).pop(); 
-					var nameOfButton = code.substring(code.indexOf('"')+1, code.lastIndexOf('"'));
-					nameOfButton = nameOfButton.includes('_') == true ? replaceAll(nameOfButton, '_', ' ') : nameOfButton;
-					col1.attr('name', nameOfButton);
-					col2.attr('name', nameOfButton);
-					col3.attr('name', nameOfButton);
-					col3Form.attr('name', nameOfButton);
-					//console.log('image(button) column name is now: ' + col1.attr('name'));
-					//console.log('col2 name: ' + col2.attr('name'));
-					//console.log('col3 name: ' + col3.attr('name'));
-					//console.log('form name: ' + col3Form.attr('name'));
+					// setup logo to switch between tables
 					col1.click(function() {
 						var col1 = $(this);
 						var nameOfButton = "";
 						var code = col1.html().split(" ",3).pop();
 						nameOfButton = code.substring(code.indexOf('"')+1, code.lastIndexOf('"'));
-						nameOfButton = nameOfButton.includes('_') == true ? replaceAll(nameOfButton, '_', ' ') : nameOfButton; 
+						nameOfButton = nameOfButton.includes('_') === true ? replaceAll(nameOfButton, '_', ' ') : nameOfButton;
 						console.log('you clicked ' + nameOfButton);
 						$('.outerTable').hide();
 						<%-- <tr id="acct" name="<%= currentId %>"> --%>
@@ -543,14 +559,9 @@
 						});
 						$('.innerTable').show();
 						
-					}); // end col2
-					col3.click(function() {
-						console.log('we print this now.');
-						console.log($(this));
-
 					});
 				}); // end for each row
-			};
+			}
 			function updateAccountsTable() {
 				//console.log("Inside updateAccountsTable()");
 				<%-- <tr id="acct" name="<%= currentId %>"> 
@@ -602,7 +613,7 @@
 					// }
 					//console.log("acctRow name after: \""+acctRow.attr('name')+"\"");
 				});
-			};
+			}
 			function getInstitutionNameFromId(institutionId) {
 				var bankName = '';
 				switch(institutionId) {
@@ -645,7 +656,7 @@
 					default : bankName = 'unknown institution.';
 				}
 				return bankName;
-			};
+			}
 			function getUpdateHandler(publicToken) {
 				//console.log('Inside getUpdateHandler');
 				//console.log('passed in param: ' + publicToken);
@@ -690,7 +701,7 @@
 			function reloadPage() {
 				//console.log('running reloadPage()')
 			    $.when(reload()).done(function() {
-			    	location.reload(true);
+			    	location.reload();
 				});
 			    function reload() { 
 				    //console.log('running reload()');
