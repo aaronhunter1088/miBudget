@@ -41,11 +41,11 @@ public class MiBudgetServicesController {
 
     @RequestMapping(path = "/{userId}", method = RequestMethod.GET)
     public Response getInstitutionIdsAndAccountsMap(@PathVariable("userId") String userId) {
-        List<Long> itemsIdsList = itemDAO.findItemIdByUserId(Long.valueOf(userId));
+        List<String> itemsIdsList = itemDAO.findItemIdByUserId(userId);
         Map<String, List<Account>> institutionIdsAndAccounts = new HashMap<>();
-        for (Long itemId : itemsIdsList) {
-            Item item = Objects.requireNonNull(itemDAO.findById(itemId).orElse(null));
-            List<Account> accountsForItem = accountDAO.findAccountsByItemId(item.getItemId());
+        for (String itemId : itemsIdsList) {
+            Item item = Objects.requireNonNull(itemDAO.findItemByItemId(itemId));
+            List<Account> accountsForItem = accountDAO.findAccountsByItem_Id(item.getId());
             institutionIdsAndAccounts.put(item.getInstitutionId(), accountsForItem);
         }
         return Response.ok(institutionIdsAndAccounts).build();

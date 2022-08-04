@@ -60,13 +60,13 @@ public class UpdateBank extends HttpServlet {
 		// TODO Auto-generated method stub
 		LOGGER.info("Inside UpdateBank doGet()...");
 		HttpSession session = request.getSession(false);
-		LOGGER.info("Updating ErrMapForItems...");
+		LOGGER.info("Updating errMapForItems...");
 		String institutionId = request.getParameter("institutionId");
-		// update ErrMapForItems
+		// update errMapForItems
 	    @SuppressWarnings("unchecked")
-		HashMap<String, Boolean> errMapForItems = (HashMap<String, Boolean>) session.getAttribute("ErrMapForItems");
+		HashMap<String, Boolean> errMapForItems = (HashMap<String, Boolean>) session.getAttribute("errMapForItems");
 	    errMapForItems.put(institutionId, false);
-	    session.setAttribute("ErrMapForItems", errMapForItems);
+	    session.setAttribute("errMapForItems", errMapForItems);
 		LOGGER.info("Returning to Profile.jsp");
 		LOGGER.info("UpdateBank Response: Good");
 		response.setStatus(HttpServletResponse.SC_OK);
@@ -94,14 +94,14 @@ public class UpdateBank extends HttpServlet {
 		//Response<ItemPublicTokenCreateResponse> res = client().service().itemPublicTokenCreate(req).execute();
 //		if (res.isSuccessful()) {
 //			session = request.getSession(false);
-//			// Might need to add logic to update ErrMapForItems
+//			// Might need to add logic to update errMapForItems
 //			//User user = (User) session.getAttribute("user");
 //
-//			// update ErrMapForItems
+//			// update errMapForItems
 //		    @SuppressWarnings("unchecked")
-//			HashMap<String, Boolean> errMapForItems = (HashMap<String, Boolean>) session.getAttribute("ErrMapForItems");
+//			HashMap<String, Boolean> errMapForItems = (HashMap<String, Boolean>) session.getAttribute("errMapForItems");
 //		    errMapForItems.put(institutionId, false);
-//		    session.setAttribute("ErrMapForItems", errMapForItems);
+//		    session.setAttribute("errMapForItems", errMapForItems);
 //		    session.setAttribute("change", "You successfully re-authorized your bank! It's good to go.");
 //		    LOGGER.info("public_token: " + res.body().getPublicToken());
 //			LOGGER.info("Public token retrieved. Returning to Profile.jsp");

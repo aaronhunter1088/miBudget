@@ -76,22 +76,33 @@ public class LoginController {
                     usersMainBudget.setChildBudgetIds(childrenIds);
                     loginUser.setBudget(usersMainBudget);
 
-                    List<Long> accountIdsList = accountDAO.findAccountIdByUserId(loginUser.getId());
-                    List<Long> itemsIdsList = itemDAO.findItemIdByUserId(loginUser.getId());
+                    List<Long> accountIdsList = accountDAO.findIdByUserId(loginUser.getId());
+                    List<Account> accountsList = new ArrayList<>();
+                    for(Long id : accountIdsList) {
+                        Account account = accountDAO.findById(id).orElse(null);
+                        accountsList.add(account);
+                    }
+                    loginUser.setAccountIds(accountIdsList);
+                    List<String> itemsIdsList = itemDAO.findItemIdByUserId(loginUser.getId().toString());
                     // Populate institutionIdsAndAccounts map
                     Map<String, List<Account>> institutionIdsAndAccounts = new HashMap<>();
+                    ArrayList<Item> items = new ArrayList<>();
                     int accountsTotal = 0;
-                    for (Long itemId : itemsIdsList) {
-                        Item item = Objects.requireNonNull(itemDAO.findById(itemId).orElse(null));
-                        List<Account> accountsForItem = accountDAO.findAccountsByItemId(item.getItemId());
+                    for (String itemId : itemsIdsList) {
+                        Item item = Objects.requireNonNull(itemDAO.findItemByItemId(itemId));
+                        items.add(item);
+                        List<Account> accountsForItem = accountDAO.findAccountsByItem_Id(item.getId());
                         accountsTotal += accountsForItem.size();
                         institutionIdsAndAccounts.put(item.getInstitutionId(), accountsForItem);
                     }
                     LOGGER.info("institutionIdsAndAccounts size: " + institutionIdsAndAccounts.size());
                     HttpSession session = request.getSession(true);
                     session.setAttribute("institutionIdsAndAccounts", institutionIdsAndAccounts);
+                    session.setAttribute("errMapForItems", new HashMap<>());
                     session.setAttribute("loggedIn", true); // just a check
                     session.setAttribute("user", loginUser);
+                    session.setAttribute("items", items);
+                    session.setAttribute("accounts", accountsList);
                     session.setAttribute("accountsSize", accountsTotal);
                     session.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr());
                     session.setAttribute("getTransactions", new JSONObject());

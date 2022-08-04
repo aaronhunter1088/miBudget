@@ -76,21 +76,21 @@
 //     * Create an items_account object
 //     */
 //
-//    public int addAccountsToAccountsTableDatabase(List<com.miBudget.entities.Account> accountsRequested, Item item, User user) {
-////		Iterator<com.miBudget.entities.Account> iter = accounts.iterator();
-//    	int verify = 0;
-//		for (com.miBudget.entities.Account account : accountsRequested) {
-////    		com.miBudget.entities.Account account = iter.next();
-//    		// update account availableBalance, currentBalance, limit, currencyCode, item, figure out how to unmask mask to reveal last 4 of account
-//			verify = MiBudgetState.getAccountDAOImpl().addAccountObjectToAccountsTableDatabase(account);
-//			verify = MiBudgetState.getAccountDAOImpl().addAccountObjectToUsersAccountsTable(account, user);
-//    		verify = MiBudgetState.getAccountDAOImpl().addAccountIdToItemsAccountsTable(item.getId(), account.getAccountId());
-//
-//		}
-//    	if (verify == 0)
-//    		return 0;
-//    	return 1;
-//    }
+////    public int addAccountsToAccountsTableDatabase(List<com.miBudget.entities.Account> accountsRequested, Item item, User user) {
+//////		Iterator<com.miBudget.entities.Account> iter = accounts.iterator();
+////    	int verify = 0;
+////		for (com.miBudget.entities.Account account : accountsRequested) {
+//////    		com.miBudget.entities.Account account = iter.next();
+////    		// update account availableBalance, currentBalance, limit, currencyCode, item, figure out how to unmask mask to reveal last 4 of account
+////			verify = MiBudgetState.getAccountDAOImpl().addAccountObjectToAccountsTableDatabase(account);
+////			verify = MiBudgetState.getAccountDAOImpl().addAccountObjectToUsersAccountsTable(account, user);
+////    		verify = MiBudgetState.getAccountDAOImpl().addAccountIdToItemsAccountsTable(item.getId(), account.getAccountId());
+////
+////		}
+////    	if (verify == 0)
+////    		return 0;
+////    	return 1;
+////    }
 //
 //    /**
 //     * This method takes the institution_id and saves it to the
@@ -168,37 +168,34 @@
 //    	return usersItemsList;
 //    }
 //
-//    public int addItemToDatabase(Item item) {
-//    	try {
-//
-//    		// This logic does not make sense anymore.
-////    		for (Item i : allItems) {
-////        		if (i.getItemTableId() == item.getItemTableId()) {
-////        			LOGGER.info("next item: " + i);
-////        			LOGGER.info("Item already added to database!");
-////        			return 0; // bad
-////        		}
-////        	}
-//    		LOGGER.info("before save...");
-//        	int verify = MiBudgetState.getItemDAOImpl().addItemToDatabase(item);
-//        	if (verify == 0)
-//        		return 0;
-//        	return 1;
-//    	} catch (HibernateException e) {
-//    		LOGGER.error("\nFailed to start SQL Session\n");
-//    		e.printStackTrace(System.out);
-//    	} catch (IllegalStateException e) {
-//    		LOGGER.error("\nSession/Entity Manager is closed.\n");
-//    		e.printStackTrace(System.out);
-//    	}
-//    	return 0; // 0 == bad
-//
-//    	// for every Item in the list, if our item we are attempting to add
-//    	// is the same, do not add it.
-//
-//
-//
-//    }
+////    public int addItemToDatabase(Item item) {
+////    	try {
+////
+////    		// This logic does not make sense anymore.
+//////    		for (Item i : allItems) {
+//////        		if (i.getItemTableId() == item.getItemTableId()) {
+//////        			LOGGER.info("next item: " + i);
+//////        			LOGGER.info("Item already added to database!");
+//////        			return 0; // bad
+//////        		}
+//////        	}
+////    		LOGGER.info("before save...");
+////        	int verify = MiBudgetState.getItemDAOImpl().addItemToDatabase(item);
+////        	if (verify == 0)
+////        		return 0;
+////        	return 1;
+////    	} catch (HibernateException e) {
+////    		LOGGER.error("\nFailed to start SQL Session\n");
+////    		e.printStackTrace(System.out);
+////    	} catch (IllegalStateException e) {
+////    		LOGGER.error("\nSession/Entity Manager is closed.\n");
+////    		e.printStackTrace(System.out);
+////    	}
+////    	return 0; // 0 == bad
+////
+////    	// for every Item in the list, if our item we are attempting to add
+////    	// is the same, do not add it.
+////    }
 //
 //    /**
 //     * The reason this method returns a String is because we ultimately
@@ -428,7 +425,7 @@
 //
 //			    // Add bank to items table
 //			    LOGGER.info("Adding item to database");
-//			    verify = addItemToDatabase(bankToAdd);
+//			    //verify = addItemToDatabase(bankToAdd);
 //			    if (verify == 0)
 //				    return "FAIL: did not add " + bankToAdd + " to database.";
 //			    else {
@@ -463,7 +460,7 @@
 //		    });
 //		    // Need the above lines to set item_table_id for the accounts. they all have the same item
 //		    // But need to set to proper item_table_id that was set.
-//		    verify = addAccountsToAccountsTableDatabase(accountsRequestedList, bankToAdd, user);
+//		    //verify = addAccountsToAccountsTableDatabase(accountsRequestedList, bankToAdd, user);
 //		    if (verify == 0)
 //			    return "FAIL: did not add accounts to user's profile.";
 //		    else

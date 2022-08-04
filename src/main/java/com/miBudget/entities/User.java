@@ -34,7 +34,9 @@ public class User {
 	@Transient
 	private Budget budget; // stored in Budgets but not saved as part of the user
 	@Transient
-	private List<Transaction> ignoredTransactions;
+	private List<String> ignoredTransactions;
+	@Transient
+	private List<Long> accountIds;
 	// Holds instances of DAOs to retrieve user specific information
 
 	public User() {}

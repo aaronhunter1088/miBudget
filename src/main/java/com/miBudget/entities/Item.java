@@ -19,26 +19,28 @@ public class Item implements Serializable {
 	private String institutionId;
 	private String itemId;
 	private String accessToken;
-	private Long userId;
+	private String bankName;
+	private String userId;
 
 	public Item() {}
 	public Item(String itemId, String accessToken) {
 		this.itemId = itemId;
 		this.accessToken = accessToken;
 	}
-	public Item(long id, String itemId, String accessToken) {
+	public Item(Long id, String itemId, String accessToken) {
 		this.id = id;
 		this.itemId = itemId;
 		this.accessToken = accessToken;
 	}
-	public Item(String itemId, String accessToken, String institutionId) {
-		if (StringUtils.isNotEmpty(accessToken) && StringUtils.isNotEmpty(itemId) && StringUtils.isNotEmpty(institutionId)) {
+	public Item(String itemId, String accessToken, String institutionId, String bankName, String userId) {
+		if (StringUtils.isNotEmpty(itemId) && StringUtils.isNotEmpty(accessToken) &&
+			StringUtils.isNotEmpty(institutionId) && StringUtils.isNotEmpty(bankName) &&
+			StringUtils.isNotEmpty(userId)) {
 			this.itemId = itemId;
 			this.accessToken = accessToken;
 			this.institutionId = institutionId;
-		} else {
-			throw new NullPointerException("itemId: " + itemId + "\naccessToken: " + accessToken + "\ninstituionId: " + institutionId);
-			// Fail here
+			this.bankName = bankName;
+			this.userId = userId;
 		}
 		
 	}

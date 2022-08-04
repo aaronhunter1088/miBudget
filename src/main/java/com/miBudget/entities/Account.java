@@ -16,7 +16,6 @@ public class Account {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="accounts_sequence")
 	private Long id;
 	private String accountId;
-	private Long itemId;
 	@Column(name="availableBalance", precision=10, scale=2)
 	private double availableBalance;
 	@Column(name="currentBalance", precision=10, scale=2)
@@ -27,10 +26,12 @@ public class Account {
 	private String accountName;
 	private String officialName;
 	private String mask;
+	// TODO: change to mainType
 	@Column(name="_type")
 	private String _type;
 	private String subType;
 	private Long userId;
+	private Long itemId; // This is item.id, not item.itemId
 
 	public Account() {}
 	

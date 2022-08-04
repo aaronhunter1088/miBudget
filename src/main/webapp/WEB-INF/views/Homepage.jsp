@@ -99,18 +99,12 @@
             <input id="goalsBtn" type="button" class="button cursor" value="Goals"/>
             <hr/>
             <input id="logoutBtn" type="button" class="button cursor" value="Log out"/>
-            <hr/>
         </div>
         <div style="display: inline-block; vertical-align:top; width:70%;">
-            <div style="display: block; width: 100%;">
-                <p id="changingText" class="changingText">${changingText}</p>
-            </div>
-            <div style="display: block; vertical-align: bottom;">
-                <div id="piechart" style="width: 100%; height: 400px;"></div>
-            </div>
+            <p id="changingText" class="changingText">${changingText}</p>
+            <br/>
+            <div id="piechart" style="width: 100%; height: 400px;"></div>
         </div>
-        <br/>
-
         <script type="text/javascript">
             $(function () {
                 console.log("starting onReady function...")
