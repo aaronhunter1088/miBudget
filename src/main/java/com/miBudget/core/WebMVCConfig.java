@@ -16,6 +16,7 @@ class WebMVCConfig implements WebMvcConfigurer {
         viewResolver.setViewClass(JstlView.class);
         viewResolver.setPrefix("/WEB-INF/views/");
         viewResolver.setSuffix(".jsp");
+        viewResolver.setCache(false);
         return viewResolver;
     }
 

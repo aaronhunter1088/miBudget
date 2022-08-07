@@ -8,12 +8,19 @@
         <style>
             html {
                 background-image: url("${pageContext.request.contextPath}/images/background.jpg");
-                background-repeat: no-repeat;
+                background-position: center center;
+                background-repeat:  no-repeat;
+                background-attachment: fixed;
+                background-size:  cover;
             }
             <!-- NEEDED -->
             body {
                 display: block;
                 margin: 8px;
+                background-position: center center;
+                background-repeat:  no-repeat;
+                background-attachment: fixed;
+                background-size:  cover;
             }
             .button {
                 font-weight: bold;

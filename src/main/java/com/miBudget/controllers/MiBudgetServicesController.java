@@ -41,7 +41,7 @@ public class MiBudgetServicesController {
 
     @RequestMapping(path = "/{userId}", method = RequestMethod.GET)
     public Response getInstitutionIdsAndAccountsMap(@PathVariable("userId") String userId) {
-        List<String> itemsIdsList = itemDAO.findItemIdByUserId(userId);
+        List<String> itemsIdsList = itemDAO.findItemIdByUserId(Long.valueOf(userId));
         Map<String, List<Account>> institutionIdsAndAccounts = new HashMap<>();
         for (String itemId : itemsIdsList) {
             Item item = Objects.requireNonNull(itemDAO.findItemByItemId(itemId));

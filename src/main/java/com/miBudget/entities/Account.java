@@ -31,11 +31,11 @@ public class Account {
 	private String _type;
 	private String subType;
 	private Long userId;
-	private Long itemId; // This is item.id, not item.itemId
+	private String itemId; // This is item.itemid, not item.Id
 
 	public Account() {}
 	
-	public Account(String accountId, long itemId, double availableBalance, double currentBalance,
+	public Account(String accountId, String itemId, double availableBalance, double currentBalance,
 				   double _limit, String currencyCode, String nameOfAcct, String officialNameOfAcct,
 				   String mask, String _type, String subtype) {
 		this.accountId = accountId;

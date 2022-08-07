@@ -1,8 +1,5 @@
 <%@ include file="/WEB-INF/views/include.jsp"%>
 <%@ page import="com.miBudget.entities.*" %>
-<%@ page import="com.miBudget.daos.*" %>
-<%@ page import="javax.servlet.*" %>
-<%@ page import="java.time.*" %>
 <%@ page import="java.util.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -12,7 +9,6 @@
 		<title>Accounts Springboot</title>
 		<!-- jQuery -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		<%--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>--%>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<!-- Latest compiled and minified CSS -->
@@ -24,9 +20,13 @@
 		<!-- Plaid Initializer -->
 		<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
 		<style>
+			html {
+				background-color: #ee1c1c;
+			}
 			body {
 				display: block;
 				margin: 8px;
+				background-color: #ee1c1c;
 			}
 			img {
 				width : 50px;
@@ -72,120 +72,111 @@
 		</style>
 	</head>
 	<body>
-		<% User user = (User)session.getAttribute("user"); %>
-		<% UserDAO userDAO;
-			ItemDAO itemDAO;
-			AccountDAO accountDAO;
-			BudgetDAO budgetDAO; %>
+		<% User user = (User) session.getAttribute("user"); %>
 		<h1 class="font1">Accounts Page for <i>${user.getFirstName()} ${user.getLastName()}</i></h1>
 		<br/>
 		<div style="display: inline-block; width:30%">
 			<input id="homepageBtn" type="button" class="button cursor" value="Homepage"/>
 			<hr/>
 			<input id="linkAccountsBtn" type="button" class="button cursor" value="Link Account"/>
+			<br/>
 		</div>
 		<div style="width: 500px; display: inline-block; overflow-wrap: break-word; word-wrap:break-word; word-break: break-all; vertical-align: top;" class="container">
 			<p id="changingText" class="changingText" style="overflow-wrap:break-word; word-wrap:break-word; word-break:break-all;">${changingText}</p>
+			<% Map institutionsIdsAndAccounts = (Map) session.getAttribute("institutionIdsAndAccounts"); %>
+			<div class="mainTable" id="bankAccountsTable">
+				<!-- Create a table that lists all banks -->
+				<!-- Each account should have an update button and a delete button -->
+				<table class="outerTable" id="outerTable">
+					<%
+						Map<String, Boolean> errMapForItems = (Map) session.getAttribute("errMapForItems");
+						// Load Map of ItemGetResponses here
+						List<Item> items = user.getItems();
+						for(Item item : items) {
+					%>
+					<!--BANK: [Bank Logo | Update | Delete] --> <!-- var firstRowText = $("[id='bank']").attr('id'); -->
+					<tr id="bankRow">
+						<td id="logoCell">
+							<%= item.getBankName() %> <!-- change to Logo -->
+						</td>
+						<!-- Whitespace -->
+						<!--  Change this button to ONLY show if there is an error.  -->
+						<td id="updateBtnCell" name="<%= errMapForItems.get(item.getInstitutionId()) %>">
+							<form id="updateBankForm">
+								<input type="hidden" name="action" value="update_bank"/>
+								<input type="hidden" name="institutionId" value="<%= item.getInstitutionId() %>"/>
+								<input type="hidden" name="bankName" value="<%= item.getBankName() %>"/>
+								<input id="updateBankBtn" type="button" value="Update bank"/>
+							</form>
+						</td>
+						<!-- Whitespace -->
+						<td id="deleteBtnCell">
+							<form id="deleteBankForm">
+								<input type="hidden" name="action" value="delete_bank"/>
+								<input type="hidden" name="institutionId" value="<%= item.getInstitutionId() %>"/>
+								<input type="hidden" name="bankName" value="<%= item.getBankName() %>"/>
+								<input id="deleteBankBtn" type="button" value="Delete bank"/>
+							</form>
+						</td>
+					</tr>
+					<%--<% } %>--%>
+				</table>
+				<!-- Whitespace -->
+				<!-- Create a table that lists all accounts for each bank-->
+				<table class="innerTable" id="innerTable" style="border: 1px solid black;">
+					<tr id="header" name="">
+						<th colspan="5">
+							<h4 id="bankName"></h4>
+						</th>
+						<th>
+							<button onclick="hideInnerTable()">Go Back</button>
+						</th>
+					</tr>
+					<%
+						List<Account> accountsForItem = (List<Account>) institutionsIdsAndAccounts.get(item.getInstitutionId());
+						for (Account acct : accountsForItem) {
+							String name = (acct.getAccountName() != null) ? acct.getAccountName() : acct.getOfficialName();
+					%>
+					<!-- [Name | Mask | Available Balance] | Delete -->
+					<tr id="acct" class="acct" name="<%= item.getBankName() %>">
+						<!-- Account -->
+						<td>
+							<%= name %>
+						</td>
+						<!-- Whitespace -->
+						<td>
+							<%= acct.getMask() %>
+						</td>
+						<!-- Whitespace -->
+						<td>
+							<%= acct.getAvailableBalance() %>
+							<!-- add logic for credit cards to show owed amount as well -->
+						</td>
+						<!-- Whitespace -->
+						<td>
+							<%= acct.get_type() %>
+						</td>
+						<!-- Whitespace -->
+						<td>
+							<%= acct.getSubType() %>
+						</td>
+						<!-- Delete Account -->
+						<td id="deleteAccount">
+							<form id="deleteAccountForm">
+								<input type="hidden" id="action" value="delete_account"/>
+								<input type="hidden" id="accountId" value="<%= acct.getAccountId() %>"/>
+								<input type="hidden" id="item_ItemId" value="<%= acct.getItemId() %>"/>
+								<input type="hidden" id="bankName2" value="<%= item.getBankName() %>"/>
+								<input type="hidden" id="accountName" value="<%= name %>"/>
+								<input type="button" id="deleteAccountBtn" class="button cursor" value="Delete account"/>
+							</form>
+						</td>
+					</tr>
+					<% }
+					} %>
+				</table>
+			</div>
 		</div>
-		<!-- Create a table that lists all accounts -->
-		<!-- Each account should have an update button and a delete button -->
-		<!-- Update updates the Item -->
-		<!-- Delete deletes the Item -->
-		<% Map institutionsIdsAndAccounts = (Map) session.getAttribute("institutionIdsAndAccounts"); %>
-		<div class="mainTable" id="accountsTable">
-			<table class="outerTable" id="outerTable">
-				<%
-					Map<String, Boolean> errMapForItems = (Map) session.getAttribute("errMapForItems");
-					// Load Map of ItemGetResponses here
-					List<Item> items = (List) session.getAttribute("items");
-					for(Item item : items) {
-				%>
-				<!--BANK: [Bank Logo | Update | Delete] --> <!-- var firstRowText = $("[id='bank']").attr('id'); -->
-				<tr id="bankRow">
-					<td id="logoCell">
-						<%= item.getBankName() %> <!-- change to Logo -->
-					</td>
-					<!-- Whitespace -->
-					<!--  Change this button to ONLY show if there is an error.  -->
-					<td id="updateBtnCell" name="<%= errMapForItems.get(item.getInstitutionId()) %>">
-						<form id="updateBankForm">
-							<input type="hidden" name="action" value="update_bank"/>
-							<input type="hidden" name="institutionId" value="<%= item.getInstitutionId() %>"/>
-							<input type="hidden" name="bankName" value="<%= item.getBankName() %>"/>
-							<input id="updateBankBtn" type="button" value="Update bank"/>
-						</form>
-					</td>
-					<!-- Whitespace -->
-					<td id="deleteBtnCell">
-						<form id="deleteBankForm">
-							<input type="hidden" name="action" value="delete_bank"/>
-							<input type="hidden" name="institutionId" value="<%= item.getInstitutionId() %>"/>
-							<input type="hidden" name="bankName" value="<%= item.getBankName() %>"/>
-							<input id="deleteBankBtn" type="button" value="Delete bank"/>
-						</form>
-					</td>
-				</tr>
-				<% } %>
-			</table>
-			<!-- Whitespace -->
-			<table class="innerTable" id="innerTable" style="border: 1px solid black;">
-				<tr id="header" name="">
-					<th colspan="5">
-						<h4 id="bankName"></h4>
-					</th>
-					<th>
-						<button onclick="hideInnerTable()">Go Back</button>
-					</th>
-				</tr>
-				<%
-					//institutionsIdsAndAccounts
-					List<String> idSet = institutionsIdsAndAccounts.keySet().stream().toList();
-					for (String id : idSet) {
-						Item currentItem = items.stream().filter(iTem -> iTem.getInstitutionId().equals(id)).findFirst().orElse(null);
-						List<Account> acctsList = (List<Account>) institutionsIdsAndAccounts.get(id);
-						for (Account acct : acctsList) {
-							String name = acct.getAccountName() != null ?
-									acct.getAccountName() :
-									acct.getOfficialName(); %>
-				<!-- [Name | Mask | Available Balance] | Delete -->
-				<tr id="acct" class="acct" name="<%= currentItem.getBankName() %>">
-					<!-- Account -->
-					<td>
-						<%= name %> <!-- Name of Account otherwise Official Name -->
-					</td>
-					<!-- Whitespace -->
-					<td>
-						<%= acct.getMask() %>
-					</td>
-					<!-- Whitespace -->
-					<td>
-						<%= acct.getAvailableBalance() %>
-						<!-- add logic for credit cards to show owed amount as well -->
-					</td>
-					<!-- Whitespace -->
-					<td>
-						<%= acct.get_type() %>
-					</td>
-					<!-- Whitespace -->
-					<td>
-						<%= acct.getSubType() %>
-					</td>
-					<!-- Delete Account -->
-					<td id="deleteAccount">
-						<form id="deleteAccountForm">
-							<input type="hidden" id="delete" value="account"/>
-							<input type="hidden" id="currentId" value="<%= id %>"/>
-							<input type="hidden" id="itemTableId" value="<%= acct.getItemId() %>"/>
-							<input type="hidden" id="accountId" value="<%= acct.getAccountId() %>"/>
-							<input type="button" id="deleteAccountBtn" class="button cursor" onclick="deleteAccount('<%= name %>');" value="Delete account"/>
-						</form>
-					</td>
-				</tr>
-				<% }
-				} %>
-			</table>
-		</div>
-		<br/>
 		<br/>
 		<script type="text/javascript">
 			$(function() {
@@ -256,14 +247,14 @@
 								data: {
 									public_token: public_token,
 									link_session_id: metadata.link_session_id,
-									institutionId: metadata.insitution_id,
+									institutionId: metadata.institution_id,
 									accounts: jsonAccount,
 									institution_name: metadata.institution.name,
 									institution_id: metadata.institution.institution_id
 								},
 								statusCode: {
 									200: function(data) {
-										updateAccountsTable();
+										//updateAccountsTable();
 										updateBanksTable();
 										location.reload();
 										console.log(JSON.stringify(data));
@@ -355,7 +346,7 @@
 				$('#deleteBankBtn').on('click', function() {
 					let action = $("[id='deleteBankForm']").find('input:nth-child(1)').text();
 					let institutionId = $("[id='deleteBankForm']").find('input:nth-child(2)').text();
-					let bankName = $("[id='deleteBankForm']").find('input:nth-child(3)').text(); //getInstitutionNameFromId(institutionId);
+					let bankName = $("[id='deleteBankForm']").find('input:nth-child(3)').text();
 					let buttonSelectedText = $("[id='deleteBankForm']").find('input:nth-child(4)').text();
 					let ans = '';
 					console.log('bankName: ' + bankName);
@@ -397,9 +388,57 @@
 						});
 					}
 				});
+				$('#deleteAccountBtn').on('click', function() {
+					let action = $("[id='deleteAccountForm']").find('input:nth-child(1)').text();
+					let accountId = $("[id='deleteAccountForm']").find('input:nth-child(2)').text();
+					let itemId = $("[id='deleteAccountForm']").find('input:nth-child(3)').text();
+					let bankName = $("[id='deleteAccountForm']").find('input:nth-child(4)').text();
+					let accountName = $("[id='deleteAccountForm']").find('input:nth-child(5)').text();
+					let buttonSelectedText = $("[id='deleteAccountForm']").find('input:nth-child(6)').text();
+					var ans = "";
+					ans = prompt('WARNING! You are about to delete your ' + acctName + ' account. Are you sure you want to continue? Enter: \'Yes\' to confirm.','');
+					if (ans === 'Yes'.toLowerCase() || ans === 'Y'.toLowerCase()) {
+						console.log('Making a post request to Delete to delete this single ' + acctName + ' account.');
+						$.ajax({
+							headers: {
+								accept: "application/json",
+								contentType: "application/json"
+							},
+							type: "POST",
+							url: "${pageContext.request.contextPath}/delete-account",
+							async: true,
+							dataType: "application/json",
+							crossDomain: true,
+							data: {
+								action: action,
+								accountId: accountId,
+								itemId: itemId,
+								bankName: bankName,
+								accountName: accountName,
+								btnSelected: buttonSelectedText
+							},
+							statusCode: {
+								200: function(data) {
+									console.log(JSON.stringify(data))
+									location.reload();
+								},
+								400: function() {
+									console.log(JSON.stringify(data))
+								},
+								404: function(data) {
+									console.log(JSON.stringify(data));
+								},
+								500: function(data) {
+									console.log(JSON.stringify(data));
+								}
+							}
+						});
+					}
+					return false;
+				});
 
 				var text = $("[id='changingText']").text();
-				var usersAccounts = <%= user.getAccountIds().size() %>;
+				var usersAccounts = <%= user.getAccounts().size() %>;
 				var goodText = "You successfully re-authorized your bank!";
 				var goodLength = goodText.length;
 				var goodText2 = "You have successfully loaded";
@@ -452,9 +491,7 @@
 					// Don't fade the text
 				}
 				hideInnerTable();
-				updateAccountsTable();
 				updateBanksTable();
-				//console.log("jsp page has finished loading.")
 			});
 			function hideInnerTable() {
 				$("[id='acct']").each(function() {
@@ -462,42 +499,27 @@
 				});
 				$(".innerTable").hide();
 				$(".outerTable").show();
-			};
+			}
 			function replaceAll(str, find, replace) {
 			    return str.replace(new RegExp(find, 'g'), replace);
-			};
-			function deleteAccount(acctName) {
-				var ans = "";
-				ans = prompt('WARNING! You are about to delete your ' + acctName + ' account. Are you sure you want to continue? Enter: \'Yes\' to confirm.','');
-				if (ans == 'Yes'.toLowerCase() && ans != null) {
-					console.log('Making a post request to Delete to delete this single ' + acctName + ' account.');
-					return true;
-				}
-				return false;
-			};
+			}
 			function resetParagraphs(metadata_accounts_length) {
 				//console.log("Inside resetParagraphs");
-				var usersAccounts = <%= user.getAccountIds().size() %>;
-				//console.log("usersAccounts: " + usersAccounts);
-				var strAccounts = (usersAccounts == 1) ? ' account!' : ' accounts!';
+				var usersAccounts = <%= user.getAccounts().size() %>;
+				var strAccounts = (usersAccounts === 1) ? ' account!' : ' accounts!';
 				$('#accounts').text('Accounts - ' + usersAccounts);
 		        $('#changingText').text('You have successfully loaded ' + metadata_accounts_length + strAccounts);
-			};
+			}
 			function updateBanksTable() {
 				$("[id='bankRow']").each(function() {
-					var row = $(this);
 					var col1 = $(this).find('td:nth-child(1)'); // Will be the Logo
-					var bankName = col1.text();
+					var bankName = col1.text().trim();
 					var col2 = $(this).find('td:nth-child(2)'); // Update button
 					var col3 = $(this).find('td:nth-child(3)'); // Delete button
-					//console.log("cell value: " + institutionId);
-					var nameOfButton = col2.attr('name');
-					//console.log("button name is: " + nameOfButton); // expecting true or false
-					//if (institutionId == "") { $(this).html(''); }
-					// will do for all update buttons
+					console.log("bankName: '" + bankName + '\'');
 					if (col2.attr('name') === "true") { col2.show(); }
 					else { col2.hide(); }
-					// will do for all images
+					// will do for all images, sets col1 to its appropriate image
 					switch (bankName) {
 						case "Bank of America"  : col1.html('<img src="${pageContext.request.contextPath}/images/bankofamerica.jpg" alt="Bank_of_America"/>');
 										break;
@@ -549,113 +571,15 @@
 						<%-- <tr id="acct" name="<%= currentId %>"> --%>
 						$("[id='header'] > th > h4").text(nameOfButton);
 						$("[id='acct']").each(function() {
-							var acctRow = $(this); //$("[id='acct']")
-							acctRow.show();
-							var acctRowId = acctRow.attr('id');
-							var acctRowName = acctRow.attr('name');
+							$(this).show();
+							var acctRowName = $(this).attr('name');
 							console.log('acctRowName is ' + acctRowName);
-							if (acctRowName === nameOfButton) acctRow.show();
-							else acctRow.hide();
+							if (acctRowName === nameOfButton) $(this).show();
+							else $(this).hide();
 						});
 						$('.innerTable').show();
-						
 					});
 				}); // end for each row
-			}
-			function updateAccountsTable() {
-				//console.log("Inside updateAccountsTable()");
-				<%-- <tr id="acct" name="<%= currentId %>"> 
-				id="bankName" --%>
-				$("[id='acct']").each(function() {
-					var acctRow = $(this); //$("[id='acct']")
-					var acctRowId = acctRow.attr('id');
-					var acctRowName = acctRow.attr('name');
-					console.log(acctRowId == 'acct' ? 'ROW ATTAINED!' : 'DO NOT HAVE ROW');
-					console.log('acctRow name before: ' + acctRowName);
-					// switch(acctRowName) {
-					// 	case "Bank of America" :  acctRow.attr('name', 'Bank of America');
-					// 					break;
-					// 	case "ins_2" :  acctRow.attr('name', 'BB&T');
-					// 					break;
-					// 	case "ins_3" :  acctRow.attr('name', 'Chase');
-					// 					break;
-					// 	case "ins_4" :  acctRow.attr('name', 'Wells Fargo');
-					// 					break;
-					// 	case "ins_5" :  acctRow.attr('name', 'Citi');
-					// 					break;
-					// 	case "ins_6" :  acctRow.attr('name', 'US Bank');
-					// 					break;
-					// 	case "ins_7" :  acctRow.attr('name', 'USAA');
-					// 					break;
-					// 	case "ins_9" :  acctRow.attr('name', 'Capital One');
-					// 					break;
-					// 	case "ins_10" : acctRow.attr('name', 'American Express');
-					// 					break;
-					// 	case "ins_11" : acctRow.attr('name', 'Charles Schwab');
-					// 					break;
-					// 	case "ins_12" : acctRow.attr('name', 'Fidelity');
-					// 					break;
-					// 	case "ins_13" : acctRow.attr('name', 'PNC');
-					// 					break;
-					// 	case "ins_14" : acctRow.attr('name', 'TD Bank');
-					// 					break;
-					// 	case "ins_15" : acctRow.attr('name', 'Navy Federal');
-					// 					break;
-					// 	case "ins_16" : acctRow.attr('name', 'Sun Trust');
-					// 					break;
-					// 	case "ins_19" : acctRow.attr('name', 'Regions');
-					// 					break;
-					// 	case "ins_20" : acctRow.attr('name', 'Citizens Bank');
-					// 					break;
-					// 	case "ins_21" : acctRow.attr('name', 'Huntington');
-					// 					break;
-					// 	default : console.log('unknown institution.')
-					// }
-					//console.log("acctRow name after: \""+acctRow.attr('name')+"\"");
-				});
-			}
-			function getInstitutionNameFromId(institutionId) {
-				var bankName = '';
-				switch(institutionId) {
-					case "ins_1" :  bankName =  'Bank of America';
-									break;
-					case "ins_2" :  bankName =  'BB&T';
-									break;
-					case "ins_3" :  bankName =  'Chase';
-									break;
-					case "ins_4" :  bankName =  'Wells Fargo';
-									break;
-					case "ins_5" :  bankName =  'Citi';
-									break;
-					case "ins_6" :  bankName =  'US Bank';
-									break;
-					case "ins_7" :  bankName =  'USAA';
-									break;
-					case "ins_9" :  bankName =  'Capital One';
-									break;
-					case "ins_10" : bankName =  'American Express';
-									break;
-					case "ins_11" : bankName =  'Charles Schwab';
-									break;
-					case "ins_12" : bankName =  'Fidelity';
-									break;
-					case "ins_13" : bankName =  'PNC';
-									break;
-					case "ins_14" : bankName =  'TD Bank';
-									break;
-					case "ins_15" : bankName =  'Navy Federal';
-									break;
-					case "ins_16" : bankName =  'Sun Trust';
-									break;
-					case "ins_19" : bankName =  'Regions';
-									break;
-					case "ins_20" : bankName =  'Citizens Bank';
-									break;
-					case "ins_21" : bankName =  'Huntington';
-									break;
-					default : bankName = 'unknown institution.';
-				}
-				return bankName;
 			}
 			function getUpdateHandler(publicToken) {
 				//console.log('Inside getUpdateHandler');

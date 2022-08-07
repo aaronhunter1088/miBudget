@@ -6,7 +6,6 @@ import com.miBudget.daos.*;
 import com.miBudget.entities.Account;
 import com.miBudget.entities.Item;
 import com.miBudget.entities.User;
-import com.miBudget.servlets.Accounts;
 import com.plaid.client.PlaidClient;
 import com.plaid.client.request.AccountsGetRequest;
 import com.plaid.client.request.ItemGetRequest;
@@ -15,7 +14,6 @@ import com.plaid.client.request.ItemRemoveRequest;
 import com.plaid.client.response.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.HibernateException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -183,7 +181,7 @@ public class ItemController {
                         acctObj.setOfficialName(getResA.getOfficialName() != null ? getResA.getOfficialName() : "");
                         acctObj.set_type(getResA.getType());
                         acctObj.setSubType(getResA.getSubtype());
-                        acctObj.setItemId(bankToAdd.getId());
+                        acctObj.setItemId(bankToAdd.getItemId());
                         acctObj.setUserId(user.getId());
                         LOGGER.info("Adding acctObj to accountsList...");
                         accountsRequestedList.add(acctObj);
@@ -206,7 +204,7 @@ public class ItemController {
 
         // Check to see if user is attempting to re-add a bank or
         // re-adding accounts
-        List<Account> usersCurrentAccountsList = accountDAO.findAccountByUserId(user.getId());
+        List<Account> usersCurrentAccountsList = accountDAO.findAccountsByUserId(user.getId());
         boolean duplicateBank = false;
         boolean duplicateAcct = false;
         Set<String> institutionIdsList = ((Map<String, List<Account>>)session.getAttribute("institutionIdsAndAccounts")).keySet();
@@ -278,7 +276,7 @@ public class ItemController {
             }
 
             // Create bank object
-            bankToAdd = new Item(itemId, accessToken, institutionId, institutionName, user.getId().toString());
+            bankToAdd = new Item(itemId, accessToken, institutionId, institutionName, user.getId());
             LOGGER.info("created bankToAdd: " + bankToAdd);
 
             //int verify = 0;
@@ -328,7 +326,7 @@ public class ItemController {
 //		    int itemTableId = itemDAOImpl.getItemTableIdForItemId(bankToAdd.getItemId());
             Item finalBankToAdd = bankToAdd;
             accountsRequestedList.forEach(account -> {
-                account.setItemId(finalBankToAdd.getId());
+                account.setItemId(finalBankToAdd.getItemId());
             });
             // Need the above lines to set item_table_id for the accounts. they all have the same item
             // But need to set to proper item_table_id that was set.
@@ -341,7 +339,7 @@ public class ItemController {
             }
             // Add accountsList to requestSession
             //user.setAccountIds( (ArrayList<String>) MiBudgetState.getAccountDAOImpl().getAllAccountsIds(user)); // update accountIds
-            usersCurrentAccountsList = accountDAO.findAccountByUserId(user.getId());
+            usersCurrentAccountsList = accountDAO.findAccountsByUserId(user.getId());
             usersCurrentAccountsList.forEach(account -> {
                 LOGGER.info(account);
             });
@@ -454,7 +452,7 @@ public class ItemController {
     }
 
     @RequestMapping(path="/delete-account", method=RequestMethod.POST)
-    public void deleteAccount(HttpServletRequest request, HttpServletResponse response) throws Exception
+    public void deleteItemAccount(HttpServletRequest request, HttpServletResponse response) throws Exception
     {
         performAction(request, response);
     }
@@ -479,7 +477,7 @@ public class ItemController {
                 break;
             }
             case ("delete_account") : {
-                deleteResponse = doDeleteAccount(request, response);
+                deleteResponse = deleteAccount(request, response);
                 break;
             }
 
@@ -511,7 +509,7 @@ public class ItemController {
         //    return "FAIL: did not delete bank references from the database.";
         //}
         List<Account> banksAccounts = accountDAO.findAccountsByItemId(item.getItemId());
-        boolean verify = deleteAccounts(banksAccounts, item.getBankName());
+        boolean verify = doDeleteAccounts(banksAccounts, item.getBankName());
         if (!verify) {
             return "FAIL: did not delete the accounts";
         }
@@ -537,7 +535,7 @@ public class ItemController {
                     session.getAttribute("institutionIdsAndAccounts");
             institutionIdsAndAccounts.remove(item.getId());
             // update session values
-            updateUser(user, banksAccounts, item);
+            updateUser(user, banksAccounts, item, session);
             int numberOfAccounts = user.getAccounts().size() - banksAccounts.size();
             //ArrayList<String> institutionIdsList = (ArrayList<String>) MiBudgetState.getMiBudgetDAOImpl().getAllInstitutionIdsFromUser(user);
             //session.setAttribute("institutionIdsList", institutionIdsList);
@@ -553,30 +551,34 @@ public class ItemController {
         return "deleteBank: SUCCESS";
     }
 
-    protected String doDeleteAccount(HttpServletRequest request, HttpServletResponse response) throws Exception
+    protected String deleteAccount(HttpServletRequest request, HttpServletResponse response) throws Exception
     {
         LOGGER.info(Constants.start);
-        LOGGER.info("ItemController::doDeleteAccount");
+        LOGGER.info("ItemController::deleteAccount");
         String accountId = request.getParameter("accountId");
-        String item_Id = request.getParameter("item_id");
+        String bankName = request.getParameter("bankName");
+        String itemId = request.getParameter("itemId");
+        String accountName = request.getParameter("accountName");
         Account account = accountDAO.findByAccountId(accountId);
-        LOGGER.info("Attempting to delete: " + account);
-        HttpSession session = request.getSession(false);
-        User user = (User)session.getAttribute("user");
-        Item item = itemDAO.findById(Long.valueOf(item_Id)).orElse(null);
-        if (item == null) {
-            return "FAIL: Item came back null";
+        LOGGER.info("Attempting to delete: {}", accountName);
+        doDeleteAccounts(List.of(account), bankName);
+        // Check if there are any no more accounts for Item. If so, Item subsequentially needs to be removed
+        List<Account> accountsForItem = accountDAO.findAccountsByItemId(itemId);
+        LOGGER.info("# of accounts: {} for {}", accountsForItem.size(), bankName);
+        Item itemDeleted = null;
+        if (accountsForItem.size() == 0) {
+            itemDeleted = itemDAO.deleteByItemId(itemId);
+            LOGGER.info("No more accounts exist for this Item.");
         }
-        List<Account> accountsForItem = accountDAO.findAccountsByItemId(item.getItemId());
-        LOGGER.info("# of accounts: {} for {}" + accountsForItem.size(), item.getBankName());
-        accountsForItem.remove(account);
-        user.getAccounts().remove(account);
-        LOGGER.info("ItemController::doDeleteAccount");
+        HttpSession session = request.getSession(false);
+        User user = (User) session.getAttribute("user");
+        updateUser(user, List.of(account), itemDeleted, session);
+        LOGGER.info("ItemController::deleteAccount");
         LOGGER.info(Constants.end);
         return "SUCCESS: Account deleted";
     }
 
-    protected boolean deleteAccounts(List<Account> bankAccounts, String bankName)
+    protected boolean doDeleteAccounts(List<Account> bankAccounts, String bankName)
     {
         try {
             accountDAO.deleteAll(bankAccounts);
@@ -590,7 +592,8 @@ public class ItemController {
     protected boolean deleteItem(Item item)
     {
         try {
-            itemDAO.delete(item);
+            itemDAO.deleteByItemId(item.getItemId());
+            LOGGER.info("Item removed");
             return true;
         } catch (Exception e) {
             LOGGER.error("There was an issue deleting the item: {}", item);
@@ -598,6 +601,31 @@ public class ItemController {
         }
     }
 
-    protected void updateUser(User user, List<Account> bankAccountsDeleted, Item itemDeleted)
-    { user.getAccounts().removeAll(bankAccountsDeleted); }
+    /**
+     * Updates the user and the session values associated with the user
+     * @param user
+     * @param bankAccountsDeleted
+     * @param itemDeleted
+     * @param session
+     */
+    protected void updateUser(User user, List<Account> bankAccountsDeleted, Item itemDeleted, HttpSession session)
+    {
+        // Update accounts
+        user.getAccounts().removeAll(bankAccountsDeleted);
+        // Update items
+        if (itemDeleted != null) { user.getItems().remove(itemDeleted); }
+        // Update institutionIdsAndAccounts
+        List<String> itemsIdsList = itemDAO.findItemIdByUserId(user.getId());
+        Map<String, List<Account>> institutionIdsAndAccounts = new HashMap<>();
+        for (String itemId : itemsIdsList) {
+            Item item = itemDAO.findItemByItemId(itemId);
+            List<Account> accountsForItem = accountDAO.findAccountsByItemId(itemId);
+            institutionIdsAndAccounts.put(item.getInstitutionId(), accountsForItem);
+        }
+
+        // Reset session attributes
+        session.setAttribute("accountsSize", user.getAccounts().size());
+        session.setAttribute("institutionIdsAndAccounts", institutionIdsAndAccounts);
+        session.setAttribute("user", user);
+    }
 }

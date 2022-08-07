@@ -20,7 +20,7 @@ public class Item implements Serializable {
 	private String itemId;
 	private String accessToken;
 	private String bankName;
-	private String userId;
+	private Long userId;
 
 	public Item() {}
 	public Item(String itemId, String accessToken) {
@@ -32,10 +32,10 @@ public class Item implements Serializable {
 		this.itemId = itemId;
 		this.accessToken = accessToken;
 	}
-	public Item(String itemId, String accessToken, String institutionId, String bankName, String userId) {
+	public Item(String itemId, String accessToken, String institutionId, String bankName, Long userId) {
 		if (StringUtils.isNotEmpty(itemId) && StringUtils.isNotEmpty(accessToken) &&
 			StringUtils.isNotEmpty(institutionId) && StringUtils.isNotEmpty(bankName) &&
-			StringUtils.isNotEmpty(userId)) {
+			userId != 0.0) {
 			this.itemId = itemId;
 			this.accessToken = accessToken;
 			this.institutionId = institutionId;

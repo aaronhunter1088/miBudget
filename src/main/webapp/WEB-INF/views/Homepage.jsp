@@ -26,9 +26,13 @@
         <script src="//cdn.amcharts.com/lib/4/maps.js"></script>
         <style>
             /* By Element */
+            html {
+                background-color: #d95323;
+            }
             body {
                 display: block;
                 margin: 8px;
+                background-color: #d95323;
             }
             /* By Class */
             .button {

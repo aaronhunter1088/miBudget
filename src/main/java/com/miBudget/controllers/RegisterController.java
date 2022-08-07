@@ -187,7 +187,7 @@ public class RegisterController {
         budget.setChildBudgetIds(List.of(innerBudget.getId()));
         registeringUser.setBudget(budget);
         registeringUser.setMainBudgetId(budget.getId());
-        registeringUser.setAccountIds(new ArrayList<>());
+        registeringUser.setAccounts(new ArrayList<>());
         categoryDAO.saveAll(budget.getCategories());
         // Update user
         userDAO.save(registeringUser);

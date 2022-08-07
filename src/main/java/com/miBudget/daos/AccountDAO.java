@@ -13,7 +13,7 @@ public interface AccountDAO extends JpaRepository<Account, Long> {
     @Query("SELECT a.id FROM Account a WHERE a.userId = :userId")
     List<Long> findIdByUserId(@Param("userId") Long userId);
     @Query("SELECT a FROM Account a WHERE a.userId = :userId")
-    List<Account> findAccountByUserId(@Param("userId") Long userId);
+    List<Account> findAccountsByUserId(@Param("userId") Long userId);
     @Query("SELECT a.accountId FROM Account a WHERE a.userId = :userId")
     List<String> findAccountIdByUserId(@Param("userId") Long userId);
     @Query("SELECT a FROM Account a WHERE a.id = :id")
