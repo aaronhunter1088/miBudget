@@ -52,18 +52,18 @@ public class MiBudgetServicesController {
     }
 
     @RequestMapping(path="/budgets/{userId}/{mainBudgetId}/categories", method = RequestMethod.GET)
-    public Response getAllCategories(
+    public Object getAllCategories(
             @PathVariable("userId") Long userId,
             @PathVariable("mainBudgetId") Long mainBudgetId) {
         List<Category> allCategories = new ArrayList<>();
         List<Budget> children = budgetDAO.findBudgetByUserId(userId)
                 .stream()
                 .filter(budget -> !Objects.equals(budget.getId(), mainBudgetId))
-                .collect(Collectors.toList());
+                .toList();
         for (Budget child : children) {
             allCategories.addAll(categoryDAO.findAllByBudgetId(child.getId()));
         }
         String result = JsonUtility.changeToJsonString(allCategories);
-        return Response.ok(result).build();
+        return Response.ok(result).build().getEntity();
     }
 }

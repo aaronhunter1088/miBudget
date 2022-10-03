@@ -14,7 +14,7 @@ import lombok.Data;
 
 import static com.miBudget.enums.AppType.FREE;
 
-@Data
+//@Data
 @Entity
 @Table(name="users")
 public class User {
@@ -74,6 +74,118 @@ public class User {
 		this.email = email;
 		this.appType = appType;
 		this.ignoredTransactions = new ArrayList<>();
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getCellphone() {
+		return cellphone;
+	}
+
+	public void setCellphone(String cellphone) {
+		this.cellphone = cellphone;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Long getMainBudgetId() {
+		return mainBudgetId;
+	}
+
+	public void setMainBudgetId(Long mainBudgetId) {
+		this.mainBudgetId = mainBudgetId;
+	}
+
+	public AppType getAppType() {
+		return appType;
+	}
+
+	public void setAppType(AppType appType) {
+		this.appType = appType;
+	}
+
+	public Budget getBudget() {
+		return budget;
+	}
+
+	public void setBudget(Budget budget) {
+		this.budget = budget;
+	}
+
+	public List<Transaction> getIgnoredTransactions() {
+		return ignoredTransactions;
+	}
+
+	public void setIgnoredTransactions(List<Transaction> ignoredTransactions) {
+		this.ignoredTransactions = ignoredTransactions;
+	}
+
+	public List<Transaction> getTransactions() {
+		return transactions;
+	}
+
+	public void setTransactions(List<Transaction> transactions) {
+		this.transactions = transactions;
+	}
+
+	public List<Transaction> getBills() {
+		return bills;
+	}
+
+	public void setBills(List<Transaction> bills) {
+		this.bills = bills;
+	}
+
+	public List<Account> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(List<Account> accounts) {
+		this.accounts = accounts;
+	}
+
+	public List<Item> getItems() {
+		return items;
+	}
+
+	public void setItems(List<Item> items) {
+		this.items = items;
 	}
 
 	@Override

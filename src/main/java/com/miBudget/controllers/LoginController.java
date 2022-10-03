@@ -52,23 +52,23 @@ public class LoginController {
             String usersPassword = request.getParameter("password");
             LOGGER.info("cellphone: " + usersCellphone);
             LOGGER.info("password: " + usersPassword);
-            User loginUser = new User(usersCellphone, usersPassword);
+            User loginUser; // = new User(usersCellphone, usersPassword);
             List<String> allCellphones = userDAO.findAllCellphones();
             boolean existingUser = false;
             for (String cellphone : allCellphones) {
-                if (cellphone.equals(loginUser.getCellphone())) {
+                if (cellphone.equals(usersCellphone) ) {
                     LOGGER.info("login user's cellphone found in list");
                     loginUser = userDAO.findUserByCellphone(cellphone); // user's name is set
                     // POPULATE USER BUDGET ATTRIBUTES
                     final Long mainBudgetId = loginUser.getMainBudgetId();
-                    Budget usersMainBudget = budgetDAO.findBudgetByMainBudgetId(loginUser.getMainBudgetId());
-                    List<Budget> children = budgetDAO.findBudgetByUserId(loginUser.getId())
+                    Budget usersMainBudget = budgetDAO.findBudgetByMainBudgetId(mainBudgetId);
+                    List<Budget> childrenBudgets = budgetDAO.findBudgetByUserId(loginUser.getId())
                             .stream()
                             .filter(budget -> !Objects.equals(budget.getId(), mainBudgetId))
-                            .collect(Collectors.toList());
+                            .toList();
                     List<Category> allCategories = new ArrayList<>();
                     List<Long> childrenIds = new ArrayList<>();
-                    for (Budget child : children) {
+                    for (Budget child : childrenBudgets) {
                         allCategories.addAll(categoryDAO.findAllByBudgetId(child.getId()));
                         childrenIds.add(child.getId());
                     }
@@ -102,6 +102,7 @@ public class LoginController {
                     session.setAttribute("loggedIn", true); // just a check
                     session.setAttribute("accountsSize", accountsList.size());
                     session.setAttribute("dateAndTime", DateAndTimeUtility.getDateAndTimeAsStr());
+                    session.setAttribute("newCategoryName", null);
                     session.setAttribute("user", loginUser);
                     if (accountsTotal == 0) { session.setAttribute("changingText", ":( You can't create a Budget with no Accounts. Go add Accounts next."); }
                     else {

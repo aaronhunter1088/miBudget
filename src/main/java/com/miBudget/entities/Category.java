@@ -5,6 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.*;
@@ -23,6 +24,8 @@ public class Category implements Serializable {
 	private BigDecimal budgetedAmt;
 	private Long userId;
 	private Long budgetId;
+	@Transient
+	private List<Rule> rules;
 
 	public Category() {}
 	

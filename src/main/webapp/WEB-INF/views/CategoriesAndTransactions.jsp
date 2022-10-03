@@ -12,13 +12,13 @@
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<!-- Latest compiled and minified CSS -->
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 		<!-- Optional theme -->
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
 		<!-- Latest compiled and minified JavaScript -->
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 		<!-- JavaScript Bundle with Popper -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
         <style>
 			<!-- NEEDED -->
 			html {
@@ -55,8 +55,8 @@
 			.inner {
 				width: calc(100% - 10px);
 				height: calc(100% - 10px);
-				margin: 5px;
-				display: inline;
+				margin: 50px;
+				display: inline-flex;
 			}
 			.cursor {
 				cursor:pointer;
@@ -144,79 +144,128 @@
 		<h3 style="display:inline;width:50%;float:right;text-align:center;" id="tHeader">Your Transactions</h3>
 		<!-- Start New Categories Div -->
 		<div id="categoriesDiv" class="border outer" style="width:50%;float:left; overflow-y:scroll;">
-			<div id="newCategoryDiv" class="inner">
-				<div id="nameAndAmtDiv" style="width:100%; display:flex; flex-direction: row;">
-					<div class="input-group" id="nameOption" style="">
-						<input class="form-control" id="categoryName" type="text" style="direction:LTR; width: 150px; margin-left:20px;" placeholder="Name of Category" tabindex="1" name="categoryName" title="This is the name of the new category" value="" required>
-						<span class="input-group-addon" style="width:25px;">
-							<i onclick="clearInput('categoryName')" class="glyphicon glyphicon-remove"></i>
-						</span>
-					</div>
-					<div class="input-group" id="categoryOption" style="">
-						<input class="form-control" id="categoryAmt" type="text" style="direction:LTR;" placeholder="Budgeted Amount" tabindex="2" name="budgetAmt" title="This is the budgeted amount" value="" required>
-						<div id="budgetAmtCurrencyDiv">
-							<input list="currencies" style="" placeholder="Currency" tabindex="2" name="currency" />
-							<datalist id="currencies">
-								<option value="USD">
-								<option value="CAD">
-								<option value="Euro">
-								<option value="Mex$">
-							</datalist>
+			<div id="newCategoryDiv" class="outer">
+				<div class="container" class="inner" style="margin-top:1em;">
+					<div id="nameAndAmtDiv" class="" style="display:inline-flex">
+						<div class="input-group" id="newCategoryNameDiv" style="display:inherit">
+							<input class="form-control" id="newCategoryName" type="text" style="direction:LTR; margin-left:20px;" placeholder="Name of Category">
+							<span class="input-group-addon" style="">
+								<i onclick="clearInput('categoryName')" class="glyphicon glyphicon-remove" style="text-align:center; font-size:10px;"></i>
+							</span>
 						</div>
-                    </div>
-				</div>
-				<br/>
-				<div id="rulesDiv">
-					<p>Rules takes precedence when new transactions come in and will affect this Category! You can define both types of rules but you must choose which one will take precedence.</p>
-					<br/>
-					<p style="float:left;">If a transactions amount is:</p>
-					<input id="transactionPrecedenceAmt" name="group1" value="precedenceAmount" style="float:right;" type="radio">
-					<br/>
-					<div id="currencyDiv2">
-						<input list="currencies" style="width:100px; display:block; float:left;" placeholder="Currency" tabindex="2" name="currency" />
-						<!-- TODO: Once one is selected, list disappears basically. Figure out how to keep entire list. -->
-						<datalist id="currencies">
-							<option value="USD">
-							<option value="CAD">
-							<option value="Euro">
-							<option value="Mex$">
-						</datalist>
-						<input type="text" style="direction:RTL; width: 144px; display:block; margin-left:100px;" placeholder="Transaction Amount" tabindex="3" name="categoryAmt" value="" required>
+						<div class="input-group" id="newCategoryCurrencyDiv" style="display:inherit">
+							<input class="form-control" id="newCategoryAmt" type="text" style="direction:LTR;" placeholder="Amount" tabindex="2" name="newCategoryAmount" title="New category amount" value="" required>
+							<select class="form-select" id="newCategoryCurrency">
+								<option selected>Currency</option>
+								<option value="1">USD</option>
+								<option value="2">CAD</option>
+								<option value="3">Mex$</option>
+								<option value="4">Euro</option>
+							</select>
+						</div>
 					</div>
-					<input id="transactionPrecedenceName" name="group1" value="precedenceName" style="float:right;" type="radio"/>
-					<p style="float:left;">If a transactions name is like:</p>
-					<br/>
-					<div class="input-group" style="right:0px;">
-						<input id="merchantsName2" class="form-control" type="text" style="width: 205px; display:block; left:0px;" placeholder="ex: McDs, Target, Sonic" tabindex="7" name="merchantsName" value="" required/>
-						<span class="input-group-addon">
-							<i onclick="clearInput('merchantsName2')" class="glyphicon glyphicon-remove"></i>
-						</span>
+				</div>
+				<br/>
+				<div class="container">
+					<button type="button" id="newRuleBtn" class="btn btn-default btn-sm">New Rule</button>
+					<button type="button" id="existingRulesBtn" class="btn btn-default btn-sm">Existing Rules</button>
+				</div>
+				<div class="container" class="inner" id="newRuleDiv" style="margin-top:1em;">
+					<p>New Rule</p>
+					<p>Define some rules to help your budget automatically map transactions to the proper category. Click
+					the 'Existing Rules' button to see rules defined for this category.</p>
+					<div id="newRules" style="display:block;">
+						<div class="form-check" style="font-size:10px;">
+							<input class="form-check-input" type="checkbox" value="Transaction Amount" id="flexCheckDefault">
+							<label class="form-check-label" for="flexCheckDefault">
+								Transaction Amount
+							</label>
+							<br/>
+							<div class="input-group" id="categoryOption" style="" disabled="true">
+								<input class="form-control" id="ruleCategoryAmt" type="text" style="direction:LTR; width:10em;" placeholder="Amount" tabindex="2" name="newCategoryAmount" title="New category amount" value="" required>
+								<select class="form-select" id="ruleCategoryCurrency" style="width:5em;">
+									<option selected>Currency</option>
+									<option value="1">USD</option>
+									<option value="2">CAD</option>
+									<option value="3">Mex$</option>
+									<option value="4">Euro</option>
+								</select>
+							</div>
+						</div>
+						<br/>
+						<div class="form-check" style="font-size:10px;">
+							<input class="form-check-input" type="checkbox" value="Rule Transaction Name" id="ruleTransactionName">
+							<label class="form-check-label" for="flexCheckDefault">
+								Transaction Name
+							</label>
+							<br/>
+							<div class="input-group" style="display:inline-flex">
+								<input class="form-control" type="text" style="" placeholder="Name of Category" >
+								<span class="input-group-addon" style="">
+								<i onclick="clearInput('merchantName2')" class="glyphicon glyphicon-remove" style="font-size:10px;"></i>
+							</span>
+							</div>
+						</div>
+						<br/>
+						<div class="container" style="text-align:center;">
+							<button type="button" class="btn btn-outline-dark" id="saveRuleBtn">Save Rule</button>
+							<button type="button" class="btn btn-outline-dark" id="wipeFormBtn">Wipe Form</button>
+							<button type="button" class="btn btn-outline-dark" id="saveCategoryBtn">Save Catgory</button>
+						</div>
 					</div>
-					<button type="submit" style="right:0%; left:71%; width:130px; white-space: nowrap;" id="saveRule">Save Rule</button>
 				</div>
-				<br/>
-				<br/>
-				<div id="currentRules" style="height: 90px; width:99%; overflow-y: scroll;">
-					<p>This div should be scrollable</p>
-					<p>It will dynamically list the rules the user has added to a new category.</p>
-					<p>Once rule is saved, user should have the freedom to edit any value right there. When category is saved the last
-						value inside each rule will be used as the ultimate decision for the rule. Also, all inputs for rules will be cleared.</p>
-					<p>Once rule is saved, user should have the freedom to edit any value right there. When category is saved the last
-						value inside each rule will be used as the ultimate decision for the rule. Also, all inputs for rules will be cleared.</p>
-
-					<p>Once rule is saved, user should have the freedom to edit any value right there. When category is saved the last
-						value inside each rule will be used as the ultimate decision for the rule. Also, all inputs for rules will be cleared.</p>
-
+				<div class="container" class="inner" id="existingRulesDiv" style="margin-top:1em;">
+					<p>Existing Rules</p>
+<%--					<div id="existingRulesDiv" style="height: 90px; width:99%; overflow-y: scroll;">--%>
+						<table class="outerTable" id="existingRulesTable" style="overflow-y: scroll;">
+							<tr id="existingRulesHeader" name="">
+								<th>
+									<h4 id="ruleNumber"></h4>
+								</th>
+								<th>
+									<h4 id="ruleReason"></h4>
+								</th>
+								<th colspan="2">
+									<h4 id="ruleBtns"></h4>
+								</th>
+							</tr>
+							<%
+								Category category = (Category) session.getAttribute("newCategoryName");
+								List<Rule> rules = category != null ? category.getRules() : Collections.EMPTY_LIST;
+								int i = 0;
+								for (Rule rule : rules) {
+									++i;
+							%>
+							<!-- [Rule #: <the rule> | Edit | Delete] -->
+							<tr>
+								<td>
+									Rule <%= i %>
+								</td>
+								<% if (rule.getRuleName() != null) { %>
+								<td>
+									<%= rule.getRuleName() %>
+								</td>
+								<% } else { %>
+								<td>
+									<%= rule.getRuleAmount() %>
+								</td>
+								<% } %>
+								<td id="<%= rule.getId() %>">
+									<button type="button" class="btn btn-primary btn-sm">Edit</button>
+								</td>
+								<td id="<%= rule.getId() %>">
+									<button type="button" class="btn btn-primary btn-sm">Delete</button>
+								</td>
+							</tr>
+							<% } %>
+						</table>
+<%--					</div>--%>
 				</div>
-				<br/>
-				<br/>
-				<button type="submit" style="float:left; left:19%; width:180px; white-space: nowrap;" tabindex="7" id="wipeForm">Wipe Category Form</button>
-				<button type="submit" style="float:left; left:70%; width:150px; white-space: nowrap;" tabindex="8" id="saveNewCategory">Save New Category</button>
 				<br/>
 				<br/>
 			</div>
 			<!-- Whitespace -->
-			<div id="currentCategoryDiv" class="inner">
+			<div id="currentCategoryDiv" class="outer">
 				<div class="input-control">
 					<input id="currentCategory"  class="form-control" list="categories1" type="text" style="width:244px; width:99%;" placeholder="Choose a Category" tabindex="1" name="categoryName" required/>
 					<datalist id="categories1">
@@ -225,8 +274,6 @@
 						   for (Category cat : categoriesList) { %>
 						<option value="<%= cat.getName() %>"></option>
 								<% } %>
-						<option value="Ignore"></option>
-						<option value="Income"></option>
 					</datalist>
 				</div>
 				<br/>
@@ -251,19 +298,6 @@
 				<div id="group2">
 					<p style="float:left;">If a transactions amount is:</p>
 					<input id="transactionPrecedence2" name="group2" value="precedenceAmount" style="float:right;" type="radio">
-
-					<br/>
-					<div id="currencyBlock">
-						<input id="currentCurrency" list="currencies" style="width:100px; display:block; float:left;" placeholder="Currency" tabindex="2" name="currency" />
-						<!-- TODO: Once one is selected, list disappears basically. Figure out how to keep entire list. -->
-						<datalist id="currencies">
-							<option value="USD">
-							<option value="CAD">
-							<option value="Euro">
-							<option value="Mex$">
-						</datalist>
-						<input type="text" style="direction:RTL; width: 144px; display:block; margin-left:100px;" placeholder="Transaction Amount" tabindex="3" name="categoryAmt" value="" required>
-					</div>
 					<input id="transactionPrecedence3" name="group2" value="precedenceName" style="float:right;" type="radio"/>
 					<p style="float:left;">If a transactions name is like:</p>
 					<br/>
@@ -308,8 +342,8 @@
 			<div id="getTransactionsDiv" class="inner">
 				<form action="cat" method="post">
 					<div style="width:100%; display:flex; flex-direction: row;">
-						<input style="display: block; width:50%; float:left;" title="The From Date is not required" class="form-control" id="FromDate" name="FromDate" placeholder="From" tabindex="#" type="text" value=""><br>
-						<input style="display: block; width:50%; float:right;" title="The To Date is not required" class="form-control" id="ToDate" name="ToDate" placeholder="To" tabindex="#" type="text" value=""><br>
+						<input style="display: block; width:50%; float:left;" title="The From Date is required" class="form-control" id="FromDate" name="FromDate" placeholder="From" tabindex="#" type="text" value=""><br>
+						<input style="display: block; width:50%; float:right;" title="The To Date is required" class="form-control" id="ToDate" name="ToDate" placeholder="To" tabindex="#" type="text" value=""><br>
 					</div>
 					<input type="hidden" name="validated" value="false"/>
 					<input type="hidden" name="formId" value="transactions"/>
@@ -338,12 +372,12 @@
 					<%
 						// Java code here
 						List<Transaction> transactions = user.getTransactions();
-						for (int i = 0; i < transactions.size(); i++) {
-							Transaction transaction = transactions.get(i);
+						for (int z = 0; z < transactions.size(); z++) {
+							Transaction transaction = transactions.get(z);
 					%>
 						<tr id="header" name="transactionName">
 							<th colspan="2">
-								<h4 id="TransactionMapping" style="text-align: center">Transaction <%= (i+1) %></h4>
+								<h4 id="TransactionMapping" style="text-align: center">Transaction <%= (z+1) %></h4>
 							</th>
 						</tr>
 						<form action="cat" method="post">
@@ -443,33 +477,36 @@
 
 				let categoriesMap = function () {
 					var categoriesM = new Map();
-					// $.ajax({
-					//     'type': "GET",
-					//     'url': "Services",
-					//     'data': { 'method': 'getAllCategories' },
-					//     'success': function (data) {
-					//         //console.log("successful retrieval of categories");
-					//         //console.log(data);
-					//         data = JSON.parse(data);
-					//         for (var i = 0; i < data.length; i++) {
-					// 			var _name = data[i].name;
-					// 			var _budgetAmt = data[i].budgetedAmt;
-					// 			var _currency = data[i].currency;
-					// 			console.log(_name);
-					// 			console.log(_budgetAmt);
-					// 			console.log(_currency);
-					//
-					// 			category = {name: _name, amount: _budgetAmt, currency: _currency};
-					// 			categoriesM.set(_name, category);
-					//         }
-					//     }
-					// });
+					var userId = '<%= ((User)session.getAttribute("user")).getId() %>';
+					var userMainBudgetId = '<%= ((User)session.getAttribute("user")).getMainBudgetId() %>';
+					$.ajax({
+					    'type': "GET",
+					    'url': "${pageContext.request.contextPath}/services/budgets/"+userId+"/"+userMainBudgetId+"/categories",
+					    //'data': { 'method': 'getAllCategories' },
+					    'success': function (data) {
+					        //console.log("successful retrieval of categories");
+					        //console.log(data);
+					        data = JSON.parse(data);
+					        for (var i = 0; i < data.length; i++) {
+								var _name = data[i].name;
+								var _budgetAmt = data[i].budgetedAmt;
+								var _currency = data[i].currency;
+								console.log(_name);
+								console.log(_budgetAmt);
+								console.log(_currency);
+
+								category = {name: _name, amount: _budgetAmt, currency: _currency};
+								categoriesM.set(_name, category);
+					        }
+					    }
+					});
 					return categoriesM;
 				}(jQuery);
 				//console.log('categoriesMap: ' + categoriesMap);
 				//console.log(categoriesMap);
 
 				$('#currentCategoryDiv').hide();
+				$('#existingRulesDiv').hide();
 				//$("#transactionsTable").hide();
 
 				$('#checked').on("mouseover", function() {
@@ -496,22 +533,53 @@
 						})
 						.change(function() {
 							var text = $("#currentCategory").val();
-							if (text != "") {
+							if (text !== "") {
 								//console.log("text is: " + text + ". determine how to populate budgeted amount for this category");
 								var category = categoriesMap.get(text);
+								//category = {name: _name, amount: _budgetAmt, currency: _currency};
+								//categoriesM.set(_name, category);
 								console.log('category: ' + category.name);
 								console.log('budgeted amt: ' + category.amount);
 								console.log('currency: ' + category.currency);
 								var budgetText = category.amount;
 								var currency = category.currency;
 								switch (text) {
-									case "Mortgage" : $("#budgetedAmt").val(budgetText); $('[id="currentCurrency"]').val(currency); break;
-									case "Utilities" : $("#budgetedAmt").val(budgetText); $('[id="currentCurrency"]').val(currency); break;
-									case "Transportation" : $("#budgetedAmt").val(budgetText); $('[id="currentCurrency"]').val(currency); break;
-									case "Insurance" : $("#budgetedAmt").val(budgetText); $('[id="currentCurrency"]').val(currency); break;
-									case "Food" : $("#budgetedAmt").val(budgetText); $('[id="currentCurrency"]').val(currency); break;
-									case "Subscriptions" : $("#budgetedAmt").val(budgetText); $('[id="currentCurrency"]').val(currency); break;
-									case "Bills" : $("#budgetedAmt").val(budgetText); $('[id="currentCurrency"]').val(currency); break;
+									case "Mortgage" : {
+										$('[id="budgetedAmt"]').val(budgetText);
+										$('[id="currentCategoryCurrency"]').val(currency);
+										break;
+									}
+									case "Utilities" : {
+										$('[id="budgetedAmt"]').val(budgetText);
+										$('[id="currentCategoryCurrency"]').val(currency);
+										break;
+									}
+									case "Transportation" : {
+										$('[id="budgetedAmt"]').val(budgetText);
+										$('[id="currentCategoryCurrency"]').val(currency);
+										break;
+									}
+									case "Insurance" : {
+										$('[id="budgetedAmt"]').val(budgetText);
+										$('[id="currentCategoryCurrency"]').val(currency);
+										break;
+									}
+									case "Food" : {
+										$('[id="budgetedAmt"]').val(budgetText);
+										$('[id="currentCategoryCurrency"]').val(currency);
+										break;
+									}
+									case "Subscriptions" : {
+										$('[id="budgetedAmt"]').val(budgetText);
+										$('[id="currentCategoryCurrency"]').val(currency);
+										break;
+									}
+									// update to Bills
+									case "Bill" : {
+										$('[id="budgetedAmt"]').val(budgetText);
+										$('[id="currentCategoryCurrency"]').val(currency);
+										break;
+									}
 								}
 							}
 							else {
@@ -520,6 +588,14 @@
 							}
 
 						});
+				$('#existingRulesBtn').on('click', function() {
+					$('#newRuleDiv').hide();
+					$('#existingRulesDiv').show();
+				});
+				$('#newRuleBtn').on('click', function() {
+					$('#newRuleDiv').show();
+					$('#existingRulesDiv').hide();
+				});
 
 				$('#budgetedAmt').focus(function() {
 					console.log("budget amount has focus.");
@@ -797,6 +873,7 @@
 				});
 			}
 		</script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 	</body>
 	<footer id="date" class="footer">${dateAndTime}</footer>
 </html>

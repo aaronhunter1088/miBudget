@@ -175,7 +175,9 @@ public class RegisterController {
         budget = budgetDAO.findBudgetByUserId(registeringUser.getId()).get(0); // will only be one at this moment
         List<Category> defaultCategories = budget.setupDefaultCategories(registeringUser.getId(), budget.getId());
         budget.setCategories(defaultCategories);
-        budget.setAmount(budget.getCategories().stream().map(Category::getBudgetedAmt).reduce(BigDecimal.ZERO, BigDecimal::add));
+        budget.setAmount(budget.getCategories().stream()
+                        .map(Category::getBudgetedAmt)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add));
         // Update budget
         budgetDAO.save(budget);
         //categoryDAO.saveAll(defaultCategories); Don't save Main budget categories. Main budget categories holds ALL categories
