@@ -56,11 +56,11 @@ public class MiBudgetServicesController {
             @PathVariable("userId") Long userId,
             @PathVariable("mainBudgetId") Long mainBudgetId) {
         List<Category> allCategories = new ArrayList<>();
-        List<Budget> children = budgetDAO.findBudgetByUserId(userId)
+        List<Budget> childrenBudgets = budgetDAO.findBudgetByUserId(userId)
                 .stream()
                 .filter(budget -> !Objects.equals(budget.getId(), mainBudgetId))
                 .toList();
-        for (Budget child : children) {
+        for (Budget child : childrenBudgets) {
             allCategories.addAll(categoryDAO.findAllByBudgetId(child.getId()));
         }
         String result = JsonUtility.changeToJsonString(allCategories);

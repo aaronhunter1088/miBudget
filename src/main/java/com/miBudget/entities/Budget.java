@@ -34,17 +34,15 @@ public class Budget {
     // Parent Budget
     public Budget(Long userId) {
         this.userId = userId; // tie to a user
-        name = "Primary Budget";
+        name = "Main Budget";
         //categories = createDefaultCategories(userId);
         //amount = BigDecimal.valueOf(categories.stream().mapToDouble(Category::getBudgetedAmt).sum());
         childBudgetIds = new ArrayList<>();
     }
     // Child Budget: Created by parent when parent is created. Child Budgets cannot have children
-    public Budget(Budget budget) {
+    public Budget(Budget budget, String name) {
         this.userId = budget.getUserId();
-        this.name = budget.getName();
-        this.categories = budget.getCategories();
-        this.amount = categories.stream().map(Category::getBudgetedAmt).reduce(BigDecimal.ZERO, BigDecimal::add);
+        this.name = name;
         this.childBudgetIds = null;
     }
     // Child Budget: Created by user at will.

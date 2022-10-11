@@ -4,17 +4,20 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="${pageContext.request.contextPath}/images/wallet.ico" rel="icon" type="image/x-icon">
-        <title>Login Springboot</title>
+        <title>Login</title>
         <style>
             <!-- NEEDED -->
             html {
               background-color: #32CD32;
             }
             body {
-              display: block;
-              margin: 8px;
-              text-align: center;
+              justify-content: center;
+              display: flex;
+                margin-right: auto;
+                margin-left: auto;
               background-color: #32CD32;
+              width:fit-content;
+              height:fit-content;
             }
             ::placeholder {
               color: black;
@@ -31,10 +34,10 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
     </head>
     <body>
-        <div id="loginForm" style="text-align:center;display:block;justify-content:center;width:15%">
+        <div id="loginForm" style="text-align:center;">
             <h1>Login</h1>
             <input id="validated" type="hidden" value="false"/>
-            <input id="btnSelected" type="hidden" value=""/>
+            <input id="btnSelected" type="hidden" value="Cancel"/>
             <input id="cellphone" placeholder="Enter cellphone" required tabindex="1" type="text" value=""/>
             <br>
             <hr>

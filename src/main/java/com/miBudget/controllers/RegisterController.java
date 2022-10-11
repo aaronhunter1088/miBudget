@@ -173,20 +173,28 @@ public class RegisterController {
         Budget budget = new Budget(registeringUser.getId());
         budgetDAO.save(budget); // needed to populate ID
         budget = budgetDAO.findBudgetByUserId(registeringUser.getId()).get(0); // will only be one at this moment
-        List<Category> defaultCategories = budget.setupDefaultCategories(registeringUser.getId(), budget.getId());
-        budget.setCategories(defaultCategories);
-        budget.setAmount(budget.getCategories().stream()
-                        .map(Category::getBudgetedAmt)
-                        .reduce(BigDecimal.ZERO, BigDecimal::add));
+        //List<Category> defaultCategories = budget.setupDefaultCategories(registeringUser.getId(), budget.getId());
+        //budget.setCategories(defaultCategories);
+        //budget.setAmount(budget.getCategories().stream()
+                        //.map(Category::getBudgetedAmt)
+                        //.reduce(BigDecimal.ZERO, BigDecimal::add));
         // Update budget
         budgetDAO.save(budget);
         //categoryDAO.saveAll(defaultCategories); Don't save Main budget categories. Main budget categories holds ALL categories
-        Budget innerBudget = new Budget(budget);
+        Budget innerBudget = new Budget(budget, "Primary Budget");
         budgetDAO.save(innerBudget);
-        innerBudget = budgetDAO.findBudgetById(budget.getId()+1L);
-        for (Category childCategory : innerBudget.getCategories()) {childCategory.setBudgetId(innerBudget.getId());}
+        innerBudget = budgetDAO.findBudgetById(budget.getId()+1);
+        List<Category> defaultCategories = budget.setupDefaultCategories(registeringUser.getId(), innerBudget.getId());
+        innerBudget.setCategories(defaultCategories);
+        innerBudget.setAmount(budget.getCategories()
+                   .stream()
+                   .map(Category::getBudgetedAmt)
+                   .reduce(BigDecimal.ZERO, BigDecimal::add));
         categoryDAO.saveAll(innerBudget.getCategories());
+        // set child ids
         budget.setChildBudgetIds(List.of(innerBudget.getId()));
+        // setup categories
+        budget.setCategories(innerBudget.getCategories());
         registeringUser.setBudget(budget);
         registeringUser.setMainBudgetId(budget.getId());
         registeringUser.setAccounts(new ArrayList<>());

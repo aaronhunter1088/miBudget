@@ -66,14 +66,9 @@ public class LoginController {
                             .stream()
                             .filter(budget -> !Objects.equals(budget.getId(), mainBudgetId))
                             .toList();
-                    List<Category> allCategories = new ArrayList<>();
-                    List<Long> childrenIds = new ArrayList<>();
-                    for (Budget child : childrenBudgets) {
-                        allCategories.addAll(categoryDAO.findAllByBudgetId(child.getId()));
-                        childrenIds.add(child.getId());
-                    }
+                    List<Category> allCategories = usersMainBudget.getCategories();
                     usersMainBudget.setCategories(allCategories);
-                    usersMainBudget.setChildBudgetIds(childrenIds);
+                    usersMainBudget.setChildBudgetIds(childrenBudgets.stream().map(Budget::getId).toList());
                     loginUser.setBudget(usersMainBudget);
 
                     List<Account> accountsList = accountDAO.findAccountsByUserId(loginUser.getId());

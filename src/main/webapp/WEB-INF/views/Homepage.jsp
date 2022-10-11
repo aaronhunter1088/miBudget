@@ -161,7 +161,7 @@
                         statusCode: {
                             200: function(data) {
                                 console.log("200")
-                                data = JSON.parse(data.entity);
+                                data = JSON.parse(data);
                                 arrayOfCategories = data;
                                 console.log(data);
                                 var chartData = [];

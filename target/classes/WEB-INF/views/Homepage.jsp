@@ -104,7 +104,7 @@
             <hr/>
             <input id="logoutBtn" type="button" class="button cursor" value="Log out"/>
         </div>
-        <div style="display: inline-block; vertical-align:top; width:70%;">
+        <div style="width: 50%; display: inline-block; overflow-wrap: break-word; word-wrap:break-word; word-break: break-all; vertical-align: top;" class="container">
             <p id="changingText" class="changingText">${changingText}</p>
             <br/>
             <div id="piechart" style="width: 100%; height: 400px;"></div>
