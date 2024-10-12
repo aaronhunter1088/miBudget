@@ -63,7 +63,7 @@ public class MiBudgetApplication extends SpringBootServletInitializer implements
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.url("jdbc:mysql://localhost:3306/mibudget?serverTimezone=UTC");
         dataSourceBuilder.username("root");
-        dataSourceBuilder.password("rootRoot");
+        dataSourceBuilder.password("root");
         dataSourceBuilder.driverClassName("com.mysql.cj.jdbc.Driver");
         return dataSourceBuilder.build();
     }

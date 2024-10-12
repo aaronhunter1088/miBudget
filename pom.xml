@@ -8,7 +8,7 @@
 		<version>2.7.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-    <groupId>com.miBudget</groupId>
+    <groupId>com.example</groupId>
     <artifactId>miBudget</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
@@ -205,13 +205,13 @@
 			<!-- War plugin -->
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>3.0.0</version>
-			   <configuration>
-				   <attachClasses>true</attachClasses>
-				   <webXml>${basedir}/src/main/webapp/WEB-INF/web.xml</webXml>
-				   <warSourceDirectory>src/main/webapp</warSourceDirectory>
-				   <outputDirectory>${outputDirectory}</outputDirectory>
-			   </configuration>
+				<version>3.4.0</version>
+			    <configuration>
+				    <attachClasses>true</attachClasses>
+				    <webXml>${basedir}/src/main/webapp/WEB-INF/web.xml</webXml>
+				    <warSourceDirectory>src/main/webapp</warSourceDirectory>
+				    <outputDirectory>${outputDirectory}</outputDirectory>
+			    </configuration>
 			</plugin>
 			<!-- Compiler plugin -->
 			<plugin>
