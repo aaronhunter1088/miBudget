@@ -1,8 +1,8 @@
-/.idea
-/dist
+/.idea/
+/dist/
 /lib
-/logs
-/target/*
+/logs/
+/target/
 .classpath
 .DS_Store
 compiler.xml

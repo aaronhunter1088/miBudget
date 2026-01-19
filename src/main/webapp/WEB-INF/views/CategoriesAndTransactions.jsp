@@ -6,7 +6,7 @@
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/images/wallet.ico"/>
-		<title>Categories and Transactions Springboot</title>
+		<title>Categories and Transactions</title>
 		<!-- jQuery -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -129,13 +129,13 @@
 			}
 		</style>
 	</head>
-	<body style="height: 800px;">
+	<body>
 		<h1 class="font1">Categories and Transactions for <i>${user.getFirstName()} ${user.getLastName()}</i></h1>
 		<br/>
 		<div style="display: inline-block; width:30%">
 			<input id="homepageBtn" type="button" class="button cursor" value="Homepage"/>
 		</div>
-		<div style="width: 500px; display: inline-block; overflow-wrap: break-word; word-wrap:break-word; word-break: break-all; vertical-align: top;" class="container">
+		<div style="width: 525px; display: inline-block; overflow-wrap: break-word; word-wrap:break-word; word-break: break-all; vertical-align: top;" class="container">
 			<p id="changingText" class="changingText">${change}</p>
 		</div>
 		<br/>
@@ -143,7 +143,7 @@
 		<h3 style="display:inline;width:50%;float:left;text-align:center;" id="cHeader">New Categories</h3>
 		<h3 style="display:inline;width:50%;float:right;text-align:center;" id="tHeader">Your Transactions</h3>
 		<!-- Start New Categories Div -->
-		<div id="categoriesDiv" class="border outer" style="width:50%;float:left; overflow-y:scroll;">
+		<div id="categoriesDiv" class="border outer" style="width:50%;float:left; overflow-y:auto;">
 			<div id="newCategoryDiv" class="outer">
 				<div class="container" class="inner" style="margin-top:1em;">
 					<div id="nameAndAmtDiv" class="" style="display:inline-flex">
@@ -155,7 +155,7 @@
 						</div>
 						<div class="input-group" id="newCategoryCurrencyDiv" style="display:inherit">
 							<input class="form-control" id="newCategoryAmt" type="text" style="direction:LTR;" placeholder="Amount" tabindex="2" name="newCategoryAmount" title="New category amount" value="" required>
-							<select class="form-select" id="newCategoryCurrency">
+							<select class="form-select" style="font-weight: bold;" id="newCategoryCurrency">
 								<option selected>Currency</option>
 								<option value="1">USD</option>
 								<option value="2">CAD</option>
@@ -176,14 +176,14 @@
 					the 'Existing Rules' button to see rules defined for this category.</p>
 					<div id="newRules" style="display:block;">
 						<div class="form-check" style="font-size:10px;">
-							<input class="form-check-input" type="checkbox" value="Transaction Amount" id="flexCheckDefault">
-							<label class="form-check-label" for="flexCheckDefault">
+							<input class="form-check-input" type="checkbox" value="Transaction Amount" id="transactionAmtCheckbox">
+							<label class="form-check-label" for="transactionAmtCheckbox">
 								Transaction Amount
 							</label>
 							<br/>
 							<div class="input-group" id="categoryOption" style="" disabled="true">
-								<input class="form-control" id="ruleCategoryAmt" type="text" style="direction:LTR; width:10em;" placeholder="Amount" tabindex="2" name="newCategoryAmount" title="New category amount" value="" required>
-								<select class="form-select" id="ruleCategoryCurrency" style="width:5em;">
+								<input class="form-control" id="ruleTransAmount" type="text" style="direction:LTR; width:10em;" placeholder="Amount" tabindex="2" title="New category amount" value="" required>
+								<select class="form-select" id="ruleTransCurrency" style="width:5em;">
 									<option selected>Currency</option>
 									<option value="1">USD</option>
 									<option value="2">CAD</option>
@@ -194,15 +194,15 @@
 						</div>
 						<br/>
 						<div class="form-check" style="font-size:10px;">
-							<input class="form-check-input" type="checkbox" value="Rule Transaction Name" id="ruleTransactionName">
-							<label class="form-check-label" for="flexCheckDefault">
+							<input class="form-check-input" type="checkbox" value="Transaction Name" id="transactionNameCheckbox">
+							<label class="form-check-label" for="transactionNameCheckbox">
 								Transaction Name
 							</label>
 							<br/>
 							<div class="input-group" style="display:inline-flex">
-								<input class="form-control" type="text" style="" placeholder="Name of Category" >
+								<input class="form-control" id="ruleTransName" type="text" style="" placeholder="Name of Transaction">
 								<span class="input-group-addon" style="">
-								<i onclick="clearInput('merchantName2')" class="glyphicon glyphicon-remove" style="font-size:10px;"></i>
+								<i onclick="clearInput('ruleTransName')" class="glyphicon glyphicon-remove" style="font-size:10px;"></i>
 							</span>
 							</div>
 						</div>
@@ -210,7 +210,7 @@
 						<div class="container" style="text-align:center;">
 							<button type="button" class="btn btn-outline-dark" id="saveRuleBtn">Save Rule</button>
 							<button type="button" class="btn btn-outline-dark" id="wipeFormBtn">Wipe Form</button>
-							<button type="button" class="btn btn-outline-dark" id="saveCategoryBtn">Save Catgory</button>
+							<button type="button" class="btn btn-outline-dark" id="saveCategoryBtn">Save Category</button>
 						</div>
 					</div>
 				</div>
@@ -279,7 +279,6 @@
 				<br/>
 				<div id="currentCategoryCurrencyBlock" style="width:99%;">
 					<input id="currentCategoryCurrency" list="currencies" style="width:100px; display:inline-block; margin-left:50px;" placeholder="Currency" tabindex="2" name="currency" />
-					<!-- TODO: Once one is selected, list disappears basically. Figure out how to keep entire list. -->
 					<datalist id="currencies">
 						<option value="USD">
 						<option value="CAD">
@@ -338,8 +337,8 @@
 		<!-- End New Categories Div -->
 		<!-- Form Line Divider -->
 		<!-- Start Transactions Div -->
-		<div id="transactionsDiv" class="border outer" style="width:50%;float:right; overflow-y:scroll;">
-			<div id="getTransactionsDiv" class="inner">
+		<div id="transactionsDiv" class="border outer" style="width:50%;float:right; overflow-y:auto; overflow-x:hidden;">
+			<div id="getTransactionsDiv" class="outer">
 				<form action="cat" method="post">
 					<div style="width:100%; display:flex; flex-direction: row;">
 						<input style="display: block; width:50%; float:left;" title="The From Date is required" class="form-control" id="FromDate" name="FromDate" placeholder="From" tabindex="#" type="text" value=""><br>
@@ -424,6 +423,12 @@
 		<script type="text/javascript">
 			$(function() {
 				console.log("starting onReady function...")
+				var category = {
+					name: '',
+					amount: '',
+					currency: '',
+					rulesList: []
+				};
 				$('#currentAccount').on('input',function() {
 					let opt = $('option[value="'+$(this).val()+'"]');
 					let acct = opt.attr('value');
@@ -588,6 +593,7 @@
 							}
 
 						});
+				<!-- Button On New Categories Form -->
 				$('#existingRulesBtn').on('click', function() {
 					$('#newRuleDiv').hide();
 					$('#existingRulesDiv').show();
@@ -596,6 +602,32 @@
 					$('#newRuleDiv').show();
 					$('#existingRulesDiv').hide();
 				});
+				$('#saveRuleBtn').on('click', function () {
+					var ruleTransAmtCheckbox = $('#transactionAmtCheckbox');
+					var ruleTransNameCheckbox = $('#transactionNameCheckbox');
+					var ruleTransAmt = $('#ruleTransAmount');
+					var ruleTransCurrency = $('#ruleTransCurrency');
+					var ruleTransName = $('#ruleTransName');
+					var rule = {
+						amount: ruleTransAmt.val(),
+						currency: ruleTransCurrency.val(),
+						transName: ruleTransName.val(),
+					}
+					console.log("rule: " + JSON.stringify(rule));
+					if (ruleTransAmtCheckbox.is(":checked") && ruleTransNameCheckbox.is(":checked") ) {
+						var length = category.rulesList.length;
+						category.rulesList[length] = rule;
+						console.log(category.rulesList[length]);
+					} else if (ruleTransAmtCheckbox.is(":checked") && !ruleTransNameCheckbox.is(":checked")) {
+						var length = category.rulesList.length;
+						category.rulesList[length] = rule;
+						console.log(category.rulesList[length]);
+					} else if (!ruleTransAmtCheckbox.is(":checked") && ruleTransNameCheckbox.is(":checked")) {
+						var length = category.rulesList.length;
+						category.rulesList[length] = rule;
+						console.log(category.rulesList[length]);
+					}
+				})
 
 				$('#budgetedAmt').focus(function() {
 					console.log("budget amount has focus.");
@@ -738,7 +770,11 @@
 			};
 			function clearInput(target) {
 				//alert("Clearing this text box.")
-				console.log('target: ' + target);
+				console.log('target before text: ' + $(target).text(''));
+				console.log('target before val: ' + $(target).val(''));
+				$(target.text).val("");
+				console.log('target after: ' + $(target.text).text());
+
 				if (target === "categoryName") {
 					console.log('target before: ' + $('#categoryName').val());
 					$('#categoryName').val("");

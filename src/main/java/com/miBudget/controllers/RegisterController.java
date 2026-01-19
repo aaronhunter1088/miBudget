@@ -166,7 +166,7 @@ public class RegisterController {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    protected void setupUser(User registeringUser) {
+    public void setupUser(User registeringUser) {
         // Save user
         userDAO.save(registeringUser);
         // Create and save Budget for user. A budget can consist of one or many Budgets

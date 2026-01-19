@@ -26,9 +26,9 @@ public class Budget {
     private BigDecimal amount;
     private Long userId; // the id of the user
     @Transient
-    private List<Category> categories;
+    protected List<Category> categories;
     @Transient
-    private List<Long> childBudgetIds;
+    protected List<Long> childBudgetIds;
 
     public Budget() { this(1L); }
     // Parent Budget
