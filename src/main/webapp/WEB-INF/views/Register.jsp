@@ -123,7 +123,7 @@
           alert("Cellphone cannot be blank.");
           return false;
         }
-        cellphone = cellphone.replaceAll('-', '');
+        cellphone = cellphone.replace(/-/g, '');
         if (cellphone.length !== 10) {
           alert("Invalid cellphone format. Please provide 10 digits.");
           return false;
