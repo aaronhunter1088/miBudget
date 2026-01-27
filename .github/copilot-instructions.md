@@ -15,7 +15,7 @@ miBudget is a personal budgeting web application built with Java Spring Boot tha
 - **Web Framework**: Spring MVC with JSP views
 - **Security**: Spring Security
 - **Database**: MySQL with JPA/Hibernate
-- **ORM**: Hibernate 6.1.1
+- **ORM**: Hibernate 6.1.1.Final
 - **Build Tool**: Maven
 - **External APIs**: Plaid API for bank integration
 - **Logging**: Log4j2
@@ -68,13 +68,15 @@ Example pattern:
 @Table(name="table_name")
 public class EntityName {
     @Id
-    @SequenceGenerator(name="entity_sequence", sequenceName="entity_sequence", allocationSize = 1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="entity_sequence")
+    @SequenceGenerator(name="entityname_sequence", sequenceName="entityname_sequence", allocationSize = 1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="entityname_sequence")
     private Long id;
     
     // fields, constructors, getters/setters
 }
 ```
+
+Note: Sequence names follow the pattern `{tablename}_sequence` (e.g., `users_sequence`, `budgets_sequence`)
 
 ### Controllers
 
