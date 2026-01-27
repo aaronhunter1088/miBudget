@@ -29,6 +29,7 @@ src/
 │   ├── java/com/miBudget/
 │   │   ├── MiBudgetApplication.java  # Spring Boot main application
 │   │   ├── controllers/              # REST controllers
+│   │   ├── core/                     # Core components (Constants, CorsFilter, SecurityConfig)
 │   │   ├── daos/                     # Data Access Objects (JPA repositories)
 │   │   ├── entities/                 # JPA entities (User, Budget, Transaction, etc.)
 │   │   ├── enums/                    # Enumerations
